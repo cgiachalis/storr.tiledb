@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data-coverage/lib
+data-coverage/storr.tiledb-report.html
+docs
+inst/doc
+dev
