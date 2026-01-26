@@ -2,16 +2,29 @@ Package: storr.tiledb
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.1
 Authors@R: 
-    person("Constantinos", "Giachalis", , "cgiachalis@outlook.com", role = c("aut", "cre"))
+    person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>
 Description: What the package does (one paragraph).
 License: file LICENSE
+URL: https://github.com/cgiachalis/storr.tiledb
+BugReports: https://github.com/cgiachalis/storr.tiledb/issues
+Depends:
+    R (>= 4.4.0)
+Imports:
+    arrow,
+    cli,
+    data.table,
+    fs,
+    R6,
+    R6.tiledb (>= 0.2.0.34)
+Suggests: 
+    litedown,
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: 
+    litedown
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
 RoxygenNote: 7.3.3
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-URL: https://github.com/cgiachalis/storr.tiledb
-BugReports: https://github.com/cgiachalis/storr.tiledb/issues
