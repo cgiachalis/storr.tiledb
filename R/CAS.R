@@ -13,15 +13,17 @@ CAS <- R6::R6Class(
   classname = "CAS",
 
   public = list(
-   #' @description Open `CAS` object for read or write.
+   #' @description Create CAS.
    #'
    #' @param compression_level Set an integer value for ZSTD compression level applied
    #' in data objects. (experimental)
    #' @param algo Select a hash algorithm to be used.
+   #' @param keep_open Should `CAS` be kept opened after creation? Default is
+   #' `TRUE`; the mode will be `"WRITE"`.
    #'
    #' @return The object, invisibly
    #'
-   create = function(compression_level = -7, algo = NULL) {
+   create = function(compression_level = -7, algo = NULL, keep_open = TRUE) {
 
      if (self$exists()) {
        cli::cli_abort("R6Class: {.cls {self$class()}} object already exists.", call = NULL)
@@ -54,7 +56,11 @@ CAS <- R6::R6Class(
      self$set_metadata(list(hash_algo = algo))
      private$.hash_algo <- algo
 
-     super$reopen("WRITE")
+     if (keep_open) {
+       super$reopen("WRITE")
+     } else {
+       self$close()
+     }
 
      invisible(self)
    },
@@ -109,7 +115,7 @@ CAS <- R6::R6Class(
    #'
    #' @return The object, invisibly.
    #'
-   delete_cas = function() {
+   destroy = function() {
 
      self$close()
 
@@ -119,6 +125,109 @@ CAS <- R6::R6Class(
      private$.object_type <- NULL
 
      invisible(self)
+   },
+
+   #' @description Query 'tbl_keys' array
+   #'
+   #' @param key A character vector with keys.
+   #' @param namespace A character vector with namespaces.
+   #' @param attrname Attribute name.
+   #'
+   #' @return A vector.
+   #'
+   query_keys = function(key, namespace, attrname) {
+
+     qo <- private$query_keys0(key, namespace, attrname)
+     dat.recv <- data.table::as.data.table(qo$arr[])
+
+     # TODO: Remove when TileDB fixes it
+     if (attrname == "expires_at") {
+       # Sanitise datetime columns
+       # See:
+      expires_at <- NULL
+      dat.recv[expires_at < 0 , expires_at := NA]
+     }
+
+     # Return vector of length p$n with attrname values; each element corresponds
+     # to <namespace, key> pair. If a pair has no value, the value is set
+     # to NA.
+     res <- merge(qo$dat.req, dat.recv, all = TRUE)
+     res <- data.table::setorderv(res, cols = "id")[]
+
+     na.omit(res, cols = "id")[[attrname]]
+   },
+
+   #' @description Filter `tbl_keys` by key and namespace
+   #'
+   #' @param key A character vector with keys.
+   #' @param namespace A character vector with namespaces.
+   #' @param attrnames A character vector with tiledb attributes (columns).
+   #'
+   #' @return A `data.table.
+   #'
+   filter_keys = function(key, namespace, attrnames = character()) {
+
+     arrobj <- private$keys_array()
+
+     # TODO REVIEW
+     #storr:::check_length(key, namespace)
+     # maybe condition, use case
+     # key, namespace are empty then character()
+     # not empty then check
+
+     sp <- list(namespace = namespace, key = key)
+     arr <- arrobj$tiledb_array(attrs = attrnames,
+                                selected_points = sp,
+                                return_as = "arrow")
+
+     dt <- data.table::as.data.table(arr[])
+
+     # TODO: Remove when TileDB fixes it
+     expires_at <- NULL
+     dt[expires_at < 0 , expires_at := NA]
+
+     dt[]
+   },
+
+   #' @description Update `tbl_keys` rows
+   #'
+   #' Intended for set_notes/expiry and clear_note/expiry_at
+   #'
+   #' @param key A character vector with keys.
+   #' @param attrvals A vector of value to update.
+   #' @param attrname A attribute name to update, either `"expires_at"`
+   #'  or `"notes"`.
+   #' @param namespace A character vector with namespaces.
+   #'
+   #' @return `TRUE` for successful deletion.
+   #'
+   update_keys = function(key, attrvals, attrname, namespace) {
+
+     private$check_scalar_character(attrname)
+
+     #name_field <- match.arg(name_field, c("notes", "expires_at"))
+
+     #validUTF8()
+     # TODO: check notes is utf8? and posix
+     # need to query_keys0
+     arr <- private$query_keys0(key, namespace, character())
+
+     # TODO: check length val vs  key and received
+     # Retrieved data
+     dat <- data.table::as.data.table(arr[])
+
+
+     # Update notes
+     dat[,attrname] <- attrvals
+
+     # do we need it?
+     keep <- !duplicated(dat[, 1:2], fromLast = TRUE)
+
+     dat <- dat[keep, ]
+     arr[] <- dat
+
+     invisible(TRUE)
+
    },
 
    #' @description Print directory contents.
@@ -225,7 +334,7 @@ CAS <- R6::R6Class(
         private$log_debug0("instantiate_members", "Adding cached member '{}' type {}", .m$name, .m$type)
 
         # Explicitly add the new member to member_cache
-        private$add_cached_member(.m$name, obj)
+        private$add_cache_member(.m$name, obj)
       })
 
       invisible(NULL)
@@ -245,7 +354,27 @@ CAS <- R6::R6Class(
 
       self$members$tbl_data$object
 
-    }
+    },
 
+    # @description Query 'tbl_keys' array by single attribute
+    #
+    query_keys0 = function(key, namespace, attrname) {
+
+      p <- storr::join_key_namespace(key, namespace)
+      dat.req <- data.table::as.data.table(list(namespace = p$namespace,
+                                                key = p$key,
+                                                id = 1:p$n))
+
+      arrobj <- private$keys_array()
+
+      # Slice array
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(attrs = attrname,
+                                 selected_points = sp,
+                                 return_as = "arrow")
+      list(dat.req = dat.req,
+           arr = arr)
+
+    }
   ) # private
 )
