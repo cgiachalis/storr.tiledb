@@ -12,7 +12,11 @@ test_that("Test 'CAS' object", {
 })
 
 
-test_that("Check This", {
+test_that("Test 'CAS' basic methods", {
+
+  # NOTE: The following methods:
+  # 'query_keys', 'filter_keys', 'update_keys'
+  #  are tested in "TileDBDriver" unit tests
 
   uri <- file.path(withr::local_tempdir(), "test-cas")
   cas <- CAS$new(uri)
@@ -36,7 +40,6 @@ test_that("Check This", {
 
   expect_equal(mdf, expected)
 
-
   # Check active fields
   expect_error(cas$hash_algorithm <- "invalid")
   expect_equal(cas$hash_algorithm, "md5")
@@ -58,7 +61,8 @@ test_that("Check This", {
   expect_true(!is.null(cas$members$tbl_data$object))
 
   # Destroy CAS
-  expect_no_error(cas$delete_cas())
+  expect_no_error(cas$destroy())
   expect_false(cas$exists())
 
   })
+

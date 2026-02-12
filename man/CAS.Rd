@@ -26,7 +26,10 @@ An R6 class for creating a content addressable storage.
 \itemize{
 \item \href{#method-CAS-create}{\code{CAS$create()}}
 \item \href{#method-CAS-open}{\code{CAS$open()}}
-\item \href{#method-CAS-delete_cas}{\code{CAS$delete_cas()}}
+\item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
+\item \href{#method-CAS-query_keys}{\code{CAS$query_keys()}}
+\item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
+\item \href{#method-CAS-update_keys}{\code{CAS$update_keys()}}
 \item \href{#method-CAS-dir_tree}{\code{CAS$dir_tree()}}
 \item \href{#method-CAS-dump}{\code{CAS$dump()}}
 \item \href{#method-CAS-clone}{\code{CAS$clone()}}
@@ -59,9 +62,9 @@ An R6 class for creating a content addressable storage.
 \if{html}{\out{<a id="method-CAS-create"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-create}{}}}
 \subsection{Method \code{create()}}{
-Open \code{CAS} object for read or write.
+Create CAS.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$create(compression_level = -7, algo = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -71,6 +74,9 @@ Open \code{CAS} object for read or write.
 in data objects. (experimental)}
 
 \item{\code{algo}}{Select a hash algorithm to be used.}
+
+\item{\code{keep_open}}{Should \code{CAS} be kept opened after creation? Default is
+\code{TRUE}; the mode will be \code{"WRITE"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -106,16 +112,91 @@ The object, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAS-delete_cas"></a>}}
-\if{latex}{\out{\hypertarget{method-CAS-delete_cas}{}}}
-\subsection{Method \code{delete_cas()}}{
+\if{html}{\out{<a id="method-CAS-destroy"></a>}}
+\if{latex}{\out{\hypertarget{method-CAS-destroy}{}}}
+\subsection{Method \code{destroy()}}{
 Delete CAS.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$delete_cas()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{CAS$destroy()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
 The object, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-CAS-query_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-CAS-query_keys}{}}}
+\subsection{Method \code{query_keys()}}{
+Query 'tbl_keys' array
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{CAS$query_keys(key, namespace, attrname)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+
+\item{\code{attrname}}{Attribute name.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-CAS-filter_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-CAS-filter_keys}{}}}
+\subsection{Method \code{filter_keys()}}{
+Filter \code{tbl_keys} by key and namespace
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{CAS$filter_keys(key, namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A `data.table.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-CAS-update_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-CAS-update_keys}{}}}
+\subsection{Method \code{update_keys()}}{
+Update \code{tbl_keys} rows
+
+Intended for set_notes/expiry and clear_note/expiry_at
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{CAS$update_keys(key, attrvals, attrname, namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{attrvals}}{A vector of value to update.}
+
+\item{\code{attrname}}{A attribute name to update, either \code{"expires_at"}
+or \code{"notes"}.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for successful deletion.
 }
 }
 \if{html}{\out{<hr>}}
