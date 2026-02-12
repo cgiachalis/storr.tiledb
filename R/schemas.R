@@ -59,7 +59,7 @@ schema_keys <- function() {
       name = "expires_at",
       type = "DATETIME_MS",
       ncells = 1,
-      nullable = TRUE,
+      nullable = FALSE,
       filter_list = .filter_zstd
     ),
     tiledb::tiledb_attr(
