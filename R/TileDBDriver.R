@@ -4,6 +4,7 @@
 #'
 
 
+#' @export
 driver_tiledb_create <- function(uri,
                                  hash_algorithm = NULL,
                                  compression_level = -7,
@@ -14,11 +15,13 @@ driver_tiledb_create <- function(uri,
             algo = hash_algorithm,
             keep_open = FALSE)
 
+  dr$close()
+
   invisible(TRUE)
 }
 
 
-
+#' @export
 driver_tiledb <- function(uri, context = NULL) {
 
   dr <- TileDBDriver$new(uri, ctx = context)
@@ -62,7 +65,7 @@ TileDBDriver <- R6::R6Class(
       super$initialize(uri, ctx = ctx)
 
       if (self$exists()) {
-        self$open("WRITE")
+        self$open(instantiate = TRUE)
       }
 
       self$binary <- FALSE
@@ -73,25 +76,12 @@ TileDBDriver <- R6::R6Class(
 
     },
 
-
-    # TODO instantiate?
-    #' @description Open CAS store.
-    #'
-    #' @param mode The mode to open, either `"READ"` or `"WRITE"`.
-    #'
-    #' @return The object, invisibly.
-    #'
-    open = function(mode) {
-      # note that will affect members active binding
-      super$open(mode, instantiate = TRUE)
-    },
-
     #' @description Driver type.
     #'
     #' @return A character string.
     #'
     type = function() {
-      self$class()
+      "tiledb"
     },
 
     #' @description Get hash values.
@@ -131,8 +121,6 @@ TileDBDriver <- R6::R6Class(
     #'
     set_hash = function(key, namespace, hash, expires_at, notes) {
 
-      # TODO: Need to asset character scalar
-      # ASCII / UTF8
       self$mset_hash(key, namespace, hash, expires_at, notes)
 
     },
@@ -210,16 +198,28 @@ TileDBDriver <- R6::R6Class(
                                  selected_points = sp,
                                  return_as = "arrow")
 
-      nona_hash <- hash %in% arr[]$hash$as_vector()
+      # TODO: REVIEW
+      # nona_hash <- hash %in% arr[]$hash$as_vector()
 
-     if (all(nona_hash)) {
+      x <- arrow::Array$create(hash)
+      nona_hash <- arrow::call_function("is_in",
+                                  x,
+                                  options = list(
+                                    value_set = arr[]$GetColumnByName("hash"),
+                                    skip_nulls = TRUE
+                                  ))
+
+      status_nona <- arrow::call_function("all", nona_hash)
+      status_nona <- status_nona$as_vector()
+
+     if (status_nona) {
        result <- lapply(arr[]$value$as_vector(),  {
          function(.s) unserialize(charToRaw(.s)) }
        )
      } else {
        result <- vector("list", length(hash))
 
-       idx <- which(nona_hash)
+       idx <- which(nona_hash$as_vector())
 
        vals <- arr[]$value$as_vector()
        for (i in seq_along(idx)) {
@@ -314,7 +314,17 @@ TileDBDriver <- R6::R6Class(
       hashes <- arr[]$GetColumnByName("hash")$as_vector()
 
       # Requested vector vs received
-      hash %in% hashes
+      # hash %in% hashes
+
+      #  TODO: review
+      x <- arrow::Array$create(hash)
+      out <- arrow::call_function("is_in",
+                                  x,
+                                  options = list(
+                                    value_set = arr[]$GetColumnByName("hash"),
+                                    skip_nulls = TRUE
+                                  ))
+      out$as_vector()
 
     },
 
@@ -466,6 +476,121 @@ TileDBDriver <- R6::R6Class(
 
       keys <- arr[]$GetColumnByName("key")
       keys$as_vector()
+
+    },
+
+    #' @description List unused hashes.
+    #'
+    #'
+    #' @return A vector of hash values.
+    #'
+    list_unused_hashes = function() {
+
+      # Get unique hash values from 'tbl_keys'
+      arrobj <- private$keys_array()
+      arr <- arrobj$tiledb_array(extended = TRUE,
+                                 attrs = "hash",
+                                 return_as = "arrow")
+
+      yh <- arr[]$GetColumnByName("hash")
+      yh <- arrow::call_function("unique", yh)
+      yh <- yh$as_vector()
+
+      # Get object hash values from 'tbl_data'
+      xh <- self$list_hashes()
+
+      # Find unused hashes (equiv. setdiff(x, y))
+      xh[data.table::chmatch(xh, yh, 0L) == 0L]
+
+    },
+
+    #' @description Delete unused hashes.
+    #'
+    #'
+    #' @return A vector of deleted hash values, invisibly.
+    #'
+    delete_unused_hashes = function() {
+
+      unused <- self$list_unused_hashes()
+
+      if (length(unused) != 0) {
+        arr <- private$data_array()$tiledb_array()
+
+        # Close array as we're going to submit a delete query
+        if (tiledb::tiledb_array_is_open(arr)) {
+          arr <- tiledb::tiledb_array_close(arr)
+        }
+
+        qc <- tiledb::tiledb_query_condition_create(name = "hash",
+                                                    values = unused,
+                                                    op = "IN")
+
+        tiledb::query_condition(arr) <- qc
+
+        qry <- tiledb::tiledb_query(arr, "DELETE")
+
+        qry <- tiledb::tiledb_query_set_condition(qry, qc)
+
+        tiledb::tiledb_query_submit(qry)
+
+        tiledb::tiledb_query_finalize(qry)
+
+        # Hint: Now, the array handle is opened at delete mode,
+        #       reopen to previous mode
+        mode <- self$mode
+        self$members$tbl_data$object$reopen(mode)
+      }
+
+      invisible(unused)
+    },
+
+    #' @description Delete namespaces.
+    #'
+    #' @param ns A character vector of namespaces. If `NULL` all
+    #' namespaces will be cleared.
+    #'
+    #' @return A logical vector indicating successful deletion or not.
+    #' `FALSE` means the namespace was not found in database.
+    #'
+    delete_namespaces = function(ns) {
+
+     namespaces <- self$list_namespaces()
+     # TODO decide what to return
+     if (is.null(ns)) {
+       exists <- !logical(length(namespaces)) # TRUEs
+     } else {
+       exists <- ns %in% namespaces
+       namespaces <- ns[exists]
+     }
+
+     arr <- private$keys_array()$tiledb_array()
+
+     # Close array as we're going to submit a delete query
+     if (tiledb::tiledb_array_is_open(arr)) {
+
+       arr <- tiledb::tiledb_array_close(arr)
+     }
+
+     qc <- tiledb::tiledb_query_condition_create(name = "namespace",
+                                                  values = namespaces,
+                                                  op = "IN")
+
+     tiledb::query_condition(arr) <- qc
+
+     qry <- tiledb::tiledb_query(arr, "DELETE")
+
+     qry <- tiledb::tiledb_query_set_condition(qry, qc)
+
+     tiledb::tiledb_query_submit(qry)
+
+     tiledb::tiledb_query_finalize(qry)
+
+     # Hint: Now, the array handle is opened at delete mode,
+     #       reopen to previous mode
+     mode <- self$mode
+     self$members$tbl_keys$object$reopen(mode)
+
+     exists
 
     }
   ),

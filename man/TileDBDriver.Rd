@@ -42,6 +42,9 @@ An R6 class for creating a content addressable storage.
 \item \href{#method-TileDBDriver-list_hashes}{\code{TileDBDriver$list_hashes()}}
 \item \href{#method-TileDBDriver-list_namespaces}{\code{TileDBDriver$list_namespaces()}}
 \item \href{#method-TileDBDriver-list_keys}{\code{TileDBDriver$list_keys()}}
+\item \href{#method-TileDBDriver-list_unused_hashes}{\code{TileDBDriver$list_unused_hashes()}}
+\item \href{#method-TileDBDriver-delete_unused_hashes}{\code{TileDBDriver$delete_unused_hashes()}}
+\item \href{#method-TileDBDriver-delete_namespaces}{\code{TileDBDriver$delete_namespaces()}}
 }
 }
 \if{html}{\out{
@@ -437,6 +440,54 @@ List keys given a namespace.
 }
 \subsection{Returns}{
 A vector of key values.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-list_unused_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-list_unused_hashes}{}}}
+\subsection{Method \code{list_unused_hashes()}}{
+List unused hashes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$list_unused_hashes()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of hash values.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-delete_unused_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-delete_unused_hashes}{}}}
+\subsection{Method \code{delete_unused_hashes()}}{
+Delete unused hashes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_unused_hashes()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of deleted hash values, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-delete_namespaces"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-delete_namespaces}{}}}
+\subsection{Method \code{delete_namespaces()}}{
+Delete namespaces.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_namespaces(ns)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be cleared.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating successful deletion or not.
+\code{FALSE} means the namespace was not found in database.
 }
 }
 }
