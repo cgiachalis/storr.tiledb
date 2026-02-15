@@ -154,7 +154,7 @@ A vector.
 \subsection{Method \code{filter_keys()}}{
 Filter \code{tbl_keys} by key and namespace
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$filter_keys(key, namespace)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{CAS$filter_keys(key, namespace, attrnames = character())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -163,6 +163,8 @@ Filter \code{tbl_keys} by key and namespace
 \item{\code{key}}{A character vector with keys.}
 
 \item{\code{namespace}}{A character vector with namespaces.}
+
+\item{\code{attrnames}}{A character vector with tiledb attributes (columns).}
 }
 \if{html}{\out{</div>}}
 }

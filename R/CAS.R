@@ -183,8 +183,10 @@ CAS <- R6::R6Class(
      dt <- data.table::as.data.table(arr[])
 
      # TODO: Remove when TileDB fixes it
-     expires_at <- NULL
-     dt[expires_at < 0 , expires_at := NA]
+     if (attrnames == "expires_at" || length(attrnames) == 0) {
+       expires_at <- NULL
+       dt[expires_at < 0 , expires_at := NA]
+     }
 
      dt[]
    },
