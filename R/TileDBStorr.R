@@ -189,7 +189,7 @@ TileDBStorr <- R6::R6Class(
       value_ser <- self$serialize_object(value)
       hash <- self$hash_raw(value_ser)
 
-      if (!(use_cache && private$exists0(hash, self$envir))) {
+      if (!(use_cache && exists0(hash, self$envir))) {
 
         if (!self$driver$exists_object(hash)) {
           self$driver$set_object(hash, value_ser)
@@ -212,7 +212,7 @@ TileDBStorr <- R6::R6Class(
       envir <- self$envir
 
       if (use_cache) {
-        cached <- private$exists0(hash, envir) # vlapply(hash, exists0, self$envir)
+        cached <- exists0(hash, envir) # vlapply(hash, exists0, self$envir)
         upload <- logical(length(hash))
         upload[!cached] <- !self$driver$exists_object(hash[!cached])
       } else {
@@ -241,7 +241,7 @@ TileDBStorr <- R6::R6Class(
 
       envir <- self$envir
 
-      if (use_cache && private$exists0(hash, envir)) {
+      if (use_cache && exists0(hash, envir)) {
         value <- envir[[hash]]
       } else {
         if (self$traits$throw_missing) {
@@ -269,7 +269,7 @@ TileDBStorr <- R6::R6Class(
       is_missing <- is.na(hash)
 
       if (use_cache) {
-        i <- private$exists0(hash, envir)
+        i <- exists0(hash, envir)
         value[i] <- lapply(hash[i], function(h) envir[[h]])
         cached[i] <- TRUE
       }
@@ -407,7 +407,7 @@ TileDBStorr <- R6::R6Class(
 
       # Step 1: store and cache object if needed
       m1 <- "none"
-      if (!(use_cache && private$exists0(hash, self$envir))) {
+      if (!(use_cache && exists0(hash, self$envir))) {
 
        uri <- self$driver$uri
 
@@ -473,50 +473,24 @@ TileDBStorr <- R6::R6Class(
   },
 
   check_input = function(x, n, type = NULL) {
-
     name <- deparse(substitute(x))
 
-    switch (type,
-      'character' = {
-
-        if (isFALSE(.is_character(x))) {
-
-          stop(sprintf("'%s' should be a character string, not %s",
-                       name, class(x)), call. = FALSE)
-        }
-      },
-      'datetime' = {
-
-        if (isFALSE(inherits(x, "POSIXct"))) {
-          stop(sprintf("'%s' should be a date-time object, not %s",
-                       name, class(x)), call. = FALSE)
-        }
+    switch (type, 'character' = {
+      if (isFALSE(.is_character(x))) {
+        stop(sprintf("'%s' should be a character string, not %s", name, class(x)),
+             call. = FALSE)
       }
-
-    )
-
-    if (length(x) != n) {
-      stop(sprintf("'%s' must have %d elements (recieved %d)",
-                   name, n, length(x)), call. = FALSE)
-    }
-
-  },
-
-  hashkeys = function(h) {
-
-    val <- vector("character", numhash(h))
-    idx <- 0
-
-    maphash(h, function(k, v) {
-      idx <<- idx + 1
-    val[idx] <<- k
+    }, 'datetime' = {
+      if (isFALSE(inherits(x, "POSIXct"))) {
+        stop(sprintf("'%s' should be a date-time object, not %s", name, class(x)),
+             call. = FALSE)
+      }
     })
 
-    val
-  },
-  exists0 = function(keys, h){
-    keys %in% private$hashkeys(h)
+    if (length(x) != n) {
+      stop(sprintf("'%s' must have %d elements (recieved %d)", name, n, length(x)),
+           call. = FALSE)
+    }
   }
-
   )
 )
