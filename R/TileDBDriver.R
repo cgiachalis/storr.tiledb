@@ -579,6 +579,11 @@ TileDBDriver <- R6::R6Class(
     delete_namespaces = function(ns) {
 
      namespaces <- self$list_namespaces()
+
+     if (length(namespaces) == 0) {
+       return(invisible(NULL))
+     }
+
      # TODO decide what to return
      if (is.null(ns)) {
        exists <- !logical(length(namespaces)) # TRUEs
@@ -591,13 +596,12 @@ TileDBDriver <- R6::R6Class(
 
      # Close array as we're going to submit a delete query
      if (tiledb::tiledb_array_is_open(arr)) {
-
        arr <- tiledb::tiledb_array_close(arr)
      }
 
      qc <- tiledb::tiledb_query_condition_create(name = "namespace",
-                                                  values = namespaces,
-                                                  op = "IN")
+                                                 values = namespaces,
+                                                 op = "IN")
 
      tiledb::query_condition(arr) <- qc
 
