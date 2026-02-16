@@ -69,7 +69,8 @@ TileDBDriver <- R6::R6Class(
       }
 
       self$binary <- FALSE
-      self$traits <- list(accept = "string")
+      self$traits <- list(accept = "string",
+                          throw_missing = TRUE)
 
       lockBinding("binary", self)
       lockBinding("traits", self)
@@ -93,7 +94,18 @@ TileDBDriver <- R6::R6Class(
     #'
     get_hash = function(key, namespace) {
 
-      self$query_keys(key, namespace, "hash")
+      result <- self$query_keys(key, namespace, "hash")
+
+      if (is.na(result)) {
+        # 'get_hash' always returns NA if missing as we need
+        # this for mget_hash. Here, an error is raised to
+        # support 'throw_missing' trait. Doing so, we're
+        # avoiding the extra query (e.g., exists_hash) in storr
+        # layer.
+        stop(KeyError(key, namespace))
+      }
+
+      result
     },
 
     #' @description Get hash values.
@@ -176,8 +188,20 @@ TileDBDriver <- R6::R6Class(
     get_object = function(hash) {
 
       private$check_scalar_character(hash)
-      self$mget_object(hash)[[1]]
-      },
+      result <- self$mget_object(hash)[[1]]
+
+      if (is.null(result)) {
+        # 'get_object' always returns NULL if missing as we need
+        # this for mget_object. Here, an error is raised to
+        # support 'throw_missing' trait. Doing so, we're
+        # avoiding the extra query (e.g., exists_object) in storr
+        # layer.
+        stop(hashError(hash))
+      }
+
+      result
+
+    },
 
     #' @description Get a list R objects given a hash vector.
     #'
@@ -392,7 +416,7 @@ TileDBDriver <- R6::R6Class(
 
       if (any(exists)) {
 
-        hash_del <- hash[exists] # DO we need it?
+        hash_del <- hash[exists]
 
         arr <- private$data_array()$tiledb_array()
 
