@@ -25,7 +25,6 @@ An R6 class for creating a content addressable storage.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TileDBDriver-new}{\code{TileDBDriver$new()}}
-\item \href{#method-TileDBDriver-open}{\code{TileDBDriver$open()}}
 \item \href{#method-TileDBDriver-type}{\code{TileDBDriver$type()}}
 \item \href{#method-TileDBDriver-get_hash}{\code{TileDBDriver$get_hash()}}
 \item \href{#method-TileDBDriver-mget_hash}{\code{TileDBDriver$mget_hash()}}
@@ -56,7 +55,6 @@ An R6 class for creating a content addressable storage.
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="close"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-close'><code>R6.tiledb::TileDBGroup$close()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
@@ -66,11 +64,13 @@ An R6 class for creating a content addressable storage.
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-print'><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-remove'><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-set_member'><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="close"><a href='../../storr.tiledb/html/CAS.html#method-CAS-close'><code>storr.tiledb::CAS$close()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="create"><a href='../../storr.tiledb/html/CAS.html#method-CAS-create'><code>storr.tiledb::CAS$create()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="destroy"><a href='../../storr.tiledb/html/CAS.html#method-CAS-destroy'><code>storr.tiledb::CAS$destroy()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dir_tree"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dir_tree'><code>storr.tiledb::CAS$dir_tree()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dump"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dump'><code>storr.tiledb::CAS$dump()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="filter_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-filter_keys'><code>storr.tiledb::CAS$filter_keys()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="open"><a href='../../storr.tiledb/html/CAS.html#method-CAS-open'><code>storr.tiledb::CAS$open()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="query_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-query_keys'><code>storr.tiledb::CAS$query_keys()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="update_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-update_keys'><code>storr.tiledb::CAS$update_keys()</code></a></span></li>
 </ul>
@@ -93,26 +93,6 @@ Create a new \code{TileDBDriver} object.
 \item{\code{ctx}}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-open"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-open}{}}}
-\subsection{Method \code{open()}}{
-Open CAS store.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$open(mode)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{mode}}{The mode to open, either \code{"READ"} or \code{"WRITE"}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The object, invisibly.
 }
 }
 \if{html}{\out{<hr>}}

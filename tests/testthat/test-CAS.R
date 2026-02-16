@@ -8,6 +8,7 @@ test_that("Test 'CAS' object", {
   expect_equal(cas$mode, "CLOSED")
   expect_error(cas$hash_algorithm, label = "CAS object does not exist")
   expect_error(cas$size, label = "CAS object does not exist")
+  expect_error(cas$members_instantiated, label = "CAS object does not exist")
 
 })
 
@@ -49,14 +50,22 @@ test_that("Test 'CAS' basic methods", {
   expect_error(cas$size <- "immutable")
   expect_s3_class(cas$size, "vfs_size")
 
+  expect_error(cas$members_instantiated <- "immutable")
+
   # Open with member instantiation
   cas$close()
 
+  expect_false(cas$members_instantiated)
+
+  # A bit defensive (but checking nevertheless)
   expect_null(cas$members$tbl_keys$object)
   expect_null(cas$members$tbl_data$object)
 
   expect_no_error(cas$open("READ", instantiate = TRUE))
 
+  expect_true(cas$members_instantiated)
+
+  # A bit defensive (but checking nevertheless)
   expect_true(!is.null(cas$members$tbl_keys$object))
   expect_true(!is.null(cas$members$tbl_data$object))
 

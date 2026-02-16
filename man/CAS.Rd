@@ -17,6 +17,8 @@ An R6 class for creating a content addressable storage.
 \describe{
 \item{\code{hash_algorithm}}{Hash algorithm}
 
+\item{\code{members_instantiated}}{Have the members been instantiated?}
+
 \item{\code{size}}{Return directory size}
 }
 \if{html}{\out{</div>}}
@@ -26,6 +28,7 @@ An R6 class for creating a content addressable storage.
 \itemize{
 \item \href{#method-CAS-create}{\code{CAS$create()}}
 \item \href{#method-CAS-open}{\code{CAS$open()}}
+\item \href{#method-CAS-close}{\code{CAS$close()}}
 \item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
 \item \href{#method-CAS-query_keys}{\code{CAS$query_keys()}}
 \item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
@@ -45,7 +48,6 @@ An R6 class for creating a content addressable storage.
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="close"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-close'><code>R6.tiledb::TileDBGroup$close()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
@@ -107,6 +109,22 @@ Default is \code{FALSE}.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+The object, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-CAS-close"></a>}}
+\if{latex}{\out{\hypertarget{method-CAS-close}{}}}
+\subsection{Method \code{close()}}{
+Close the group object.
+
+All instantiated group members will be closed if opened, and before
+closing the group object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{CAS$close()}\if{html}{\out{</div>}}
+}
+
 \subsection{Returns}{
 The object, invisibly.
 }
