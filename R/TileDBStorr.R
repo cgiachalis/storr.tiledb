@@ -20,8 +20,24 @@ TileDBStorr <- R6::R6Class(
     serialize_object = NULL,
 
     initialize = function(driver, default_namespace) {
-      # TODO: assert TileDBDriver
-      #
+
+      if (!inherits(driver, "TileDBDriver")) {
+        stop("Not a valid TileDB 'driver'. Please use a 'TileDBDriver' object.",
+             call. = FALSE)
+      }
+
+      # We need the member's object to be available
+      # e.g., driver$members$tbl_keys$object
+      if (!driver$is_open() ) {
+        # Ensure the members are instantiated
+        driver$open(instantiate = TRUE)
+      }
+
+      if (driver$is_open() && !driver$members_instantiated) {
+        driver$close()
+        driver$open(instantiate = TRUE)
+      }
+
       self$driver <- driver
 
       # Key-value: 'hash', R object
@@ -112,8 +128,6 @@ TileDBStorr <- R6::R6Class(
     # STATUS: DONE
     set_by_value = function(value, namespace = self$default_namespace,
                             expires_at, notes, use_cache = TRUE) {
-
-      private$check_input(value, n = 1, type = "value")
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(NA_real_)
