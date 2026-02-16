@@ -44,6 +44,8 @@ test_that("Test 'CAS' basic methods", {
   # Check active fields
   expect_error(cas$hash_algorithm <- "invalid")
   expect_equal(cas$hash_algorithm, "md5")
+
+  # Set new hash algo
   expect_no_error(cas$hash_algorithm <- "blake3")
   expect_equal(cas$hash_algorithm, "blake3")
 
