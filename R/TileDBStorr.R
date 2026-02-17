@@ -356,6 +356,8 @@ TileDBStorr <- R6::R6Class(
     # end ---
 
     # Experimental
+    # TODO: mirai::require_daemons(.compute = "storr.tiledb")
+    # TODO: remove nextget and dont launch daemons
     set_async = function(key,
                          value,
                          namespace = self$default_namespace,
@@ -442,9 +444,14 @@ TileDBStorr <- R6::R6Class(
         sethash(self$envir_metadata, km, list(expires_at, notes))
       }
 
-     # Debug
-     # list(m1 = m1, m2 = m2, hash = hash)
-     invisible(hash)
+     invisible(list(mirai =list(obj = m1,
+                                key = m2),
+                    hash = hash))
+
+    },
+
+    # TODO
+    mset_async = function() {
 
     }
 
