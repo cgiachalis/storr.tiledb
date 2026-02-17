@@ -2,6 +2,9 @@
 
 export(CAS)
 export(TileDBDriver)
+export(driver_tiledb)
+export(driver_tiledb_create)
+export(storr_tiledb)
 importFrom(R6.tiledb,TileDBArray)
 importFrom(R6.tiledb,TileDBGroup)
 importFrom(data.table,`:=`)

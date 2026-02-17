@@ -105,11 +105,28 @@ CAS <- R6::R6Class(
 
      if (instantiate) {
        private$instantiate_members()
+       private$.members_instantiated <- TRUE
      }
 
      invisible(self)
 
    },
+
+   #' @description Close the group object.
+   #'
+   #' All instantiated group members will be closed if opened, and before
+   #' closing the group object.
+   #'
+   #' @return The object, invisibly.
+   #'
+   close = function() {
+
+     super$close()
+     private$.members_instantiated <- NULL
+
+     invisible(self)
+   },
+
 
    #' @description Delete CAS.
    #'
@@ -183,8 +200,10 @@ CAS <- R6::R6Class(
      dt <- data.table::as.data.table(arr[])
 
      # TODO: Remove when TileDB fixes it
-     expires_at <- NULL
-     dt[expires_at < 0 , expires_at := NA]
+     if (attrnames == "expires_at" || length(attrnames) == 0) {
+       expires_at <- NULL
+       dt[expires_at < 0 , expires_at := NA]
+     }
 
      dt[]
    },
@@ -276,6 +295,24 @@ CAS <- R6::R6Class(
       private$.hash_algo
     },
 
+    #' @field members_instantiated Have the members been instantiated?
+    #'
+    members_instantiated = function(value) {
+
+      private$check_object_exists()
+
+      if (!missing(value)) {
+        private$check_read_only("members_instantiated")
+      }
+
+      if (is.null(private$.members_instantiated)) {
+        private$.members_instantiated <- FALSE
+      }
+
+      private$.members_instantiated
+
+    },
+
     #' @field size Return directory size
     #'
     size = function(value) {
@@ -291,6 +328,10 @@ CAS <- R6::R6Class(
   ),
 
   private = list(
+
+    # @field Query for instantiated members
+    #
+    .members_instantiated = NULL,
 
     # @field Hash algorithm to be used
     #

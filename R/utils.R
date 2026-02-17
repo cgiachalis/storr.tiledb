@@ -43,3 +43,31 @@ validate_hash_algo <- function(x) {
 
   x
 }
+
+.is_scalar <- function(x, type) {
+  (typeof(x) == type) && is.atomic(x) && length(x) == 1L
+}
+
+.is_character <- function(x) {
+  typeof(x) == "character"
+}
+
+.is_scalar_character <- function(x) {
+
+  .is_scalar(x, "character")
+}
+
+.is_scalar_logical <- function(x) {
+
+  .is_scalar(x, "logical")
+}
+
+
+vcapply <- function(X, FUN, ...) {
+  vapply(X, FUN, character(1), ...)
+}
+
+vlapply <- function(X, FUN, ...) {
+  vapply(X, FUN, logical(1), ...)
+}
+
