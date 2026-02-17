@@ -4,34 +4,6 @@
 #'
 
 
-#' @export
-driver_tiledb_create <- function(uri,
-                                 hash_algorithm = NULL,
-                                 compression_level = -7,
-                                 context = NULL) {
-
-  dr <- TileDBDriver$new(uri, ctx = context)
-  dr$create(compression_level = compression_level,
-            algo = hash_algorithm,
-            keep_open = FALSE)
-
-  dr$close()
-
-  invisible(TRUE)
-}
-
-
-#' @export
-driver_tiledb <- function(uri, context = NULL) {
-
-  dr <- TileDBDriver$new(uri, ctx = context)
-
-  if (!dr$exists()) {
-    cli::cli_abort("'storr' not found, please create one.", call = NULL)
-  }
-
-  dr
-}
 
 #' @title Generate a `TileDBDriver` Object
 #'
