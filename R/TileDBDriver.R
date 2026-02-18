@@ -271,6 +271,142 @@ TileDBDriver <- R6::R6Class(
       invisible(TRUE)
     },
 
+    #' @description Set key metadata.
+    #'
+    #' Sets a pair of expiry date-time and notes.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #' @param expires_at A vector with expiration datetimes.
+    #' @param notes A character vector with notes.
+    #'
+    #' @return `TRUE` for successful operation, invisibly.
+    #'
+    set_keymeta = function(key, namespace, expires_at, notes) {
+
+      # if (length(notes) == 0L) {
+      #   return()
+      # }
+      #
+      # if (missing(notes)) {
+      #   notes <- NA_character_
+      # }
+
+      # TODO we can avoid as.data.table conversion
+
+      dat <- self$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        stop(KeyError(key, namespace))
+      }
+
+      if (!is.null(notes)) {
+        dat$notes <- notes
+      }
+
+      if (!is.null(expires_at)) {
+        dat$expires_at <- expires_at
+      }
+
+      arr <- private$keys_array()$tiledb_array()
+      arr[] <- dat
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Set key metadata.
+    #'
+    #' Sets a pair of expiry date-time and notes.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #' @param expires_at A vector with expiration datetimes.
+    #' @param notes A character vector with notes.
+    #'
+    #' @return `TRUE` for successful operation, invisibly.
+    #'
+    mset_keymeta = function(key, namespace, expires_at, notes) {
+
+      dat <- self$filter_keys(key, namespace)
+      data.table::setkeyv(dat, c("namespace", "key"))
+
+      dat <- dat[.(unique(namespace), unique(key))]
+
+      hash_isna <- is.na(dat[["hash"]])
+
+      if (any(hash_isna)) {
+        stop(KeyError(paste(dat$key[hash_isna], collapse = ","),
+                      paste(dat$namespace[hash_isna], collapse = ",")))
+      }
+
+      # Length must be validated at storr layer
+      if (!is.null(notes)) {
+        dat$notes <- notes
+      }
+
+      if (!is.null(expires_at)) {
+        dat$expires_at <- expires_at
+      }
+
+      arr <- private$keys_array()$tiledb_array()
+      arr[] <- dat
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Get key metadata values.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #'
+    #' @return A vector of notes.
+    #'
+    get_keymeta = function(key, namespace) {
+
+      result <- self$query_keymeta(key, namespace)
+
+      hash_isna <- is.na(result[[1, "hash"]])
+      if (hash_isna) {
+        stop(KeyError(key, namespace))
+      }
+
+      as.list(result[,c("expires_at", "notes")])
+    },
+
+    #' @description Get notes values.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #'
+    #' @return A vector of notes.
+    #'
+    mget_keymeta = function(key, namespace, nomatch = NULL) {
+
+      result <- self$query_keymeta(key, namespace)
+
+      hash_isna <- is.na(result[["hash"]])
+
+      out <- vector("list", nrow(result))
+
+      if (is.null(nomatch)) {
+        nomatch <- list(nomatch)
+      }
+
+      for (i in seq_along(out)) {
+
+        if (!hash_isna[i]) {
+          out[[i]] <- as.list(result[i, c("expires_at", "notes")])
+        } else {
+          out[[i]] <- nomatch
+        }
+      }
+
+      attr(out, "missing") <- which(hash_isna)
+      out
+
+    },
 
     #' @description Check a key/namespace pair exists.
     #'
