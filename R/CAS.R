@@ -174,6 +174,35 @@ CAS <- R6::R6Class(
      na.omit(res, cols = "id")[[attrname]]
    },
 
+   #' @description Query 'tbl_keys' array
+   #'
+   #' @param key A character vector with keys.
+   #' @param namespace A character vector with namespaces.
+   #'
+   #' @return A `data.table`.
+   #'
+   query_keymeta = function(key, namespace) {
+
+     arrobj <- private$keys_array()
+
+     # Slice array
+     sp <- list(namespace = namespace, key = key)
+     arr <- arrobj$tiledb_array(attrs = attrname,
+                                selected_points = sp,
+                                return_as = "arrow")
+
+     DT <- data.table::as.data.table(arr[])
+
+     # TODO: Remove when TileDB fixes it
+     # Sanitise datetime columns
+     # See:
+     expires_at <- NULL
+     DT[expires_at < 0 , expires_at := NA]
+
+     DT
+
+   },
+
    #' @description Filter `tbl_keys` by key and namespace
    #'
    #' @param key A character vector with keys.
@@ -206,47 +235,6 @@ CAS <- R6::R6Class(
      }
 
      dt[]
-   },
-
-   #' @description Update `tbl_keys` rows
-   #'
-   #' Intended for set_notes/expiry and clear_note/expiry_at
-   #'
-   #' @param key A character vector with keys.
-   #' @param attrvals A vector of value to update.
-   #' @param attrname A attribute name to update, either `"expires_at"`
-   #'  or `"notes"`.
-   #' @param namespace A character vector with namespaces.
-   #'
-   #' @return `TRUE` for successful deletion.
-   #'
-   update_keys = function(key, attrvals, attrname, namespace) {
-
-     private$check_scalar_character(attrname)
-
-     #name_field <- match.arg(name_field, c("notes", "expires_at"))
-
-     #validUTF8()
-     # TODO: check notes is utf8? and posix
-     # need to query_keys0
-     arr <- private$query_keys0(key, namespace, character())
-
-     # TODO: check length val vs  key and received
-     # Retrieved data
-     dat <- data.table::as.data.table(arr[])
-
-
-     # Update notes
-     dat[,attrname] <- attrvals
-
-     # do we need it?
-     keep <- !duplicated(dat[, 1:2], fromLast = TRUE)
-
-     dat <- dat[keep, ]
-     arr[] <- dat
-
-     invisible(TRUE)
-
    },
 
    #' @description Print directory contents.
