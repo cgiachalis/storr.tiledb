@@ -244,6 +244,7 @@ TileDBStorr <- R6::R6Class(
       if (use_cache && exists0(hash, envir)) {
         value <- envir[[hash]]
       } else {
+        # TODO: no need for traits
         if (self$traits$throw_missing) {
           value <- tryCatch(self$driver$get_object(hash),
                             error = function(e) stop(HashError(hash)))
@@ -255,6 +256,7 @@ TileDBStorr <- R6::R6Class(
         }
         if (use_cache) {
           envir[[hash]] <- value
+          # TODO: USE sethash(envir, hash, value)
         }
       }
       value
@@ -278,6 +280,7 @@ TileDBStorr <- R6::R6Class(
       value[is_missing] <- list(missing)
 
       if (any(!cached)) {
+        # TODO: REMOVE IS.NULL
         if (is.null(self$driver$mget_object)) {
           value[!cached] <- lapply(hash[!cached], self$get_value, FALSE)
         } else {
@@ -293,6 +296,189 @@ TileDBStorr <- R6::R6Class(
 
       if (any(is_missing)) {
         attr(value, "missing") <- which(is_missing)
+      }
+      value
+    },
+
+    # STATUS: WIP
+    set_keymeta = function(key, namespace = self$default_namespace,
+                   expires_at, notes, use_cache = TRUE) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n = 1, type = "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- NULL
+      } else {
+        private$check_input(notes, n = 1, type = "character")
+      }
+
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+      self$driver$set_keymeta(key, namespace, expires_at, notes)
+
+      km <- paste(key, namespace, sep = ":")
+
+      if (use_cache) {
+
+        # Update what has changed
+        val <- gethash(self$envir_metadata, km)
+
+        if (is.null(val)) {
+          val <- list(as.POSIXct(NA), NA_character_)
+        }
+
+        if(!is.null(expires_at)) {
+          val[[1]] <- expires_at
+        }
+        if(!is.null(notes)) {
+          val[[2]] <- notes
+        }
+
+        sethash(self$envir_metadata, km, val)
+      }
+
+      invisible(km)
+    },
+
+    # STATUS: WIP
+    mset_keymeta = function(key, namespace = self$default_namespace,
+                           expires_at, notes, use_cache = TRUE) {
+
+      n <- private$check_length(key, namespace)
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n, "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- rep_len(NA_character_, n)
+      } else {
+        private$check_input(notes, n, "character")
+      }
+
+      self$driver$mset_keymeta(key, namespace, expires_at, notes)
+      km <- paste(key, namespace, sep = ":")
+
+      if (use_cache) {
+
+        lapply(seq_along(km), function(i) {
+
+          # Update what has changed
+          val <- gethash(self$envir_metadata, km[i])
+
+          if (is.null(val)) {
+            val <- list(as.POSIXct(NA), NA_character_)
+          }
+
+          if(!is.null(expires_at[i])) {
+            val[[1]] <- expires_at[i]
+          }
+          if(!is.null(notes[i])) {
+            val[[2]] <- notes[i]
+          }
+
+          sethash(self$envir_metadata, km[i], val)
+
+        })
+      }
+
+      invisible(km)
+    },
+
+    get_keymeta = function(key,
+                           namespace = self$default_namespace,
+                           use_cache = TRUE) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      if (use_cache && exists0(keyns, envir)) {
+        value <- envir[[keyns]]
+      } else {
+        value <- self$driver$get_keymeta(key, namespace)
+
+        if (use_cache) {
+          sethash(envir, keyns, value)
+        }
+      }
+      value
+    },
+
+    # STATUS: WIP
+    mget_keymeta = function(key,
+                            namespace = self$default_namespace,
+                            use_cache = TRUE,
+                            missing = NULL) {
+
+
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      key <- p$key
+      namespace <- p$namespace
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      value <- vector("list", n)
+      cached <- logical(n)
+
+      if (use_cache) {
+        cached <- exists0(keyns, envir)
+        value[cached] <- lapply(keyns[cached], function(h) gethash(envir, h))
+        num_cached <- sum(cached)
+        not_cached <- !cached
+        status_not_cached <- any(not_cached)
+      } else {
+        # Everything is TRUE, so go to find them in DB
+        not_cached <- !cached
+        status_not_cached <- TRUE
+        num_cached <- 0L
+      }
+
+      if (status_not_cached) {
+
+        # From not_cached find also which are truly missing
+        cc <- self$driver$mget_keymeta(key[not_cached],
+                                       namespace[not_cached],
+                                       nomatch = missing)
+
+        value[not_cached] <- cc
+        keyns_not_cached <- keyns[not_cached]
+
+        # not_cached and not found
+        keyns_missing <- keyns_not_cached[attr(cc, "missing")]
+
+        # Fill cache if needed
+        # Indices for not_cached but existent items
+
+        if (use_cache) {
+          # Truly missing key-namespace pairs
+          is_missing <- keyns_not_cached %in% keyns_missing
+          idx <- which(!is_missing)
+          keyns_to_cache <- keyns_not_cached[idx]
+          for (i in idx) {
+            sethash(envir, keyns_to_cache[i], value[not_cached][[i]])
+          }
+        }
+      }
+
+      # Truly missing key-namespace pairs
+      is_missing <- keyns %in% keyns_missing
+      if (any(is_missing)) {
+        attr(value, "missing") <- which(is_missing) #+ num_cached
       }
       value
     },
