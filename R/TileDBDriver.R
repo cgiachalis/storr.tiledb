@@ -284,15 +284,6 @@ TileDBDriver <- R6::R6Class(
     #'
     set_keymeta = function(key, namespace, expires_at, notes) {
 
-      # if (length(notes) == 0L) {
-      #   return()
-      # }
-      #
-      # if (missing(notes)) {
-      #   notes <- NA_character_
-      # }
-
-      # TODO we can avoid as.data.table conversion
 
       dat <- self$filter_keys(key, namespace)
 
@@ -329,10 +320,12 @@ TileDBDriver <- R6::R6Class(
     mset_keymeta = function(key, namespace, expires_at, notes) {
 
       dat <- self$filter_keys(key, namespace)
+
+      # Check for no hash in given key:namespace
       data.table::setkeyv(dat, c("namespace", "key"))
 
-      dat <- dat[.(unique(namespace), unique(key))]
-
+      dat <- dat[.(namespace, key), env = list(namespace = I(namespace),
+                                             key = I(key))][]
       hash_isna <- is.na(dat[["hash"]])
 
       if (any(hash_isna)) {
@@ -340,13 +333,12 @@ TileDBDriver <- R6::R6Class(
                       paste(dat$namespace[hash_isna], collapse = ",")))
       }
 
-      # Length must be validated at storr layer
       if (!is.null(notes)) {
-        dat$notes <- notes
+        dat[,notes := vals, env = list(vals = I(notes))]
       }
 
       if (!is.null(expires_at)) {
-        dat$expires_at <- expires_at
+        dat[,expires_at := vals, env = list(vals = I(expires_at))]
       }
 
       arr <- private$keys_array()$tiledb_array()
@@ -385,7 +377,10 @@ TileDBDriver <- R6::R6Class(
     mget_keymeta = function(key, namespace, nomatch = NULL) {
 
       result <- self$query_keymeta(key, namespace)
+      data.table::setkeyv(result, c("namespace", "key"))
 
+      result <- result[.(namespace, key),
+                       env = list(namespace = I(namespace), key = I(key))]
       hash_isna <- is.na(result[["hash"]])
 
       out <- vector("list", nrow(result))
@@ -404,6 +399,7 @@ TileDBDriver <- R6::R6Class(
       }
 
       attr(out, "missing") <- which(hash_isna)
+
       out
 
     },
@@ -415,7 +411,7 @@ TileDBDriver <- R6::R6Class(
     #'
     #' @return A logical vector.
     #'
-    exists_hash = function(key, namespace) {
+    exists_hash2 = function(key, namespace) {
 
       qo <- private$query_keys0(key, namespace, "hash")
 
@@ -427,6 +423,32 @@ TileDBDriver <- R6::R6Class(
       # Requested id vector vs received
       dat.req$id %in% id.recv
 
+    },
+
+    # TODO: wip
+    exists_hash = function(key, namespace) {
+
+      p <- storr::join_key_namespace(key, namespace)
+
+      #DT <- self$filter_keys(key, namespace, "hash")
+      arrobj <- private$keys_array()
+
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(attrs = "hash",
+                                 selected_points = sp,
+                                 return_as = "arrow")
+
+      DT <- data.table::as.data.table(arr[])
+
+      data.table::setkeyv(DT, c("namespace", "key"))
+
+      key <- p$key
+      namespace <- p$namespace
+      i <- DT[.(namespace, key),
+                env = list(namespace = I(namespace),
+                           key = I(key))][["hash"]]
+
+      !is.na(i)
     },
 
     #' @description Check a serialised object exists.
