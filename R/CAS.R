@@ -162,7 +162,7 @@ CAS <- R6::R6Class(
        # Sanitise datetime columns
        # See:
       expires_at <- NULL
-      dat.recv[expires_at < 0 , expires_at := NA]
+      dat.recv[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }
 
      # Return vector of length p$n with attrname values; each element corresponds
@@ -187,8 +187,7 @@ CAS <- R6::R6Class(
 
      # Slice array
      sp <- list(namespace = namespace, key = key)
-     arr <- arrobj$tiledb_array(attrs = attrname,
-                                selected_points = sp,
+     arr <- arrobj$tiledb_array(selected_points = sp,
                                 return_as = "arrow")
 
      DT <- data.table::as.data.table(arr[])
@@ -197,7 +196,7 @@ CAS <- R6::R6Class(
      # Sanitise datetime columns
      # See:
      expires_at <- NULL
-     DT[expires_at < 0 , expires_at := NA]
+     DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
 
      DT
 
@@ -231,7 +230,7 @@ CAS <- R6::R6Class(
      # TODO: Remove when TileDB fixes it
      if (attrnames == "expires_at" || length(attrnames) == 0) {
        expires_at <- NULL
-       dt[expires_at < 0 , expires_at := NA]
+       dt[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }
 
      dt[]
