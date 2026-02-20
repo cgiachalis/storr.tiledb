@@ -357,14 +357,26 @@ TileDBDriver <- R6::R6Class(
     #'
     get_keymeta = function(key, namespace) {
 
-      result <- self$query_keymeta(key, namespace)
+      arrobj <- private$keys_array()
 
-      hash_isna <- is.na(result[[1, "hash"]])
-      if (hash_isna) {
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(extended = FALSE,
+                                 attrs = c("expires_at", "notes"),
+                                 selected_points = sp,
+                                 return_as = "arrow")
+
+      DT <- data.table::as.data.table(arr[])
+
+      # TODO: Remove when TileDB fixes it
+      expires_at <- NULL
+      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+
+
+      if (nrow(DT) == 0) {
         stop(KeyError(key, namespace))
       }
 
-      as.list(result[,c("expires_at", "notes")])
+      as.list(DT)
     },
 
     #' @description Get notes values.
@@ -376,14 +388,24 @@ TileDBDriver <- R6::R6Class(
     #'
     mget_keymeta = function(key, namespace, nomatch = NULL) {
 
-      result <- self$query_keymeta(key, namespace)
-      data.table::setkeyv(result, c("namespace", "key"))
+      arrobj <- private$keys_array()
 
-      result <- result[.(namespace, key),
-                       env = list(namespace = I(namespace), key = I(key))]
-      hash_isna <- is.na(result[["hash"]])
+      # Slice array
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(selected_points = sp, return_as = "arrow")
 
-      out <- vector("list", nrow(result))
+      DT <- data.table::as.data.table(arr[], key = c("namespace", "key"))
+
+      # TODO: Remove when TileDB fixes it
+      # Sanitise datetime columns
+      # See:
+      expires_at <- NULL
+      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+
+      DT <- DT[.(namespace, key), env = list(namespace = I(namespace), key = I(key))]
+      hash_isna <- is.na(DT[["hash"]])
+
+      out <- vector("list", nrow(DT))
 
       if (is.null(nomatch)) {
         nomatch <- list(nomatch)
@@ -392,10 +414,11 @@ TileDBDriver <- R6::R6Class(
       for (i in seq_along(out)) {
 
         if (!hash_isna[i]) {
-          out[[i]] <- as.list(result[i, c("expires_at", "notes")])
+          out[[i]] <- as.list(DT[i, c("expires_at", "notes")])
         } else {
           out[[i]] <- nomatch
         }
+
       }
 
       attr(out, "missing") <- which(hash_isna)
