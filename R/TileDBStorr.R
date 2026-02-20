@@ -88,7 +88,8 @@ TileDBStorr <- R6::R6Class(
 
       if (use_cache) {
         km <- paste(key, namespace, sep = ":")
-        sethash(self$envir_metadata, km, list(expires_at, notes))
+        sethash(self$envir_metadata, km, list(expires_at = expires_at,
+                                              notes = notes))
       }
 
       invisible(hash)
@@ -118,7 +119,8 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
         km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
         for(i in seq_along(km)) {
-          sethash(self$envir_metadata, km[i], list(expires_at[i], notes[i]))
+          sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
+                                                   notes = notes[i]))
         }
       }
 
@@ -146,7 +148,8 @@ TileDBStorr <- R6::R6Class(
 
       if (use_cache) {
         km <- paste(hash, namespace, sep = ":")
-        sethash(self$envir_metadata, km, list(expires_at, notes))
+        sethash(self$envir_metadata, km, list(expires_at = expires_at,
+                                              notes = notes))
       }
 
       invisible(hash)
@@ -176,7 +179,8 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
         km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
         for(i in seq_along(km)) {
-          sethash(self$envir_metadata, km[i], list(expires_at[i], notes[i]))
+          sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
+                                                   notes = notes[i]))
         }
       }
 
@@ -300,9 +304,25 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
-    # STATUS: WIP
-    set_keymeta = function(key, namespace = self$default_namespace,
-                   expires_at, notes, use_cache = TRUE) {
+    #' @description Set key metadata.
+    #'
+    #'
+    #' @param key The key name to set metadata values to.
+    #' @param namespace The namespace to look the key within.
+    #' @param expires_at The date-time to set. Must be of class `POSIXct`.
+    #' Otherwise, set to `NULL` to ignore.
+    #' @param notes The notes to set. Must be a scalar string.
+    #' Otherwise, set to `NULL` to ignore.
+    #'
+    #' @return The `key:namespace` string, invisibly. If both arguments
+    #' `"expires_at"` and `"notes"` are missing, it returns a zero length
+    #'  character vector.
+    #'
+    set_keymeta = function(key,
+                           namespace = self$default_namespace,
+                           expires_at,
+                           notes,
+                           use_cache = TRUE) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -322,6 +342,7 @@ TileDBStorr <- R6::R6Class(
       if (is.null(notes) && is.null(expires_at)) {
         return(invisible(character()))
       }
+
       self$driver$set_keymeta(key, namespace, expires_at, notes)
 
       km <- paste(key, namespace, sep = ":")
@@ -332,7 +353,8 @@ TileDBStorr <- R6::R6Class(
         val <- gethash(self$envir_metadata, km)
 
         if (is.null(val)) {
-          val <- list(as.POSIXct(NA), NA_character_)
+          val <- list(expires_at = as.POSIXct(NA),
+                      notes = NA_character_)
         }
 
         if(!is.null(expires_at)) {
@@ -348,11 +370,28 @@ TileDBStorr <- R6::R6Class(
       invisible(km)
     },
 
-    # STATUS: WIP
-    mset_keymeta = function(key, namespace = self$default_namespace,
-                           expires_at, notes, use_cache = TRUE) {
+    #' @description Set multiple key metadata.
+    #'
+    #'
+    #' @param key A character vector of keys to set metadata to.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
+    #' Otherwise, set to `NULL` to ignore.
+    #' @param notes A character vector of notes to set. Otherwise,
+    #'  set to `NULL` to ignore.
+    #'
+    #' @return The `key:namespace` character vector, invisibly. If both arguments
+    #' `"expires_at"` and `"notes"` are missing, it returns a zero length
+    #'  character vector.
+    #'
+    mset_keymeta = function(key,
+                            namespace = self$default_namespace,
+                            expires_at,
+                            notes,
+                            use_cache = TRUE) {
 
-      n <- private$check_length(key, namespace)
+      p <-  storr::join_key_namespace(key, namespace)
+      n <- p$n
 
       if (missing(expires_at)) {
         expires_at <- NULL
@@ -361,13 +400,17 @@ TileDBStorr <- R6::R6Class(
       }
 
       if (missing(notes)) {
-        notes <- rep_len(NA_character_, n)
+        notes <- NULL
       } else {
         private$check_input(notes, n, "character")
       }
 
-      self$driver$mset_keymeta(key, namespace, expires_at, notes)
-      km <- paste(key, namespace, sep = ":")
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+
+      self$driver$mset_keymeta(p$key, p$namespace, expires_at, notes)
+      km <- paste(p$key, p$namespace, sep = ":")
 
       if (use_cache) {
 
@@ -377,13 +420,14 @@ TileDBStorr <- R6::R6Class(
           val <- gethash(self$envir_metadata, km[i])
 
           if (is.null(val)) {
-            val <- list(as.POSIXct(NA), NA_character_)
+            val <- list(expires_at = as.POSIXct(NA),
+                        notes = NA_character_)
           }
 
-          if(!is.null(expires_at[i])) {
+          if(!is.null(expires_at)) {
             val[[1]] <- expires_at[i]
           }
-          if(!is.null(notes[i])) {
+          if(!is.null(notes)) {
             val[[2]] <- notes[i]
           }
 
@@ -395,6 +439,18 @@ TileDBStorr <- R6::R6Class(
       invisible(km)
     },
 
+    #' @description Get key's metadata.
+    #'
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A named list with key-metadata, `"expires_at"`
+    #' and `"notes".`
+    #'
+    #'
     get_keymeta = function(key,
                            namespace = self$default_namespace,
                            use_cache = TRUE) {
@@ -406,7 +462,7 @@ TileDBStorr <- R6::R6Class(
       envir <- self$envir_metadata
 
       if (use_cache && exists0(keyns, envir)) {
-        value <- envir[[keyns]]
+        value <- gethash(envir, keyns)
       } else {
         value <- self$driver$get_keymeta(key, namespace)
 
@@ -417,7 +473,19 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
-    # STATUS: WIP
+    #' @description Get multiple key metadata.
+    #'
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #' @param misssing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with key metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
     mget_keymeta = function(key,
                             namespace = self$default_namespace,
                             use_cache = TRUE,
@@ -448,6 +516,8 @@ TileDBStorr <- R6::R6Class(
         num_cached <- 0L
       }
 
+      is_missing <- FALSE
+
       if (status_not_cached) {
 
         # From not_cached find also which are truly missing
@@ -473,10 +543,11 @@ TileDBStorr <- R6::R6Class(
             sethash(envir, keyns_to_cache[i], value[not_cached][[i]])
           }
         }
+        # Truly missing key-namespace pairs
+        is_missing <- keyns %in% keyns_missing
       }
 
-      # Truly missing key-namespace pairs
-      is_missing <- keyns %in% keyns_missing
+
       if (any(is_missing)) {
         attr(value, "missing") <- which(is_missing) #+ num_cached
       }

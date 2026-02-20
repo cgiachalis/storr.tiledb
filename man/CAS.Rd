@@ -32,7 +32,6 @@ An R6 class for creating a content addressable storage.
 \item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
 \item \href{#method-CAS-query_keys}{\code{CAS$query_keys()}}
 \item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
-\item \href{#method-CAS-update_keys}{\code{CAS$update_keys()}}
 \item \href{#method-CAS-dir_tree}{\code{CAS$dir_tree()}}
 \item \href{#method-CAS-dump}{\code{CAS$dump()}}
 \item \href{#method-CAS-clone}{\code{CAS$clone()}}
@@ -188,35 +187,6 @@ Filter \code{tbl_keys} by key and namespace
 }
 \subsection{Returns}{
 A `data.table.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAS-update_keys"></a>}}
-\if{latex}{\out{\hypertarget{method-CAS-update_keys}{}}}
-\subsection{Method \code{update_keys()}}{
-Update \code{tbl_keys} rows
-
-Intended for set_notes/expiry and clear_note/expiry_at
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$update_keys(key, attrvals, attrname, namespace)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector with keys.}
-
-\item{\code{attrvals}}{A vector of value to update.}
-
-\item{\code{attrname}}{A attribute name to update, either \code{"expires_at"}
-or \code{"notes"}.}
-
-\item{\code{namespace}}{A character vector with namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful deletion.
 }
 }
 \if{html}{\out{<hr>}}
