@@ -174,34 +174,6 @@ CAS <- R6::R6Class(
      na.omit(res, cols = "id")[[attrname]]
    },
 
-   #' @description Query 'tbl_keys' array
-   #'
-   #' @param key A character vector with keys.
-   #' @param namespace A character vector with namespaces.
-   #'
-   #' @return A `data.table`.
-   #'
-   query_keymeta = function(key, namespace) {
-
-     arrobj <- private$keys_array()
-
-     # Slice array
-     sp <- list(namespace = namespace, key = key)
-     arr <- arrobj$tiledb_array(selected_points = sp,
-                                return_as = "arrow")
-
-     DT <- data.table::as.data.table(arr[])
-
-     # TODO: Remove when TileDB fixes it
-     # Sanitise datetime columns
-     # See:
-     expires_at <- NULL
-     DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
-
-     DT
-
-   },
-
    #' @description Filter `tbl_keys` by key and namespace
    #'
    #' @param key A character vector with keys.
@@ -213,12 +185,6 @@ CAS <- R6::R6Class(
    filter_keys = function(key, namespace, attrnames = character()) {
 
      arrobj <- private$keys_array()
-
-     # TODO REVIEW
-     #storr:::check_length(key, namespace)
-     # maybe condition, use case
-     # key, namespace are empty then character()
-     # not empty then check
 
      sp <- list(namespace = namespace, key = key)
      arr <- arrobj$tiledb_array(attrs = attrnames,
@@ -233,7 +199,7 @@ CAS <- R6::R6Class(
        dt[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }
 
-     dt[]
+     dt
    },
 
    #' @description Print directory contents.
