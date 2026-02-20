@@ -34,6 +34,11 @@ An R6 class for creating a content addressable storage.
 \item \href{#method-TileDBDriver-mget_object}{\code{TileDBDriver$mget_object()}}
 \item \href{#method-TileDBDriver-set_object}{\code{TileDBDriver$set_object()}}
 \item \href{#method-TileDBDriver-mset_object}{\code{TileDBDriver$mset_object()}}
+\item \href{#method-TileDBDriver-set_keymeta}{\code{TileDBDriver$set_keymeta()}}
+\item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
+\item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
+\item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
+\item \href{#method-TileDBDriver-exists_hash2}{\code{TileDBDriver$exists_hash2()}}
 \item \href{#method-TileDBDriver-exists_hash}{\code{TileDBDriver$exists_hash()}}
 \item \href{#method-TileDBDriver-exists_object}{\code{TileDBDriver$exists_object()}}
 \item \href{#method-TileDBDriver-del_hash}{\code{TileDBDriver$del_hash()}}
@@ -72,7 +77,6 @@ An R6 class for creating a content addressable storage.
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="filter_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-filter_keys'><code>storr.tiledb::CAS$filter_keys()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="open"><a href='../../storr.tiledb/html/CAS.html#method-CAS-open'><code>storr.tiledb::CAS$open()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="query_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-query_keys'><code>storr.tiledb::CAS$query_keys()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="update_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-update_keys'><code>storr.tiledb::CAS$update_keys()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -293,12 +297,116 @@ Store serialised R objects.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-exists_hash"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash}{}}}
-\subsection{Method \code{exists_hash()}}{
-Check a key/namespace pair exists.
+\if{html}{\out{<a id="method-TileDBDriver-set_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-set_keymeta}{}}}
+\subsection{Method \code{set_keymeta()}}{
+Set key-namespace metadata.
+
+Sets a pair of expiry date-time and notes.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash(key, namespace)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$set_keymeta(key, namespace, expires_at, notes)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+
+\item{\code{expires_at}}{A vector with expiration datetimes.}
+
+\item{\code{notes}}{A character vector with notes.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for successful operation, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-mset_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-mset_keymeta}{}}}
+\subsection{Method \code{mset_keymeta()}}{
+Set multiple key-namespace metadata.
+
+Sets a pair of expiry date-time and notes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mset_keymeta(key, namespace, expires_at, notes)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+
+\item{\code{expires_at}}{A vector with expiration datetimes.}
+
+\item{\code{notes}}{A character vector with notes.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for successful operation, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-get_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-get_keymeta}{}}}
+\subsection{Method \code{get_keymeta()}}{
+Get key-namespace metadata.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$get_keymeta(key, namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A single character key.}
+
+\item{\code{namespace}}{A single character namespace.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A named list with key-metadata, \code{"expires_at"}
+and \verb{"notes".}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-mget_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-mget_keymeta}{}}}
+\subsection{Method \code{mget_keymeta()}}{
+Get multiple key-namespace metadata.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mget_keymeta(key, namespace, nomatch = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector with keys.}
+
+\item{\code{namespace}}{A character vector with namespaces.}
+
+\item{\code{nomatch}}{Value to fill in case of no match.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A list with key metadata for each key-namespace
+pair. For not found pairs will return the nomatch value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-exists_hash2"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash2}{}}}
+\subsection{Method \code{exists_hash2()}}{
+Check a key-namespace pair exists.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash2(key, namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -313,6 +421,15 @@ Check a key/namespace pair exists.
 \subsection{Returns}{
 A logical vector.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-exists_hash"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash}{}}}
+\subsection{Method \code{exists_hash()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash(key, namespace)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-exists_object"></a>}}

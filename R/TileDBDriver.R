@@ -271,7 +271,7 @@ TileDBDriver <- R6::R6Class(
       invisible(TRUE)
     },
 
-    #' @description Set key metadata.
+    #' @description Set key-namespace metadata.
     #'
     #' Sets a pair of expiry date-time and notes.
     #'
@@ -306,7 +306,7 @@ TileDBDriver <- R6::R6Class(
 
     },
 
-    #' @description Set key metadata.
+    #' @description Set multiple key-namespace metadata.
     #'
     #' Sets a pair of expiry date-time and notes.
     #'
@@ -348,12 +348,13 @@ TileDBDriver <- R6::R6Class(
 
     },
 
-    #' @description Get key metadata values.
+    #' @description Get key-namespace metadata.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key A single character key.
+    #' @param namespace A single character namespace.
     #'
-    #' @return A vector of notes.
+    #' @return A named list with key-metadata, `"expires_at"`
+    #' and `"notes".`
     #'
     get_keymeta = function(key, namespace) {
 
@@ -379,12 +380,14 @@ TileDBDriver <- R6::R6Class(
       as.list(DT)
     },
 
-    #' @description Get notes values.
+    #' @description Get multiple key-namespace metadata.
     #'
     #' @param key A character vector with keys.
     #' @param namespace A character vector with namespaces.
+    #' @param nomatch Value to fill in case of no match.
     #'
-    #' @return A vector of notes.
+    #' @return A list with key metadata for each key-namespace
+    #' pair. For not found pairs will return the nomatch value.
     #'
     mget_keymeta = function(key, namespace, nomatch = NULL) {
 
@@ -427,7 +430,7 @@ TileDBDriver <- R6::R6Class(
 
     },
 
-    #' @description Check a key/namespace pair exists.
+    #' @description Check a key-namespace pair exists.
     #'
     #' @param key A character vector with keys.
     #' @param namespace A character vector with namespaces.
