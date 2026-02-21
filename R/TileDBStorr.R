@@ -86,10 +86,15 @@ TileDBStorr <- R6::R6Class(
       hash <- self$set_value(value, use_cache)
       self$driver$set_hash(key, namespace, hash, expires_at, notes)
 
+      km <- paste(key, namespace, sep = ":")
       if (use_cache) {
-        km <- paste(key, namespace, sep = ":")
         sethash(self$envir_metadata, km, list(expires_at = expires_at,
                                               notes = notes))
+      } else {
+        # always remove key metadata when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
       }
 
       invisible(hash)
@@ -116,11 +121,20 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(key, namespace, hash, expires_at, notes)
 
+      km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+
       if (use_cache) {
-        km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+
         for(i in seq_along(km)) {
           sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
                                                    notes = notes[i]))
+        }
+      } else {
+        # ensure cache for km pairs is removed.
+        # See comments in set_keymeta
+
+        for(i in seq_along(km)) {
+          remhash(self$envir_metadata, km[i])
         }
       }
 
@@ -149,10 +163,13 @@ TileDBStorr <- R6::R6Class(
       hash <- self$set_value(value, use_cache)
       self$driver$set_hash(hash, namespace, hash, expires_at, notes)
 
+      km <- paste(hash, namespace, sep = ":")
+
       if (use_cache) {
-        km <- paste(hash, namespace, sep = ":")
         sethash(self$envir_metadata, km, list(expires_at = expires_at,
                                               notes = notes))
+      } else {
+        remhash(self$envir_metadata, km)
       }
 
       invisible(hash)
@@ -182,11 +199,16 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(hash, namespace, hash, expires_at, notes)
 
+      km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
       if (use_cache) {
-        km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
-        for(i in seq_along(km)) {
-          sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
-                                                   notes = notes[i]))
+        for (i in seq_along(km)) {
+          sethash(self$envir_metadata,
+                  km[i],
+                  list(expires_at = expires_at[i], notes = notes[i]))
+        }
+      } else {
+        for (i in seq_along(km)) {
+          remhash(self$envir_metadata, km[i])
         }
       }
 
