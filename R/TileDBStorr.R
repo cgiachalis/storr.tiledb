@@ -128,8 +128,11 @@ TileDBStorr <- R6::R6Class(
     },
 
     # STATUS: DONE
-    set_by_value = function(value, namespace = self$default_namespace,
-                            expires_at, notes, use_cache = TRUE) {
+    set_by_value = function(value,
+                            namespace = self$default_namespace,
+                            expires_at,
+                            notes,
+                            use_cache = TRUE) {
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(NA_real_)
@@ -156,8 +159,11 @@ TileDBStorr <- R6::R6Class(
     },
 
     # STATUS: DONE
-    mset_by_value = function(value, namespace = self$default_namespace,
-                             expires_at, notes, use_cache = TRUE) {
+    mset_by_value = function(value,
+                             namespace = self$default_namespace,
+                             expires_at,
+                             notes,
+                             use_cache = TRUE) {
 
       n <- length(value)
 
@@ -309,14 +315,19 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @param key The key name to set metadata values to.
     #' @param namespace The namespace to look the key within.
-    #' @param expires_at The date-time to set. Must be of class `POSIXct`.
-    #' Otherwise, set to `NULL` to ignore.
-    #' @param notes The notes to set. Must be a scalar string.
-    #' Otherwise, set to `NULL` to ignore.
+    #' @param expires_at The date-time to set of class `POSIXct` (optional).
+    #' @param notes A scalar string with notes to set (optional).
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
+    #'
     #'
     #' @return The `key:namespace` string, invisibly. If both arguments
-    #' `"expires_at"` and `"notes"` are missing, it returns a zero length
-    #'  character vector.
+    #' `"expires_at"` and `"notes"` are missing, then nothing is set and
+    #'  a zero length character vector is returned.
     #'
     set_keymeta = function(key,
                            namespace = self$default_namespace,
@@ -365,6 +376,11 @@ TileDBStorr <- R6::R6Class(
         }
 
         sethash(self$envir_metadata, km, val)
+      } else {
+        # always remove key when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
       }
 
       invisible(km)
@@ -376,13 +392,17 @@ TileDBStorr <- R6::R6Class(
     #' @param key A character vector of keys to set metadata to.
     #' @param namespace A character vector of namespaces to look the keys within.
     #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
-    #' Otherwise, set to `NULL` to ignore.
-    #' @param notes A character vector of notes to set. Otherwise,
-    #'  set to `NULL` to ignore.
+    #' @param notes A character vector of notes to set.
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
     #'
     #' @return The `key:namespace` character vector, invisibly. If both arguments
-    #' `"expires_at"` and `"notes"` are missing, it returns a zero length
-    #'  character vector.
+    #' `"expires_at"` and `"notes"` are missing, then nothing is set and
+    #'  a zero length character vector is returned.
     #'
     mset_keymeta = function(key,
                             namespace = self$default_namespace,
@@ -433,6 +453,12 @@ TileDBStorr <- R6::R6Class(
 
           sethash(self$envir_metadata, km[i], val)
 
+        })
+      } else{
+        # ensure cache for km pairs is removed.
+        # See comments in set_keymeta
+        lapply(seq_along(km), function(i) {
+           remhash(self$envir_metadata, km[i])
         })
       }
 

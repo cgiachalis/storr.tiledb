@@ -14,15 +14,18 @@ test_that("set_keymeta", {
 
   trg <- "x:objects"
 
-  # set_keymeta
-  expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(1, tz = NULL), notes = "😀"), trg)
-
+  # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
+  expect_equal(sto$set_keymeta("x",
+                               expires_at = trgval$expires_at, notes = trgval$notes), trg)
+
+  # test that were saved
   expect_equal(sto$get_keymeta("x"), trgval)
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
   # update note only
   expect_equal(sto$set_keymeta("x", notes = intToUtf8("0x1f608")), trg)
+  # test note update
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😈")
   expect_equal(sto$get_keymeta("x"), trgval)
 
@@ -31,11 +34,28 @@ test_that("set_keymeta", {
 
   trgval <- list(expires_at = as.POSIXct(NA), notes = "😈")
 
+  # test datetime update
   expect_equal(sto$get_keymeta("x"), trgval)
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
-  # nothing to update
+  # nothing to update, return empty character()
   expect_equal(sto$set_keymeta("x"), character())
+
+  # test we don't copy to cache
+  expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), trg)
+  trgval_new <- list(expires_at = as.POSIXct(100, tz = NULL), notes = "😈")
+
+  # test cache is empty for this pair (use_cache = FASLE always removes key)
+  expect_null(sto$envir_metadata[["x:objects"]])
+
+  # now with use_cache = TRUE, it reaches database and then fills cache
+  expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval_new)
+
+  # cache for this key is filled
+  expect_equal(sto$envir_metadata[["x:objects"]], trgval_new)
+
+  # test again the datetime update but dont use cache
+  expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval_new)
 
   # check assertions
   expect_error(sto$set_keymeta("y",namespace = "ns2", notes = "nokey"),
@@ -87,23 +107,30 @@ test_that("get_keymeta", {
   # set a key with default metadata
   sto$set("x", 1)
 
-  # get_keymeta
+  # get defualt keymeta
   trgval <- list(expires_at = as.POSIXct(NA), notes = NA_character_)
 
   expect_equal(sto$get_keymeta("x"), trgval)
-
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
+  # check keymeta cache
   sto$flush_cache()
   expect_equal(numhash(sto$envir_metadata), 0)
+
+  # this will retrieve from database not from cache, but saves to cache afterwards
   expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval)
+  # keymeta cache must be filled up now
   expect_equal(numhash(sto$envir_metadata), 1)
   expect_equal(sto$envir_metadata[["x:objects"]], trgval)
 
+  # now test gettimg keymeta from disk but dont copy to cache
   sto$flush_cache()
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
+
+  # test we didn't copy to cache
   expect_equal(numhash(sto$envir_metadata), 0)
 
+  # test assertions etc..
   expect_error(sto$get_keymeta("y",namespace = "ns2"),
                "key 'y' ('ns2') not found",
                fixed = TRUE,
@@ -142,9 +169,23 @@ test_that("mget_keymeta", {
     trg[[i]] <- list(expires_at = expires_at[i], notes = notes[i])
   }
 
-  # check are stored correctly
+  # check keymeta were stored correctly
   expect_equal(sto$mget_keymeta(c("x", "y", "z")), trg)
   expect_equal(sto$mget_keymeta(c("x", "y", "z"), use_cache = FALSE), trg)
+
+  # check keymeta cache
+  sto$flush_cache()
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+  # check we fill up cache
+  expect_equal(sto$mget_keymeta(c("x", "y", "z")), trg)
+  expect_equal(numhash(sto$envir_metadata), 3)
+  expect_equal(sto$envir_metadata[["x:objects"]], trg[[1]])
+
+  # check we're not copying into cache
+  sto$flush_cache()
+  expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trg[-3])
+  expect_equal(numhash(sto$envir_metadata), 0)
 
   # fetch a not found single key
   expect_equal(sto$mget_keymeta("k"),structure(list(list(NULL)), missing = 1L))
@@ -157,8 +198,7 @@ test_that("mget_keymeta", {
     "nometa"
   ), missing = c(1L, 3L))
 
-  expect_equal(sto$mget_keymeta(c("k", "x", "v"),
-                                missing = "nometa"), trg)
+  expect_equal(sto$mget_keymeta(c("k", "x", "v"), missing = "nometa"), trg)
 
   # x, y but from not found namespace
   expect_equal(sto$mget_keymeta(c("x", "y"), namespace = "not_objects"), structure(list(list(NULL), list(NULL)), missing = 1:2))
@@ -212,6 +252,25 @@ test_that("mset_keymeta", {
   expect_equal(sto$mget_keymeta(keys), trg)
   expect_equal(sto$mget_keymeta(keys, use_cache = FALSE), trg)
 
+  # check cache --
+
+  # test we don't copy to cache
+  expect_equal(sto$mset_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), km[1])
+  trgval_new <- list(expires_at = as.POSIXct(100, tz = NULL), notes = "xnote")
+
+  # test cache is empty for this pair (use_cache = FASLE always removes key)
+  expect_null(sto$envir_metadata[["x:objects"]])
+
+  # now with use_cache = TRUE, it reaches database and then fills cache
+  expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval_new)
+
+  # cache for this key is filled
+  expect_equal(sto$envir_metadata[["x:objects"]], trgval_new)
+
+  # test again the datetime update but don't use cache
+  expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval_new)
+
+  # --
 
   # reset x, y to default keymeta
   expect_equal(sto$mset_keymeta(c("x", "z"), expires_at = rep(as.POSIXct(NA, tz = NULL), 2),
