@@ -437,26 +437,10 @@ TileDBDriver <- R6::R6Class(
     #'
     #' @return A logical vector.
     #'
-    exists_hash2 = function(key, namespace) {
-
-      qo <- private$query_keys0(key, namespace, "hash")
-
-      dat.recv <- data.table::as.data.table(qo$arr[])
-      dat.req <- qo$dat.req
-      # TODO: in memory merge
-      id.recv <- merge(dat.req, dat.recv)$id
-
-      # Requested id vector vs received
-      dat.req$id %in% id.recv
-
-    },
-
-    # TODO: wip
     exists_hash = function(key, namespace) {
 
       p <- storr::join_key_namespace(key, namespace)
 
-      #DT <- self$filter_keys(key, namespace, "hash")
       arrobj <- private$keys_array()
 
       sp <- list(namespace = namespace, key = key)
@@ -470,11 +454,11 @@ TileDBDriver <- R6::R6Class(
 
       key <- p$key
       namespace <- p$namespace
-      i <- DT[.(namespace, key),
+      i <- DT[.(namespace, key), "hash", with = FALSE,
                 env = list(namespace = I(namespace),
-                           key = I(key))][["hash"]]
+                           key = I(key))]
 
-      !is.na(i)
+      !is.na(i[["hash"]])
     },
 
     #' @description Check a serialised object exists.

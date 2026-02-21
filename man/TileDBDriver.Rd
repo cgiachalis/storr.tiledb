@@ -38,7 +38,6 @@ An R6 class for creating a content addressable storage.
 \item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
 \item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
 \item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
-\item \href{#method-TileDBDriver-exists_hash2}{\code{TileDBDriver$exists_hash2()}}
 \item \href{#method-TileDBDriver-exists_hash}{\code{TileDBDriver$exists_hash()}}
 \item \href{#method-TileDBDriver-exists_object}{\code{TileDBDriver$exists_object()}}
 \item \href{#method-TileDBDriver-del_hash}{\code{TileDBDriver$del_hash()}}
@@ -401,12 +400,12 @@ pair. For not found pairs will return the nomatch value.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-exists_hash2"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash2}{}}}
-\subsection{Method \code{exists_hash2()}}{
+\if{html}{\out{<a id="method-TileDBDriver-exists_hash"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash}{}}}
+\subsection{Method \code{exists_hash()}}{
 Check a key-namespace pair exists.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash2(key, namespace)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash(key, namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -421,15 +420,6 @@ Check a key-namespace pair exists.
 \subsection{Returns}{
 A logical vector.
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-exists_hash"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash}{}}}
-\subsection{Method \code{exists_hash()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash(key, namespace)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-exists_object"></a>}}
