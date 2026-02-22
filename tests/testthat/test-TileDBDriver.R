@@ -19,3 +19,156 @@ test_that("'TileDBDriver'", {
 
 })
 
+test_that("m/get_keymeta", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  driver_tiledb_create(uri)
+  sto <- storr_tiledb(uri)
+  dr <- sto$driver
+
+  # add some keys
+  sto$set("x", 1)
+  t0 <- Sys.time()+100
+  sto$set("y", 1, expires_at = t0, note = "name:Bob")
+
+  # expected outputs
+  expval1 <- list(expires_at = as.POSIXct(NA),
+                  notes = NA_character_)
+  expval2 <- list(expires_at = t0,
+                  notes = "name:Bob")
+
+  expval3 <- list(expval1, expval2)
+  attr(expval3, "missing") <- integer(0)
+
+
+  # test standard cases
+  expect_equal(dr$get_keymeta("x", "objects"), expval1)
+  expect_equal(dr$get_keymeta("y", "objects"), expval2)
+
+  # test multiple keys
+  expect_no_error(mget_result <- dr$mget_keymeta(c("x", "y"),
+                                                 rep("objects", 2)))
+  expect_equal(mget_result, expval3, ignore_attr = TRUE)
+
+  # "y:other" not found
+  expval4 <- list(expval1, list(NULL))
+  attr(expval4, "missing") <- 2
+
+  expect_no_error(mget_result2 <- dr$mget_keymeta(c("x", "y"),
+                                                 c("objects", "other")))
+  expect_equal(mget_result2, expval4, ignore_attr = TRUE)
+
+  # "x:other" not found with nomatch
+  expval5 <- list(expval2, "hey, is missing")
+  attr(expval5, "missing") <- 2
+  expect_no_error(mget_result3 <- dr$mget_keymeta(c("y", "x"),
+                                                  c("objects", "other"),
+                                                  nomatch = "hey, is missing"))
+  expect_equal(mget_result3, expval5, ignore_attr = TRUE)
+
+  })
+
+
+test_that("set_keymeta", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  driver_tiledb_create(uri)
+  sto <- storr_tiledb(uri)
+  dr <- sto$driver
+
+  # add some keys
+  sto$set("x", 1)
+  t0 <- Sys.time()+100
+  sto$set("y", 1,namespace = "obj2", expires_at = t0, note = "name:Bob")
+
+  # test standard cases
+  expect_true(dr$set_keymeta("x", "objects", expires_at = as.POSIXct(1), notes = "simple"))
+  expect_equal(dr$get_keymeta("x", "objects"), list(expires_at = as.POSIXct(1, tz = NULL),
+                                                   notes = "simple"))
+  # update note only
+  expect_true(dr$set_keymeta("x", "objects", expires_at = NULL, notes = "no simple"))
+
+  # test is updated
+  expect_equal(dr$get_keymeta("x", "objects"), list(expires_at = as.POSIXct(1, tz = NULL),
+                                                    notes = "no simple"))
+
+  # update datetime only
+  expect_true(dr$set_keymeta("x", "objects", expires_at = as.POSIXct(NA), notes = NULL))
+  # test is updated
+  expect_equal(dr$get_keymeta("x", "objects"), list(expires_at = as.POSIXct(NA),
+                                                    notes = "no simple"))
+
+})
+
+
+test_that("mset_keymeta", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  driver_tiledb_create(uri)
+  sto <- storr_tiledb(uri)
+  dr <- sto$driver
+
+  # add some keys
+  sto$set("x", 1)
+  t0 <- Sys.time()+100
+  sto$set("y", 1,namespace = "obj2", expires_at = t0, note = "name:Bob")
+
+
+  expval0 <- list(expires_at = as.POSIXct(NA, tz = NULL),
+                  notes = NA_character_)
+
+  expval <- list(expval0, expval0)
+  attr(expval, "missing") <- integer(0)
+
+  # update (set) multiple keymeta
+  expect_true(dr$mset_keymeta(c("x", "y"),
+                              c("objects", "obj2"),
+                              expires_at = c(as.POSIXct(NA), as.POSIXct(NA)),
+                              notes = c(NA_character_, NA_character_)))
+
+
+  # test for correctness
+  expect_equal(dr$mget_keymeta(c("x", "y"), c("objects", "obj2")), expval)
+
+  # now update only notes
+  expect_true(dr$mset_keymeta(c("x", "y"),
+                              c("objects", "obj2"),
+                              expires_at = NULL,
+                              notes = c("object", "obj2")))
+
+  # test for correctness
+  expval[[1]]$notes <- "object"
+  expval[[2]]$notes <- "obj2"
+  expect_equal(dr$mget_keymeta(c("x", "y"), c("objects", "obj2")), expval)
+
+
+  # next update only datetimes
+  expect_true(dr$mset_keymeta(c("x", "y"),
+                              c("objects", "obj2"),
+                              expires_at = c(as.POSIXct(1), as.POSIXct(1)),
+                              notes = NULL))
+
+  # test for correctness
+  expval[[1]]$expires_at <- as.POSIXct(1, tz = NULL)
+  expval[[2]]$expires_at  <- as.POSIXct(1, tz = NULL)
+  expect_equal(dr$mget_keymeta(c("x", "y"), c("objects", "obj2")), expval)
+
+  # test for errors
+  expect_error(dr$mset_keymeta(c("x", "y"), c("objects", "obj22"),
+                              expires_at = c(as.POSIXct(1), as.POSIXct(1)),
+                              notes = NULL),
+               "key 'y' ('obj22') not found",
+               fixed = TRUE,
+               class = "KeyError")
+
+  expect_error(dr$mset_keymeta(c("z", "y"),
+                               c("objects", "obj22"),
+                               expires_at = c(as.POSIXct(1), as.POSIXct(1)),
+                               notes = NULL),
+               "key 'z,y' ('objects,obj22') not found",
+               fixed = TRUE,
+               class = "KeyError")
+  })

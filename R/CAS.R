@@ -162,7 +162,7 @@ CAS <- R6::R6Class(
        # Sanitise datetime columns
        # See:
       expires_at <- NULL
-      dat.recv[expires_at < 0 , expires_at := NA]
+      dat.recv[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }
 
      # Return vector of length p$n with attrname values; each element corresponds
@@ -186,12 +186,6 @@ CAS <- R6::R6Class(
 
      arrobj <- private$keys_array()
 
-     # TODO REVIEW
-     #storr:::check_length(key, namespace)
-     # maybe condition, use case
-     # key, namespace are empty then character()
-     # not empty then check
-
      sp <- list(namespace = namespace, key = key)
      arr <- arrobj$tiledb_array(attrs = attrnames,
                                 selected_points = sp,
@@ -202,51 +196,10 @@ CAS <- R6::R6Class(
      # TODO: Remove when TileDB fixes it
      if (attrnames == "expires_at" || length(attrnames) == 0) {
        expires_at <- NULL
-       dt[expires_at < 0 , expires_at := NA]
+       dt[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }
 
-     dt[]
-   },
-
-   #' @description Update `tbl_keys` rows
-   #'
-   #' Intended for set_notes/expiry and clear_note/expiry_at
-   #'
-   #' @param key A character vector with keys.
-   #' @param attrvals A vector of value to update.
-   #' @param attrname A attribute name to update, either `"expires_at"`
-   #'  or `"notes"`.
-   #' @param namespace A character vector with namespaces.
-   #'
-   #' @return `TRUE` for successful deletion.
-   #'
-   update_keys = function(key, attrvals, attrname, namespace) {
-
-     private$check_scalar_character(attrname)
-
-     #name_field <- match.arg(name_field, c("notes", "expires_at"))
-
-     #validUTF8()
-     # TODO: check notes is utf8? and posix
-     # need to query_keys0
-     arr <- private$query_keys0(key, namespace, character())
-
-     # TODO: check length val vs  key and received
-     # Retrieved data
-     dat <- data.table::as.data.table(arr[])
-
-
-     # Update notes
-     dat[,attrname] <- attrvals
-
-     # do we need it?
-     keep <- !duplicated(dat[, 1:2], fromLast = TRUE)
-
-     dat <- dat[keep, ]
-     arr[] <- dat
-
-     invisible(TRUE)
-
+     dt
    },
 
    #' @description Print directory contents.
@@ -384,7 +337,7 @@ CAS <- R6::R6Class(
     # @description Get cached 'tbl_keys' array object
     #
     keys_array = function() {
-
+    # TODO: should we check for cached first?
       self$members$tbl_keys$object
 
     },

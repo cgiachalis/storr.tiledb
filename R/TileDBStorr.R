@@ -14,8 +14,6 @@ TileDBStorr <- R6::R6Class(
     envir_metadata = NULL,
     default_namespace = NULL,
     traits = NULL,
-
-    ## Utility things, to fill later:
     hash_raw = NULL,
     serialize_object = NULL,
 
@@ -40,9 +38,10 @@ TileDBStorr <- R6::R6Class(
 
       self$driver <- driver
 
-      # Key-value: 'hash', R object
+      # Key-value: <'hash', R object>
       self$envir <- hashtab()
-      # Key-value: 'key:namespace', list(expires_at, notes)
+
+      # Key-value: <'key:namespace', list(expires_at, notes)>
       self$envir_metadata <- hashtab()
 
       self$default_namespace <- default_namespace
@@ -86,9 +85,15 @@ TileDBStorr <- R6::R6Class(
       hash <- self$set_value(value, use_cache)
       self$driver$set_hash(key, namespace, hash, expires_at, notes)
 
+      km <- paste(key, namespace, sep = ":")
       if (use_cache) {
-        km <- paste(key, namespace, sep = ":")
-        sethash(self$envir_metadata, km, list(expires_at, notes))
+        sethash(self$envir_metadata, km, list(expires_at = expires_at,
+                                              notes = notes))
+      } else {
+        # always remove key metadata when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
       }
 
       invisible(hash)
@@ -115,10 +120,20 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(key, namespace, hash, expires_at, notes)
 
+      km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+
       if (use_cache) {
-        km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+
         for(i in seq_along(km)) {
-          sethash(self$envir_metadata, km[i], list(expires_at[i], notes[i]))
+          sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
+                                                   notes = notes[i]))
+        }
+      } else {
+        # ensure cache for km pairs is removed.
+        # See comments in set_keymeta
+
+        for(i in seq_along(km)) {
+          remhash(self$envir_metadata, km[i])
         }
       }
 
@@ -126,8 +141,11 @@ TileDBStorr <- R6::R6Class(
     },
 
     # STATUS: DONE
-    set_by_value = function(value, namespace = self$default_namespace,
-                            expires_at, notes, use_cache = TRUE) {
+    set_by_value = function(value,
+                            namespace = self$default_namespace,
+                            expires_at,
+                            notes,
+                            use_cache = TRUE) {
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(NA_real_)
@@ -144,17 +162,24 @@ TileDBStorr <- R6::R6Class(
       hash <- self$set_value(value, use_cache)
       self$driver$set_hash(hash, namespace, hash, expires_at, notes)
 
+      km <- paste(hash, namespace, sep = ":")
+
       if (use_cache) {
-        km <- paste(hash, namespace, sep = ":")
-        sethash(self$envir_metadata, km, list(expires_at, notes))
+        sethash(self$envir_metadata, km, list(expires_at = expires_at,
+                                              notes = notes))
+      } else {
+        remhash(self$envir_metadata, km)
       }
 
       invisible(hash)
     },
 
     # STATUS: DONE
-    mset_by_value = function(value, namespace = self$default_namespace,
-                             expires_at, notes, use_cache = TRUE) {
+    mset_by_value = function(value,
+                             namespace = self$default_namespace,
+                             expires_at,
+                             notes,
+                             use_cache = TRUE) {
 
       n <- length(value)
 
@@ -173,10 +198,16 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(hash, namespace, hash, expires_at, notes)
 
+      km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
       if (use_cache) {
-        km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
-        for(i in seq_along(km)) {
-          sethash(self$envir_metadata, km[i], list(expires_at[i], notes[i]))
+        for (i in seq_along(km)) {
+          sethash(self$envir_metadata,
+                  km[i],
+                  list(expires_at = expires_at[i], notes = notes[i]))
+        }
+      } else {
+        for (i in seq_along(km)) {
+          remhash(self$envir_metadata, km[i])
         }
       }
 
@@ -244,6 +275,7 @@ TileDBStorr <- R6::R6Class(
       if (use_cache && exists0(hash, envir)) {
         value <- envir[[hash]]
       } else {
+        # TODO: no need for traits
         if (self$traits$throw_missing) {
           value <- tryCatch(self$driver$get_object(hash),
                             error = function(e) stop(HashError(hash)))
@@ -255,6 +287,7 @@ TileDBStorr <- R6::R6Class(
         }
         if (use_cache) {
           envir[[hash]] <- value
+          # TODO: USE sethash(envir, hash, value)
         }
       }
       value
@@ -278,6 +311,7 @@ TileDBStorr <- R6::R6Class(
       value[is_missing] <- list(missing)
 
       if (any(!cached)) {
+        # TODO: REMOVE IS.NULL
         if (is.null(self$driver$mget_object)) {
           value[!cached] <- lapply(hash[!cached], self$get_value, FALSE)
         } else {
@@ -293,6 +327,282 @@ TileDBStorr <- R6::R6Class(
 
       if (any(is_missing)) {
         attr(value, "missing") <- which(is_missing)
+      }
+      value
+    },
+
+    #' @description Set key metadata.
+    #'
+    #'
+    #' @param key The key name to set metadata values to.
+    #' @param namespace The namespace to look the key within.
+    #' @param expires_at The date-time to set of class `POSIXct` (optional).
+    #' @param notes A scalar string with notes to set (optional).
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
+    #'
+    #'
+    #' @return The `key:namespace` string, invisibly. If both arguments
+    #' `"expires_at"` and `"notes"` are missing, then nothing is set and
+    #'  a zero length character vector is returned.
+    #'
+    set_keymeta = function(key,
+                           namespace = self$default_namespace,
+                           expires_at,
+                           notes,
+                           use_cache = TRUE) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n = 1, type = "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- NULL
+      } else {
+        private$check_input(notes, n = 1, type = "character")
+      }
+
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+
+      self$driver$set_keymeta(key, namespace, expires_at, notes)
+
+      km <- paste(key, namespace, sep = ":")
+
+      if (use_cache) {
+
+        # Update what has changed
+        val <- gethash(self$envir_metadata, km)
+
+        if (is.null(val)) {
+          val <- list(expires_at = as.POSIXct(NA),
+                      notes = NA_character_)
+        }
+
+        if(!is.null(expires_at)) {
+          val[[1]] <- expires_at
+        }
+        if(!is.null(notes)) {
+          val[[2]] <- notes
+        }
+
+        sethash(self$envir_metadata, km, val)
+      } else {
+        # always remove key when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
+      }
+
+      invisible(km)
+    },
+
+    #' @description Set multiple key metadata.
+    #'
+    #' The arguments `key` and `namespace` can be recycled if any of them is a
+    #' scalar character and the other is a vector. No other recycling rule is
+    #' permitted.
+    #'
+    #' @param key A character vector of keys to set metadata to.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
+    #' @param notes A character vector of notes to set.
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
+    #'
+    #' @return The `key:namespace` character vector of the recycled length,
+    #' invisibly. If both arguments `"expires_at"` and `"notes"` are missing,
+    #' then nothing is set and a zero length character vector is returned.
+    #'
+    mset_keymeta = function(key,
+                            namespace = self$default_namespace,
+                            expires_at,
+                            notes,
+                            use_cache = TRUE) {
+
+      p <-  storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n, "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- NULL
+      } else {
+        private$check_input(notes, n, "character")
+      }
+
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+
+      self$driver$mset_keymeta(p$key, p$namespace, expires_at, notes)
+      km <- paste(p$key, p$namespace, sep = ":")
+
+      if (use_cache) {
+
+        lapply(seq_along(km), function(i) {
+
+          # Update what has changed
+          val <- gethash(self$envir_metadata, km[i])
+
+          if (is.null(val)) {
+            val <- list(expires_at = as.POSIXct(NA),
+                        notes = NA_character_)
+          }
+
+          if(!is.null(expires_at)) {
+            val[[1]] <- expires_at[i]
+          }
+          if(!is.null(notes)) {
+            val[[2]] <- notes[i]
+          }
+
+          sethash(self$envir_metadata, km[i], val)
+
+        })
+      } else{
+        # ensure cache for km pairs is removed.
+        # See comments in set_keymeta
+        lapply(seq_along(km), function(i) {
+           remhash(self$envir_metadata, km[i])
+        })
+      }
+
+      invisible(km)
+    },
+
+    #' @description Get key's metadata.
+    #'
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A named list with the key-metadata: `"expires_at"`
+    #' and `"notes".`
+    #'
+    #'
+    get_keymeta = function(key,
+                           namespace = self$default_namespace,
+                           use_cache = TRUE) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      if (use_cache && exists0(keyns, envir)) {
+        value <- gethash(envir, keyns)
+      } else {
+        value <- self$driver$get_keymeta(key, namespace)
+
+        if (use_cache) {
+          sethash(envir, keyns, value)
+        }
+      }
+      value
+    },
+
+    #' @description Get multiple key metadata.
+    #'
+    #' The arguments `key` and `namespace` can be recycled if any of them is a
+    #' scalar character and the other is a vector. No other recycling rule is
+    #' permitted.
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #' @param misssing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with key metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
+    mget_keymeta = function(key,
+                            namespace = self$default_namespace,
+                            use_cache = TRUE,
+                            missing = NULL) {
+
+
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      key <- p$key
+      namespace <- p$namespace
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      value <- vector("list", n)
+      cached <- logical(n)
+
+      if (use_cache) {
+        cached <- exists0(keyns, envir)
+        value[cached] <- lapply(keyns[cached], function(h) gethash(envir, h))
+        num_cached <- sum(cached)
+        not_cached <- !cached
+        status_not_cached <- any(not_cached)
+      } else {
+        # Everything is TRUE, so go to find them in DB
+        not_cached <- !cached
+        status_not_cached <- TRUE
+        num_cached <- 0L
+      }
+
+      is_missing <- FALSE
+
+      if (status_not_cached) {
+
+        # From not_cached find also which are truly missing
+        cc <- self$driver$mget_keymeta(key[not_cached],
+                                       namespace[not_cached],
+                                       nomatch = missing)
+
+        value[not_cached] <- cc
+        keyns_not_cached <- keyns[not_cached]
+
+        # not_cached and not found
+        keyns_missing <- keyns_not_cached[attr(cc, "missing")]
+
+        # Fill cache if needed
+        # Indices for not_cached but existent items
+
+        if (use_cache) {
+          # Truly missing key-namespace pairs
+          is_missing <- keyns_not_cached %in% keyns_missing
+          idx <- which(!is_missing)
+          keyns_to_cache <- keyns_not_cached[idx]
+          for (i in idx) {
+            sethash(envir, keyns_to_cache[i], value[not_cached][[i]])
+          }
+        }
+        # Truly missing key-namespace pairs
+        is_missing <- keyns %in% keyns_missing
+      }
+
+
+      if (any(is_missing)) {
+        attr(value, "missing") <- which(is_missing) #+ num_cached
       }
       value
     },

@@ -271,8 +271,166 @@ TileDBDriver <- R6::R6Class(
       invisible(TRUE)
     },
 
+    #' @description Set key-namespace metadata.
+    #'
+    #' Sets a pair of expiry date-time and notes.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #' @param expires_at A vector with expiration datetimes.
+    #' @param notes A character vector with notes.
+    #'
+    #' @return `TRUE` for successful operation, invisibly.
+    #'
+    set_keymeta = function(key, namespace, expires_at, notes) {
 
-    #' @description Check a key/namespace pair exists.
+
+      dat <- self$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        stop(KeyError(key, namespace))
+      }
+
+      if (!is.null(notes)) {
+        dat$notes <- notes
+      }
+
+      if (!is.null(expires_at)) {
+        dat$expires_at <- expires_at
+      }
+
+      arr <- private$keys_array()$tiledb_array()
+      arr[] <- dat
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Set multiple key-namespace metadata.
+    #'
+    #' Sets a pair of expiry date-time and notes.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #' @param expires_at A vector with expiration datetimes.
+    #' @param notes A character vector with notes.
+    #'
+    #' @return `TRUE` for successful operation, invisibly.
+    #'
+    mset_keymeta = function(key, namespace, expires_at, notes) {
+
+      dat <- self$filter_keys(key, namespace)
+
+      # Check for no hash in given key:namespace
+      data.table::setkeyv(dat, c("namespace", "key"))
+
+      dat <- dat[.(namespace, key), env = list(namespace = I(namespace),
+                                             key = I(key))][]
+      hash_isna <- is.na(dat[["hash"]])
+
+      if (any(hash_isna)) {
+        stop(KeyError(paste(dat$key[hash_isna], collapse = ","),
+                      paste(dat$namespace[hash_isna], collapse = ",")))
+      }
+
+      if (!is.null(notes)) {
+        dat[,notes := vals, env = list(vals = I(notes))]
+      }
+
+      if (!is.null(expires_at)) {
+        dat[,expires_at := vals, env = list(vals = I(expires_at))]
+      }
+
+      arr <- private$keys_array()$tiledb_array()
+      arr[] <- dat
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Get key-namespace metadata.
+    #'
+    #' @param key A single character key.
+    #' @param namespace A single character namespace.
+    #'
+    #' @return A named list with key-metadata, `"expires_at"`
+    #' and `"notes".`
+    #'
+    get_keymeta = function(key, namespace) {
+
+      arrobj <- private$keys_array()
+
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(extended = FALSE,
+                                 attrs = c("expires_at", "notes"),
+                                 selected_points = sp,
+                                 return_as = "arrow")
+
+      DT <- data.table::as.data.table(arr[])
+
+      # TODO: Remove when TileDB fixes it
+      expires_at <- NULL
+      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+
+
+      if (nrow(DT) == 0) {
+        stop(KeyError(key, namespace))
+      }
+
+      as.list(DT)
+    },
+
+    #' @description Get multiple key-namespace metadata.
+    #'
+    #' @param key A character vector with keys.
+    #' @param namespace A character vector with namespaces.
+    #' @param nomatch Value to fill in case of no match.
+    #'
+    #' @return A list with key metadata for each key-namespace
+    #' pair. For not found pairs will return the nomatch value.
+    #'
+    mget_keymeta = function(key, namespace, nomatch = NULL) {
+
+      arrobj <- private$keys_array()
+
+      # Slice array
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(selected_points = sp, return_as = "arrow")
+
+      DT <- data.table::as.data.table(arr[], key = c("namespace", "key"))
+
+      # TODO: Remove when TileDB fixes it
+      # Sanitise datetime columns
+      # See:
+      expires_at <- NULL
+      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+
+      DT <- DT[.(namespace, key), env = list(namespace = I(namespace), key = I(key))]
+      hash_isna <- is.na(DT[["hash"]])
+
+      out <- vector("list", nrow(DT))
+
+      if (is.null(nomatch)) {
+        nomatch <- list(nomatch)
+      }
+
+      for (i in seq_along(out)) {
+
+        if (!hash_isna[i]) {
+          out[[i]] <- as.list(DT[i, c("expires_at", "notes")])
+        } else {
+          out[[i]] <- nomatch
+        }
+
+      }
+
+      attr(out, "missing") <- which(hash_isna)
+
+      out
+
+    },
+
+    #' @description Check a key-namespace pair exists.
     #'
     #' @param key A character vector with keys.
     #' @param namespace A character vector with namespaces.
@@ -281,16 +439,26 @@ TileDBDriver <- R6::R6Class(
     #'
     exists_hash = function(key, namespace) {
 
-      qo <- private$query_keys0(key, namespace, "hash")
+      p <- storr::join_key_namespace(key, namespace)
 
-      dat.recv <- data.table::as.data.table(qo$arr[])
-      dat.req <- qo$dat.req
-      # TODO: in memory merge
-      id.recv <- merge(dat.req, dat.recv)$id
+      arrobj <- private$keys_array()
 
-      # Requested id vector vs received
-      dat.req$id %in% id.recv
+      sp <- list(namespace = namespace, key = key)
+      arr <- arrobj$tiledb_array(attrs = "hash",
+                                 selected_points = sp,
+                                 return_as = "arrow")
 
+      DT <- data.table::as.data.table(arr[])
+
+      data.table::setkeyv(DT, c("namespace", "key"))
+
+      key <- p$key
+      namespace <- p$namespace
+      i <- DT[.(namespace, key), "hash", with = FALSE,
+                env = list(namespace = I(namespace),
+                           key = I(key))]
+
+      !is.na(i[["hash"]])
     },
 
     #' @description Check a serialised object exists.
