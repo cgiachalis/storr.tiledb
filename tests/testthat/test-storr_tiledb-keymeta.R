@@ -238,6 +238,7 @@ test_that("mset_keymeta", {
   }
 
   expect_equal(sto$mget_keymeta(keys), trg)
+
   # note: use ignore_attr return val includes tzone attr with value ''
   expect_equal(sto$mget_keymeta(keys, use_cache = FALSE), trg, ignore_attr = TRUE)
 
@@ -258,7 +259,7 @@ test_that("mset_keymeta", {
   expect_equal(sto$mset_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), km[1])
   trgval_new <- list(expires_at = as.POSIXct(100, tz = NULL), notes = "xnote")
 
-  # test cache is empty for this pair (use_cache = FASLE always removes key)
+  # test cache is empty for this pair (use_cache = FASLE always removes keys)
   expect_null(sto$envir_metadata[["x:objects"]])
 
   # now with use_cache = TRUE, it reaches database and then fills cache
@@ -303,6 +304,10 @@ test_that("mset_keymeta", {
                fixed = TRUE,
                class = "error")
 
-
+  # check key-namespace for incompatibility
+  expect_error(sto$mset_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
+               "Incompatible lengths for key and namespace",
+               fixed = TRUE,
+               class = "error")
 
   })
