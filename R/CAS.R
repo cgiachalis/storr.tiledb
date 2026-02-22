@@ -337,7 +337,7 @@ CAS <- R6::R6Class(
     # @description Get cached 'tbl_keys' array object
     #
     keys_array = function() {
-
+    # TODO: should we check for cached first?
       self$members$tbl_keys$object
 
     },

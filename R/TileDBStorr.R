@@ -14,8 +14,6 @@ TileDBStorr <- R6::R6Class(
     envir_metadata = NULL,
     default_namespace = NULL,
     traits = NULL,
-
-    ## Utility things, to fill later:
     hash_raw = NULL,
     serialize_object = NULL,
 
@@ -40,9 +38,10 @@ TileDBStorr <- R6::R6Class(
 
       self$driver <- driver
 
-      # Key-value: 'hash', R object
+      # Key-value: <'hash', R object>
       self$envir <- hashtab()
-      # Key-value: 'key:namespace', list(expires_at, notes)
+
+      # Key-value: <'key:namespace', list(expires_at, notes)>
       self$envir_metadata <- hashtab()
 
       self$default_namespace <- default_namespace
@@ -410,6 +409,9 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key metadata.
     #'
+    #' The arguments `key` and `namespace` can be recycled if any of them is a
+    #' scalar character and the other is a vector. No other recycling rule is
+    #' permitted.
     #'
     #' @param key A character vector of keys to set metadata to.
     #' @param namespace A character vector of namespaces to look the keys within.
@@ -422,9 +424,9 @@ TileDBStorr <- R6::R6Class(
     #' between cache and database when reading back  with
     #' `use_cache = TRUE`.
     #'
-    #' @return The `key:namespace` character vector, invisibly. If both arguments
-    #' `"expires_at"` and `"notes"` are missing, then nothing is set and
-    #'  a zero length character vector is returned.
+    #' @return The `key:namespace` character vector of the recycled length,
+    #' invisibly. If both arguments `"expires_at"` and `"notes"` are missing,
+    #' then nothing is set and a zero length character vector is returned.
     #'
     mset_keymeta = function(key,
                             namespace = self$default_namespace,
@@ -495,7 +497,7 @@ TileDBStorr <- R6::R6Class(
     #' @param use_cache Should it be retrieved from cache? Default is
     #'  `TRUE`.
     #'
-    #' @return A named list with key-metadata, `"expires_at"`
+    #' @return A named list with the key-metadata: `"expires_at"`
     #' and `"notes".`
     #'
     #'
@@ -523,6 +525,9 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get multiple key metadata.
     #'
+    #' The arguments `key` and `namespace` can be recycled if any of them is a
+    #' scalar character and the other is a vector. No other recycling rule is
+    #' permitted.
     #'
     #' @param key A character vector with keys to get metadata values from.
     #' @param namespace A character vector of namespaces to look the keys within.
