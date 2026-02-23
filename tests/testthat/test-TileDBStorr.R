@@ -1,8 +1,8 @@
 test_that("'TileDBStorr'", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  dr <- driver_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
+
   expect_no_error(sto <- TileDBStorr$new(dr, default_namespace = "objects"))
 
   expect_s3_class(sto, "TileDBStorr")
