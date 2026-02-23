@@ -3,8 +3,6 @@ test_that("'TileDBStorr'", {
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE)
 
-  expect_no_error(sto <- TileDBStorr$new(dr, default_namespace = "objects"))
-
   expect_s3_class(sto, "TileDBStorr")
   expect_s3_class(sto, "storr")
 
@@ -19,7 +17,7 @@ test_that("'TileDBStorr'", {
   expect_error(TileDBStorr$new("not_valid", "objects"))
 
 
-  dr$close()
+  dr <- driver_tiledb(uri)
   sto2 <- TileDBStorr$new(dr, default_namespace = "objects")
   expect_s3_class(sto2$driver, "TileDBDriver")
 
