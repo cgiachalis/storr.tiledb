@@ -77,7 +77,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
     }
     force(l)
     dr$create(compression_level = l$compression_level,
-              algo =  l$algo, keep_open =  l$keep_open)
+              algo =  l$hash_algorithm, keep_open =  l$keep_open)
 
   } else {
     if (!dr$exists()) {
