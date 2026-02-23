@@ -15,8 +15,8 @@ on.exit(tiledb::set_allocation_size_preference(oldsize))
 test_that("basic", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  #driver_tiledb_create(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   expect_s3_class(st, "storr")
 
@@ -96,8 +96,7 @@ test_that("basic", {
 test_that("replace value", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(5)
   y <- runif(10)
@@ -133,8 +132,7 @@ test_that("default namespace", {
 test_that("set_by_value", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(10)
   h <- st$set_by_value(x)
@@ -147,8 +145,7 @@ test_that("set_by_value", {
 
 test_that("clear", {
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   st$set("a1", 1, namespace = "a")
   st$set("a2", 2, namespace = "a")
@@ -175,8 +172,7 @@ test_that("clear", {
 test_that("reconnect", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   st$set("a1", 1, namespace = "a")
   st$set("a2", 2, namespace = "a")
@@ -194,7 +190,6 @@ test_that("reconnect", {
 test_that("hash_algorithm", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
-
 
   .driver_create <- function(dr = NULL, ...) {
 
@@ -271,10 +266,11 @@ for (h in hash_algos) {
 on.exit()
 })
 
+
 test_that("get_value", {
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(10)
   st$set("a", x)
@@ -292,9 +288,9 @@ test_that("get_value", {
 ## primarily up to storr, rather than the driver, because we'll test
 ## mget at the driver level separately.
 test_that("mget", {
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   h1 <- st$set("foo", 1)
   h2 <- st$set("bar", 2)
@@ -319,9 +315,9 @@ test_that("mget", {
 
 
 test_that("mset", {
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   h <- st$mset(c("foo", "bar"), c(1, 2))
   expect_equal(st$mget_hash(c("foo", "bar")), h)
@@ -341,9 +337,9 @@ test_that("mset", {
 ## should all pass easily.  Putting them here means that they test
 ## both the with-mget and without-mget branches though.
 test_that("avoiding caching", {
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   st$mset(c("a", "b"), 1:2, use_cache = FALSE)
   expect_equal(hashkeys(st$envir), character(0))
@@ -352,9 +348,9 @@ test_that("avoiding caching", {
 
 
 test_that("gc", {
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  st <- storr_tiledb(uri)
+  st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(10)
   y <- letters

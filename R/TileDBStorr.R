@@ -24,6 +24,8 @@ TileDBStorr <- R6::R6Class(
              call. = FALSE)
       }
 
+      private$check_input(default_namespace, n = 1, type = "character")
+
       # We need the member's object to be available
       # e.g., driver$members$tbl_keys$object
       if (!driver$is_open() ) {

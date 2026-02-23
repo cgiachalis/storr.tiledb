@@ -6,17 +6,23 @@
 \alias{driver_tiledb}
 \title{TileDB Storr Driver}
 \usage{
-storr_tiledb(uri, default_namespace = "objects", context = NULL)
+storr_tiledb(uri, default_namespace = "objects", context = NULL,
+  init = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
   context = NULL)
 
-driver_tiledb(uri, context = NULL)
+driver_tiledb(uri, context = NULL, init = FALSE, ...)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
 
 \item{context}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
+
+\item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
+
+\item{...}{Other arguments passed to driver's create method when \code{init=TRUE}.
+Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}
 
 \item{hash_algorithm}{Select a hash algorithm.}
 
@@ -27,7 +33,8 @@ in data objects. (experimental).}
 \itemize{
 \item \strong{storr_tiledb} : returns a TileDB storr, see \link{TileDBStorr}.
 \item \strong{driver_tiledb} : return a TileDB driver, see \link{TileDBDriver}.
-\item \strong{driver_tiledb_create} : returns logical \code{TRUE} invisibly, for successful storr creation,
+\item \strong{driver_tiledb_create} : returns logical \code{TRUE} invisibly, for
+successful storr creation
 }
 }
 \description{

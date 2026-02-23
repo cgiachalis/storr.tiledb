@@ -6,8 +6,7 @@ on.exit(tiledb::set_allocation_size_preference(oldsize))
 test_that("set_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
 
   # set a key with default metadata
   sto$set("x", 1)
@@ -101,8 +100,7 @@ test_that("set_keymeta", {
 test_that("get_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
 
   # set a key with default metadata
   sto$set("x", 1)
@@ -153,8 +151,7 @@ test_that("get_keymeta", {
 test_that("mget_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
 
   # set some keys with key metadata
   sto$mset(c("x", "y", "z"), c(1, 2, 3),
@@ -216,8 +213,8 @@ test_that("mget_keymeta", {
 test_that("mset_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
+
   keys <- c("x", "y", "z")
   km <- paste(keys, "objects", sep = ":")
 

@@ -22,9 +22,9 @@ test_that("'TileDBDriver'", {
 test_that("m/get_keymeta", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
   uri <- file.path(withr::local_tempdir(), "test-driver")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
   dr <- sto$driver
 
   # add some keys
@@ -74,8 +74,7 @@ test_that("set_keymeta", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
   dr <- sto$driver
 
   # add some keys
@@ -107,8 +106,7 @@ test_that("mset_keymeta", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
-  driver_tiledb_create(uri)
-  sto <- storr_tiledb(uri)
+  sto <- storr_tiledb(uri, init = TRUE)
   dr <- sto$driver
 
   # add some keys
