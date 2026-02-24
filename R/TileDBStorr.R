@@ -88,6 +88,7 @@ TileDBStorr <- R6::R6Class(
       self$driver$set_hash(key, namespace, hash, expires_at, notes)
 
       km <- paste(key, namespace, sep = ":")
+
       if (use_cache) {
         sethash(self$envir_metadata, km, list(expires_at = expires_at,
                                               notes = notes))
@@ -122,7 +123,7 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(key, namespace, hash, expires_at, notes)
 
-      km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+      km <- paste(n$key, n$namespace, sep = ":")
 
       if (use_cache) {
 
@@ -183,6 +184,7 @@ TileDBStorr <- R6::R6Class(
                              notes,
                              use_cache = TRUE) {
 
+      # TODO: review length and km recycling..
       n <- length(value)
 
       if (missing(expires_at)) {
@@ -249,7 +251,6 @@ TileDBStorr <- R6::R6Class(
         upload <- logical(length(hash))
         upload[!cached] <- !self$driver$exists_object(hash[!cached])
       } else {
-        cached <- logical(length(hash))
         upload <- !self$driver$exists_object(hash)
       }
 
@@ -546,7 +547,6 @@ TileDBStorr <- R6::R6Class(
                             use_cache = TRUE,
                             missing = NULL) {
 
-
       p <- storr::join_key_namespace(key, namespace)
       n <- p$n
 
@@ -625,9 +625,9 @@ TileDBStorr <- R6::R6Class(
     # STATUS: DONE
     del = function(key, namespace = self$default_namespace) {
 
-      n <- private$check_length(key, namespace)
+      n <- storr::join_key_namespace(key, namespace)
 
-      deleted_hashes <- self$driver$del_hash(key, namespace)
+      deleted_hashes <- self$driver$del_hash(n$key, n$namespace)
 
       # Remove cache metadata for primary index key:namespace
       #
@@ -641,7 +641,7 @@ TileDBStorr <- R6::R6Class(
       # NOTE 2: We cannot do the same for cached hashes as they might
       # be used by another key:namespace; but we do it in $gc() instead.
       #
-      km <- paste(rep_len(key, n), rep_len(namespace, n), sep = ":")
+      km <- paste(n$key, n$namespace, sep = ":")
       status <- vlapply(km, function(.k) {
         remhash(self$envir_metadata,key = .k)
       })
@@ -692,6 +692,8 @@ TileDBStorr <- R6::R6Class(
       private$check_input(notes, n = 1, type = "character")
       private$check_input(expires_at, n = 1, type = "datetime")
 
+      private$set_daemons()
+
       if (is.null(cfg)) {
         cfg <- tiledb::config(self$driver$ctx)
       }
@@ -700,13 +702,7 @@ TileDBStorr <- R6::R6Class(
         stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
       }
 
-      # mirai namespace compute profile
-      ns <- "storr.tiledb"
-
-      # Start daemons if not already started
-      if (is.null(mirai::nextget("n", .compute = ns))) {
-        mirai::daemons(2L, autoexit = tools::SIGINT, .compute = ns)
-      }
+      ns <- .storr_profile
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -751,26 +747,172 @@ TileDBStorr <- R6::R6Class(
       expires_at = expires_at, notes = notes, .compute = ns)
 
 
+      km <- paste(key, namespace, sep = ":")
       if (use_cache) {
-        km <- paste(key, namespace, sep = ":")
-        sethash(self$envir_metadata, km, list(expires_at, notes))
+        sethash(self$envir_metadata, km, list(expires_at = expires_at,
+                                              notes = notes))
+      } else {
+        # always remove key metadata when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
       }
 
-     invisible(list(mirai =list(obj = m1,
-                                key = m2),
-                    hash = hash))
+      invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
 
     },
 
     # TODO
-    mset_async = function() {
+    mset_async = function(key,
+                          value,
+                          namespace = self$default_namespace,
+                          expires_at,
+                          notes,
+                          use_cache = TRUE,
+                          cfg = NULL) {
 
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+
+      if (missing(expires_at)) {
+        expires_at <- as.POSIXct(rep_len(NA, n))
+      }
+
+      if (missing(notes)) {
+        notes <- rep_len(NA_character_, n)
+      }
+
+      private$check_input(notes, n, "character")
+      private$check_input(expires_at, n, "datetime")
+      private$check_input(value, n, "value")
+
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(self$driver$ctx)
+      }
+
+      if (!inherits(cfg, "tiledb_config")){
+        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
+      }
+
+      # mirai namespace compute profile
+      ns <- .storr_profile
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      }, config_params = as.vector(cfg), .compute = ns)
+
+
+      # START: 'mset_value' logic for async ---
+
+      values_ser <- lapply(value, self$serialize_object)
+      hash <- vcapply(values_ser, self$hash_raw)
+      cached <- logical(length(hash))
+
+      envir <- self$envir
+      uri <- self$driver$uri
+
+      # Step 1: store and cache object if needed
+      m1 <- "none"
+
+      if (use_cache) {
+
+        cached <- exists0(hash, envir)
+
+        m1 <- mirai::mirai({
+
+          driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+          upload <- logical(length(hash))
+          upload[!cached] <- !driver$exists_object(hash[!cached])
+
+          if (any(upload)) {
+            driver$mset_object(hash[upload], values_ser[upload])
+          }
+
+        }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
+
+
+      } else {
+
+        m1 <- mirai::mirai({
+
+          driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+          upload <- !driver$exists_object(hash)
+
+          if (any(upload)) {
+            driver$mset_object(hash[upload], values_ser[upload])
+          }
+
+        }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
+      }
+
+      if (use_cache) {
+        for (i in which(!cached)) {
+          sethash(self$envir, hash[[i]], value[[i]])
+        }
+      }
+
+      # END: 'mset_value' logic for async ---
+
+      # Step 2: set key:namespace data to key table, cache if needed
+      m2 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Set info to keys table
+        driver$mset_hash(key, namespace, hash, expires_at, notes)
+
+      },
+      uri = uri,
+      key = key,
+      namespace = namespace,
+      hash = hash,
+      expires_at = expires_at,
+      notes = notes,
+      .compute = ns)
+
+      km <- paste(p$key, p$namespace, sep = ":")
+
+      if (use_cache) {
+
+        for(i in seq_along(km)) {
+          sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
+                                                   notes = notes[i]))
+        }
+      } else {
+        # ensure cache for km pairs are removed.
+        # See comments in set_keymeta
+
+        for(i in seq_along(km)) {
+          remhash(self$envir_metadata, km[i])
+        }
+      }
+
+      invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
     }
 
   ),
 
   active = list(
    # stats or num_keys/num_namespaces/db_size/report
+
+    #' @field async_info `mirai` information
+    #'
+    async_info = function(value) {
+
+      if (!missing(value)) {
+        cli::cli_abort(paste0(cli::style_italic("{.val {value}}"), " is a read-only field."), call = NULL)
+      }
+
+      mirai::info(.storr_profile)
+    }
   ),
 
   private = list(
@@ -810,6 +952,13 @@ TileDBStorr <- R6::R6Class(
       stop(sprintf("'%s' must have %d elements (recieved %d)", name, n, length(x)),
            call. = FALSE)
     }
+  },
+
+  set_daemons = function() {
+    if (!mirai::daemons_set(.storr_profile)) {
+      enable_mirai()
+    }
   }
+
   )
 )
