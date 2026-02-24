@@ -3,6 +3,7 @@
 #' @param uri The URI path of storr.
 #' @param context Optional [tiledb::tiledb_ctx()] object.
 #' @param init Should the driver be created if not exist? Defalut is  `FALSE`.
+#' @param async Should be mirai daemons be enabled?
 #' @param hash_algorithm Select a hash algorithm.
 #' @param compression_level Set an integer value for ZSTD compression level
 #' applied in data objects. (experimental).
@@ -25,11 +26,12 @@
 storr_tiledb <- function(uri,
                          default_namespace = "objects",
                          context = NULL,
-                         init = FALSE, ...) {
+                         init = FALSE,
+                         async = FALSE, ...) {
 
   # check scalar namespace
   dr <- driver_tiledb(uri, context = context, init = init, ...)
-  TileDBStorr$new(dr, default_namespace = default_namespace)
+  TileDBStorr$new(dr, default_namespace = default_namespace, async = async)
 
 }
 
