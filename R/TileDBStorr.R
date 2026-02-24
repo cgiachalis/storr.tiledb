@@ -114,7 +114,10 @@ TileDBStorr <- R6::R6Class(
     mset = function(key, value, namespace = self$default_namespace,
                     expires_at, notes, use_cache = TRUE) {
 
-      n <- private$check_length(key, namespace)
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+      key <- p$key
+      namespace <- p$namespace
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(rep_len(NA, n))
@@ -131,7 +134,7 @@ TileDBStorr <- R6::R6Class(
       hash <- self$mset_value(value, use_cache)
       self$driver$mset_hash(key, namespace, hash, expires_at, notes)
 
-      km <- paste(n$key, n$namespace, sep = ":")
+      km <- paste(key, namespace, sep = ":")
 
       if (use_cache) {
 
