@@ -11,6 +11,13 @@ test_that("set_async", {
   expect_named(m1, c("mirai", "hash"))
   expect_all_true(sapply(m1$mirai, mirai::is_mirai))
 
+  # cached keymeta are available immediately
+  trg <- list(list(expires_at = t0, notes = "async"),
+              list(expires_at = as.POSIXct(NA),
+                   notes = NA_character_))
+
+  expect_equal(sto$mget_keymeta(c("a", "b"), c("objects", "ns2")), trg)
+
   # wait mirai elements to be resolved
   miall <- c(unclass(m1$mirai), unclass(m2$mirai))
   all_resolved <- all(!sapply(miall, mirai::unresolved))
@@ -23,14 +30,9 @@ test_that("set_async", {
   # expect_equal(sto$get("a"), 1)
   # expect_equal(sto$get("b", "ns2"), 2)
 
-  # test cached values
+  # test cached values (note mget/get always goes on db to check if hash exists
+  # so we wait async to complete)
   expect_equal(sto$mget(c("a", "b"), c("objects", "ns2")), list(1, 2))
-
-  trg <- list(list(expires_at = t0, notes = "async"),
-              list(expires_at = as.POSIXct(NA),
-  notes = NA_character_))
-
-  expect_equal(sto$mget_keymeta(c("a", "b"), c("objects", "ns2")), trg)
 
   # test key/keymeta are saved on disk
   expect_equal(sto$mget(c("a", "b"), c("objects", "ns2"), use_cache = FALSE), list(1, 2))
@@ -70,6 +72,7 @@ test_that("set_async", {
 
   })
 
+
 test_that("mset_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
@@ -82,6 +85,13 @@ test_that("mset_async", {
   expect_named(m1, c("mirai", "hash"))
   expect_all_true(sapply(m1$mirai, mirai::is_mirai))
 
+
+  # test cached keymeta
+  trg <- list(list(expires_at = t0, notes = "async1"),
+              list(expires_at = t0, notes = "async2"))
+
+  expect_equal(sto$mget_keymeta(c("a", "b"), c("ns1", "ns2")), trg)
+
   # wait mirai elements to be resolved
   miall <- unclass(m1$mirai)
   all_resolved <- all(!sapply(miall, mirai::unresolved))
@@ -93,11 +103,6 @@ test_that("mset_async", {
 
   # test cached values
   expect_equal(sto$mget(c("a", "b"), c("ns1", "ns2")), list(1, 2))
-
-  trg <- list(list(expires_at = t0, notes = "async1"),
-              list(expires_at = t0, notes = "async2"))
-
-  expect_equal(sto$mget_keymeta(c("a", "b"), c("ns1", "ns2")), trg)
 
   # test key/keymeta are saved on disk
   expect_equal(sto$mget(c("a", "b"), c("ns1", "ns2"), use_cache = FALSE), list(1, 2))
