@@ -1,7 +1,11 @@
-
-
-# TODO: need get_note/expiry (.get_meta with cache mechanism)
-
+#' @title Generate a `TileDBStorr` Object
+#'
+#' @description An R6 class that represent a TileDB storr.
+#'
+#' @returns A `TileDBStorr`, `R6` object.
+#'
+#' @export
+#'
 TileDBStorr <- R6::R6Class(
   classname = "TileDBStorr",
   inherit = R6_storr,
@@ -253,8 +257,6 @@ TileDBStorr <- R6::R6Class(
         # will retrieve the old value
         remhash(self$envir_metadata, km)
       }
-
-      #m1[]
 
       invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
 
@@ -1018,6 +1020,244 @@ TileDBStorr <- R6::R6Class(
       }
 
       invisible(km)
+    },
+
+    #' @description Set key metadata asynchronously.
+    #'
+    #'
+    #' @param key The key name to set metadata values to.
+    #' @param namespace The namespace to look the key within.
+    #' @param expires_at The date-time to set of class `POSIXct` (optional).
+    #' @param notes A scalar string with notes to set (optional).
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
+    #' @param cfg Pass a [tiledb::config()]object to override context's
+    #'  configuration.
+    #'
+    #'
+    #' @return A named list with two elements (invisibly):
+    #'
+    #'  - `mirai`: a mirai object
+    #'  - `keyns`: The `key:namespace` string
+    #'
+    #' NOTE: If both arguments `"expires_at"` and `"notes"` are missing,
+    #' then nothing is set and a zero length character vector is returned.
+    #'
+    set_keymeta_async = function(key,
+                                 namespace = self$default_namespace,
+                                 expires_at,
+                                 notes,
+                                 use_cache = TRUE,
+                                 cfg = NULL) {
+
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n = 1, type = "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- NULL
+      } else {
+        private$check_input(notes, n = 1, type = "character")
+      }
+
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(self$driver$ctx)
+      }
+
+      if (!inherits(cfg, "tiledb_config")){
+        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
+      }
+
+      ns <- .storr_profile
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      },
+      config_params = as.vector(cfg), .compute = ns)
+
+
+      uri <- self$driver$uri
+
+      m1 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+        driver$set_keymeta(key, namespace, expires_at, notes)
+        },
+      uri = uri,
+      key = key,
+      namespace = namespace,
+      expires_at = expires_at,
+      notes = notes, .compute = ns)
+
+      km <- paste(key, namespace, sep = ":")
+
+      if (use_cache) {
+
+        # Update what has changed
+        val <- gethash(self$envir_metadata, km)
+
+        if (is.null(val)) {
+          val <- list(expires_at = as.POSIXct(NA),
+                      notes = NA_character_)
+        }
+
+        if(!is.null(expires_at)) {
+          val[[1]] <- expires_at
+        }
+        if(!is.null(notes)) {
+          val[[2]] <- notes
+        }
+
+        sethash(self$envir_metadata, km, val)
+      } else {
+        # always remove key when use_cache = FALSE
+        # otherwise, when calling get_keymeta from cache
+        # will retrieve the old value
+        remhash(self$envir_metadata, km)
+      }
+
+      invisible(list(mirai = m1,
+                     keyns = km))
+    },
+
+    #' @description Set multiple key metadata.
+    #'
+    #' The arguments `key` and `namespace` can be recycled if any of them is a
+    #' scalar character and the other is a vector. No other recycling rule is
+    #' permitted.
+    #'
+    #' @param key A character vector of keys to set metadata to.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
+    #' @param notes A character vector of notes to set.
+    #' @param use_cache Should the cache be used to retrieve the metadata?
+    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
+    #' be fetched from database. Note that when setting `FALSE`, the cache
+    #' will always be cleared for this key-namespace; this is to avoid mismatch
+    #' between cache and database when reading back  with
+    #' `use_cache = TRUE`.
+    #' @param cfg Pass a [tiledb::config()]object to override context's
+    #'  configuration.
+    #'
+    #' @return A named list with two elements (invisibly):
+    #'
+    #'  - `mirai`: a mirai object
+    #'  - `keyns`: The `key:namespace` character vector of the recycled length
+    #'
+    #' NOTE: If both arguments `"expires_at"` and `"notes"` are missing,
+    #' then nothing is set and a zero length character vector is returned.
+    mset_keymeta_async = function(key,
+                                 namespace = self$default_namespace,
+                                 expires_at,
+                                 notes,
+                                 use_cache = TRUE,
+                                 cfg = NULL) {
+
+      p <-  storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      if (missing(expires_at)) {
+        expires_at <- NULL
+      } else {
+        private$check_input(expires_at, n, "datetime")
+      }
+
+      if (missing(notes)) {
+        notes <- NULL
+      } else {
+        private$check_input(notes, n, "character")
+      }
+
+      if (is.null(notes) && is.null(expires_at)) {
+        return(invisible(character()))
+      }
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(self$driver$ctx)
+      }
+
+      if (!inherits(cfg, "tiledb_config")){
+        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
+      }
+
+      ns <- .storr_profile
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      },
+      config_params = as.vector(cfg), .compute = ns)
+
+
+      uri <- self$driver$uri
+
+      m1 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+        driver$mset_keymeta(key, namespace, expires_at, notes)
+      },
+      uri = uri,
+      key = p$key,
+      namespace = p$namespace,
+      expires_at = expires_at,
+      notes = notes,
+      .compute = ns)
+
+      km <- paste(p$key, p$namespace, sep = ":")
+
+      if (use_cache) {
+
+        lapply(seq_along(km), function(i) {
+
+          # Update what has changed
+          val <- gethash(self$envir_metadata, km[i])
+
+          if (is.null(val)) {
+            val <- list(expires_at = as.POSIXct(NA),
+                        notes = NA_character_)
+          }
+
+          if(!is.null(expires_at)) {
+            val[[1]] <- expires_at[i]
+          }
+          if(!is.null(notes)) {
+            val[[2]] <- notes[i]
+          }
+
+          sethash(self$envir_metadata, km[i], val)
+
+        })
+      } else{
+        # ensure cache for km pairs is removed.
+        # See comments in set_keymeta
+        lapply(seq_along(km), function(i) {
+          remhash(self$envir_metadata, km[i])
+        })
+      }
+
+      invisible(list(mirai = m1,
+                     keyns = km))
     },
 
     #' @description Get key's metadata.
