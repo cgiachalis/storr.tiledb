@@ -526,6 +526,7 @@ TileDBStorr <- R6::R6Class(
         notes <- NA_character_
       }
 
+      private$check_input(namespace, n = 1, type = "character")
       private$check_input(notes, n = 1, type = "character")
       private$check_input(expires_at, n = 1, type = "datetime")
 
@@ -628,6 +629,7 @@ TileDBStorr <- R6::R6Class(
                                    use_cache = TRUE,
                                    cfg = NULL) {
 
+      # TODO: review length and km recycling..
       n <- length(value)
 
       if (missing(expires_at)) {
@@ -640,7 +642,7 @@ TileDBStorr <- R6::R6Class(
 
       private$check_input(notes, n, "character")
       private$check_input(expires_at, n, "datetime")
-      private$check_input(value, n, "value")
+      private$check_input(namespace, n, "character")
 
       private$set_daemons()
 
@@ -690,7 +692,12 @@ TileDBStorr <- R6::R6Class(
             driver$mset_object(hash[upload], values_ser[upload])
           }
 
-        }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
+        },
+        uri = uri,
+        hash = hash,
+        values_ser = values_ser,
+        cached = cached,
+        .compute = ns)
 
 
       } else {
@@ -705,7 +712,11 @@ TileDBStorr <- R6::R6Class(
             driver$mset_object(hash[upload], values_ser[upload])
           }
 
-        }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
+        },
+        uri = uri,
+        hash = hash,
+        values_ser = values_ser,
+        .compute = ns)
       }
 
       if (use_cache) {
@@ -721,7 +732,7 @@ TileDBStorr <- R6::R6Class(
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
 
         # Set info to keys table
-        driver$mset_hash(namespace, hash, expires_at, notes)
+        driver$mset_hash(hash, namespace, hash, expires_at, notes)
 
       },
       uri = uri,
