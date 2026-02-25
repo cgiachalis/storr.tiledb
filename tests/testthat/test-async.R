@@ -10,6 +10,7 @@ test_that("set_async", {
 
   expect_named(m1, c("mirai", "hash"))
   expect_all_true(sapply(m1$mirai, mirai::is_mirai))
+  expect_equal(m1$hash, "632336c518ae1c89ecf26ae5fbec5860")
 
   # cached keymeta are available immediately
   trg <- list(list(expires_at = t0, notes = "async"),
@@ -207,6 +208,7 @@ test_that("set_by_value_async", {
 
 })
 
+
 test_that("mset_by_value_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
@@ -277,5 +279,77 @@ test_that("mset_by_value_async", {
                class = "error")
 
 
-
 })
+
+
+test_that("set_keymeta_async", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  # set a key with default metadata
+  sto$set("x", 1)
+
+  trg <- "x:objects"
+
+  # set keymeta (update both expires_at and notes)
+  trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
+  expect_no_error(m1 <- sto$set_keymeta_async("x", expires_at = trgval$expires_at,
+                                              notes = trgval$notes
+  ))
+
+  expect_named(m1, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m1$mirai))
+
+  expect_equal(sto$get_keymeta("x"), trgval)
+
+  # wait mirai elements to be resolved
+  miall <- m1$mirai
+  all_resolved <- !mirai::unresolved(miall)
+
+  while (!all_resolved) {
+    all_resolved <- !mirai::unresolved(miall)
+  }
+
+  expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
+
+
+  # check assertions
+  expect_error(sto$set_keymeta_async("y", namespace = "ns2", notes = "nokey"),
+               "key 'y' ('ns2') not found",
+               fixed = TRUE,
+               class = "KeyError")
+
+
+  expect_error(sto$set_keymeta_async(c("x", "y")),
+               "'key' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$set_keymeta_async("x", c("ns1", "ns2")),
+               "'namespace' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+
+  expect_error(sto$set_keymeta_async("x", expires_at = 1),
+               "'expires_at' should be a date-time object, not numeric",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$set_keymeta_async("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
+               "'expires_at' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$set_keymeta_async("x", notes = 1),
+               "'notes' should be a character string, not numeric",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$set_keymeta_async("x", notes = c("a", "v")),
+               "'notes' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+  })

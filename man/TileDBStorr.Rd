@@ -7,7 +7,7 @@
 A \code{TileDBStorr}, \code{R6} object.
 }
 \description{
-An R6 class for creating a TileDB storr.
+An R6 class that represent a TileDB storr.
 }
 \section{Super class}{
 \code{\link[storr:storr]{storr::storr}} -> \code{TileDBStorr}
@@ -39,7 +39,7 @@ An R6 class for creating a TileDB storr.
 \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
 \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
 \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
-\item \href{#method-TileDBStorr-mset_keymeta_aync}{\code{TileDBStorr$mset_keymeta_aync()}}
+\item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
@@ -441,16 +441,16 @@ then nothing is set and a zero length character vector is returned.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-mset_keymeta_aync"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta_aync}{}}}
-\subsection{Method \code{mset_keymeta_aync()}}{
+\if{html}{\out{<a id="method-TileDBStorr-mset_keymeta_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta_async}{}}}
+\subsection{Method \code{mset_keymeta_async()}}{
 Set multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is
 permitted.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta_aync(key, namespace = self$default_namespace,
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
 }
 

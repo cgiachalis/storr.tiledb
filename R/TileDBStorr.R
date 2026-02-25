@@ -1072,6 +1072,11 @@ TileDBStorr <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
+      # Perform early check for checking if key exists
+      if (!self$exists(key, namespace)) {
+        stop(KeyError(key, namespace))
+      }
+
       if (missing(expires_at)) {
         expires_at <- NULL
       } else {
@@ -1119,7 +1124,8 @@ TileDBStorr <- R6::R6Class(
       key = key,
       namespace = namespace,
       expires_at = expires_at,
-      notes = notes, .compute = ns)
+      notes = notes,
+      .compute = ns)
 
       km <- paste(key, namespace, sep = ":")
 
