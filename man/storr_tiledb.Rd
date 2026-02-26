@@ -7,7 +7,7 @@
 \title{TileDB Storr Driver}
 \usage{
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
-  init = FALSE, ...)
+  init = FALSE, async = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
   context = NULL)
@@ -20,6 +20,8 @@ driver_tiledb(uri, context = NULL, init = FALSE, ...)
 \item{context}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
 
 \item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
+
+\item{async}{Should be mirai daemons be enabled?}
 
 \item{...}{Other arguments passed to driver's create method when \code{init=TRUE}.
 Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}

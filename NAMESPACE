@@ -2,6 +2,7 @@
 
 export(CAS)
 export(TileDBDriver)
+export(TileDBStorr)
 export(driver_tiledb)
 export(driver_tiledb_create)
 export(storr_tiledb)
