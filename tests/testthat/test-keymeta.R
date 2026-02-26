@@ -307,4 +307,15 @@ test_that("mset_keymeta", {
                fixed = TRUE,
                class = "error")
 
+  expect_error(sto$mset_keymeta("x", notes = 1),
+               "'notes' should be a character string, not numeric",
+               fixed = TRUE,
+               class = "error")
+
+
+  expect_error(sto$mset_keymeta("x", expires_at = "a"),
+               "'expires_at' should be a date-time object, not character",
+               fixed = TRUE,
+               class = "error")
+
   })
