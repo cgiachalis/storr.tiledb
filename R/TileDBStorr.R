@@ -1194,6 +1194,14 @@ TileDBStorr <- R6::R6Class(
       p <-  storr::join_key_namespace(key, namespace)
       n <- p$n
 
+      # Perform early check
+      status <- !self$exists(p$key, p$namespace)
+
+      if (any(status)) {
+        stop(KeyError(paste(p$key[status], collapse = ","),
+                      paste(p$namespace[status], collapse = ",")))
+      }
+
       if (missing(expires_at)) {
         expires_at <- NULL
       } else {
