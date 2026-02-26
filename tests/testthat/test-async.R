@@ -290,8 +290,6 @@ test_that("set_keymeta_async", {
   # set a key with default metadata
   sto$set("x", 1)
 
-  trg <- "x:objects"
-
   # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
   expect_no_error(m1 <- sto$set_keymeta_async("x", expires_at = trgval$expires_at,
@@ -300,6 +298,7 @@ test_that("set_keymeta_async", {
 
   expect_named(m1, c("mirai", "keyns"))
   expect_true( mirai::is_mirai(m1$mirai))
+  expect_equal(m1$keyns, "x:objects")
 
   expect_equal(sto$get_keymeta("x"), trgval)
 
@@ -353,3 +352,83 @@ test_that("set_keymeta_async", {
                class = "error")
 
   })
+
+
+test_that("mset_keymeta_async", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  # set a key with default metadata
+  sto$mset(c("x", "y"), c(1, 2))
+
+  trg <- "x:objects"
+
+  # set keymeta (update both expires_at and notes)
+  trgval <- list(list(expires_at = as.POSIXct(1), notes = "😀"),
+                 list(expires_at = as.POSIXct(NA), notes = NA_character_))
+
+  expect_no_error(m1 <- sto$mset_keymeta_async(c("x", "y"),
+                                              expires_at = c(as.POSIXct(1),
+                                                             as.POSIXct(NA)),
+                                              notes = c("😀", NA_character_)))
+
+  expect_named(m1, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m1$mirai))
+  expect_equal(m1$keyns, c("x:objects", "y:objects"))
+
+  expect_equal(sto$mget_keymeta(c("x", "y")), trgval)
+
+  # wait mirai elements to be resolved
+  miall <- m1$mirai
+  all_resolved <- !mirai::unresolved(miall)
+
+  while (!all_resolved) {
+    all_resolved <- !mirai::unresolved(miall)
+  }
+
+  expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trgval,
+               ignore_attr = TRUE)
+
+
+  # check assertions
+  expect_error(sto$mset_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
+               "key 'v' ('objects') not found",
+               fixed = TRUE,
+               class = "KeyError")
+
+
+  # test key-namespace not found
+  expect_error(sto$mset_keymeta_async(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
+               "key 'x1,v' ('obj1,obj2') not found",
+               fixed = TRUE,
+               class = "error")
+
+  # check key-namespace for incompatibility
+  expect_error(sto$mset_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
+               "Incompatible lengths for key and namespace",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mset_keymeta_async("x", notes = 1),
+               "'notes' should be a character string, not numeric",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mset_keymeta_async("x", notes = c("a", "b")),
+               "'notes' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mset_keymeta_async("x", expires_at = "a"),
+               "'expires_at' should be a date-time object, not character",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mset_keymeta_async("x", expires_at = rep(as.POSIXct(NA), 3)),
+               "'expires_at' must have 1 elements (recieved 3)",
+               fixed = TRUE,
+               class = "error")
+
+
+})
