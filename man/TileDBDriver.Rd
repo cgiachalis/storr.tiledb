@@ -433,7 +433,7 @@ Check a serialised object exists.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A character vector with hash values.}
+\item{\code{hash}}{A vector with hash values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -475,7 +475,7 @@ Delete serialised objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A character vector with hash values.}
+\item{\code{hash}}{A vector with hash values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -521,7 +521,7 @@ List keys given a namespace.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A namespace value.}
+\item{\code{namespace}}{A single character namespace.}
 }
 \if{html}{\out{</div>}}
 }

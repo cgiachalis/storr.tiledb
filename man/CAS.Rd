@@ -157,12 +157,15 @@ Query 'tbl_keys' array
 
 \item{\code{namespace}}{A character vector with namespaces.}
 
-\item{\code{attrname}}{Attribute name.}
+\item{\code{attrname}}{The attribute name (column), either
+\code{hash}, \code{expires_at} or \code{notes}}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A vector.
+A vector of recycled length (key,namespace pair) with
+attribute values. When a pair is not found, the value is set
+to \code{NA}.
 }
 }
 \if{html}{\out{<hr>}}
