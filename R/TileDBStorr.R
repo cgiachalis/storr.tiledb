@@ -64,19 +64,38 @@ TileDBStorr <- R6::R6Class(
     },
 
 
-
-    # start ---
-
-    # STATUS: DONE
+    #' @description Flush the cache of `R` objects.
+    #'
+    #' It removes all items from the hash tables (R objects and
+    #' their metadata).
+    #'
+    #' @return The object, invisibly.
+    #'
     flush_cache = function() {
       clrhash(self$envir)
       clrhash(self$envir_metadata)
+
+      invisible(self)
     },
 
-    # STATUS: DONE
-    # TODO: add async option (send to set_async)
-    set = function(key, value, namespace = self$default_namespace,
-                   expires_at, notes, use_cache = TRUE) {
+    #' @description Set a key value pair.
+    #'
+    #'
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The hash value, invisibly.
+    #'
+    set = function(key,
+                   value,
+                   namespace = self$default_namespace,
+                   expires_at,
+                   notes,
+                   use_cache = TRUE) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -110,9 +129,25 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
-    # STATUS: DONE
-    mset = function(key, value, namespace = self$default_namespace,
-                    expires_at, notes, use_cache = TRUE) {
+    #' @description Set multiple key value pairs.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param value `r sto_value(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return A vector of hash values, invisibly.
+    #'
+    mset = function(key,
+                    value,
+                    namespace = self$default_namespace,
+                    expires_at,
+                    notes,
+                    use_cache = TRUE) {
 
       p <- storr::join_key_namespace(key, namespace)
       n <- p$n
@@ -155,21 +190,20 @@ TileDBStorr <- R6::R6Class(
     },
 
 
-    #' @description Set a key value asynchronously.
+    #' @description Set a key value pair asynchronously.
     #'
     #'
-    #' @param key The key name to set a value to.
-    #' @param namespace The namespace to look the key within.
-    #' @param expires_at The date-time to set of class `POSIXct` (optional).
-    #' @param notes A scalar string with notes to set (optional).
-    #' @param use_cache Should the key value be copied into cache?
-    #' Default is `TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
     #'
-    #' @return A named list with two elements:
+    #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two mirai objects
+    #'  - `mirai`: a named list of two [mirai()] objects
     #'  - `hash`: the hash value
     #'
     set_async = function(key,
@@ -265,24 +299,21 @@ TileDBStorr <- R6::R6Class(
 
     },
 
-    #' @description Set multiple key values asynchronously.
+    #' @description Set multiple key value pairs asynchronously.
     #'
-    #' The arguments `key` and `namespace` can be recycled if any of them is a
-    #' scalar character and the other is a vector. No other recycling rule is
-    #' permitted.
+    #' `r sto_recycle_note`
     #'
-    #' @param key A character vector of keys to set metadata to.
-    #' @param namespace A character vector of namespaces to look the keys within.
-    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
-    #' @param notes A character vector of notes to set.
-    #' @param use_cache Should the key values be copied into cache?
-    #' Default is `TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param key `r sto_key(1)`
+    #' @param value `r sto_value(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
     #'
-    #' @return A named list with two elements:
+    #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two mirai objects
+    #'  - `mirai`: a named list of two [mirai()] objects
     #'  - `hash`: a vector with hash values
     #'
     mset_async = function(key,
@@ -420,7 +451,17 @@ TileDBStorr <- R6::R6Class(
       invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
     },
 
-    # STATUS: DONE
+    #' @description Set a key value pair using its hash as key.
+    #'
+    #'
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The hash value, invisibly.
+    #'
     set_by_value = function(value,
                             namespace = self$default_namespace,
                             expires_at,
@@ -454,7 +495,18 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
-    # STATUS: DONE
+    #' @description Set multiple key value pairs using their
+    #'  hashes as keys.
+    #'
+    #'
+    #' @param value `r sto_value(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return A vector of hash values, invisibly.
+    #'
     mset_by_value = function(value,
                              namespace = self$default_namespace,
                              expires_at,
@@ -495,20 +547,20 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
-    #' @description Set a value asynchronously.
+    #' @description Set a key value pair using its hash as key,
+    #' asynchronously.
     #'
     #'
-    #' @param namespace The namespace to look the key within.
-    #' @param expires_at The date-time to set of class `POSIXct` (optional).
-    #' @param notes A scalar string with notes to set (optional).
-    #' @param use_cache Should the key value be copied into cache?
-    #' Default is `TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
     #'
-    #' @return A named list with two elements:
+    #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two mirai objects
+    #'  - `mirai`: a named list of two [mirai()] objects
     #'  - `hash`: the hash value
     #'
     set_by_value_async = function(value,
@@ -603,23 +655,21 @@ TileDBStorr <- R6::R6Class(
 
     },
 
-    #' @description Set multiple values asynchronously.
+    #' @description Set multiple key value pairs using their
+    #'  hashes as keys, asynchronously.
     #'
-    #' The arguments `key` and `namespace` can be recycled if any of them is a
-    #' scalar character and the other is a vector. No other recycling rule is
-    #' permitted.
+    #' `r sto_recycle_note`
     #'
-    #' @param namespace A character vector of namespaces to look the keys within.
-    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
-    #' @param notes A character vector of notes to set.
-    #' @param use_cache Should the key values be copied into cache?
-    #' Default is `TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param value `r sto_value(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
     #'
-    #' @return A named list with two elements:
+    #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two mirai objects
+    #'  - `mirai`: a named list of two [mirai()] objects
     #'  - `hash`: a vector with hash values
     #'
     mset_by_value_async = function(value,

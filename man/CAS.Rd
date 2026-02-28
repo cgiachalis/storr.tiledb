@@ -153,9 +153,9 @@ Query 'tbl_keys' array
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
 \item{\code{attrname}}{The attribute name (column), either
 \code{hash}, \code{expires_at} or \code{notes}}
@@ -180,9 +180,9 @@ Filter \code{tbl_keys} by key and namespace
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
 \item{\code{attrnames}}{A character vector with tiledb attributes (columns).}
 }
