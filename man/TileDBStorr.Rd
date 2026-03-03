@@ -12,6 +12,25 @@ An R6 class that represent a TileDB storr.
 \section{Super class}{
 \code{\link[storr:storr]{storr::storr}} -> \code{TileDBStorr}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{driver}}{The TileDB driver.}
+
+\item{\code{envir}}{The object hash table.}
+
+\item{\code{envir_metadata}}{The key metadata hash table.}
+
+\item{\code{default_namespace}}{The default namespace.}
+
+\item{\code{traits}}{Driver traits (\strong{immutable}).}
+
+\item{\code{hash_raw}}{The hash function.}
+
+\item{\code{serialize_object}}{The serialisation function.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -78,10 +97,23 @@ An R6 class that represent a TileDB storr.
 \if{html}{\out{<a id="method-TileDBStorr-new"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-new}{}}}
 \subsection{Method \code{new()}}{
+Initialise \code{TileDBStorr}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$new(driver, default_namespace, async = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{driver}}{A TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+
+\item{\code{default_namespace}}{The default namespace.}
+
+\item{\code{async}}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enable for async
+functions? Default is  \code{FALSE}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-flush_cache"></a>}}
@@ -665,8 +697,7 @@ and \verb{"notes".}
 Get multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
   use_cache = TRUE, missing = NULL)}\if{html}{\out{</div>}}
@@ -682,7 +713,7 @@ permitted.
 \item{\code{use_cache}}{Should it be retrieved from cache? Default is
 \code{TRUE}.}
 
-\item{\code{misssing}}{Fill value for missing keys. Default is \code{NULL}.}
+\item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }

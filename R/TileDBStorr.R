@@ -13,14 +13,41 @@ TileDBStorr <- R6::R6Class(
 
   public = list(
 
+    #' @field driver The TileDB driver.
+    #'
     driver = NULL,
+
+    #' @field envir The object hash table.
+    #'
     envir = NULL,
+
+    #' @field envir_metadata The key metadata hash table.
+    #'
     envir_metadata = NULL,
+
+    #' @field default_namespace The default namespace.
+    #'
     default_namespace = NULL,
+
+    #' @field traits Driver traits (**immutable**).
+    #'
     traits = NULL,
+
+    #' @field hash_raw The hash function.
+    #'
     hash_raw = NULL,
+
+    #' @field serialize_object The serialisation function.
+    #'
     serialize_object = NULL,
 
+    #' @description Initialise `TileDBStorr`.
+    #'
+    #' @param driver A TileDB driver, see [driver_tiledb()].
+    #' @param default_namespace The default namespace.
+    #' @param async Should the [mirai] daemons be enable for async
+    #'  functions? Default is  `FALSE`.
+    #'
     initialize = function(driver, default_namespace, async = FALSE) {
 
       if (!inherits(driver, "TileDBDriver")) {
@@ -1378,15 +1405,13 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get multiple key metadata.
     #'
-    #' The arguments `key` and `namespace` can be recycled if any of them is a
-    #' scalar character and the other is a vector. No other recycling rule is
-    #' permitted.
+    #' `r sto_recycle_note`
     #'
     #' @param key A character vector with keys to get metadata values from.
     #' @param namespace A character vector of namespaces to look the keys within.
     #' @param use_cache Should it be retrieved from cache? Default is
     #'  `TRUE`.
-    #' @param misssing Fill value for missing keys. Default is `NULL`.
+    #' @param missing Fill value for missing keys. Default is `NULL`.
     #'
     #' @return A list with key metadata for each key-namespace
     #' pair. For not found pairs will return the `missing` value.
