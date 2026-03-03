@@ -812,7 +812,15 @@ TileDBStorr <- R6::R6Class(
       invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
     },
 
-    # STATUS: DONE
+    #' @description Add an R object. The key will be the hash value
+    #' of the object.
+    #'
+    #'
+    #' @param value `r sto_value()`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The hash value, invisibly.
+    #'
     set_value = function(value, use_cache = TRUE) {
 
       value_ser <- self$serialize_object(value)
@@ -831,7 +839,15 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
-    # STATUS: DONE
+    #' @description Add a vector of R objects. The keys will be the hash
+    #'  values of the objects.
+    #'
+    #'
+    #' @param values `r sto_value(1)`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return A vector of hash values, invisibly.
+    #'
     mset_value = function(values, use_cache = TRUE) {
 
       values_ser <- lapply(values, self$serialize_object)
@@ -864,7 +880,14 @@ TileDBStorr <- R6::R6Class(
     },
 
 
-    # STATUS: DONE
+    #' @description Get an object given its hash.
+    #'
+    #'
+    #' @param hash The hash value of the object.
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The `R` object if available.
+    #'
     get_value = function(hash, use_cache = TRUE) {
 
       envir <- self$envir
@@ -890,7 +913,15 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
-    # STATUS: DONE
+    #' @description Get multiple objects given their hashes.
+    #'
+    #'
+    #' @param hash A vector of hash values."
+    #' @param use_cache `r sto_cache`
+    #' @param missing Value to use for missing elements.
+    #'
+    #' @return A list of `R` objects.
+    #'
     mget_value = function(hash, use_cache = TRUE, missing = NULL) {
 
       envir <- self$envir
@@ -930,17 +961,11 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set key metadata.
     #'
-    #'
-    #' @param key The key name to set metadata values to.
-    #' @param namespace The namespace to look the key within.
-    #' @param expires_at The date-time to set of class `POSIXct` (optional).
-    #' @param notes A scalar string with notes to set (optional).
-    #' @param use_cache Should the cache be used to retrieve the metadata?
-    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
-    #' be fetched from database. Note that when setting `FALSE`, the cache
-    #' will always be cleared for this key-namespace; this is to avoid mismatch
-    #' between cache and database when reading back  with
-    #' `use_cache = TRUE`.
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache_meta`
     #'
     #'
     #' @return The `key:namespace` string, invisibly. If both arguments
@@ -1006,20 +1031,14 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key metadata.
     #'
-    #' The arguments `key` and `namespace` can be recycled if any of them is a
-    #' scalar character and the other is a vector. No other recycling rule is
-    #' permitted.
+    #' `r sto_recycle_note`
     #'
-    #' @param key A character vector of keys to set metadata to.
-    #' @param namespace A character vector of namespaces to look the keys within.
-    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
-    #' @param notes A character vector of notes to set.
-    #' @param use_cache Should the cache be used to retrieve the metadata?
-    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
-    #' be fetched from database. Note that when setting `FALSE`, the cache
-    #' will always be cleared for this key-namespace; this is to avoid mismatch
-    #' between cache and database when reading back  with
-    #' `use_cache = TRUE`.
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache_meta`
+    #'
     #'
     #' @return The `key:namespace` character vector of the recycled length,
     #' invisibly. If both arguments `"expires_at"` and `"notes"` are missing,
@@ -1089,18 +1108,12 @@ TileDBStorr <- R6::R6Class(
     #' @description Set key metadata asynchronously.
     #'
     #'
-    #' @param key The key name to set metadata values to.
-    #' @param namespace The namespace to look the key within.
-    #' @param expires_at The date-time to set of class `POSIXct` (optional).
-    #' @param notes A scalar string with notes to set (optional).
-    #' @param use_cache Should the cache be used to retrieve the metadata?
-    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
-    #' be fetched from database. Note that when setting `FALSE`, the cache
-    #' will always be cleared for this key-namespace; this is to avoid mismatch
-    #' between cache and database when reading back  with
-    #' `use_cache = TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #' @param expires_at `r sto_expires()`
+    #' @param notes `r sto_notes()`
+    #' @param use_cache `r sto_cache_meta`
+    #' @param cfg `r sto_cfg`
     #'
     #'
     #' @return A named list with two elements (invisibly):
@@ -1210,22 +1223,14 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key metadata.
     #'
-    #' The arguments `key` and `namespace` can be recycled if any of them is a
-    #' scalar character and the other is a vector. No other recycling rule is
-    #' permitted.
+    #' `r sto_recycle_note`
     #'
-    #' @param key A character vector of keys to set metadata to.
-    #' @param namespace A character vector of namespaces to look the keys within.
-    #' @param expires_at A vector of date-times to set. Must be of class `POSIXct`.
-    #' @param notes A character vector of notes to set.
-    #' @param use_cache Should the cache be used to retrieve the metadata?
-    #' Default is `TRUE`. If a key:namespace not found in the cache, it will
-    #' be fetched from database. Note that when setting `FALSE`, the cache
-    #' will always be cleared for this key-namespace; this is to avoid mismatch
-    #' between cache and database when reading back  with
-    #' `use_cache = TRUE`.
-    #' @param cfg Pass a [tiledb::config()]object to override context's
-    #'  configuration.
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param expires_at `r sto_expires(1)`
+    #' @param notes `r sto_notes(1)`
+    #' @param use_cache `r sto_cache_meta`
+    #' @param cfg `r sto_cfg`
     #'
     #' @return A named list with two elements (invisibly):
     #'
@@ -1349,7 +1354,6 @@ TileDBStorr <- R6::R6Class(
     #' @return A named list with the key-metadata: `"expires_at"`
     #' and `"notes".`
     #'
-    #'
     get_keymeta = function(key,
                            namespace = self$default_namespace,
                            use_cache = TRUE) {
@@ -1457,6 +1461,12 @@ TileDBStorr <- R6::R6Class(
 
     # STATUS: DONE
     # storr reports back the number of deleted keys
+    #' @description Clear a storr.
+    #'
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return The number of deleted namespaces.
+    #'
     clear = function(namespace = self$default_namespace){
 
       if (!.is_character(namespace) & !is.null(namespace)) {
@@ -1468,7 +1478,15 @@ TileDBStorr <- R6::R6Class(
       self$driver$delete_namespaces(namespace)
     },
 
-    # STATUS: DONE
+    #' @description Garbage collect the storr.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #'
+    #' @return A vector of deleted hashes, invisibly.
+    #'
     del = function(key, namespace = self$default_namespace) {
 
       n <- storr::join_key_namespace(key, namespace)
@@ -1495,7 +1513,11 @@ TileDBStorr <- R6::R6Class(
       invisible(deleted_hashes)
     },
 
-    # STATUS: DONE
+    #' @description Garbage collect the storr.
+    #'
+    #'
+    #' @return A vector of unused hashes, invisibly.
+    #'
     gc = function() {
 
       # Deletes the objects in 'tbl_data'

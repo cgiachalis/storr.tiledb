@@ -50,6 +50,13 @@ sto_notes <-function(n = 0) {
 }
 
 sto_cache <- "Should the cache be used? Default is `TRUE`."
+sto_cache_meta <- "Should the cache be used to retrieve the metadata?
+    Default is `TRUE`. If a key:namespace not found in the cache, it will
+    be fetched from database. Note that when setting `FALSE`, the cache
+    will always be cleared for this key-namespace; this is to avoid mismatch
+    between cache and database when reading back  with
+    `use_cache = TRUE`."
+
 
 sto_cfg <- "Pass a [tiledb::config()] object to override context's configuration."
 
