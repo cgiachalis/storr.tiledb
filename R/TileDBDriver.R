@@ -13,6 +13,7 @@
 #'
 #' @export
 #'
+#' @keywords internal
 TileDBDriver <- R6::R6Class(
   classname = "TileDBDriver",
   inherit = CAS,

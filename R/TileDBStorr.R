@@ -6,6 +6,8 @@
 #'
 #' @export
 #'
+#' @keywords internal
+#'
 TileDBStorr <- R6::R6Class(
   classname = "TileDBStorr",
   inherit = R6_storr,

@@ -9,6 +9,7 @@ A \code{TileDBStorr}, \code{R6} object.
 \description{
 An R6 class that represent a TileDB storr.
 }
+\keyword{internal}
 \section{Super class}{
 \code{\link[storr:storr]{storr::storr}} -> \code{TileDBStorr}
 }

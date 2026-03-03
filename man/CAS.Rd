@@ -9,6 +9,7 @@ A \code{CAS} object.
 \description{
 An R6 class for creating a content addressable storage.
 }
+\keyword{internal}
 \section{Super classes}{
 \code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{CAS}
 }

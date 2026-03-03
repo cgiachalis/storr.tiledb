@@ -8,6 +8,9 @@
 #' @returns A `CAS` object.
 #'
 #' @export
+#'
+#' @keywords internal
+#'
 CAS <- R6::R6Class(
   inherit = TileDBGroup,
   classname = "CAS",
