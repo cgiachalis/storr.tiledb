@@ -7,7 +7,18 @@
 A \code{TileDBStorr}, \code{R6} object.
 }
 \description{
-An R6 class that represent a TileDB storr.
+An R6 class that represents a TileDB storr.
+
+This is a subclass of \code{storr} class from \code{storr} package that is
+designed to work with a TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.
+
+\code{TileDBStorr} overwrites some of its parent class methods to take
+advantage the functionality of the underlying back-end and also to
+accommodate for the unique features: asynchronous writes and key
+metadata (\code{notes}, \code{expires_at}).
+
+This class is not intended to be used directly and the preferred
+usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 }
 \keyword{internal}
 \section{Super class}{
@@ -24,7 +35,7 @@ An R6 class that represent a TileDB storr.
 
 \item{\code{default_namespace}}{The default namespace.}
 
-\item{\code{traits}}{Driver traits (\strong{immutable}).}
+\item{\code{traits}}{Driver traits.}
 
 \item{\code{hash_raw}}{The hash function.}
 
@@ -110,7 +121,7 @@ Initialise \code{TileDBStorr}.
 
 \item{\code{default_namespace}}{The default namespace.}
 
-\item{\code{async}}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enable for async
+\item{\code{async}}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
 functions? Default is  \code{FALSE}.}
 }
 \if{html}{\out{</div>}}
@@ -229,7 +240,9 @@ Set a key value pair asynchronously.
 \subsection{Returns}{
 Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
 }
@@ -269,7 +282,9 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \subsection{Returns}{
 Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
 }
@@ -364,7 +379,9 @@ asynchronously.
 \subsection{Returns}{
 Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
 }
@@ -403,7 +420,9 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \subsection{Returns}{
 Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
 }
@@ -614,7 +633,7 @@ A named list with two elements (invisibly):
 \item \code{keyns}: The \code{key:namespace} string
 }
 
-NOTE: If both arguments \code{"expires_at"} and \code{"notes"} are missing,
+If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
 }
 }
@@ -660,7 +679,7 @@ A named list with two elements (invisibly):
 \item \code{keyns}: The \code{key:namespace} character vector of the recycled length
 }
 
-NOTE: If both arguments \code{"expires_at"} and \code{"notes"} are missing,
+If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
 }
 }
@@ -735,7 +754,8 @@ Clear a storr.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A scalar character of namespace name.}
+\item{\code{namespace}}{A scalar character of namespace name or \code{NULL} to
+clear all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -747,7 +767,7 @@ The number of deleted namespaces.
 \if{html}{\out{<a id="method-TileDBStorr-del"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-del}{}}}
 \subsection{Method \code{del()}}{
-Garbage collect the storr.
+Delete an object from the storr.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
@@ -765,7 +785,8 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A vector of deleted hashes, invisibly.
+A logical vector indicating which key-namespace pair was
+deleted, invisibly.
 }
 }
 \if{html}{\out{<hr>}}

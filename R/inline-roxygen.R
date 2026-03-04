@@ -1,3 +1,6 @@
+# NOTE: This file has utilities for R6 documentation inheritance and
+#       will not be included in the R package (i.e., listed in .Rbuildignore)
+
 # TileDBDriver
 roxy_key <- "A character vector of keys."
 roxy_namespace <- "A character vector of namespaces."

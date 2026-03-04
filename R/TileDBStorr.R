@@ -1,6 +1,17 @@
 #' @title Generate a `TileDBStorr` Object
 #'
-#' @description An R6 class that represent a TileDB storr.
+#' @description An R6 class that represents a TileDB storr.
+#'
+#' This is a subclass of `storr` class from `storr` package that is
+#' designed to work with a TileDB driver, see [driver_tiledb()].
+#'
+#' `TileDBStorr` overwrites some of its parent class methods to take
+#' advantage the functionality of the underlying back-end and also to
+#' accommodate for the unique features: asynchronous writes and key
+#' metadata (`notes`, `expires_at`).
+#'
+#' This class is not intended to be used directly and the preferred
+#' usage is through [storr_tiledb()].
 #'
 #' @returns A `TileDBStorr`, `R6` object.
 #'
@@ -31,7 +42,7 @@ TileDBStorr <- R6::R6Class(
     #'
     default_namespace = NULL,
 
-    #' @field traits Driver traits (**immutable**).
+    #' @field traits Driver traits.
     #'
     traits = NULL,
 
@@ -47,7 +58,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @param driver A TileDB driver, see [driver_tiledb()].
     #' @param default_namespace The default namespace.
-    #' @param async Should the [mirai] daemons be enable for async
+    #' @param async Should the [mirai] daemons be enabled for async
     #'  functions? Default is  `FALSE`.
     #'
     initialize = function(driver, default_namespace, async = FALSE) {
@@ -232,7 +243,9 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two [mirai()] objects
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
     #'  - `hash`: the hash value
     #'
     set_async = function(key,
@@ -281,7 +294,7 @@ TileDBStorr <- R6::R6Class(
       hash <- self$hash_raw(value_ser)
 
       # Step 1: store and cache object if needed
-      m1 <- "none"
+      m1 <- TRUE
       if (!(use_cache && exists0(hash, self$envir))) {
 
         uri <- self$driver$uri
@@ -342,7 +355,9 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two [mirai()] objects
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
     #'  - `hash`: a vector with hash values
     #'
     mset_async = function(key,
@@ -401,7 +416,7 @@ TileDBStorr <- R6::R6Class(
       uri <- self$driver$uri
 
       # Step 1: store and cache object if needed
-      m1 <- "none"
+      m1 <- TRUE
 
       if (use_cache) {
 
@@ -589,7 +604,9 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two [mirai()] objects
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
     #'  - `hash`: the hash value
     #'
     set_by_value_async = function(value,
@@ -635,7 +652,7 @@ TileDBStorr <- R6::R6Class(
       hash <- self$hash_raw(value_ser)
 
       # Step 1: store and cache object if needed
-      m1 <- "none"
+      m1 <- TRUE
       if (!(use_cache && exists0(hash, self$envir))) {
 
         uri <- self$driver$uri
@@ -698,7 +715,9 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return Invisibly, a named list with two elements:
     #'
-    #'  - `mirai`: a named list of two [mirai()] objects
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
     #'  - `hash`: a vector with hash values
     #'
     mset_by_value_async = function(value,
@@ -754,7 +773,7 @@ TileDBStorr <- R6::R6Class(
       uri <- self$driver$uri
 
       # Step 1: store and cache object if needed
-      m1 <- "none"
+      m1 <- TRUE
 
       if (use_cache) {
 
@@ -1150,7 +1169,7 @@ TileDBStorr <- R6::R6Class(
     #'  - `mirai`: a mirai object
     #'  - `keyns`: The `key:namespace` string
     #'
-    #' NOTE: If both arguments `"expires_at"` and `"notes"` are missing,
+    #' If both arguments `"expires_at"` and `"notes"` are missing,
     #' then nothing is set and a zero length character vector is returned.
     #'
     set_keymeta_async = function(key,
@@ -1266,7 +1285,7 @@ TileDBStorr <- R6::R6Class(
     #'  - `mirai`: a mirai object
     #'  - `keyns`: The `key:namespace` character vector of the recycled length
     #'
-    #' NOTE: If both arguments `"expires_at"` and `"notes"` are missing,
+    #' If both arguments `"expires_at"` and `"notes"` are missing,
     #' then nothing is set and a zero length character vector is returned.
     mset_keymeta_async = function(key,
                                  namespace = self$default_namespace,
@@ -1490,7 +1509,8 @@ TileDBStorr <- R6::R6Class(
     # storr reports back the number of deleted keys
     #' @description Clear a storr.
     #'
-    #' @param namespace `r sto_namespace()`
+    #' @param namespace A scalar character of namespace name or `NULL` to
+    #' clear all namespaces.
     #'
     #' @return The number of deleted namespaces.
     #'
@@ -1505,14 +1525,15 @@ TileDBStorr <- R6::R6Class(
       self$driver$delete_namespaces(namespace)
     },
 
-    #' @description Garbage collect the storr.
+    #' @description Delete an object from the storr.
     #'
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
     #' @param namespace `r sto_namespace(1)`
     #'
-    #' @return A vector of deleted hashes, invisibly.
+    #' @return A logical vector indicating which key-namespace pair was
+    #' deleted, invisibly.
     #'
     del = function(key, namespace = self$default_namespace) {
 
