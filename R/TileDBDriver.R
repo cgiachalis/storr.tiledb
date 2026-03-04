@@ -13,6 +13,7 @@
 #'
 #' @export
 #'
+#' @keywords internal
 TileDBDriver <- R6::R6Class(
   classname = "TileDBDriver",
   inherit = CAS,
@@ -59,8 +60,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get hash values.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
     #'
     #' @return A vector of hashes.
     #'
@@ -82,8 +83,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get hash values.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
     #'
     #' @return A vector of hashes.
     #'
@@ -95,11 +96,11 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Set hash values.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
-    #' @param hash A vector with hash values.
-    #' @param expires_at A vector with expiration datetimes.
-    #' @param notes A character vector with notes.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
+    #' @param hash `r roxy_hash`
+    #' @param expires_at `r roxy_expires`
+    #' @param notes `r roxy_notes`
     #'
     #' @return `TRUE` for successful operation, invisibly.
     #'
@@ -111,11 +112,11 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Set hash values.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
-    #' @param hash A vector with hash values.
-    #' @param expires_at A vector with expiration datetimes.
-    #' @param notes A character vector with notes.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
+    #' @param hash `r roxy_hash`
+    #' @param expires_at `r roxy_expires`
+    #' @param notes `r roxy_notes`
     #'
     #' @return `TRUE` for successful operation, invisibly.
     #'
@@ -177,7 +178,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get a list R objects given a hash vector.
     #'
-    #' @param hash A vector with hash values.
+    #' @param hash `r roxy_hash`
     #'
     #' @return A list with de-serialized R objects.
     #'
@@ -229,7 +230,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Store serialised R objects.
     #'
-    #' @param hash A vector with hash values.
+    #' @param hash `r roxy_hash`
     #' @param value A vector with serialised values.
     #'
     #' @return `TRUE` for successful operation, invisibly.
@@ -245,7 +246,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Store serialised R objects.
     #'
-    #' @param hash A vector with hash values.
+    #' @param hash `r roxy_hash`
     #' @param value A vector with serialised values.
     #'
     #' @return `TRUE` for successful operation, invisibly.
@@ -275,10 +276,10 @@ TileDBDriver <- R6::R6Class(
     #'
     #' Sets a pair of expiry date-time and notes.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
-    #' @param expires_at A vector with expiration datetimes.
-    #' @param notes A character vector with notes.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
+    #' @param expires_at `r roxy_expires`
+    #' @param notes `r roxy_notes`
     #'
     #' @return `TRUE` for successful operation, invisibly.
     #'
@@ -310,10 +311,10 @@ TileDBDriver <- R6::R6Class(
     #'
     #' Sets a pair of expiry date-time and notes.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
-    #' @param expires_at A vector with expiration datetimes.
-    #' @param notes A character vector with notes.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
+    #' @param expires_at `r roxy_expires`
+    #' @param notes `r roxy_notes`
     #'
     #' @return `TRUE` for successful operation, invisibly.
     #'
@@ -382,8 +383,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get multiple key-namespace metadata.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
     #' @param nomatch Value to fill in case of no match.
     #'
     #' @return A list with key metadata for each key-namespace
@@ -432,8 +433,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Check a key-namespace pair exists.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
     #'
     #' @return A logical vector.
     #'
@@ -463,7 +464,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Check a serialised object exists.
     #'
-    #' @param hash A character vector with hash values.
+    #' @param hash `r roxy_hash`
     #'
     #' @return A logical vector.
     #'
@@ -494,8 +495,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Delete a key/namespace pair.
     #'
-    #' @param key A character vector with keys.
-    #' @param namespace A character vector with namespaces.
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
     #'
     #' @return A logical vector.
     #'
@@ -546,7 +547,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Delete serialised objects.
     #'
-    #' @param hash A character vector with hash values.
+    #' @param hash `r roxy_hash`
     #'
     #' @return A logical vector.
     #'
@@ -625,7 +626,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description List keys given a namespace.
     #'
-    #' @param namespace A namespace value.
+    #' @param namespace A single character namespace.
     #'
     #' @return A vector of key values.
     #'

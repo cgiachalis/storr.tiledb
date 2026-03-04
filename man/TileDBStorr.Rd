@@ -7,10 +7,41 @@
 A \code{TileDBStorr}, \code{R6} object.
 }
 \description{
-An R6 class that represent a TileDB storr.
+An R6 class that represents a TileDB storr.
+
+This is a subclass of \code{storr} class from \code{storr} package that is
+designed to work with a TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.
+
+\code{TileDBStorr} overwrites some of its parent class methods to take
+advantage the functionality of the underlying back-end and also to
+accommodate for the unique features: asynchronous writes and key
+metadata (\code{notes}, \code{expires_at}).
+
+This class is not intended to be used directly and the preferred
+usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 }
+\keyword{internal}
 \section{Super class}{
 \code{\link[storr:storr]{storr::storr}} -> \code{TileDBStorr}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{driver}}{The TileDB driver.}
+
+\item{\code{envir}}{The object hash table.}
+
+\item{\code{envir_metadata}}{The key metadata hash table.}
+
+\item{\code{default_namespace}}{The default namespace.}
+
+\item{\code{traits}}{Driver traits.}
+
+\item{\code{hash_raw}}{The hash function.}
+
+\item{\code{serialize_object}}{The serialisation function.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -78,45 +109,110 @@ An R6 class that represent a TileDB storr.
 \if{html}{\out{<a id="method-TileDBStorr-new"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-new}{}}}
 \subsection{Method \code{new()}}{
+Initialise \code{TileDBStorr}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$new(driver, default_namespace, async = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{driver}}{A TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+
+\item{\code{default_namespace}}{The default namespace.}
+
+\item{\code{async}}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
+functions? Default is  \code{FALSE}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-flush_cache"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-flush_cache}{}}}
 \subsection{Method \code{flush_cache()}}{
+Flush the cache of \code{R} objects.
+
+It removes all items from the hash tables (R objects and
+their metadata).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$flush_cache()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+The object, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set}{}}}
 \subsection{Method \code{set()}}{
+Set a key value pair.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set(key, value, namespace = self$default_namespace, expires_at,
   notes, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A scalar character of key name.}
+
+\item{\code{value}}{An R object to store.}
+
+\item{\code{namespace}}{A scalar character of namespace name.}
+
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+
+\item{\code{notes}}{A scalar string of notes (optional).}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The hash value, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset}{}}}
 \subsection{Method \code{mset()}}{
+Set multiple key value pairs.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
   notes, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{value}}{A vector of values to store.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+
+\item{\code{notes}}{A character vector of notes (optional).}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hash values, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_async}{}}}
 \subsection{Method \code{set_async()}}{
-Set a key value asynchronously.
+Set a key value pair asynchronously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_async(key, value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
@@ -125,26 +221,28 @@ Set a key value asynchronously.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{The key name to set a value to.}
+\item{\code{key}}{A scalar character of key name.}
 
-\item{\code{namespace}}{The namespace to look the key within.}
+\item{\code{value}}{An R object to store.}
 
-\item{\code{expires_at}}{The date-time to set of class \code{POSIXct} (optional).}
+\item{\code{namespace}}{A scalar character of namespace name.}
 
-\item{\code{notes}}{A scalar string with notes to set (optional).}
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
 
-\item{\code{use_cache}}{Should the key value be copied into cache?
-Default is \code{TRUE}.}
+\item{\code{notes}}{A scalar string of notes (optional).}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A named list with two elements:
+Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two mirai objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
 }
@@ -153,11 +251,10 @@ A named list with two elements:
 \if{html}{\out{<a id="method-TileDBStorr-mset_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_async}{}}}
 \subsection{Method \code{mset_async()}}{
-Set multiple key values asynchronously.
+Set multiple key value pairs asynchronously.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
@@ -166,26 +263,28 @@ permitted.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector of keys to set metadata to.}
+\item{\code{key}}{A character vector of key names.}
 
-\item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+\item{\code{value}}{A vector of values to store.}
 
-\item{\code{expires_at}}{A vector of date-times to set. Must be of class \code{POSIXct}.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{notes}}{A character vector of notes to set.}
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
 
-\item{\code{use_cache}}{Should the key values be copied into cache?
-Default is \code{TRUE}.}
+\item{\code{notes}}{A character vector of notes (optional).}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A named list with two elements:
+Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two mirai objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
 }
@@ -194,27 +293,67 @@ A named list with two elements:
 \if{html}{\out{<a id="method-TileDBStorr-set_by_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_by_value}{}}}
 \subsection{Method \code{set_by_value()}}{
+Set a key value pair using its hash as key.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{An R object to store.}
+
+\item{\code{namespace}}{A scalar character of namespace name.}
+
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+
+\item{\code{notes}}{A scalar string of notes (optional).}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The hash value, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_by_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_by_value}{}}}
 \subsection{Method \code{mset_by_value()}}{
+Set multiple key value pairs using their
+hashes as keys.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{A vector of values to store.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+
+\item{\code{notes}}{A character vector of notes (optional).}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hash values, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_by_value_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_by_value_async}{}}}
 \subsection{Method \code{set_by_value_async()}}{
-Set a value asynchronously.
+Set a key value pair using its hash as key,
+asynchronously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value_async(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
@@ -223,24 +362,26 @@ Set a value asynchronously.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{The namespace to look the key within.}
+\item{\code{value}}{An R object to store.}
 
-\item{\code{expires_at}}{The date-time to set of class \code{POSIXct} (optional).}
+\item{\code{namespace}}{A scalar character of namespace name.}
 
-\item{\code{notes}}{A scalar string with notes to set (optional).}
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
 
-\item{\code{use_cache}}{Should the key value be copied into cache?
-Default is \code{TRUE}.}
+\item{\code{notes}}{A scalar string of notes (optional).}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A named list with two elements:
+Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two mirai objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
 }
@@ -249,11 +390,11 @@ A named list with two elements:
 \if{html}{\out{<a id="method-TileDBStorr-mset_by_value_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_by_value_async}{}}}
 \subsection{Method \code{mset_by_value_async()}}{
-Set multiple values asynchronously.
+Set multiple key value pairs using their
+hashes as keys, asynchronously.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
@@ -262,24 +403,26 @@ permitted.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+\item{\code{value}}{A vector of values to store.}
 
-\item{\code{expires_at}}{A vector of date-times to set. Must be of class \code{POSIXct}.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{notes}}{A character vector of notes to set.}
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
 
-\item{\code{use_cache}}{Should the key values be copied into cache?
-Default is \code{TRUE}.}
+\item{\code{notes}}{A character vector of notes (optional).}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A named list with two elements:
+Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two mirai objects
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
 }
@@ -288,37 +431,93 @@ A named list with two elements:
 \if{html}{\out{<a id="method-TileDBStorr-set_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_value}{}}}
 \subsection{Method \code{set_value()}}{
+Add an R object. The key will be the hash value
+of the object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_value(value, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{An R object to store.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The hash value, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_value}{}}}
 \subsection{Method \code{mset_value()}}{
+Add a vector of R objects. The keys will be the hash
+values of the objects.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_value(values, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{values}}{A vector of values to store.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hash values, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_value}{}}}
 \subsection{Method \code{get_value()}}{
+Get an object given its hash.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_value(hash, use_cache = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{hash}}{The hash value of the object.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The \code{R} object if available.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mget_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_value}{}}}
 \subsection{Method \code{mget_value()}}{
+Get multiple objects given their hashes.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_value(hash, use_cache = TRUE, missing = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{hash}}{A vector of hash values."}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{missing}}{Value to use for missing elements.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A list of \code{R} objects.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_keymeta"></a>}}
@@ -333,13 +532,13 @@ Set key metadata.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{The key name to set metadata values to.}
+\item{\code{key}}{A scalar character of key name.}
 
-\item{\code{namespace}}{The namespace to look the key within.}
+\item{\code{namespace}}{A scalar character of namespace name.}
 
-\item{\code{expires_at}}{The date-time to set of class \code{POSIXct} (optional).}
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
 
-\item{\code{notes}}{A scalar string with notes to set (optional).}
+\item{\code{notes}}{A scalar string of notes (optional).}
 
 \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
@@ -363,8 +562,7 @@ a zero length character vector is returned.
 Set multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
   notes, use_cache = TRUE)}\if{html}{\out{</div>}}
@@ -373,13 +571,13 @@ permitted.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector of keys to set metadata to.}
+\item{\code{key}}{A character vector of key names.}
 
-\item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{expires_at}}{A vector of date-times to set. Must be of class \code{POSIXct}.}
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
 
-\item{\code{notes}}{A character vector of notes to set.}
+\item{\code{notes}}{A character vector of notes (optional).}
 
 \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
@@ -409,13 +607,13 @@ Set key metadata asynchronously.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{The key name to set metadata values to.}
+\item{\code{key}}{A scalar character of key name.}
 
-\item{\code{namespace}}{The namespace to look the key within.}
+\item{\code{namespace}}{A scalar character of namespace name.}
 
-\item{\code{expires_at}}{The date-time to set of class \code{POSIXct} (optional).}
+\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
 
-\item{\code{notes}}{A scalar string with notes to set (optional).}
+\item{\code{notes}}{A scalar string of notes (optional).}
 
 \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
@@ -424,8 +622,7 @@ will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
@@ -436,7 +633,7 @@ A named list with two elements (invisibly):
 \item \code{keyns}: The \code{key:namespace} string
 }
 
-NOTE: If both arguments \code{"expires_at"} and \code{"notes"} are missing,
+If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
 }
 }
@@ -447,8 +644,7 @@ then nothing is set and a zero length character vector is returned.
 Set multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
@@ -457,13 +653,13 @@ permitted.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector of keys to set metadata to.}
+\item{\code{key}}{A character vector of key names.}
 
-\item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{expires_at}}{A vector of date-times to set. Must be of class \code{POSIXct}.}
+\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
 
-\item{\code{notes}}{A character vector of notes to set.}
+\item{\code{notes}}{A character vector of notes (optional).}
 
 \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
@@ -472,8 +668,7 @@ will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
 
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}}object to override context's
-configuration.}
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
 }
 \if{html}{\out{</div>}}
 }
@@ -484,7 +679,7 @@ A named list with two elements (invisibly):
 \item \code{keyns}: The \code{key:namespace} character vector of the recycled length
 }
 
-NOTE: If both arguments \code{"expires_at"} and \code{"notes"} are missing,
+If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
 }
 }
@@ -522,8 +717,7 @@ and \verb{"notes".}
 Get multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
   use_cache = TRUE, missing = NULL)}\if{html}{\out{</div>}}
@@ -539,7 +733,7 @@ permitted.
 \item{\code{use_cache}}{Should it be retrieved from cache? Default is
 \code{TRUE}.}
 
-\item{\code{misssing}}{Fill value for missing keys. Default is \code{NULL}.}
+\item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -552,27 +746,60 @@ pair. For not found pairs will return the \code{missing} value.
 \if{html}{\out{<a id="method-TileDBStorr-clear"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear}{}}}
 \subsection{Method \code{clear()}}{
+Clear a storr.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clear(namespace = self$default_namespace)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A scalar character of namespace name or \code{NULL} to
+clear all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The number of deleted namespaces.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-del"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-del}{}}}
 \subsection{Method \code{del()}}{
+Delete an object from the storr.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$del(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating which key-namespace pair was
+deleted, invisibly.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-gc"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-gc}{}}}
 \subsection{Method \code{gc()}}{
+Garbage collect the storr.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$gc()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+A vector of unused hashes, invisibly.
+}
 }
 }

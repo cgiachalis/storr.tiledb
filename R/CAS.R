@@ -8,6 +8,9 @@
 #' @returns A `CAS` object.
 #'
 #' @export
+#'
+#' @keywords internal
+#'
 CAS <- R6::R6Class(
   inherit = TileDBGroup,
   classname = "CAS",
@@ -146,11 +149,14 @@ CAS <- R6::R6Class(
 
    #' @description Query 'tbl_keys' array
    #'
-   #' @param key A character vector with keys.
-   #' @param namespace A character vector with namespaces.
-   #' @param attrname Attribute name.
+   #' @param key `r roxy_key`
+   #' @param namespace `r roxy_namespace`
+   #' @param attrname The attribute name (column), either
+   #' `hash`, `expires_at` or `notes`
    #'
-   #' @return A vector.
+   #' @return A vector of recycled length (key,namespace pair) with
+   #' attribute values. When a pair is not found, the value is set
+   #' to `NA`.
    #'
    query_keys = function(key, namespace, attrname) {
 
@@ -176,8 +182,8 @@ CAS <- R6::R6Class(
 
    #' @description Filter `tbl_keys` by key and namespace
    #'
-   #' @param key A character vector with keys.
-   #' @param namespace A character vector with namespaces.
+   #' @param key `r roxy_key`
+   #' @param namespace `r roxy_namespace`
    #' @param attrnames A character vector with tiledb attributes (columns).
    #'
    #' @return A `data.table.

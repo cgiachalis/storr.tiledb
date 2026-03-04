@@ -9,6 +9,7 @@ A \code{TileDBDriver}, \code{R6} object.
 \description{
 An R6 class for creating a content addressable storage.
 }
+\keyword{internal}
 \section{Super classes}{
 \code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{\link[storr.tiledb:CAS]{storr.tiledb::CAS}} -> \code{TileDBDriver}
 }
@@ -123,9 +124,9 @@ Get hash values.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -145,9 +146,9 @@ Get hash values.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -167,15 +168,15 @@ Set hash values.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{hash}}{A vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 
-\item{\code{expires_at}}{A vector with expiration datetimes.}
+\item{\code{expires_at}}{A vector of expiration datetimes.}
 
-\item{\code{notes}}{A character vector with notes.}
+\item{\code{notes}}{A character vector of notes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -195,15 +196,15 @@ Set hash values.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{hash}}{A vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 
-\item{\code{expires_at}}{A vector with expiration datetimes.}
+\item{\code{expires_at}}{A vector of expiration datetimes.}
 
-\item{\code{notes}}{A character vector with notes.}
+\item{\code{notes}}{A character vector of notes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -243,7 +244,7 @@ Get a list R objects given a hash vector.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -263,7 +264,7 @@ Store serialised R objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 
 \item{\code{value}}{A vector with serialised values.}
 }
@@ -285,7 +286,7 @@ Store serialised R objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 
 \item{\code{value}}{A vector with serialised values.}
 }
@@ -309,13 +310,13 @@ Sets a pair of expiry date-time and notes.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{expires_at}}{A vector with expiration datetimes.}
+\item{\code{expires_at}}{A vector of expiration datetimes.}
 
-\item{\code{notes}}{A character vector with notes.}
+\item{\code{notes}}{A character vector of notes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -337,13 +338,13 @@ Sets a pair of expiry date-time and notes.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
-\item{\code{expires_at}}{A vector with expiration datetimes.}
+\item{\code{expires_at}}{A vector of expiration datetimes.}
 
-\item{\code{notes}}{A character vector with notes.}
+\item{\code{notes}}{A character vector of notes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -386,9 +387,9 @@ Get multiple key-namespace metadata.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 
 \item{\code{nomatch}}{Value to fill in case of no match.}
 }
@@ -411,9 +412,9 @@ Check a key-namespace pair exists.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -433,7 +434,7 @@ Check a serialised object exists.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A character vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -453,9 +454,9 @@ Delete a key/namespace pair.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{A character vector with keys.}
+\item{\code{key}}{A character vector of keys.}
 
-\item{\code{namespace}}{A character vector with namespaces.}
+\item{\code{namespace}}{A character vector of namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -475,7 +476,7 @@ Delete serialised objects.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{hash}}{A character vector with hash values.}
+\item{\code{hash}}{A vector of hash values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -521,7 +522,7 @@ List keys given a namespace.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A namespace value.}
+\item{\code{namespace}}{A single character namespace.}
 }
 \if{html}{\out{</div>}}
 }
