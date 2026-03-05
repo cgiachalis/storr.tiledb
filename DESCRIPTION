@@ -12,6 +12,7 @@ BugReports: https://github.com/cgiachalis/storr.tiledb/issues
 Depends:
     R (>= 4.4.0)
 Imports:
+    storr,
     arrow,
     cli,
     data.table,
