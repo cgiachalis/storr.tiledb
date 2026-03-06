@@ -55,8 +55,8 @@ the group structure and array data models.
 
 \emph{Group Members}
 \itemize{
-\item \code{tbl_keys} (array): maps key-namespace pairs to hashes and optionally adding
-metadata values
+\item \code{tbl_keys} (array): maps key-namespace pairs to hashes (and to expiry or/and notes,
+optionally)
 \item \code{tbl_data} (array): maps hashes to values (serialised R objects)
 }
 
@@ -67,8 +67,8 @@ metadata values
 
 \strong{Array: \code{tbl_keys}}
 
-A 2D sparse array that maps key-namespace pairs to hashes and key-metadata
-optionally. TileDB datatypes in parentheses.
+A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+TileDB datatypes in parentheses.
 \itemize{
 \item Dimensions: \code{namespace} (\emph{ASCII}) and \code{key} (\emph{ASCII})
 \item Attributes: \code{hash} (\emph{ASCII}), \code{expires_at} (\emph{DATETIME_MS}) and \code{notes} (\emph{UTF8})

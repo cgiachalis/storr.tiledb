@@ -23,8 +23,8 @@
 #'
 #' *Group Members*
 #'
-#'  - `tbl_keys` (array): maps key-namespace pairs to hashes and optionally adding
-#'  metadata values
+#'  - `tbl_keys` (array): maps key-namespace pairs to hashes (and to expiry or/and
+#'  notes, optionally)
 #'  - `tbl_data` (array): maps hashes to values (serialised R objects)
 #'
 #' *Metadata*
@@ -33,8 +33,8 @@
 #'
 #' **Array: `tbl_keys`**
 #'
-#' A 2D sparse array that maps key-namespace pairs to hashes and key-metadata
-#' optionally. TileDB datatypes in parentheses.
+#' A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+#' TileDB datatypes in parentheses.
 #'
 #' - Dimensions: `namespace` (*ASCII*) and `key` (*ASCII*)
 #' - Attributes: `hash` (*ASCII*), `expires_at` (*DATETIME_MS*) and `notes` (*UTF8*)
