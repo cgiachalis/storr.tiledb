@@ -1,27 +1,61 @@
-#' TileDB Storr Driver
+#' A Storr using TileDB Engine
 #'
-#' @param uri The URI path of storr.
-#' @param context Optional [tiledb::tiledb_ctx()] object.
-#' @param init Should the driver be created if not exist? Defalut is  `FALSE`.
+#' Create a `r sQuote("storr")` using TileDB driver for storage.
+#'
+#' \link[storr:storr]{‘storr’} is a content addressed key-value store
+#'  with an optional caching layer. The `storr_tiledb` generates a [TileDBStorr]
+#'  object, a subclass of `storr`, which provides identical interface with
+#'  but some of it methods have been overwritten for speed and efficiency.
+#'
+#'  `storr_tiledb` also offers (1) option to store key metadata, such as key
+#'  expiration date-time and notes, (2) asynchronous writes
+#'  using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
+#'  framework.
+#'
+#'  ## Cache layer
+#'
+#'  `storr_tiledb` uses hash tables via [hashtab()] for caching layers (objects
+#'  and key metadata) instead of an environment.
+#'
+#'  ## storr classes
+#'
+#'  You can generate a key-value store in two ways:
+#'
+#'  ```
+#'  # URI path
+#'  uri <- tempfile()
+#'
+#'  # TileDB Storr subclass
+#'  sto <- storr_tiledb(uri, init = TRUE)
+#'
+#'  # storr class
+#'  dr <- driver_tiledb(uri)
+#'  sto <- storr::storr(dr)
+#'
+#'  ```
+#'
+#'  `storr_tiledb` has faster methods; in order to  view which method has been
+#'  overwritten, as well as the additional functionality, please refer to
+#'  [TileDBStorr] documentation.
+#'
+#' ## Key Metadata
+#'
+#'  TODO
+#'
+#' ## Async
+#'
+#'  TODO
+#'
+#'
+#' @inheritParams driver_tiledb
+#' @param default_namespace The default namespace: `"objects"`.
 #' @param async Should be mirai daemons be enabled?
-#' @param hash_algorithm Select a hash algorithm.
-#' @param compression_level Set an integer value for ZSTD compression level
-#' applied in data objects. (experimental).
-#' @param ... Other arguments passed to driver's create method when `init=TRUE`.
-#'  Valid arguments: `hash_algorithm`, `compression_level` and `keep_open`.
 #'
-#' @returns
+#' @returns An object of class [TileDBStorr], R6.
 #'
-#'  - **storr_tiledb** : returns a TileDB storr, see [TileDBStorr].
-#'  - **driver_tiledb** : return a TileDB driver, see [TileDBDriver].
-#'  - **driver_tiledb_create** : returns logical `TRUE` invisibly, for
-#'   successful storr creation
-#'
-#'
+#' @seealso [driver_tiledb()]
 #'
 #' @export
-#'
-#' @name storr_tiledb
 #'
 storr_tiledb <- function(uri,
                          default_namespace = "objects",
@@ -33,59 +67,4 @@ storr_tiledb <- function(uri,
   dr <- driver_tiledb(uri, context = context, init = init, ...)
   TileDBStorr$new(dr, default_namespace = default_namespace, async = async)
 
-}
-
-
-
-#' @param hash_algorithm Select a hash algorithm.
-#' @param compression_level Set an integer value for ZSTD compression level applied
-#' in data objects. (experimental).
-#'
-#' @export
-#'
-#' @rdname storr_tiledb
-driver_tiledb_create <- function(uri,
-                                 hash_algorithm = NULL,
-                                 compression_level = -7,
-                                 context = NULL) {
-
-  dr <- TileDBDriver$new(uri, ctx = context)
-  dr$create(compression_level = compression_level,
-            algo = hash_algorithm,
-            keep_open = FALSE)
-
-  dr$close()
-
-  invisible(TRUE)
-}
-
-
-#' @export
-#' @rdname storr_tiledb
-driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
-
-  dr <- TileDBDriver$new(uri, ctx = context)
-
-  if (init) {
-
-    l <- list(...)
-
-    if (is.null(l$compression_level)) {
-      l$compression_level <- -7
-    }
-
-    if (is.null(l$keep_open)) {
-      l$keep_open <- TRUE
-    }
-    force(l)
-    dr$create(compression_level = l$compression_level,
-              algo =  l$hash_algorithm, keep_open =  l$keep_open)
-
-  } else {
-    if (!dr$exists()) {
-      cli::cli_abort("'storr' not found, please create one.", call = NULL)
-    }
-  }
-
-  dr
 }
