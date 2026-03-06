@@ -2,43 +2,78 @@
 % Please edit documentation in R/storr_tiledb.R
 \name{storr_tiledb}
 \alias{storr_tiledb}
-\alias{driver_tiledb_create}
-\alias{driver_tiledb}
-\title{TileDB Storr Driver}
+\title{A Storr using TileDB Engine}
 \usage{
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
   init = FALSE, async = FALSE, ...)
-
-driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
-  context = NULL)
-
-driver_tiledb(uri, context = NULL, init = FALSE, ...)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
 
-\item{context}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
+\item{default_namespace}{The default namespace: \code{"objects"}.}
+
+\item{context}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
 
 \item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
 
 \item{async}{Should be mirai daemons be enabled?}
 
-\item{...}{Other arguments passed to driver's create method when \code{init=TRUE}.
+\item{...}{Other arguments passed to driver's create method when \code{init = TRUE}.
 Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}
-
-\item{hash_algorithm}{Select a hash algorithm.}
-
-\item{compression_level}{Set an integer value for ZSTD compression level applied
-in data objects. (experimental).}
 }
 \value{
-\itemize{
-\item \strong{storr_tiledb} : returns a TileDB storr, see \link{TileDBStorr}.
-\item \strong{driver_tiledb} : return a TileDB driver, see \link{TileDBDriver}.
-\item \strong{driver_tiledb_create} : returns logical \code{TRUE} invisibly, for
-successful storr creation
-}
+An object of class \link{TileDBStorr}, R6.
 }
 \description{
-TileDB Storr Driver
+Create a 'storr' using TileDB driver for storage.
+}
+\details{
+\link[storr:storr]{‘storr’} is a content addressed key-value store
+with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
+object, a subclass of \code{storr}, which provides identical interface with
+but some of it methods have been overwritten for speed and efficiency.
+
+\code{storr_tiledb} also offers (1) option to store key metadata, such as key
+expiration date-time and notes, (2) asynchronous writes
+using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
+framework.
+\subsection{Cache layer}{
+
+\code{storr_tiledb} uses hash tables via \code{\link[=hashtab]{hashtab()}} for caching layers (objects
+and key metadata) instead of an environment.
+}
+
+\subsection{storr classes}{
+
+You can generate a key-value store in two ways:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# URI path
+uri <- tempfile()
+
+# TileDB Storr subclass
+sto <- storr_tiledb(uri, init = TRUE)
+
+# storr class
+dr <- driver_tiledb(uri)
+sto <- storr::storr(dr)
+
+}\if{html}{\out{</div>}}
+
+\code{storr_tiledb} has faster methods; in order to  view which method has been
+overwritten, as well as the additional functionality, please refer to
+\link{TileDBStorr} documentation.
+}
+
+\subsection{Key Metadata}{
+
+TODO
+}
+
+\subsection{Async}{
+
+TODO
+}
+}
+\seealso{
+\code{\link[=driver_tiledb]{driver_tiledb()}}
 }
