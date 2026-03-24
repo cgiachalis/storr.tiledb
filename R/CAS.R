@@ -166,7 +166,7 @@ CAS <- R6::R6Class(
      # TODO: Remove when TileDB fixes it
      if (attrname == "expires_at") {
        # Sanitise datetime columns
-       # See:
+       # See: https://github.com/TileDB-Inc/TileDB-R/issues/866
       expires_at <- NULL
       dat.recv[expires_at < 0 , expires_at := as.POSIXct(NA)]
      }

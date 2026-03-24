@@ -126,8 +126,8 @@ TileDBDriver <- R6::R6Class(
         return()
       }
 
-      # NOTE: 'storr' class does not support 'expires_at' and 'notes',
-      # so we sanitise missing values
+      # NB: 'storr' class does not support 'expires_at' and 'notes',
+      #   so we sanitise missing values
       if (missing(expires_at)) {
         expires_at <- NA_real_
       }
@@ -164,7 +164,7 @@ TileDBDriver <- R6::R6Class(
       result <- self$mget_object(hash)[[1]]
 
       if (is.null(result)) {
-        # 'get_object' always returns NULL if missing as we need
+        # NB: 'get_object' always returns NULL if missing as we need
         # this for mget_object. Here, an error is raised to
         # support 'throw_missing' trait. Doing so, we're
         # avoiding the extra query (e.g., exists_object) in storr
@@ -194,9 +194,6 @@ TileDBDriver <- R6::R6Class(
       arr <- arrobj$tiledb_array(extended = TRUE,
                                  selected_points = sp,
                                  return_as = "arrow")
-
-      # TODO: REVIEW
-      # nona_hash <- hash %in% arr[]$hash$as_vector()
 
       x <- arrow::Array$create(hash)
       nona_hash <- arrow::call_function("is_in",
@@ -402,7 +399,6 @@ TileDBDriver <- R6::R6Class(
 
       # TODO: Remove when TileDB fixes it
       # Sanitise datetime columns
-      # See:
       expires_at <- NULL
       DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
 
@@ -478,10 +474,6 @@ TileDBDriver <- R6::R6Class(
 
       hashes <- arr[]$GetColumnByName("hash")$as_vector()
 
-      # Requested vector vs received
-      # hash %in% hashes
-
-      #  TODO: review
       x <- arrow::Array$create(hash)
       out <- arrow::call_function("is_in",
                                   x,
@@ -502,8 +494,6 @@ TileDBDriver <- R6::R6Class(
     #'
     del_hash = function(key, namespace) {
 
-      # might not need it,
-      # TODO: check when try to delete a no key
       exists <- self$exists_hash(key, namespace)
 
       if (any(exists)) {
@@ -536,8 +526,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # Hint: Now, the array handle is opened at delete mode,
-        #       reopen to previous mode
+        # NB: Now the array handle is opened at delete mode,
+        #       so reopen to previous mode
         mode <- self$mode
        self$members$tbl_keys$object$reopen(mode)
       }
@@ -762,9 +752,5 @@ TileDBDriver <- R6::R6Class(
      exists
 
     }
-  ),
-
-  private = list(
-
   )
 )
