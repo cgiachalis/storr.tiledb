@@ -16,7 +16,8 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 \item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
 
-\item{async}{Should be mirai daemons be enabled?}
+\item{async}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
+functions? Default is  \code{FALSE}.}
 
 \item{...}{Other arguments passed to driver's create method when \code{init = TRUE}.
 Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}

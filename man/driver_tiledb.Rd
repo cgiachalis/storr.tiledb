@@ -55,8 +55,8 @@ the group structure and array data models.
 
 \emph{Group Members}
 \itemize{
-\item \code{tbl_keys} (array): maps key-namespace pairs to hashes (and to expiry or/and notes,
-optionally)
+\item \code{tbl_keys} (array): maps key-namespace pairs to hashes (and to expiry or/and
+notes, optionally)
 \item \code{tbl_data} (array): maps hashes to values (serialised R objects)
 }
 
