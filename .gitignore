@@ -7,4 +7,5 @@ data-coverage/storr.tiledb-report.html
 docs
 inst/doc
 dev
+.Renviron
 .positai
