@@ -49,7 +49,8 @@
 #'
 #' @inheritParams driver_tiledb
 #' @param default_namespace The default namespace: `"objects"`.
-#' @param async Should be mirai daemons be enabled?
+#' @param async Should the [mirai] daemons be enabled for async
+#'  functions? Default is  `FALSE`.
 #'
 #' @returns An object of class [TileDBStorr], R6.
 #'

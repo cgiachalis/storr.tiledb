@@ -9,7 +9,7 @@ make_hash_serialized_object <- utils::getFromNamespace("make_hash_serialized_obj
 make_serialize_object <- utils::getFromNamespace("make_serialize_object", "storr")
 
 # source: https://github.com/richfitz/storr/blob/master/R/exceptions.R
-KeyError <- function(key, namespace, driver) {
+KeyError <- function(key, namespace) {
   structure(list(key = key,
                  namespace = namespace,
                  message = sprintf("key '%s' ('%s') not found", key, namespace),
@@ -17,7 +17,7 @@ KeyError <- function(key, namespace, driver) {
             class = c("KeyError", "error", "condition"))
 }
 
-HashError <- function(hash, driver) {
+HashError <- function(hash) {
   structure(list(hash = hash,
                  message = sprintf("hash '%s' not found", hash),
                  call = NULL),
