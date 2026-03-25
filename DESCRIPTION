@@ -1,7 +1,7 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.7
-Date: 2026-03-06
+Version: 0.0.8
+Date: 2026-03-25
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>
@@ -19,7 +19,7 @@ Imports:
     mirai (>= 2.6.0),
     fs,
     R6,
-    R6.tiledb (>= 0.2.0.34)
+    R6.tiledb (>= 0.2.0.42)
 Suggests: 
     litedown,
     testthat (>= 3.0.0),
