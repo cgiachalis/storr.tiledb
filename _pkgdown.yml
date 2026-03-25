@@ -23,9 +23,12 @@ home:
     - dev
     components:
       project:
-        title: R6.tiledb Package
+        title: Related Software
         text: |
-          [R6.TileDB](https://cgiachalis.github.io/R6.tiledb/)
+          [R6.TileDB](https://cgiachalis.github.io/R6.tiledb/) <br>
+          [TileDB-R](https://tiledb-inc.github.io/TileDB-R/) <br>
+          [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)
+
 
 navbar:
   title: "storr.tiledb"
@@ -50,7 +53,7 @@ reference:
 
 - title: Storr Interface
   desc: |
-   A convenient wrapper to create or manage a 'storr' using TileDB
+   A convenient wrapper to create and manage a 'storr' using TileDB
    storage engine. For most cases, it will be the go to function.
   contents:
   - storr_tiledb
