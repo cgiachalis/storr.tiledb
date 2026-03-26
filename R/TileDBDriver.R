@@ -920,7 +920,7 @@ TileDBDriver <- R6::R6Class(
     has_expired_keys = function(ns) {
 
       arr <- self$expired_keys(ns, datetimes = FALSE)
-      arr[]$num_rows == 0
+      arr[]$num_rows != 0
     }
   )
 )

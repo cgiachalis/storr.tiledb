@@ -170,3 +170,102 @@ test_that("mset_keymeta", {
                fixed = TRUE,
                class = "KeyError")
   })
+
+test_that("expired_keys and friends", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "b", "c", "d")
+  t0 <- Sys.time()
+  expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
+  sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
+
+  dr <- sto$driver
+
+  expect_no_error(arr <- dr$expired_keys(NULL, datetimes = TRUE))
+  expect_s4_class(arr, "tiledb_array")
+  arrw <- arr[]
+  expect_equal(arrw$num_rows, 2)
+  expect_equal(arrw$num_columns, 3)
+  expect_equal(arrw$GetColumnByName("key")$as_vector(), c("a", "b"))
+  expect_equal(arrw$ColumnNames(), c("namespace", "key", "expires_at"))
+
+  # Without 'expires_at' column
+  expect_no_error(arr <- dr$expired_keys(NULL, datetimes = FALSE))
+  expect_s4_class(arr, "tiledb_array")
+  arrw <- arr[]
+  expect_equal(arrw$num_rows, 2)
+  expect_equal(arrw$num_columns, 2)
+  expect_equal(arrw$GetColumnByName("key")$as_vector(), c("a", "b"))
+  expect_equal(arrw$ColumnNames(), c("namespace", "key"))
+
+  # Test number of expired keys
+  expect_equal(dr$num_expired_keys(NULL), 2)
+  expect_equal(dr$num_expired_keys("ns2"), 1)
+  expect_equal(dr$num_expired_keys("ns3"), 0)
+
+  # Test for expired keys
+  expect_true(dr$has_expired_keys(NULL))
+  expect_true(dr$has_expired_keys("ns1"))
+  expect_false(dr$has_expired_keys("ns3"))
+  expect_false(dr$has_expired_keys("ns4"))
+
+})
+
+test_that("delete_expired_keys", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "b", "c", "d")
+  t0 <- Sys.time()
+  expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
+  sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
+
+  dr <- sto$driver
+
+  # Clear all expired keys
+  expect_invisible(bool <- dr$delete_expired_keys(NULL))
+  expect_true(bool)
+
+  # Test for expired keys
+  expect_false(dr$has_expired_keys(NULL))
+
+  # ----------------------------------------------------------------------------
+  # Let redo it again..
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "b", "c", "d")
+  t0 <- Sys.time()
+  expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
+  sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
+
+  dr <- sto$driver
+
+  # Check storr for expired keys
+  expect_true(dr$has_expired_keys(NULL))
+  expect_equal(dr$num_expired_keys(NULL), 2)
+
+  # Clear expired keys for specific namespace
+  expect_invisible(bool <- dr$delete_expired_keys("ns1"))
+  expect_true(bool)
+
+  # Test that storr has left with one expired key
+  expect_true(dr$has_expired_keys(NULL))
+  expect_equal(dr$num_expired_keys(NULL), 1)
+
+  # Clear all expired keys
+  expect_invisible(bool <- dr$delete_expired_keys(NULL))
+  expect_true(bool)
+
+  # Test that storr has no expired keys
+  expect_false(dr$has_expired_keys(NULL))
+  expect_equal(dr$num_expired_keys(NULL), 0)
+
+})
+
