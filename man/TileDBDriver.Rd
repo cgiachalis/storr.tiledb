@@ -7,7 +7,46 @@
 A \code{TileDBDriver}, \code{R6} object.
 }
 \description{
-An R6 class for creating a content addressable storage.
+An R6 class that represents a content addressable storage
+with 'storr' interface using TileDB.
+
+This class is a \link[storr:storr]{storr::storr} compliant driver and its key  operations are briefly
+described below. For detail definitions, see \code{Methods} section.
+
+\strong{Hash Management}
+\itemize{
+\item \code{get_hash} and \code{mget_hash}: Retrieve hash values for a given key and namespace.
+\item \code{set_hash} and \code{mset_hash}: Set hash values with metadata like expiry date-times and notes.
+\item \code{exists_hash}: Verify the existence of specific keys, namespaces
+\item \code{del_hash}: Remove key-namespace pairs.
+\item \code{delete_namespaces}: Clear namespaces or delete specified ones.
+\item \code{list_namespaces}, \code{list_keys}: Retrieve all namespaces or keys for a given namespace.
+}
+
+\strong{Object Management}
+\itemize{
+\item \code{get_object} and \code{mget_object}: Fetch serialized R objects using hash values.
+\item \code{set_object} and \code{mset_object}: Store serialized R objects.
+\item \code{exists_object}: Verify the existence of specific objects.
+\item \code{del_object}: Remove serialized objects.
+\item \code{delete_unused_hashes}: Remove hashes that are not in active use.
+\item \code{list_hashes}: Retrieve all hashes
+\item \code{list_unused_hashes}: Identify unused hashes.
+}
+
+\strong{Key-Namespace Metadata}
+\itemize{
+\item \code{get_keymeta}, \code{set_keymeta}, and \code{mset_keymeta}: Manage metadata such as
+expiry times and notes for key-namespace pairs.
+}
+
+\strong{Expiration Management}
+\itemize{
+\item \code{expired_keys}: Retrieve the expired key namespace pairs.
+\item \code{delete_expired_keys}: Delete all expired keys or for specific namespaces.
+\item \code{num_expired_keys}: Get the number of expired keys or for specific namespaces.
+\item \code{has_expired_keys}: Verify the existence of expired keys or for specific namespaces.
+}
 }
 \keyword{internal}
 \section{Super classes}{
