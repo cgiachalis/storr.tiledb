@@ -4,10 +4,10 @@
 #'
 
 
-
 #' @title Generate a `TileDBDriver` Object
 #'
-#' @description An R6 class for creating a content addressable storage.
+#' @description An R6 class that represents a content addressable storage
+#' with 'storr' interface.
 #'
 #' @returns A `TileDBDriver`, `R6` object.
 #'
@@ -526,8 +526,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # NB: Now the array handle is opened at delete mode,
-        #       so reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
        self$members$tbl_keys$object$reopen(mode)
       }
@@ -571,8 +571,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # Hint: Now, the array handle is opened at delete mode,
-        #       reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
         self$members$tbl_data$object$reopen(mode)
 
@@ -690,8 +690,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # Hint: Now, the array handle is opened at delete mode,
-        #       reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
         self$members$tbl_data$object$reopen(mode)
       }
@@ -744,13 +744,153 @@ TileDBDriver <- R6::R6Class(
 
      tiledb::tiledb_query_finalize(qry)
 
-     # Hint: Now, the array handle is opened at delete mode,
-     #       reopen to previous mode
+     # NB: At this point the array handle is opened at delete mode,
+     #     so we reopen to previous mode
      mode <- self$mode
      self$members$tbl_keys$object$reopen(mode)
 
      exists
 
+    },
+
+    #' @description Get the expired key-namespace pairs.
+    #'
+    #' @param ns A character vector of namespaces. If `NULL` all
+    #' namespaces will be used.
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return A `tiledb_array` object.
+    #'
+    expired_keys = function(ns, datetimes = TRUE) {
+
+      if (!(.is_scalar_character(ns) || is.null(ns))) {
+        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.", call = NULL)
+      }
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = as.POSIXct(NA),
+                                              dtype = "DATETIME_MS",
+                                              op = "NE")
+      # Expired datetimes (now > index)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = Sys.time(),
+                                              dtype = "DATETIME_MS",
+                                              op = "LT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      sp <- list()
+
+      if (!is.null(ns)) {
+        sp <- list(namespace = ns)
+      }
+
+      if (datetimes) {
+        attrs <- "expires_at"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")
+    },
+
+    #' @description Get the expired key-namespace pairs.
+    #'
+    #' @param ns A character vector of namespaces. If `NULL` all
+    #' namespaces will be used.
+    #'
+    #' @return A boolean value `TRUE` indicating success, invisibly.
+    #'
+    delete_expired_keys = function(ns) {
+
+      if (!(.is_scalar_character(ns) || is.null(ns))) {
+        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.", call = NULL)
+      }
+
+      arrobj <- private$keys_array()
+
+      # expired keys: now > expires_at excl datetime with NA values
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = as.POSIXct(NA),
+                                              dtype = "DATETIME_MS",
+                                              op = "NE")
+      # Expired datetimes (now > index)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = Sys.time(),
+                                              dtype = "DATETIME_MS",
+                                              op = "LT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      if (!is.null(ns)) {
+
+        qc_ns <- tiledb::tiledb_query_condition_create(name = "namespace",
+                                                       values = ns,
+                                                       op = "IN")
+
+        qc <- tiledb::tiledb_query_condition_combine(qc_ns, qc, "AND")
+      }
+
+
+      arr <- arrobj$tiledb_array()
+
+      # Close array as we're going to submit a delete query
+      if (tiledb::tiledb_array_is_open(arr)) {
+        arr <- tiledb::tiledb_array_close(arr)
+      }
+
+      tiledb::query_condition(arr) <- qc
+
+      qry <- tiledb::tiledb_query(arr, "DELETE")
+
+      qry <- tiledb::tiledb_query_set_condition(qry, qc)
+
+      tiledb::tiledb_query_submit(qry)
+
+      tiledb::tiledb_query_finalize(qry)
+
+      # NB: Now the array handle is opened at delete mode,
+      #       so reopen to previous mode
+      mode <- self$mode
+      self$members$tbl_keys$object$reopen(mode)
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Get the number of expired key-namespace pairs.
+    #'
+    #' @param ns A character vector of namespaces. If `NULL` all
+    #' namespaces will be used.
+    #'
+    #' @return A numeric value.
+    #'
+    num_expired_keys = function(ns) {
+      # Use tiledb_query_apply_aggregate
+      arr <- self$expired_keys(ns, datetimes = FALSE)
+      arr[]$num_rows
+    },
+
+    #' @description Check for expired key-namespace pairs.
+    #'
+    #' @param ns A character vector of namespaces. If `NULL` all
+    #' namespaces will be used.
+    #'
+    #' @return `TRUE` for expired keys, `FALSE` otherwise.
+    #'
+    has_expired_keys = function(ns) {
+      # Use tiledb_query_apply_aggregate
+      arr <- self$expired_keys(ns, datetimes = FALSE)
+      arr[]$num_rows == 0
     }
   )
 )
