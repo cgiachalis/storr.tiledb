@@ -905,7 +905,7 @@ TileDBDriver <- R6::R6Class(
     #' @return A numeric value.
     #'
     num_expired_keys = function(ns) {
-      # Use tiledb_query_apply_aggregate
+
       arr <- self$expired_keys(ns, datetimes = FALSE)
       arr[]$num_rows
     },
@@ -918,7 +918,7 @@ TileDBDriver <- R6::R6Class(
     #' @return `TRUE` for expired keys, `FALSE` otherwise.
     #'
     has_expired_keys = function(ns) {
-      # Use tiledb_query_apply_aggregate
+
       arr <- self$expired_keys(ns, datetimes = FALSE)
       arr[]$num_rows == 0
     }
