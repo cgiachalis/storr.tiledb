@@ -7,11 +7,14 @@
 A \code{TileDBDriver}, \code{R6} object.
 }
 \description{
-An R6 class that represents a content addressable storage
-with 'storr' interface using TileDB.
+An R6 class that represents a content addressed storage
+driver that complies with 'storr' interface using TileDB Embedded as a
+back-end.
 
-This class is a \link[storr:storr]{storr::storr} compliant driver and its key  operations are briefly
-described below. For detail definitions, see \code{Methods} section.
+This class is intended for usage in \link[storr:storr]{storr::storr} or \link{TileDBStorr}. See \code{Methods}
+section for class methods definitions.
+
+Overview of core operations:
 
 \strong{Hash Management}
 \itemize{
@@ -42,10 +45,14 @@ expiry times and notes for key-namespace pairs.
 
 \strong{Expiration Management}
 \itemize{
-\item \code{expired_keys}: Retrieve the expired key namespace pairs.
+\item \code{keys_with_expiration} and \code{keys_without_expiration}:  Retrieve the key namespace pairs with
+or without expiration timestamps.
+\item \code{expired_keys} and \code{unexpired_keys}: Retrieve the (un)expired key namespace pairs.
 \item \code{delete_expired_keys}: Delete all expired keys or for specific namespaces.
-\item \code{num_expired_keys}: Get the number of expired keys or for specific namespaces.
-\item \code{has_expired_keys}: Verify the existence of expired keys or for specific namespaces.
+\item \code{num_expired_keys} and \code{num_unexpired_keys}: Get the number of (un)expired keys or
+for specific namespaces.
+\item \code{has_expired_keys} and \code{has_unexpired_keys}: Verify the existence of (un)expired keys or
+for specific namespaces.
 }
 }
 \keyword{internal}
@@ -88,10 +95,15 @@ expiry times and notes for key-namespace pairs.
 \item \href{#method-TileDBDriver-list_unused_hashes}{\code{TileDBDriver$list_unused_hashes()}}
 \item \href{#method-TileDBDriver-delete_unused_hashes}{\code{TileDBDriver$delete_unused_hashes()}}
 \item \href{#method-TileDBDriver-delete_namespaces}{\code{TileDBDriver$delete_namespaces()}}
+\item \href{#method-TileDBDriver-keys_with_expiration}{\code{TileDBDriver$keys_with_expiration()}}
+\item \href{#method-TileDBDriver-keys_without_expiration}{\code{TileDBDriver$keys_without_expiration()}}
 \item \href{#method-TileDBDriver-expired_keys}{\code{TileDBDriver$expired_keys()}}
+\item \href{#method-TileDBDriver-unexpired_keys}{\code{TileDBDriver$unexpired_keys()}}
 \item \href{#method-TileDBDriver-delete_expired_keys}{\code{TileDBDriver$delete_expired_keys()}}
 \item \href{#method-TileDBDriver-num_expired_keys}{\code{TileDBDriver$num_expired_keys()}}
+\item \href{#method-TileDBDriver-num_unexpired_keys}{\code{TileDBDriver$num_unexpired_keys()}}
 \item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
+\item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
 }
 }
 \if{html}{\out{
@@ -622,6 +634,54 @@ A logical vector indicating successful deletion or not.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-keys_with_expiration"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-keys_with_expiration}{}}}
+\subsection{Method \code{keys_with_expiration()}}{
+Get the key-namespace pairs with expiration timestamps.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_with_expiration(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be used.}
+
+\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An \code{ArrowObject} object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-keys_without_expiration"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-keys_without_expiration}{}}}
+\subsection{Method \code{keys_without_expiration()}}{
+Get the key-namespace pairs without expiration timestamps.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_without_expiration(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be used.}
+
+\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An \code{ArrowObject} object.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-expired_keys}{}}}
 \subsection{Method \code{expired_keys()}}{
@@ -642,7 +702,31 @@ Default is \code{TRUE}.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A \code{tiledb_array} object.
+An \code{ArrowObject} object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-unexpired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-unexpired_keys}{}}}
+\subsection{Method \code{unexpired_keys()}}{
+Get the unexpired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$unexpired_keys(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be used.}
+
+\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An \code{ArrowObject} object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -688,6 +772,27 @@ A numeric value.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-num_unexpired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-num_unexpired_keys}{}}}
+\subsection{Method \code{num_unexpired_keys()}}{
+Get the number of unexpired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_unexpired_keys(ns)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be used.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A numeric value.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-has_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-has_expired_keys}{}}}
 \subsection{Method \code{has_expired_keys()}}{
@@ -706,6 +811,27 @@ namespaces will be used.}
 }
 \subsection{Returns}{
 \code{TRUE} for expired keys, \code{FALSE} otherwise.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-has_unexpired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-has_unexpired_keys}{}}}
+\subsection{Method \code{has_unexpired_keys()}}{
+Check for unexpired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_unexpired_keys(ns)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
+namespaces will be used.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for unexpired keys, \code{FALSE} otherwise.
 }
 }
 }
