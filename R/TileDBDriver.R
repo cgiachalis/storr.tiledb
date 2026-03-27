@@ -844,7 +844,7 @@ TileDBDriver <- R6::R6Class(
     #'
     keys_without_expiration = function(ns, datetimes = TRUE) {
 
-      if (!(.is_scalar_character(ns) || is.null(ns))) {
+      if (!(.is_character(ns) || is.null(ns))) {
         cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
                        call = NULL)
       }
@@ -886,7 +886,7 @@ TileDBDriver <- R6::R6Class(
     #'
     expired_keys = function(ns, datetimes = TRUE) {
 
-      if (!(.is_scalar_character(ns) || is.null(ns))) {
+      if (!(.is_character(ns) || is.null(ns))) {
         cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
                        call = NULL)
       }
@@ -935,7 +935,7 @@ TileDBDriver <- R6::R6Class(
     #'
     unexpired_keys = function(ns, datetimes = TRUE) {
 
-      if (!(.is_scalar_character(ns) || is.null(ns))) {
+      if (!(.is_character(ns) || is.null(ns))) {
         cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
                        call = NULL)
       }
@@ -982,7 +982,7 @@ TileDBDriver <- R6::R6Class(
     #'
     delete_expired_keys = function(ns) {
 
-      if (!(.is_scalar_character(ns) || is.null(ns))) {
+      if (!(.is_character(ns) || is.null(ns))) {
         cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.", call = NULL)
       }
 
