@@ -16,7 +16,6 @@ test_that("'TileDBStorr'", {
   # Test for TileDB driver
   expect_error(TileDBStorr$new("not_valid", "objects"))
 
-
   dr <- driver_tiledb(uri)
   sto2 <- TileDBStorr$new(dr, default_namespace = "objects")
   expect_s3_class(sto2$driver, "TileDBDriver")
@@ -40,6 +39,4 @@ test_that("'TileDBStorr'", {
   expect_true(sto3$driver$members_instantiated)
   expect_true(dr$members_instantiated)
 
-
 })
-
