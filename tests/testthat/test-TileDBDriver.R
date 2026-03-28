@@ -183,6 +183,10 @@ test_that("keys_with_expiration", {
   dr <- sto$driver
 
   # keys with expiration
+  expect_error(dr$keys_with_expiration(1),
+               "`namespace` should be a character vector or NULL.",
+               fixed = TRUE,
+               class = "error")
   expect_no_error(arrw <- dr$keys_with_expiration(NULL, datetimes = TRUE))
   expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
 
@@ -216,6 +220,10 @@ test_that("keys_without_expiration", {
   dr <- sto$driver
 
   # keys with expiration
+  expect_error(dr$keys_without_expiration(1),
+               "`namespace` should be a character vector or NULL.",
+               fixed = TRUE,
+               class = "error")
   expect_no_error(arrw <- dr$keys_without_expiration(NULL, datetimes = TRUE))
   expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
 
@@ -248,6 +256,10 @@ test_that("expired_keys and friends", {
 
   dr <- sto$driver
 
+  expect_error(dr$expired_keys(1),
+               "`namespace` should be a character vector or NULL.",
+               fixed = TRUE,
+               class = "error")
   expect_no_error(arrw <- dr$expired_keys(NULL, datetimes = TRUE))
   expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
 
@@ -291,6 +303,10 @@ test_that("unexpired_keys and friends", {
 
   dr <- sto$driver
 
+  expect_error(dr$unexpired_keys(1),
+               "`namespace` should be a character vector or NULL.",
+               fixed = TRUE,
+               class = "error")
   expect_no_error(arrw <- dr$unexpired_keys(NULL, datetimes = TRUE))
   expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
 
