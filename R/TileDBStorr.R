@@ -1567,7 +1567,7 @@ TileDBStorr <- R6::R6Class(
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
-    #' @return An object of class `data.table` object.
+    #' @return An object of class `data.table`.
     #'
     keys_with_expiration = function(namespace = self$default_namespace, datetimes = TRUE) {
       out <- self$driver$ keys_with_expiration(namespace, datetimes = datetimes)
@@ -1581,7 +1581,7 @@ TileDBStorr <- R6::R6Class(
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
-    #' @return An object of class `data.table` object.
+    #' @return An object of class `data.table`.
     #'
     expired_keys = function(namespace = self$default_namespace, datetimes = TRUE) {
       out <- self$driver$expired_keys(namespace, datetimes = datetimes)

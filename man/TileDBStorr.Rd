@@ -814,7 +814,7 @@ Default is \code{TRUE}.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An object of class \code{data.table} object.
+An object of class \code{data.table}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -839,7 +839,7 @@ Default is \code{TRUE}.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An object of class \code{data.table} object.
+An object of class \code{data.table}.
 }
 }
 \if{html}{\out{<hr>}}

@@ -4,8 +4,9 @@
 #'
 #' \link[storr:storr]{‘storr’} is a content addressed key-value store
 #'  with an optional caching layer. The `storr_tiledb` generates a [TileDBStorr]
-#'  object, a subclass of `storr`, which provides identical interface with
-#'  but some of it methods have been overwritten for speed and efficiency.
+#'  object, a subclass of `storr`, with identical interface as `storr`
+#'  but with some of its methods to have been rewritten for
+#'  speed and efficiency.
 #'
 #'  `storr_tiledb` also offers (1) option to store key metadata, such as key
 #'  expiration date-time and notes, (2) asynchronous writes
@@ -15,7 +16,7 @@
 #'  ## Cache layer
 #'
 #'  `storr_tiledb` uses hash tables via [hashtab()] for caching layers (objects
-#'  and key metadata) instead of an environment.
+#'  and key metadata) instead of environments.
 #'
 #'  ## storr classes
 #'

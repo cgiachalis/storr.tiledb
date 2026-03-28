@@ -31,8 +31,9 @@ Create a 'storr' using TileDB driver for storage.
 \details{
 \link[storr:storr]{‘storr’} is a content addressed key-value store
 with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
-object, a subclass of \code{storr}, which provides identical interface with
-but some of it methods have been overwritten for speed and efficiency.
+object, a subclass of \code{storr}, with identical interface as \code{storr}
+but with some of its methods to have been rewritten for
+speed and efficiency.
 
 \code{storr_tiledb} also offers (1) option to store key metadata, such as key
 expiration date-time and notes, (2) asynchronous writes
