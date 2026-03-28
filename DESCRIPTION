@@ -1,25 +1,27 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.8
-Date: 2026-03-25
+Version: 0.0.9
+Date: 2026-03-28
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>
-Description: What the package does (one paragraph).
+Description: Provides a TileDB driver for content addressed key value store
+interface from storr package.
 License: file LICENSE
 URL: https://github.com/cgiachalis/storr.tiledb
 BugReports: https://github.com/cgiachalis/storr.tiledb/issues
 Depends:
     R (>= 4.4.0)
 Imports:
-    storr,
     arrow,
     cli,
     data.table,
+    digest,
     mirai (>= 2.6.0),
-    fs,
     R6,
-    R6.tiledb (>= 0.2.0.42)
+    R6.tiledb (>= 0.2.0.42),
+    storr,
+    tiledb
 Suggests: 
     litedown,
     testthat (>= 3.0.0),
@@ -28,7 +30,7 @@ VignetteBuilder:
     litedown
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-Config/testthat/start-first:auto*
+Config/testthat/start-first: auto*
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
