@@ -12,7 +12,7 @@ test_that("storr_tiledb", {
                                      keep_open = FALSE,
                                      hash_algorithm = "sha1"))
 
-  expect_s3_class(st, "TileDBStorr")
+  expect_s3_class(st, c("TileDBStorr", "storr", "R6"), exact = TRUE)
   expect_true(st$driver$is_open())
   expect_true(st$driver$members_instantiated)
   expect_equal(st$driver$hash_algorithm, "sha1")
@@ -58,7 +58,6 @@ test_that("keys_with_expiration", {
   expect_equal(colnames(arrw), c("namespace", "key"))
 
 })
-
 
 test_that("expired_keys and has_expired_keys", {
 
@@ -138,4 +137,3 @@ test_that("clear_expired_keys", {
   expect_false(sto$has_expired_keys(NULL))
 
 })
-

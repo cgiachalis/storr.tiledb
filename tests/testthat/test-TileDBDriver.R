@@ -375,4 +375,3 @@ test_that("delete_expired_keys", {
   expect_equal(dr$num_expired_keys(NULL), 0)
 
 })
-
