@@ -739,8 +739,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Delete namespaces.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be cleared.
+    #' @param ns `r sto_namespaces_or_null`
     #'
     #' @return A logical vector indicating successful deletion or not.
     #' `FALSE` means the namespace was not found in database.
@@ -793,19 +792,15 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the key-namespace pairs with expiration timestamps.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
     #' @return An `ArrowObject` object.
     #'
-    keys_with_expiration = function(ns, datetimes = TRUE) {
+    keys_with_expiration = function(namespace, datetimes = TRUE) {
 
-      if (!(.is_scalar_character(ns) || is.null(ns))) {
-        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
-                       call = NULL)
-      }
+      check_character_or_null(namespace)
 
       arrobj <- private$keys_array()
 
@@ -817,8 +812,8 @@ TileDBDriver <- R6::R6Class(
 
       sp <- list()
 
-      if (!is.null(ns)) {
-        sp <- list(namespace = ns)
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
       }
 
       if (datetimes) {
@@ -835,19 +830,15 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the key-namespace pairs without expiration timestamps.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
     #' @return An `ArrowObject` object.
     #'
-    keys_without_expiration = function(ns, datetimes = TRUE) {
+    keys_without_expiration = function(namespace, datetimes = TRUE) {
 
-      if (!(.is_character(ns) || is.null(ns))) {
-        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
-                       call = NULL)
-      }
+      check_character_or_null(namespace)
 
       arrobj <- private$keys_array()
 
@@ -859,8 +850,8 @@ TileDBDriver <- R6::R6Class(
 
       sp <- list()
 
-      if (!is.null(ns)) {
-        sp <- list(namespace = ns)
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
       }
 
       if (datetimes) {
@@ -877,19 +868,15 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the expired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
     #' @return An `ArrowObject` object.
     #'
-    expired_keys = function(ns, datetimes = TRUE) {
+    expired_keys = function(namespace, datetimes = TRUE) {
 
-      if (!(.is_character(ns) || is.null(ns))) {
-        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
-                       call = NULL)
-      }
+      check_character_or_null(namespace)
 
       arrobj <- private$keys_array()
 
@@ -908,8 +895,8 @@ TileDBDriver <- R6::R6Class(
 
       sp <- list()
 
-      if (!is.null(ns)) {
-        sp <- list(namespace = ns)
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
       }
 
       if (datetimes) {
@@ -926,19 +913,15 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the unexpired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
     #' @return An `ArrowObject` object.
     #'
-    unexpired_keys = function(ns, datetimes = TRUE) {
+    unexpired_keys = function(namespace, datetimes = TRUE) {
 
-      if (!(.is_character(ns) || is.null(ns))) {
-        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.",
-                       call = NULL)
-      }
+      check_character_or_null(namespace)
 
       arrobj <- private$keys_array()
 
@@ -957,8 +940,8 @@ TileDBDriver <- R6::R6Class(
 
       sp <- list()
 
-      if (!is.null(ns)) {
-        sp <- list(namespace = ns)
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
       }
 
       if (datetimes) {
@@ -975,16 +958,13 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the expired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return A boolean value `TRUE` indicating success, invisibly.
     #'
-    delete_expired_keys = function(ns) {
+    delete_expired_keys = function(namespace) {
 
-      if (!(.is_character(ns) || is.null(ns))) {
-        cli::cli_abort("{.arg {deparse(substitute(ns))}} should be a character vector or NULL.", call = NULL)
-      }
+      check_character_or_null(namespace)
 
       arrobj <- private$keys_array()
 
@@ -1003,10 +983,10 @@ TileDBDriver <- R6::R6Class(
 
       qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
 
-      if (!is.null(ns)) {
+      if (!is.null(namespace)) {
 
         qc_ns <- tiledb::tiledb_query_condition_create(name = "namespace",
-                                                       values = ns,
+                                                       values = namespace,
                                                        op = "IN")
 
         qc <- tiledb::tiledb_query_condition_combine(qc_ns, qc, "AND")
@@ -1040,53 +1020,49 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Get the number of expired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return A numeric value.
     #'
-    num_expired_keys = function(ns) {
+    num_expired_keys = function(namespace) {
 
-      arr <- self$expired_keys(ns, datetimes = FALSE)
+      arr <- self$expired_keys(namespace, datetimes = FALSE)
       arr[]$num_rows
     },
 
     #' @description Get the number of unexpired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return A numeric value.
     #'
-    num_unexpired_keys = function(ns) {
+    num_unexpired_keys = function(namespace) {
 
-      arr <- self$unexpired_keys(ns, datetimes = FALSE)
+      arr <- self$unexpired_keys(namespace, datetimes = FALSE)
       arr[]$num_rows
     },
 
     #' @description Check for expired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return `TRUE` for expired keys, `FALSE` otherwise.
     #'
-    has_expired_keys = function(ns) {
+    has_expired_keys = function(namespace) {
 
-      arr <- self$expired_keys(ns, datetimes = FALSE)
+      arr <- self$expired_keys(namespace, datetimes = FALSE)
       arr[]$num_rows != 0
     },
 
     #' @description Check for unexpired key-namespace pairs.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be used.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return `TRUE` for unexpired keys, `FALSE` otherwise.
     #'
-    has_unexpired_keys = function(ns) {
+    has_unexpired_keys = function(namespace) {
 
-      arr <- self$unexpired_keys(ns, datetimes = FALSE)
+      arr <- self$unexpired_keys(namespace, datetimes = FALSE)
       arr[]$num_rows != 0
     }
   )

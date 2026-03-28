@@ -806,8 +806,7 @@ Get the key-namespace pairs with expiration timestamps.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces. Use \code{NULL} to
-select all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -831,8 +830,7 @@ Get the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces. Use \code{NULL} to
-select all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -855,8 +853,7 @@ Check for expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces. Use \code{NULL} to
-select all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -876,8 +873,7 @@ Remove the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces. Use \code{NULL} to
-select all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }

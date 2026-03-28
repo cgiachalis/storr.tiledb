@@ -71,3 +71,14 @@ vlapply <- function(X, FUN, ...) {
   vapply(X, FUN, logical(1), ...)
 }
 
+check_tiledb_config <- function(x) {
+  if (!inherits(x, "tiledb_config")) {
+    cli::cli_abort("{.arg {deparse(substitute(x))}} should be of class {.help [{.fun tiledb_config}](tiledb::tiledb_config)}.", call = NULL)
+  }
+}
+
+check_character_or_null <- function(x) {
+  if (!(.is_character(x) || is.null(x))) {
+    cli::cli_abort("{.arg {deparse(substitute(x))}} should be a character vector or NULL.", call = NULL)
+  }
+}

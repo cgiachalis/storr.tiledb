@@ -623,8 +623,7 @@ Delete namespaces.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be cleared.}
+\item{\code{ns}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -639,14 +638,13 @@ A logical vector indicating successful deletion or not.
 \subsection{Method \code{keys_with_expiration()}}{
 Get the key-namespace pairs with expiration timestamps.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_with_expiration(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_with_expiration(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -663,14 +661,13 @@ An \code{ArrowObject} object.
 \subsection{Method \code{keys_without_expiration()}}{
 Get the key-namespace pairs without expiration timestamps.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_without_expiration(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_without_expiration(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -687,14 +684,13 @@ An \code{ArrowObject} object.
 \subsection{Method \code{expired_keys()}}{
 Get the expired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$expired_keys(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$expired_keys(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -711,14 +707,13 @@ An \code{ArrowObject} object.
 \subsection{Method \code{unexpired_keys()}}{
 Get the unexpired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$unexpired_keys(ns, datetimes = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$unexpired_keys(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -735,14 +730,13 @@ An \code{ArrowObject} object.
 \subsection{Method \code{delete_expired_keys()}}{
 Get the expired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_expired_keys(ns)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_expired_keys(namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -756,14 +750,13 @@ A boolean value \code{TRUE} indicating success, invisibly.
 \subsection{Method \code{num_expired_keys()}}{
 Get the number of expired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_expired_keys(ns)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_expired_keys(namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -777,14 +770,13 @@ A numeric value.
 \subsection{Method \code{num_unexpired_keys()}}{
 Get the number of unexpired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_unexpired_keys(ns)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_unexpired_keys(namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -798,14 +790,13 @@ A numeric value.
 \subsection{Method \code{has_expired_keys()}}{
 Check for expired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_expired_keys(ns)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_expired_keys(namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -819,14 +810,13 @@ namespaces will be used.}
 \subsection{Method \code{has_unexpired_keys()}}{
 Check for unexpired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_unexpired_keys(ns)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_unexpired_keys(namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces. If \code{NULL} all
-namespaces will be used.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }

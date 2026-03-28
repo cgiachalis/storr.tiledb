@@ -1562,8 +1562,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get the key-namespace pairs with expiration timestamps.
     #'
-    #' @param namespace A character vector of namespaces. Use `NULL` to
-    #' select all namespaces.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
@@ -1576,8 +1575,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get the expired key-namespace pairs.
     #'
-    #' @param namespace A character vector of namespaces. Use `NULL` to
-    #' select all namespaces.
+    #' @param namespace `r sto_namespaces_or_null`
     #' @param datetimes Should the `expires_at` column be returned?
     #' Default is `TRUE`.
     #'
@@ -1590,8 +1588,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Check for expired key-namespace pairs.
     #'
-    #' @param namespace A character vector of namespaces. Use `NULL` to
-    #' select all namespaces.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return `TRUE` for expired keys, `FALSE` otherwise.
     #'
@@ -1603,8 +1600,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Remove the expired key-namespace pairs.
     #'
-    #' @param namespace A character vector of namespaces. Use `NULL` to
-    #' select all namespaces.
+    #' @param namespace `r sto_namespaces_or_null`
     #'
     #' @return A boolean value `TRUE` indicating success, invisibly.
     #'
