@@ -623,7 +623,7 @@ Delete namespaces.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ns}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{ns}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -644,7 +644,7 @@ Get the key-namespace pairs with expiration timestamps.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -667,7 +667,7 @@ Get the key-namespace pairs without expiration timestamps.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -690,7 +690,7 @@ Get the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -713,7 +713,7 @@ Get the unexpired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -736,7 +736,7 @@ Get the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -756,7 +756,7 @@ Get the number of expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -776,7 +776,7 @@ Get the number of unexpired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -796,7 +796,7 @@ Check for expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -816,7 +816,7 @@ Check for unexpired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }

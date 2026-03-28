@@ -806,7 +806,7 @@ Get the key-namespace pairs with expiration timestamps.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -830,7 +830,7 @@ Get the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 
 \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
@@ -847,13 +847,13 @@ An object of class \code{data.table}.
 \subsection{Method \code{has_expired_keys()}}{
 Check for expired key-namespace pairs.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$has_expired_keys(namespace)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$has_expired_keys(namespace = self$default_namespace)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
@@ -873,7 +873,7 @@ Remove the expired key-namespace pairs.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} to for all namespaces.}
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
 }
 \if{html}{\out{</div>}}
 }
