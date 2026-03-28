@@ -1580,7 +1580,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return `TRUE` for expired keys, `FALSE` otherwise.
     #'
-    has_expired_keys = function(namespace) {
+    has_expired_keys = function(namespace = self$default_namespace) {
 
       self$driver$has_expired_keys(namespace)
 
