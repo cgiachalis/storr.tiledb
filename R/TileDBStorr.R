@@ -276,9 +276,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -391,9 +389,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       # mirai namespace compute profile
       ns <- .storr_profile
@@ -634,9 +630,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -748,9 +742,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       # mirai namespace compute profile
       ns <- .storr_profile
@@ -1210,9 +1202,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -1327,9 +1317,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
