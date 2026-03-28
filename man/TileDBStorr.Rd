@@ -77,6 +77,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
 \item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
 \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
+\item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
 \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
 }
@@ -840,6 +841,27 @@ Default is \code{TRUE}.}
 }
 \subsection{Returns}{
 An object of class \code{data.table}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-has_expired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-has_expired_keys}{}}}
+\subsection{Method \code{has_expired_keys()}}{
+Check for expired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$has_expired_keys(namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces. Use \code{NULL} to
+select all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for expired keys, \code{FALSE} otherwise.
 }
 }
 \if{html}{\out{<hr>}}

@@ -1588,6 +1588,19 @@ TileDBStorr <- R6::R6Class(
       data.table::as.data.table(out)
     },
 
+    #' @description Check for expired key-namespace pairs.
+    #'
+    #' @param namespace A character vector of namespaces. Use `NULL` to
+    #' select all namespaces.
+    #'
+    #' @return `TRUE` for expired keys, `FALSE` otherwise.
+    #'
+    has_expired_keys = function(namespace) {
+
+      self$driver$has_expired_keys(namespace)
+
+    },
+
     #' @description Remove the expired key-namespace pairs.
     #'
     #' @param namespace A character vector of namespaces. Use `NULL` to

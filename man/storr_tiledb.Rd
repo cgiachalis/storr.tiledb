@@ -42,7 +42,7 @@ framework.
 \subsection{Cache layer}{
 
 \code{storr_tiledb} uses hash tables via \code{\link[=hashtab]{hashtab()}} for caching layers (objects
-and key metadata) instead of an environment.
+and key metadata) instead of environments.
 }
 
 \subsection{storr classes}{
