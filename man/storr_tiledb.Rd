@@ -5,7 +5,7 @@
 \title{A Storr using TileDB Engine}
 \usage{
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
-  init = FALSE, async = FALSE, ...)
+  init = FALSE, hash_algorithm = NULL, async = FALSE, ...)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -16,11 +16,14 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 \item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
 
+\item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
+'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
+
 \item{async}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
 functions? Default is  \code{FALSE}.}
 
-\item{...}{Other arguments passed to driver's create method when \code{init = TRUE}.
-Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}
+\item{...}{Other arguments passed to driver when \code{init = TRUE}.
+Valid arguments: \code{compression_level} and \code{keep_open}.}
 }
 \value{
 An object of class \link{TileDBStorr}, R6.

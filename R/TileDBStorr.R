@@ -1558,7 +1558,7 @@ TileDBStorr <- R6::R6Class(
     #' @return An object of class `data.table`.
     #'
     keys_with_expiration = function(namespace = self$default_namespace, datetimes = TRUE) {
-      out <- self$driver$ keys_with_expiration(namespace, datetimes = datetimes)
+      out <- self$driver$keys_with_expiration(namespace, datetimes = datetimes)
       data.table::as.data.table(out)
     },
 

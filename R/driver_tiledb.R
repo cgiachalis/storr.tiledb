@@ -109,7 +109,8 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
   dr
 }
 
-#' @param hash_algorithm Select a hash algorithm.
+#' @param hash_algorithm Select a hash algorithm supported by \link[digest:digest]{digest}:
+#'  `r sQuote(formals(digest::digest)$algo[-1])`. If not given, the  default is 'md5'.
 #' @param compression_level Set an integer value for ZSTD compression level applied
 #' in data objects. (experimental).
 #'
