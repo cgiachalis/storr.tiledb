@@ -7,15 +7,18 @@
 A \code{TileDBStorr}, \code{R6} object.
 }
 \description{
-An R6 class that represents a TileDB storr.
+An R6 class that represents a storr interface for TileDB
+driver.
 
-This is a subclass of \code{storr} class from \code{storr} package that is
-designed to work with a TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.
+\code{TileDBStorr} is a subclass of \link[storr:storr]{‘storr’} that works only
+with \link{TileDBdriver} as it overwrites some of its parent class methods in order
+to use the back-end's methods directly.
 
-\code{TileDBStorr} overwrites some of its parent class methods to take
-advantage the functionality of the underlying back-end and also to
-accommodate for the unique features: asynchronous writes and key
-metadata (\code{notes}, \code{expires_at}).
+\code{TileDBStorr} also enhances the storr interface by adding new features:
+\itemize{
+\item Optional notes and key expiration timestamps
+\item asynchronous writes
+}
 
 This class is not intended to be used directly and the preferred
 usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
