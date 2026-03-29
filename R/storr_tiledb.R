@@ -52,6 +52,8 @@
 #' @param default_namespace The default namespace: `"objects"`.
 #' @param async Should the [mirai] daemons be enabled for async
 #'  functions? Default is  `FALSE`.
+#' @param ... Other arguments passed to driver when `init = TRUE`.
+#'  Valid arguments: `compression_level` and `keep_open`.
 #'
 #' @returns An object of class [TileDBStorr], R6.
 #'
@@ -63,10 +65,11 @@ storr_tiledb <- function(uri,
                          default_namespace = "objects",
                          context = NULL,
                          init = FALSE,
+                         hash_algorithm = NULL,
                          async = FALSE, ...) {
 
   # check scalar namespace
-  dr <- driver_tiledb(uri, context = context, init = init, ...)
+  dr <- driver_tiledb(uri, context = context, init = init, hash_algorithm = hash_algorithm,...)
   TileDBStorr$new(dr, default_namespace = default_namespace, async = async)
 
 }
