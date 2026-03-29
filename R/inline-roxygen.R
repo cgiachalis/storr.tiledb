@@ -37,6 +37,8 @@ sto_namespace <- function(n = 0) {
   }
 }
 
+sto_namespaces_or_null <- "A character vector of namespaces or `NULL` for all namespaces."
+
 sto_expires <- function(n = 0) {
   if (n == 0) {
     "A date-time object of class `POSIXct` (optional)."

@@ -1,9 +1,9 @@
 hashkeys = function(h) {
 
-  val <- vector("character", numhash(h))
+  val <- vector("character", utils::numhash(h))
   idx <- 0
 
-  maphash(h, function(k, v) {
+  utils::maphash(h, function(k, v) {
     idx <<- idx + 1
     val[idx] <<- k
   })

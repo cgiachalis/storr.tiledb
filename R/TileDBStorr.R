@@ -1,14 +1,15 @@
 #' @title Generate a `TileDBStorr` Object
 #'
-#' @description An R6 class that represents a TileDB storr.
+#' @description An R6 class that represents a storr interface for TileDB
+#' driver.
 #'
-#' This is a subclass of `storr` class from `storr` package that is
-#' designed to work with a TileDB driver, see [driver_tiledb()].
+#' `TileDBStorr` is a subclass of \link[storr:storr]{‘storr’} that works only
+#' with [TileDBdriver] as it overwrites some of its parent class methods in order
+#' to use the back-end's methods directly.
 #'
-#' `TileDBStorr` overwrites some of its parent class methods to take
-#' advantage the functionality of the underlying back-end and also to
-#' accommodate for the unique features: asynchronous writes and key
-#' metadata (`notes`, `expires_at`).
+#' `TileDBStorr` also enhances the storr interface by adding new features:
+#'  - Optional notes and key expiration timestamps
+#'  - asynchronous writes
 #'
 #' This class is not intended to be used directly and the preferred
 #' usage is through [storr_tiledb()].
@@ -276,9 +277,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -391,9 +390,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       # mirai namespace compute profile
       ns <- .storr_profile
@@ -634,9 +631,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -748,9 +743,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       # mirai namespace compute profile
       ns <- .storr_profile
@@ -1210,9 +1203,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -1327,9 +1318,7 @@ TileDBStorr <- R6::R6Class(
         cfg <- tiledb::config(self$driver$ctx)
       }
 
-      if (!inherits(cfg, "tiledb_config")){
-        stop("'cfg' should be of class 'tiledb_config'", call. = FALSE)
-      }
+      check_tiledb_config(cfg)
 
       ns <- .storr_profile
 
@@ -1505,8 +1494,7 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
-    # STATUS: DONE
-    # storr reports back the number of deleted keys
+    # NB: storr reports back the number of deleted keys
     #' @description Clear a storr.
     #'
     #' @param namespace A scalar character of namespace name or `NULL` to
@@ -1543,14 +1531,14 @@ TileDBStorr <- R6::R6Class(
 
       # Remove cache metadata for primary index key:namespace
       #
-      #  NOTE 1: We do it here instead when invoking gc() because on that
+      #  NB 1: We do it here instead when invoking gc() because on that
       # occasion we'll have to lookup again the key, namespace pairs. Since
       # we have deleted the hashes which correspond to key:namespace, their
       # cache can safely be removed; this is because when calling get_hash(),
       # it will always go to 'tbl_keys' and checks if the hash exists for the
       # key:namespace.
       #
-      # NOTE 2: We cannot do the same for cached hashes as they might
+      # NB 2: We cannot do the same for cached hashes as they might
       # be used by another key:namespace; but we do it in $gc() instead.
       #
       km <- paste(n$key, n$namespace, sep = ":")
@@ -1561,12 +1549,66 @@ TileDBStorr <- R6::R6Class(
       invisible(deleted_hashes)
     },
 
+    #' @description Get the key-namespace pairs with expiration timestamps.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An object of class `data.table`.
+    #'
+    keys_with_expiration = function(namespace = self$default_namespace, datetimes = TRUE) {
+      out <- self$driver$ keys_with_expiration(namespace, datetimes = datetimes)
+      data.table::as.data.table(out)
+    },
+
+    #' @description Get the expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An object of class `data.table`.
+    #'
+    expired_keys = function(namespace = self$default_namespace, datetimes = TRUE) {
+      out <- self$driver$expired_keys(namespace, datetimes = datetimes)
+      data.table::as.data.table(out)
+    },
+
+    #' @description Check for expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return `TRUE` for expired keys, `FALSE` otherwise.
+    #'
+    has_expired_keys = function(namespace = self$default_namespace) {
+
+      self$driver$has_expired_keys(namespace)
+
+    },
+
+    #' @description Remove the expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return A boolean value `TRUE` indicating success, invisibly.
+    #'
+    clear_expired_keys = function(namespace = self$default_namespace) {
+      self$driver$delete_expired_keys(namespace)
+    },
+
     #' @description Garbage collect the storr.
     #'
+    #' @param clear_expired Should the expired keys be deleted?
+    #' Default is `FALSE`.
     #'
     #' @return A vector of unused hashes, invisibly.
     #'
-    gc = function() {
+    gc = function(clear_expired = FALSE) {
+
+      if (clear_expired) {
+        self$driver$delete_expired_keys(NULL)
+      }
 
       # Deletes the objects in 'tbl_data'
       unused <- self$driver$delete_unused_hashes()

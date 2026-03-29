@@ -4,10 +4,48 @@
 #'
 
 
-
 #' @title Generate a `TileDBDriver` Object
 #'
-#' @description An R6 class for creating a content addressable storage.
+#' @description An R6 class that represents a content addressed storage
+#' driver that complies with 'storr' interface using TileDB Embedded as a
+#' back-end.
+#'
+#' This class is intended for usage in [storr] or [TileDBStorr]. See `Methods`
+#' section for class methods definitions.
+#'
+#' Overview of core operations:
+#'
+#' **Hash Management**
+#' - `get_hash` and `mget_hash`: Retrieve hash values for a given key and namespace.
+#' - `set_hash` and `mset_hash`: Set hash values with metadata like expiry date-times and notes.
+#' - `exists_hash`: Verify the existence of specific keys, namespaces
+#' - `del_hash`: Remove key-namespace pairs.
+#' - `delete_namespaces`: Clear namespaces or delete specified ones.
+#' - `list_namespaces`, `list_keys`: Retrieve all namespaces or keys for a given namespace.
+#'
+#' **Object Management**
+#' - `get_object` and `mget_object`: Fetch serialized R objects using hash values.
+#' - `set_object` and `mset_object`: Store serialized R objects.
+#' - `exists_object`: Verify the existence of specific objects.
+#' - `del_object`: Remove serialized objects.
+#' - `delete_unused_hashes`: Remove hashes that are not in active use.
+#' - `list_hashes`: Retrieve all hashes
+#' - `list_unused_hashes`: Identify unused hashes.
+#'
+#' **Key-Namespace Metadata**
+#'  - `get_keymeta`, `set_keymeta`, and `mset_keymeta`: Manage metadata such as
+#'   expiry times and notes for key-namespace pairs.
+#'
+#' **Expiration Management**
+#' - `keys_with_expiration` and `keys_without_expiration`:  Retrieve the key namespace pairs with
+#' or without expiration timestamps.
+#' - `expired_keys` and `unexpired_keys`: Retrieve the (un)expired key namespace pairs.
+#' - `delete_expired_keys`: Delete all expired keys or for specific namespaces.
+#' - `num_expired_keys` and `num_unexpired_keys`: Get the number of (un)expired keys or
+#' for specific namespaces.
+#' - `has_expired_keys` and `has_unexpired_keys`: Verify the existence of (un)expired keys or
+#'  for specific namespaces.
+#'
 #'
 #' @returns A `TileDBDriver`, `R6` object.
 #'
@@ -526,8 +564,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # NB: Now the array handle is opened at delete mode,
-        #       so reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
        self$members$tbl_keys$object$reopen(mode)
       }
@@ -571,8 +609,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # Hint: Now, the array handle is opened at delete mode,
-        #       reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
         self$members$tbl_data$object$reopen(mode)
 
@@ -690,8 +728,8 @@ TileDBDriver <- R6::R6Class(
 
         tiledb::tiledb_query_finalize(qry)
 
-        # Hint: Now, the array handle is opened at delete mode,
-        #       reopen to previous mode
+        # NB: At this point the array handle is opened at delete mode,
+        #     so we reopen to previous mode
         mode <- self$mode
         self$members$tbl_data$object$reopen(mode)
       }
@@ -701,8 +739,7 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Delete namespaces.
     #'
-    #' @param ns A character vector of namespaces. If `NULL` all
-    #' namespaces will be cleared.
+    #' @param ns `r sto_namespaces_or_null`
     #'
     #' @return A logical vector indicating successful deletion or not.
     #' `FALSE` means the namespace was not found in database.
@@ -744,13 +781,289 @@ TileDBDriver <- R6::R6Class(
 
      tiledb::tiledb_query_finalize(qry)
 
-     # Hint: Now, the array handle is opened at delete mode,
-     #       reopen to previous mode
+     # NB: At this point the array handle is opened at delete mode,
+     #     so we reopen to previous mode
      mode <- self$mode
      self$members$tbl_keys$object$reopen(mode)
 
      exists
 
+    },
+
+    #' @description Get the key-namespace pairs with expiration timestamps.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An `ArrowObject` object.
+    #'
+    keys_with_expiration = function(namespace, datetimes = TRUE) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                value = as.POSIXct(NA),
+                                                dtype = "DATETIME_MS",
+                                                op = "NE")
+
+      sp <- list()
+
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
+      }
+
+      if (datetimes) {
+        attrs <- "expires_at"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")[]
+    },
+
+    #' @description Get the key-namespace pairs without expiration timestamps.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An `ArrowObject` object.
+    #'
+    keys_without_expiration = function(namespace, datetimes = TRUE) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                value = as.POSIXct(NA),
+                                                dtype = "DATETIME_MS",
+                                                op = "EQ")
+
+      sp <- list()
+
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
+      }
+
+      if (datetimes) {
+        attrs <- "expires_at"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")[]
+    },
+
+    #' @description Get the expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An `ArrowObject` object.
+    #'
+    expired_keys = function(namespace, datetimes = TRUE) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = as.POSIXct(NA),
+                                              dtype = "DATETIME_MS",
+                                              op = "NE")
+      # Expired datetimes (now > index)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = Sys.time(),
+                                              dtype = "DATETIME_MS",
+                                              op = "LT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      sp <- list()
+
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
+      }
+
+      if (datetimes) {
+        attrs <- "expires_at"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")[]
+    },
+
+    #' @description Get the unexpired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param datetimes Should the `expires_at` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An `ArrowObject` object.
+    #'
+    unexpired_keys = function(namespace, datetimes = TRUE) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = as.POSIXct(NA),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "NE")
+      # Expired datetimes (now > index)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = Sys.time(),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "GT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      sp <- list()
+
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
+      }
+
+      if (datetimes) {
+        attrs <- "expires_at"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")[]
+    },
+
+    #' @description Get the expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return A boolean value `TRUE` indicating success, invisibly.
+    #'
+    delete_expired_keys = function(namespace) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # expired keys: now > expires_at excl datetime with NA values
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = as.POSIXct(NA),
+                                              dtype = "DATETIME_MS",
+                                              op = "NE")
+      # Expired datetimes (now > index)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                              value = Sys.time(),
+                                              dtype = "DATETIME_MS",
+                                              op = "LT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      if (!is.null(namespace)) {
+
+        qc_ns <- tiledb::tiledb_query_condition_create(name = "namespace",
+                                                       values = namespace,
+                                                       op = "IN")
+
+        qc <- tiledb::tiledb_query_condition_combine(qc_ns, qc, "AND")
+      }
+
+      arr <- arrobj$tiledb_array()
+
+      # Close array as we're going to submit a delete query
+      if (tiledb::tiledb_array_is_open(arr)) {
+        arr <- tiledb::tiledb_array_close(arr)
+      }
+
+      tiledb::query_condition(arr) <- qc
+
+      qry <- tiledb::tiledb_query(arr, "DELETE")
+
+      qry <- tiledb::tiledb_query_set_condition(qry, qc)
+
+      tiledb::tiledb_query_submit(qry)
+
+      tiledb::tiledb_query_finalize(qry)
+
+      # NB: Now the array handle is opened at delete mode,
+      #       so reopen to previous mode
+      mode <- self$mode
+      self$members$tbl_keys$object$reopen(mode)
+
+      invisible(TRUE)
+
+    },
+
+    #' @description Get the number of expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return A numeric value.
+    #'
+    num_expired_keys = function(namespace) {
+
+      arr <- self$expired_keys(namespace, datetimes = FALSE)
+      arr[]$num_rows
+    },
+
+    #' @description Get the number of unexpired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return A numeric value.
+    #'
+    num_unexpired_keys = function(namespace) {
+
+      arr <- self$unexpired_keys(namespace, datetimes = FALSE)
+      arr[]$num_rows
+    },
+
+    #' @description Check for expired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return `TRUE` for expired keys, `FALSE` otherwise.
+    #'
+    has_expired_keys = function(namespace) {
+
+      arr <- self$expired_keys(namespace, datetimes = FALSE)
+      arr[]$num_rows != 0
+    },
+
+    #' @description Check for unexpired key-namespace pairs.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return `TRUE` for unexpired keys, `FALSE` otherwise.
+    #'
+    has_unexpired_keys = function(namespace) {
+
+      arr <- self$unexpired_keys(namespace, datetimes = FALSE)
+      arr[]$num_rows != 0
     }
   )
 )

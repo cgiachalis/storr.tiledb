@@ -5,8 +5,6 @@
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-## storr.tiledb
-
 A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine
 as a back end.
 
@@ -41,8 +39,13 @@ time-stamps along with key-namespace pairs.
  
  - Cache layers are using hash tables (hashtab) instead of environments
 
-Also, using TileDB engine we get additional features: support for remote storages (S3, Azure, GSC),
-time-travelling capabilities and data versioning.
+Additional features that TileDB supports:
+
+ - Cloud storage (S3, Azure, GSC)
+ 
+ - Data versioning (time-travelling) and 
+ 
+ - Encryption
 
 ## Installation
 
@@ -74,7 +77,6 @@ $a
 [1] 1
 
 ```
-
 
 ## Other storr drivers
 

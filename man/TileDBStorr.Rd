@@ -7,15 +7,18 @@
 A \code{TileDBStorr}, \code{R6} object.
 }
 \description{
-An R6 class that represents a TileDB storr.
+An R6 class that represents a storr interface for TileDB
+driver.
 
-This is a subclass of \code{storr} class from \code{storr} package that is
-designed to work with a TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.
+\code{TileDBStorr} is a subclass of \link[storr:storr]{‘storr’} that works only
+with \link{TileDBdriver} as it overwrites some of its parent class methods in order
+to use the back-end's methods directly.
 
-\code{TileDBStorr} overwrites some of its parent class methods to take
-advantage the functionality of the underlying back-end and also to
-accommodate for the unique features: asynchronous writes and key
-metadata (\code{notes}, \code{expires_at}).
+\code{TileDBStorr} also enhances the storr interface by adding new features:
+\itemize{
+\item Optional notes and key expiration timestamps
+\item asynchronous writes
+}
 
 This class is not intended to be used directly and the preferred
 usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
@@ -75,6 +78,10 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
 \item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
+\item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
+\item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
+\item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
+\item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
 }
 }
@@ -790,14 +797,110 @@ deleted, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-keys_with_expiration"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-keys_with_expiration}{}}}
+\subsection{Method \code{keys_with_expiration()}}{
+Get the key-namespace pairs with expiration timestamps.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$keys_with_expiration(namespace = self$default_namespace,
+  datetimes = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+
+\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An object of class \code{data.table}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-expired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-expired_keys}{}}}
+\subsection{Method \code{expired_keys()}}{
+Get the expired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$expired_keys(namespace = self$default_namespace,
+  datetimes = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+
+\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An object of class \code{data.table}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-has_expired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-has_expired_keys}{}}}
+\subsection{Method \code{has_expired_keys()}}{
+Check for expired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$has_expired_keys(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} for expired keys, \code{FALSE} otherwise.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-clear_expired_keys"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-clear_expired_keys}{}}}
+\subsection{Method \code{clear_expired_keys()}}{
+Remove the expired key-namespace pairs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clear_expired_keys(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A boolean value \code{TRUE} indicating success, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-gc"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-gc}{}}}
 \subsection{Method \code{gc()}}{
 Garbage collect the storr.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$gc()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$gc(clear_expired = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{clear_expired}}{Should the expired keys be deleted?
+Default is \code{FALSE}.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of unused hashes, invisibly.
 }
