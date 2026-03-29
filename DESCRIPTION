@@ -1,13 +1,19 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
 Version: 0.0.9
-Date: 2026-03-28
+Date: 2026-03-29
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>
-Description: Provides a TileDB driver for content addressed key value store
-interface from storr package.
-License: file LICENSE
+Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
+    a content addressed key value store with an optional caching layer and
+    this package contributes a new driver using TileDB Embedded storage
+    engine as a backend. In addition, storr.tiledb comes with a subclass
+    of 'storr' in order to improve speed and efficiency but also enhances
+    the 'storr' with additional features, such as adding notes and
+    expiration timestamps as well as support for asynchronous and in
+    parallel writes.
+License: MIT + file LICENSE
 URL: https://github.com/cgiachalis/storr.tiledb
 BugReports: https://github.com/cgiachalis/storr.tiledb/issues
 Depends:
@@ -21,7 +27,7 @@ Imports:
     R6,
     R6.tiledb (>= 0.2.0.42),
     storr,
-    tiledb
+    tiledb (>= 0.33.0)
 Suggests: 
     litedown,
     testthat (>= 3.0.0),
