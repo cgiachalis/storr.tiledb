@@ -8,11 +8,10 @@
 
 ## Overview
 
-A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine
-as a back end.
+A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
 
 A storr is a content addressed key-value store for R objects with an optional cache layer
-and offers a common interface (set, get, del methods) across a range of different
+that offers a common interface (set, get, del methods) across a range of different
 storage drivers (DBI, LMDB, redis, rds, environment). The interface is provided
 by [storr](https://cloud.r-project.org/web/packages/storr/index.html) package and
 written by [Rich FitzJohn](https://github.com/richfitz). 
