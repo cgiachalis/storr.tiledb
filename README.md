@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
+## Overview
+
 A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine
 as a back end.
 
@@ -14,10 +16,11 @@ storage drivers (DBI, LMDB, redis, rds, environment). The interface is provided
 by [storr](https://cloud.r-project.org/web/packages/storr/index.html) package and
 written by [Rich FitzJohn](https://github.com/richfitz). 
 
+*What is storr.tiledb*
 
 The `storr.tiledb` contributes a new storr compliant driver using the TileDB storage engine.
 The package has its own storr R6 subclass that utilises the strengths of the underlying storage
-engine and offers some extra features, such as the option to add notes and expiration
+engine and offers some extra feature such as the option to add notes and expiration
 time-stamps along with key-namespace pairs. 
 
 > [!WARNING]  
