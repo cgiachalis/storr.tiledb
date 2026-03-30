@@ -68,6 +68,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mset_by_value_async}{\code{TileDBStorr$mset_by_value_async()}}
 \item \href{#method-TileDBStorr-set_value}{\code{TileDBStorr$set_value()}}
 \item \href{#method-TileDBStorr-mset_value}{\code{TileDBStorr$mset_value()}}
+\item \href{#method-TileDBStorr-get}{\code{TileDBStorr$get()}}
+\item \href{#method-TileDBStorr-mget}{\code{TileDBStorr$mget()}}
 \item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
 \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
 \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
@@ -97,7 +99,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists_object"><a href='../../storr/html/storr.html#method-storr-exists_object'><code>storr::storr$exists_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="fill"><a href='../../storr/html/storr.html#method-storr-fill'><code>storr::storr$fill()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="get"><a href='../../storr/html/storr.html#method-storr-get'><code>storr::storr$get()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="get_hash"><a href='../../storr/html/storr.html#method-storr-get_hash'><code>storr::storr$get_hash()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="hash_object"><a href='../../storr/html/storr.html#method-storr-hash_object'><code>storr::storr$hash_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
@@ -106,7 +107,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list"><a href='../../storr/html/storr.html#method-storr-list'><code>storr::storr$list()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_hashes"><a href='../../storr/html/storr.html#method-storr-list_hashes'><code>storr::storr$list_hashes()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_namespaces"><a href='../../storr/html/storr.html#method-storr-list_namespaces'><code>storr::storr$list_namespaces()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="mget"><a href='../../storr/html/storr.html#method-storr-mget'><code>storr::storr$mget()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="mget_hash"><a href='../../storr/html/storr.html#method-storr-mget_hash'><code>storr::storr$mget_hash()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="repair"><a href='../../storr/html/storr.html#method-storr-repair'><code>storr::storr$repair()</code></a></span></li>
 </ul>
@@ -157,7 +157,7 @@ The object, invisibly.
 Set a key value pair.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set(key, value, namespace = self$default_namespace, expires_at,
-  notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -191,7 +191,7 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
-  notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -222,7 +222,8 @@ A vector of hash values, invisibly.
 Set a key value pair asynchronously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_async(key, value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -264,7 +265,8 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -303,7 +305,7 @@ logical \code{TRUE} if an evaluation is successful.
 Set a key value pair using its hash as key.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -333,7 +335,7 @@ Set multiple key value pairs using their
 hashes as keys.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -363,7 +365,8 @@ Set a key value pair using its hash as key,
 asynchronously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value_async(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -404,7 +407,8 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -441,7 +445,8 @@ logical \code{TRUE} if an evaluation is successful.
 Add an R object. The key will be the hash value
 of the object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_value(value, use_cache = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_value(value, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -464,7 +469,8 @@ The hash value, invisibly.
 Add a vector of R objects. The keys will be the hash
 values of the objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_value(values, use_cache = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_value(values, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -481,12 +487,68 @@ A vector of hash values, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-get"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-get}{}}}
+\subsection{Method \code{get()}}{
+Get an object given a key-namespace pair.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A scalar character of key name.}
+
+\item{\code{namespace}}{A scalar character of namespace name.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The \code{R} object if available.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mget"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mget}{}}}
+\subsection{Method \code{mget()}}{
+Get multiple objects.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+
+\item{\code{missing}}{Value to use for missing elements.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A list of \code{R} objects.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_value}{}}}
 \subsection{Method \code{get_value()}}{
 Get an object given its hash.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_value(hash, use_cache = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_value(hash, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -508,7 +570,8 @@ The \code{R} object if available.
 \subsection{Method \code{mget_value()}}{
 Get multiple objects given their hashes.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_value(hash, use_cache = TRUE, missing = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_value(hash, use_cache = getOption("storr.tiledb.cache",
+  TRUE), missing = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -533,7 +596,7 @@ A list of \code{R} objects.
 Set key metadata.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -572,7 +635,7 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = TRUE)}\if{html}{\out{</div>}}
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -608,7 +671,8 @@ then nothing is set and a zero length character vector is returned.
 Set key metadata asynchronously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_keymeta_async(key, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -654,7 +718,8 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
-  expires_at, notes, use_cache = TRUE, cfg = NULL)}\if{html}{\out{</div>}}
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
+  cfg = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -697,7 +762,7 @@ then nothing is set and a zero length character vector is returned.
 Get key's metadata.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_keymeta(key, namespace = self$default_namespace,
-  use_cache = TRUE)}\if{html}{\out{</div>}}
+  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -727,7 +792,7 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
-  use_cache = TRUE, missing = NULL)}\if{html}{\out{</div>}}
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

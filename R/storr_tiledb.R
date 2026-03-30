@@ -5,49 +5,22 @@
 #' \link[storr:storr]{‘storr’} is a content addressed key-value store
 #'  with an optional caching layer. The `storr_tiledb` generates a [TileDBStorr]
 #'  object, a subclass of `storr`, with identical interface as `storr`
-#'  but with some of its methods to have been rewritten for
-#'  speed and efficiency.
+#'  but with some of its methods to have been rewritten for speed and efficiency.
+#'  Additionally, it supports metadata next to key-values (notes and
+#'  expiration timestamps) and asynchronous writes using the
+#'   [mirai](https://cran.r-project.org/web/packages/mirai/index.html) framework.
 #'
-#'  `storr_tiledb` also offers (1) option to store key metadata, such as key
-#'  expiration date-time and notes, (2) asynchronous writes
-#'  using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
-#'  framework.
+#'  `storr_tiledb()` and `storr(driver_tiledb())` can not be used interchangeably
+#'  if you use the extra features (i.e., expiration timestamps). The latter
+#'  is the standard storr interface and the former produces a subclass to support
+#'  the new features. Another difference, but not visible to the user, is that the
+#'  `storr_tiledb`'s cache layer uses hash tables via [hashtab()] instead of
+#'  environments.
 #'
-#'  ## Cache layer
+#'  By default, the cache layer is enabled. The global option `storr.tiledb.cache`
+#'  can be used to disable it, like so `options(storr.tiledb.cache = FALSE)`.
 #'
-#'  `storr_tiledb` uses hash tables via [hashtab()] for caching layers (objects
-#'  and key metadata) instead of environments.
-#'
-#'  ## storr classes
-#'
-#'  You can generate a key-value store in two ways:
-#'
-#'  ```
-#'  # URI path
-#'  uri <- tempfile()
-#'
-#'  # TileDB Storr subclass
-#'  sto <- storr_tiledb(uri, init = TRUE)
-#'
-#'  # storr class
-#'  dr <- driver_tiledb(uri)
-#'  sto <- storr::storr(dr)
-#'
-#'  ```
-#'
-#'  `storr_tiledb` has faster methods; in order to  view which method has been
-#'  overwritten, as well as the additional functionality, please refer to
-#'  [TileDBStorr] documentation.
-#'
-#' ## Key Metadata
-#'
-#'  TODO
-#'
-#' ## Async
-#'
-#'  TODO
-#'
-#'
+#
 #' @inheritParams driver_tiledb
 #' @param default_namespace The default namespace: `"objects"`.
 #' @param async Should the [mirai] daemons be enabled for async
@@ -60,6 +33,53 @@
 #' @seealso [driver_tiledb()]
 #'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # URI path
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 1, namespace = "ns1", notes = "note1")
+#'
+#' # listing methods
+#' sto$list("ns1") # b
+#' sto$list_namespaces() # "ns1"     "objects"
+#' sto$list_hashes() # "632336c518ae1c89ecf26ae5fbec5860"
+#'
+#' # get methods
+#' sto$get("a") # 1
+#' sto$get("b", "ns1") # 1
+#' sto$get_keymeta("b", "ns1") # list(exprires_at = NA, notes = "note1")
+#'
+#' #-----------------------------------------------------------------
+#' #   Storr with encryption
+#' #-----------------------------------------------------------------
+#'
+#' # Requires a TileDB Context with encryption configuration parameters
+#' key <- "0123456789abcdeF0123456789abcdeF"
+#' config <- tiledb::tiledb_config()
+#' config["sm.encryption_type"] <- "AES_256_GCM";
+#' config["sm.encryption_key"] <- key
+#' ctx <- tiledb::tiledb_ctx(config)
+#'
+#' # Create a storr with context that encapsulates encryption configuration
+#' uri_enc <- tempfile()
+#' stoe <- storr_tiledb(uri_enc, init = TRUE, context = ctx)
+#'
+#' stoe$set("a", 1)
+#' stoe$get("a") # 1
+#'
+#' # No access without the key
+#' # stoe_new <- storr_tiledb(uri_enc) # This will fail
+#'
+#' # Pass the context with encryption parameters
+#' stoe_new <- storr_tiledb(uri_enc, context = ctx)
+#' stoe_new$get("a") # 1
+#'}
+#'
 #'
 storr_tiledb <- function(uri,
                          default_namespace = "objects",

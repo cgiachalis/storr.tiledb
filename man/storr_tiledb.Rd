@@ -35,49 +35,68 @@ Create a 'storr' using TileDB driver for storage.
 \link[storr:storr]{‘storr’} is a content addressed key-value store
 with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
 object, a subclass of \code{storr}, with identical interface as \code{storr}
-but with some of its methods to have been rewritten for
-speed and efficiency.
+but with some of its methods to have been rewritten for speed and efficiency.
+Additionally, it supports metadata next to key-values (notes and
+expiration timestamps) and asynchronous writes using the
+\href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai} framework.
 
-\code{storr_tiledb} also offers (1) option to store key metadata, such as key
-expiration date-time and notes, (2) asynchronous writes
-using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
-framework.
-\subsection{Cache layer}{
+\code{storr_tiledb()} and \code{storr(driver_tiledb())} can not be used interchangeably
+if you use the extra features (i.e., expiration timestamps). The latter
+is the standard storr interface and the former produces a subclass to support
+the new features. Another difference, but not visible to the user, is that the
+\code{storr_tiledb}'s cache layer uses hash tables via \code{\link[=hashtab]{hashtab()}} instead of
+environments.
 
-\code{storr_tiledb} uses hash tables via \code{\link[=hashtab]{hashtab()}} for caching layers (objects
-and key metadata) instead of environments.
+By default, the cache layer is enabled. The global option \code{storr.tiledb.cache}
+can be used to disable it, like so \code{options(storr.tiledb.cache = FALSE)}.
 }
-
-\subsection{storr classes}{
-
-You can generate a key-value store in two ways:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{# URI path
+\examples{
+\dontrun{
+# URI path
 uri <- tempfile()
-
-# TileDB Storr subclass
 sto <- storr_tiledb(uri, init = TRUE)
 
-# storr class
-dr <- driver_tiledb(uri)
-sto <- storr::storr(dr)
+# set key-values
+sto$set("a", 1)
+sto$set("b", 1, namespace = "ns1", notes = "note1")
 
-}\if{html}{\out{</div>}}
+# listing methods
+sto$list("ns1") # b
+sto$list_namespaces() # "ns1"     "objects"
+sto$list_hashes() # "632336c518ae1c89ecf26ae5fbec5860"
 
-\code{storr_tiledb} has faster methods; in order to  view which method has been
-overwritten, as well as the additional functionality, please refer to
-\link{TileDBStorr} documentation.
+# get methods
+sto$get("a") # 1
+sto$get("b", "ns1") # 1
+sto$get_keymeta("b", "ns1") # list(exprires_at = NA, notes = "note1")
+
+#-----------------------------------------------------------------
+#   Storr with encryption
+#-----------------------------------------------------------------
+
+# Requires a TileDB Context with encryption configuration parameters
+key <- "0123456789abcdeF0123456789abcdeF"
+config <- tiledb::tiledb_config()
+config["sm.encryption_type"] <- "AES_256_GCM";
+config["sm.encryption_key"] <- key
+ctx <- tiledb::tiledb_ctx(config)
+
+# Create a storr with context that encapsulates encryption configuration
+uri_enc <- tempfile()
+stoe <- storr_tiledb(uri_enc, init = TRUE, context = ctx)
+
+stoe$set("a", 1)
+stoe$get("a") # 1
+
+# No access without the key
+# stoe_new <- storr_tiledb(uri_enc) # This will fail
+
+# Need a context that encryption configuration
+stoe_new <- storr_tiledb(uri_enc, context = ctx)
+stoe_new$get("a") # 1
 }
 
-\subsection{Key Metadata}{
 
-TODO
-}
-
-\subsection{Async}{
-
-TODO
-}
 }
 \seealso{
 \code{\link[=driver_tiledb]{driver_tiledb()}}
