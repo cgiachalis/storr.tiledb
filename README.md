@@ -16,7 +16,7 @@ storage drivers (DBI, LMDB, redis, rds, environment). The interface is provided
 by [storr](https://cloud.r-project.org/web/packages/storr/index.html) package and
 written by [Rich FitzJohn](https://github.com/richfitz). 
 
-*What is storr.tiledb*
+*What is storr.tiledb?*
 
 The `storr.tiledb` contributes a new storr compliant driver using the TileDB storage engine.
 The package has its own storr R6 subclass that utilises the strengths of the underlying storage
