@@ -137,3 +137,33 @@ test_that("clear_expired_keys", {
   expect_false(sto$has_expired_keys(NULL))
 
 })
+
+test_that("cache global option", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  sto$set("a", 1)
+
+  withr::with_options(list(storr.tiledb.cache = FALSE), {
+    sto$set("b", 2)
+    res <- sto$get(c("a"))
+    res <- sto$mget(c("a", "b"))
+  })
+
+
+  expect_equal(numhash(sto$envir), 1)
+  expect_equal(numhash(sto$envir_metadata), 1)
+
+
+  withr::with_options(list(storr.tiledb.cache = TRUE), {
+    sto$set("b", 2)
+    res <- sto$get(c("a"))
+    res <- sto$mget(c("a", "b"))
+  })
+
+  expect_equal(numhash(sto$envir), 2)
+  expect_equal(numhash(sto$envir_metadata), 2)
+
+})

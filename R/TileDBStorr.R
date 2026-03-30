@@ -136,7 +136,7 @@ TileDBStorr <- R6::R6Class(
                    namespace = self$default_namespace,
                    expires_at,
                    notes,
-                   use_cache = TRUE) {
+                   use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -188,7 +188,7 @@ TileDBStorr <- R6::R6Class(
                     namespace = self$default_namespace,
                     expires_at,
                     notes,
-                    use_cache = TRUE) {
+                    use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       p <- storr::join_key_namespace(key, namespace)
       n <- p$n
@@ -254,7 +254,7 @@ TileDBStorr <- R6::R6Class(
                          namespace = self$default_namespace,
                          expires_at,
                          notes,
-                         use_cache = TRUE,
+                         use_cache = getOption("storr.tiledb.cache", TRUE),
                          cfg = NULL) {
 
       private$check_input(key, n = 1, type = "character")
@@ -364,7 +364,7 @@ TileDBStorr <- R6::R6Class(
                           namespace = self$default_namespace,
                           expires_at,
                           notes,
-                          use_cache = TRUE,
+                          use_cache = getOption("storr.tiledb.cache", TRUE),
                           cfg = NULL) {
 
       p <- storr::join_key_namespace(key, namespace)
@@ -507,7 +507,7 @@ TileDBStorr <- R6::R6Class(
                             namespace = self$default_namespace,
                             expires_at,
                             notes,
-                            use_cache = TRUE) {
+                            use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(NA_real_)
@@ -552,7 +552,7 @@ TileDBStorr <- R6::R6Class(
                              namespace = self$default_namespace,
                              expires_at,
                              notes,
-                             use_cache = TRUE) {
+                             use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       # TODO: review length and km recycling..
       n <- length(value)
@@ -610,7 +610,7 @@ TileDBStorr <- R6::R6Class(
                                   namespace = self$default_namespace,
                                   expires_at,
                                   notes,
-                                  use_cache = TRUE,
+                                  use_cache = getOption("storr.tiledb.cache", TRUE),
                                   cfg = NULL) {
 
       if (missing(expires_at)) {
@@ -719,7 +719,7 @@ TileDBStorr <- R6::R6Class(
                                    namespace = self$default_namespace,
                                    expires_at,
                                    notes,
-                                   use_cache = TRUE,
+                                   use_cache = getOption("storr.tiledb.cache", TRUE),
                                    cfg = NULL) {
 
       # TODO: review length and km recycling..
@@ -862,7 +862,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return The hash value, invisibly.
     #'
-    set_value = function(value, use_cache = TRUE) {
+    set_value = function(value, use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       value_ser <- self$serialize_object(value)
       hash <- self$hash_raw(value_ser)
@@ -889,7 +889,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return A vector of hash values, invisibly.
     #'
-    mset_value = function(values, use_cache = TRUE) {
+    mset_value = function(values, use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       values_ser <- lapply(values, self$serialize_object)
       hash <- vcapply(values_ser, self$hash_raw)
@@ -920,6 +920,38 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
+    #' @description Get an object given a key-namespace pair.
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The `R` object if available.
+    #'
+    get = function(key, namespace = self$default_namespace, use_cache = getOption("storr.tiledb.cache", TRUE)) {
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+      self$get_value(self$get_hash(key, namespace), use_cache)
+
+    },
+
+    #' @description Get multiple objects.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache`
+    #' @param missing Value to use for missing elements.
+    #'
+    #' @return A list of `R` objects.
+    #'
+    mget = function(key, namespace = self$default_namespace, use_cache = getOption("storr.tiledb.cache", TRUE),
+                    missing = NULL) {
+
+      # NB: storr::join_key_namespace check is performed inside $query_keys0
+      self$mget_value(self$mget_hash(key, namespace), use_cache, missing)
+    },
 
     #' @description Get an object given its hash.
     #'
@@ -929,7 +961,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return The `R` object if available.
     #'
-    get_value = function(hash, use_cache = TRUE) {
+    get_value = function(hash, use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       envir <- self$envir
 
@@ -963,7 +995,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return A list of `R` objects.
     #'
-    mget_value = function(hash, use_cache = TRUE, missing = NULL) {
+    mget_value = function(hash, use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL) {
 
       envir <- self$envir
       value <- vector("list", length(hash))
@@ -1017,7 +1049,7 @@ TileDBStorr <- R6::R6Class(
                            namespace = self$default_namespace,
                            expires_at,
                            notes,
-                           use_cache = TRUE) {
+                           use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -1089,7 +1121,7 @@ TileDBStorr <- R6::R6Class(
                             namespace = self$default_namespace,
                             expires_at,
                             notes,
-                            use_cache = TRUE) {
+                            use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       p <-  storr::join_key_namespace(key, namespace)
       n <- p$n
@@ -1169,7 +1201,7 @@ TileDBStorr <- R6::R6Class(
                                  namespace = self$default_namespace,
                                  expires_at,
                                  notes,
-                                 use_cache = TRUE,
+                                 use_cache = getOption("storr.tiledb.cache", TRUE),
                                  cfg = NULL) {
 
 
@@ -1282,7 +1314,7 @@ TileDBStorr <- R6::R6Class(
                                  namespace = self$default_namespace,
                                  expires_at,
                                  notes,
-                                 use_cache = TRUE,
+                                 use_cache = getOption("storr.tiledb.cache", TRUE),
                                  cfg = NULL) {
 
       p <-  storr::join_key_namespace(key, namespace)
@@ -1393,7 +1425,7 @@ TileDBStorr <- R6::R6Class(
     #'
     get_keymeta = function(key,
                            namespace = self$default_namespace,
-                           use_cache = TRUE) {
+                           use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -1429,7 +1461,7 @@ TileDBStorr <- R6::R6Class(
     #'
     mget_keymeta = function(key,
                             namespace = self$default_namespace,
-                            use_cache = TRUE,
+                            use_cache = getOption("storr.tiledb.cache", TRUE),
                             missing = NULL) {
 
       p <- storr::join_key_namespace(key, namespace)
