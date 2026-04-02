@@ -964,6 +964,47 @@ TileDBStorr <- R6::R6Class(
       self$mget_value(self$mget_hash(key, namespace), use_cache, missing)
     },
 
+    #' @description Get hash value.
+    #'
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return The hash value.
+    #'
+    get_hash = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (self$traits$throw_missing) {
+        tryCatch(self$driver$get_hash(key, namespace), error = function(e) stop(KeyError(key,
+                                                                                         namespace)))
+      }
+      else {
+        if (self$exists(key, namespace)) {
+          self$driver$get_hash(key, namespace)
+        }
+        else {
+          stop(KeyError(key, namespace))
+        }
+      }
+    },
+
+    #' @description Get hash values.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #'
+    #' @return A vector of hashes.
+    #'
+    mget_hash = function(key, namespace = self$default_namespace) {
+
+      self$driver$mget_hash(key, namespace)
+    },
+
     #' @description Get an object given its hash.
     #'
     #'
