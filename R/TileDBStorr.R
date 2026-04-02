@@ -1589,6 +1589,27 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
+    #' @description Set one or more keys to the same value.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return A vector of hash values, invisibly.
+    #'
+    fill = function(key, value, namespace = self$default_namespace,
+                    use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      p <- storr::join_key_namespace(key, namespace)
+
+      hash <- self$set_value(value, use_cache = use_cache)
+      self$driver$mset_hash(p$key, p$namespace, rep(hash, p$n))
+      invisible(hash)
+    },
+
     # NB: storr reports back the number of deleted keys
     #' @description Clear a storr.
     #'

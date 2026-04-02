@@ -387,3 +387,14 @@ test_that("destroy", {
 
 })
 
+test_that("fill", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  v <- runif(10)
+  keys <- letters[1:3]
+  h <- st$fill(keys, v)
+  expect_equal(h, st$hash_object(v))
+  expect_equal(st$mget(keys),
+               rep(list(v), length(keys)))
+})

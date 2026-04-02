@@ -82,6 +82,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
+\item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
 \item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
 \item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
@@ -104,7 +105,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="fill"><a href='../../storr/html/storr.html#method-storr-fill'><code>storr::storr$fill()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_import"><a href='../../storr/html/storr.html#method-storr-index_import'><code>storr::storr$index_import()</code></a></span></li>
@@ -893,6 +893,36 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \subsection{Returns}{
 A list with key metadata for each key-namespace
 pair. For not found pairs will return the \code{missing} value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-fill"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-fill}{}}}
+\subsection{Method \code{fill()}}{
+Set one or more keys to the same value.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$fill(key, value, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{value}}{An R object to store.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hash values, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
