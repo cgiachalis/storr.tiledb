@@ -1005,6 +1005,17 @@ TileDBStorr <- R6::R6Class(
       self$driver$mget_hash(key, namespace)
     },
 
+    #' @description Create a hash digest for an R object.
+    #'
+    #' @param object An R object.
+    #'
+    #' @return A character string of a fixed length containing the
+    #'  requested digest (hash) of the supplied R object.
+    #'
+    hash_object = function(object) {
+      self$hash_raw(self$serialize_object(object))
+    },
+
     #' @description Get an object given its hash.
     #'
     #'

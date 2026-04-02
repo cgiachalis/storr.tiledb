@@ -73,6 +73,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mget}{\code{TileDBStorr$mget()}}
 \item \href{#method-TileDBStorr-get_hash}{\code{TileDBStorr$get_hash()}}
 \item \href{#method-TileDBStorr-mget_hash}{\code{TileDBStorr$mget_hash()}}
+\item \href{#method-TileDBStorr-hash_object}{\code{TileDBStorr$hash_object()}}
 \item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
 \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
 \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
@@ -104,7 +105,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="fill"><a href='../../storr/html/storr.html#method-storr-fill'><code>storr::storr$fill()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="hash_object"><a href='../../storr/html/storr.html#method-storr-hash_object'><code>storr::storr$hash_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_import"><a href='../../storr/html/storr.html#method-storr-index_import'><code>storr::storr$index_import()</code></a></span></li>
@@ -599,6 +599,27 @@ scalar character and the other is a vector. No other recycling rule is permitted
 }
 \subsection{Returns}{
 A vector of hashes.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-hash_object"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-hash_object}{}}}
+\subsection{Method \code{hash_object()}}{
+Create a hash digest for an R object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$hash_object(object)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{object}}{An R object.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A character string of a fixed length containing the
+requested digest (hash) of the supplied R object.
 }
 }
 \if{html}{\out{<hr>}}
