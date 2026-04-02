@@ -80,6 +80,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
+\item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
+\item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
 \item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
 \item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
 \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
@@ -98,8 +100,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_import"><a href='../../storr/html/storr.html#method-storr-archive_import'><code>storr::storr$archive_import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists"><a href='../../storr/html/storr.html#method-storr-exists'><code>storr::storr$exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists_object"><a href='../../storr/html/storr.html#method-storr-exists_object'><code>storr::storr$exists_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="fill"><a href='../../storr/html/storr.html#method-storr-fill'><code>storr::storr$fill()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="get_hash"><a href='../../storr/html/storr.html#method-storr-get_hash'><code>storr::storr$get_hash()</code></a></span></li>
@@ -846,6 +846,51 @@ clear all namespaces.}
 }
 \subsection{Returns}{
 The number of deleted namespaces.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-exists"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-exists}{}}}
+\subsection{Method \code{exists()}}{
+Check a key-namespace pair exists.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating which key-namespace pair exists.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-exists_object"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-exists_object}{}}}
+\subsection{Method \code{exists_object()}}{
+Check a serialised object exists given a hash.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists_object(hash)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{hash}}{A vector of hash values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating which object exists.
 }
 }
 \if{html}{\out{<hr>}}

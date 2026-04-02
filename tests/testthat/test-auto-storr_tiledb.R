@@ -42,6 +42,8 @@ test_that("basic", {
   hash <- st$hash_object(d)
 
   res <- st$set(key, d)
+  expect_true(st$exists(key))
+  expect_true(st$exists_object(hash))
 
   expect_identical(res, hash)
   expect_identical(st$list(), key)

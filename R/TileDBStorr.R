@@ -1556,6 +1556,29 @@ TileDBStorr <- R6::R6Class(
       self$driver$delete_namespaces(namespace)
     },
 
+    #' @description Check a key-namespace pair exists.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #'
+    #' @return A logical vector indicating which key-namespace pair exists.
+    #'
+    exists = function(key, namespace = self$default_namespace) {
+      self$driver$exists_hash(key, namespace)
+    },
+
+    #' @description Check a serialised object exists given a hash.
+    #'
+    #' @param hash `r roxy_hash`
+    #'
+    #' @return A logical vector indicating which object exists.
+    #'
+    exists_object = function(hash) {
+      self$driver$exists_object(hash)
+    },
+
     #' @description Delete an object from the storr.
     #'
     #' `r sto_recycle_note`
