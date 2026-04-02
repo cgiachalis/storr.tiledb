@@ -92,7 +92,6 @@ test_that("basic", {
                          tolerance = 1e-15)
 })
 
-
 test_that("replace value", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
@@ -373,3 +372,16 @@ test_that("gc", {
   expect_equal(st$list(), character(0))
   expect_equal(sort(st$gc()), sort(c(hx, hz)))
 })
+
+
+test_that("destroy", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  expect_equal(tiledb::tiledb_object_type(uri), "GROUP")
+  expect_null(st$destroy())
+  expect_equal(tiledb::tiledb_object_type(uri), "INVALID")
+
+})
+

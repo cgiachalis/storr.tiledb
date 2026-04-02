@@ -104,6 +104,17 @@ TileDBStorr <- R6::R6Class(
                                      self$traits$accept == "string")
     },
 
+    #' @description Destroy (delete) 'storr'.
+    #'
+    #' @return `NULL`, invisibly.
+    #'
+    destroy = function() {
+
+      self$driver$destroy()
+      self$driver <- NULL
+
+      invisible(NULL)
+    },
 
     #' @description Flush the cache of `R` objects.
     #'

@@ -57,6 +57,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TileDBStorr-new}{\code{TileDBStorr$new()}}
+\item \href{#method-TileDBStorr-destroy}{\code{TileDBStorr$destroy()}}
 \item \href{#method-TileDBStorr-flush_cache}{\code{TileDBStorr$flush_cache()}}
 \item \href{#method-TileDBStorr-set}{\code{TileDBStorr$set()}}
 \item \href{#method-TileDBStorr-mset}{\code{TileDBStorr$mset()}}
@@ -93,7 +94,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_export"><a href='../../storr/html/storr.html#method-storr-archive_export'><code>storr::storr$archive_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_import"><a href='../../storr/html/storr.html#method-storr-archive_import'><code>storr::storr$archive_import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="destroy"><a href='../../storr/html/storr.html#method-storr-destroy'><code>storr::storr$destroy()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists"><a href='../../storr/html/storr.html#method-storr-exists'><code>storr::storr$exists()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists_object"><a href='../../storr/html/storr.html#method-storr-exists_object'><code>storr::storr$exists_object()</code></a></span></li>
@@ -132,6 +132,19 @@ Initialise \code{TileDBStorr}.
 functions? Default is  \code{FALSE}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-destroy"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-destroy}{}}}
+\subsection{Method \code{destroy()}}{
+Destroy (delete) 'storr'.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$destroy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{NULL}, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
