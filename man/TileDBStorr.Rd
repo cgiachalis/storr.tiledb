@@ -83,6 +83,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
 \item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
+\item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
 \item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
 \item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
@@ -103,7 +104,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_export"><a href='../../storr/html/storr.html#method-storr-archive_export'><code>storr::storr$archive_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_import"><a href='../../storr/html/storr.html#method-storr-archive_import'><code>storr::storr$archive_import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
@@ -923,6 +923,38 @@ scalar character and the other is a vector. No other recycling rule is permitted
 }
 \subsection{Returns}{
 A vector of hash values, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-duplicate"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-duplicate}{}}}
+\subsection{Method \code{duplicate()}}{
+Duplicate a set of keys.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$duplicate(key_src, key_dest, namespace = self$default_namespace,
+  namespace_src = namespace, namespace_dest = namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key_src}}{A character vector of source keys.}
+
+\item{\code{key_dest}}{A character vector of destination keys.}
+
+\item{\code{namespace}}{The namespace to copy keys within (used only of
+\code{namespace_src} and \code{namespace_dest} are not provided.}
+
+\item{\code{namespace_src}}{The source namespace - use this where keys are
+duplicated across namespaces.}
+
+\item{\code{namespace_dest}}{The destination namespace - use this where keys are duplicated
+across namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{NULL}, invisibly.
 }
 }
 \if{html}{\out{<hr>}}

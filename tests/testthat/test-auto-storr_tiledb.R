@@ -398,3 +398,15 @@ test_that("fill", {
   expect_equal(st$mget(keys),
                rep(list(v), length(keys)))
 })
+
+
+test_that("duplicate", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  h1 <- st$set("a", runif(10))
+  expect_null(st$duplicate("a", "b"))
+
+  expect_identical(st$get("b"), st$get("a"))
+  expect_identical(st$get_hash("b"), st$get_hash("a"))
+})

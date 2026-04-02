@@ -1610,6 +1610,31 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
+    #' @description Duplicate a set of keys.
+    #'
+    #' @param key_src A character vector of source keys.
+    #' @param key_dest A character vector of destination keys.
+    #' @param namespace The namespace to copy keys within (used only of
+    #'  `namespace_src` and `namespace_dest` are not provided.
+    #' @param namespace_src The source namespace - use this where keys are
+    #'  duplicated across namespaces.
+    #' @param namespace_dest  The destination namespace - use this where keys are duplicated
+    #'  across namespaces.
+    #'
+    #' @return `NULL`, invisibly.
+    #'
+    duplicate = function(key_src,
+                         key_dest,
+                         namespace = self$default_namespace,
+                         namespace_src = namespace,
+                         namespace_dest = namespace) {
+
+      hash_src <- self$mget_hash(key_src, namespace_src)
+      self$driver$mset_hash(key_dest, namespace_dest, hash_src)
+
+      invisible(NULL)
+    },
+
     # NB: storr reports back the number of deleted keys
     #' @description Clear a storr.
     #'
