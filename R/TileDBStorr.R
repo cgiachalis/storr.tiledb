@@ -1640,6 +1640,37 @@ TileDBStorr <- R6::R6Class(
       self$driver$delete_expired_keys(namespace)
     },
 
+    #' @description List all keys stored in a namespace.
+    #'
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return A sorted character vector with keys.
+    #'
+    list = function(namespace = self$default_namespace) {
+
+      sort(self$driver$list_keys(namespace))
+    },
+
+    #' @description List all hashes stored in the storr.
+    #'
+    #'
+    #' @return A sorted character vector with hashes.
+    #'
+    list_hashes = function() {
+
+      sort(self$driver$list_hashes())
+    },
+
+    #' @description List all namespaces in the storr.
+    #'
+    #'
+    #' @return A sorted character vector with namespaces.
+    #'
+    list_namespaces = function() {
+
+      sort(self$driver$list_namespaces())
+    },
+
     #' @description Garbage collect the storr.
     #'
     #' @param clear_expired Should the expired keys be deleted?

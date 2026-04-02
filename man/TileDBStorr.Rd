@@ -85,6 +85,9 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
 \item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
 \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
+\item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
+\item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
+\item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
 }
 }
@@ -104,9 +107,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_import"><a href='../../storr/html/storr.html#method-storr-index_import'><code>storr::storr$index_import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list"><a href='../../storr/html/storr.html#method-storr-list'><code>storr::storr$list()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_hashes"><a href='../../storr/html/storr.html#method-storr-list_hashes'><code>storr::storr$list_hashes()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_namespaces"><a href='../../storr/html/storr.html#method-storr-list_namespaces'><code>storr::storr$list_namespaces()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="mget_hash"><a href='../../storr/html/storr.html#method-storr-mget_hash'><code>storr::storr$mget_hash()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="repair"><a href='../../storr/html/storr.html#method-storr-repair'><code>storr::storr$repair()</code></a></span></li>
 </ul>
@@ -960,6 +960,52 @@ Remove the expired key-namespace pairs.
 }
 \subsection{Returns}{
 A boolean value \code{TRUE} indicating success, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list}{}}}
+\subsection{Method \code{list()}}{
+List all keys stored in a namespace.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A scalar character of namespace name.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A sorted character vector with keys.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_hashes}{}}}
+\subsection{Method \code{list_hashes()}}{
+List all hashes stored in the storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_hashes()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A sorted character vector with hashes.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_namespaces"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_namespaces}{}}}
+\subsection{Method \code{list_namespaces()}}{
+List all namespaces in the storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_namespaces()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A sorted character vector with namespaces.
 }
 }
 \if{html}{\out{<hr>}}
