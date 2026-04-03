@@ -1816,6 +1816,81 @@ TileDBStorr <- R6::R6Class(
         })
 
       invisible(unused)
+    },
+
+    #' @description Generate a `data.table` with an index of objects
+    #' present in a storr.
+    #'
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return An object of class `data.table`.
+    #'
+    index_export = function(namespace = NULL) {
+
+      out <- self$driver$filter_keys(character(), namespace = namespace)[]
+
+      if (nrow(out) == 0) {
+
+        d <- data.frame(
+          namespace = character(0),
+          key = character(0),
+          hash = character(0),
+          expires_at = as.POSIXct(double()),
+          notes = character(0)
+        )
+
+        out <- data.table::as.data.table(d)
+      }
+
+      out
+    },
+
+    #' @description Import an index of objects from a storr.
+    #'
+    #'
+    #' @param index A `data.frame` with minimum required columns 'namespace', 'key'
+    #' 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
+    #'  hashes are present in the storr.
+    #'
+    #' @return `TRUE`, invisibly.
+    #'
+    index_import = function(index) {
+
+      cols <- c("namespace", "key", "hash")
+
+      nms <- colnames(index)
+      msg <- setdiff(cols, nms)
+      if (length(msg) > 0L) {
+        stop("Missing required columns for index: ", paste(squote(msg),
+                                                           collapse = ", "), call. = FALSE)
+      }
+
+      ok <- vlapply(index[, c("namespace", "key", "hash")], is.character)
+      if (!all(ok)) {
+        stop("Column not character: ", paste(squote(cols[!ok]),
+                                             collapse = ", "), call. = FALSE)
+      }
+
+      msg <- setdiff(index$hash, self$list_hashes())
+      if (length(msg) > 0L) {
+        stop(sprintf("Missing %d / %d hashes - can't import",
+                     length(msg), nrow(index)), call. = FALSE)
+      }
+
+
+      if (all(c("expires_at", "notes") %in% nms)) {
+        if (!inherits(index[["expires_at"]], "POSIXct")) {
+          stop("Column not datetime: ", sQuote("expires_at"), call. = FALSE)
+        }
+
+        if (!is.character(index[["notes"]])) {
+          stop("Column not character: ", sQuote("notes"), call. = FALSE)
+        }
+
+      }
+
+      self$driver$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     }
   ),
 

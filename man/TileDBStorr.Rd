@@ -96,6 +96,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
 \item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
+\item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
+\item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
 }
 }
 \if{html}{\out{
@@ -106,8 +108,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_import"><a href='../../storr/html/storr.html#method-storr-index_import'><code>storr::storr$index_import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="repair"><a href='../../storr/html/storr.html#method-storr-repair'><code>storr::storr$repair()</code></a></span></li>
 </ul>
 </details>
@@ -1202,6 +1202,49 @@ Default is \code{FALSE}.}
 }
 \subsection{Returns}{
 A vector of unused hashes, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-index_export"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-index_export}{}}}
+\subsection{Method \code{index_export()}}{
+Generate a \code{data.table} with an index of objects
+present in a storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_export(namespace = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An object of class \code{data.table}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-index_import"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-index_import}{}}}
+\subsection{Method \code{index_import()}}{
+Import an index of objects from a storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_import(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{A \code{data.frame} with minimum required columns 'namespace', 'key'
+'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
+hashes are present in the storr.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE}, invisibly.
 }
 }
 }

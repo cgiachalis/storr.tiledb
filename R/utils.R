@@ -22,6 +22,9 @@ is_remote_uri <- function(x) {
   grepl(prefix, x)
 }
 
+squote <- function (x) {
+  sprintf("'%s'", x)
+}
 
 validate_hash_algo <- function(x) {
   hash_choices <- c(
