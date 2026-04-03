@@ -25,7 +25,7 @@ test_that("m/get_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
-  dr <- sto$driver
+  dr <- driver_tiledb(uri)
 
   # add some keys
   sto$set("x", 1)
@@ -74,7 +74,7 @@ test_that("set_keymeta", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
-  dr <- sto$driver
+  dr <- driver_tiledb(uri)
 
   # add some keys
   sto$set("x", 1)
@@ -105,7 +105,7 @@ test_that("mset_keymeta", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
-  dr <- sto$driver
+  dr <- driver_tiledb(uri)
 
   # add some keys
   sto$set("x", 1)
@@ -174,13 +174,12 @@ test_that("keys_with_expiration", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
-
-  dr <- sto$driver
 
   # keys with expiration
   expect_error(dr$keys_with_expiration(1),
@@ -211,13 +210,12 @@ test_that("keys_without_expiration", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
-
-  dr <- sto$driver
 
   # keys with expiration
   expect_error(dr$keys_without_expiration(1),
@@ -248,13 +246,13 @@ test_that("expired_keys and friends", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
 
-  dr <- sto$driver
 
   expect_error(dr$expired_keys(1),
                "`namespace` should be a character vector or NULL.",
@@ -295,13 +293,12 @@ test_that("unexpired_keys and friends", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
-
-  dr <- sto$driver
 
   expect_error(dr$unexpired_keys(1),
                "`namespace` should be a character vector or NULL.",
@@ -342,13 +339,12 @@ test_that("delete_expired_keys", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
-
-  dr <- sto$driver
 
   # Clear all expired keys
   expect_invisible(bool <- dr$delete_expired_keys(NULL))
@@ -362,13 +358,12 @@ test_that("delete_expired_keys", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
 
   keys <- c("a", "b", "c", "d")
   t0 <- Sys.time()
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
-
-  dr <- sto$driver
 
   # Check storr for expired keys
   expect_true(dr$has_expired_keys(NULL))
