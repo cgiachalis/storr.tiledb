@@ -5,7 +5,7 @@
 #' driver.
 #'
 #' `TileDBStorr` is a subclass of \link[storr:storr]{‘storr’} that works only
-#' with [TileDBdriver] as it overwrites some of its parent class methods in order
+#' with [TileDBDriver] as it overwrites some of its parent class methods in order
 #' to use the back-end's methods directly.
 #'
 #' `TileDBStorr` also enhances the storr interface by adding new features:
@@ -23,7 +23,6 @@
 #'
 TileDBStorr <- R6::R6Class(
   classname = "TileDBStorr",
-  inherit = R6_storr,
   cloneable = FALSE,
 
   public = list(
