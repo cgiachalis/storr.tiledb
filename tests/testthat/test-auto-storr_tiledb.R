@@ -18,7 +18,7 @@ test_that("basic", {
   #driver_tiledb_create(uri)
   st <- storr_tiledb(uri, init = TRUE)
 
-  expect_s3_class(st, "storr")
+  expect_s3_class(st, "TileDBStorr")
 
   ## At this point no namespaces (this might be relaxed)
   expect_identical(st$list_namespaces(), character(0))

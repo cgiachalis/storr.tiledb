@@ -17,7 +17,7 @@ test_that("'TileDBStorr'", {
   dr <- driver_tiledb(uri, init = TRUE)
   sto <- TileDBStorrMock$new(dr, "ns1")
 
-  expect_s3_class(sto, c("Mocked", "TileDBStorr", "storr", "R6"), exact = TRUE)
+  expect_s3_class(sto, c("Mocked", "TileDBStorr", "R6"), exact = TRUE)
 
   # hash tables initialised correctly
   expect_true(is.hashtab(sto$envir))
