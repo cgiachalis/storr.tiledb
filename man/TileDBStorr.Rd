@@ -16,7 +16,7 @@ to use the back-end's methods directly.
 
 \code{TileDBStorr} also enhances the storr interface by adding new features:
 \itemize{
-\item Optional notes and key expiration timestamps
+\item optional notes and key expiration timestamps
 \item asynchronous writes
 }
 

@@ -8,7 +8,7 @@
 #' to use the back-end's methods directly.
 #'
 #' `TileDBStorr` also enhances the storr interface by adding new features:
-#'  - Optional notes and key expiration timestamps
+#'  - optional notes and key expiration timestamps
 #'  - asynchronous writes
 #'
 #' This class is not intended to be used directly and the preferred
