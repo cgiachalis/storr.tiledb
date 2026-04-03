@@ -10,23 +10,21 @@ A \code{TileDBStorr}, \code{R6} object.
 An R6 class that represents a storr interface for TileDB
 driver.
 
-\code{TileDBStorr} is a subclass of \link[storr:storr]{‘storr’} that works only
-with \link{TileDBdriver} as it overwrites some of its parent class methods in order
-to use the back-end's methods directly.
-
-\code{TileDBStorr} also enhances the storr interface by adding new features:
+\code{TileDBStorr} replicates the \code{storr} interface but also enhances
+it with additional new features:
 \itemize{
-\item optional notes and key expiration timestamps
+\item notes and key expiration timestamps
 \item asynchronous writes
 }
+
+Note that the following methods from \code{storr} are not supported by
+\code{TileDBStorr}: \verb{$import}, \verb{$export}, \verb{$archive_import}, \verb{$archive_export},
+\verb{$check} and \verb{$repair}.
 
 This class is not intended to be used directly and the preferred
 usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 }
 \keyword{internal}
-\section{Super class}{
-\code{\link[storr:storr]{storr::storr}} -> \code{TileDBStorr}
-}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -98,18 +96,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
 }
 }
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_export"><a href='../../storr/html/storr.html#method-storr-archive_export'><code>storr::storr$archive_export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_import"><a href='../../storr/html/storr.html#method-storr-archive_import'><code>storr::storr$archive_import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="repair"><a href='../../storr/html/storr.html#method-storr-repair'><code>storr::storr$repair()</code></a></span></li>
-</ul>
-</details>
-}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-new"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-new}{}}}

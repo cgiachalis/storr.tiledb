@@ -4,21 +4,22 @@
 #'
 #' \link[storr:storr]{‘storr’} is a content addressed key-value store
 #'  with an optional caching layer. The `storr_tiledb` generates a [TileDBStorr]
-#'  object, a subclass of `storr`, with identical interface as `storr`
-#'  but with some of its methods to have been rewritten for speed and efficiency.
-#'  Additionally, it supports metadata next to key-values (notes and
-#'  expiration timestamps) and asynchronous writes using the
-#'   [mirai](https://cran.r-project.org/web/packages/mirai/index.html) framework.
+#'  object with identical interface as `storr` that additionally supports
+#'  metadata next to key-values (notes and expiration timestamps) as well as asynchronous
+#'  writes using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
+#'  framework.
 #'
 #'  `storr_tiledb()` and `storr(driver_tiledb())` can not be used interchangeably
 #'  if you use the extra features (i.e., expiration timestamps). The latter
-#'  is the standard storr interface and the former produces a subclass to support
-#'  the new features. Another difference, but not visible to the user, is that the
+#'  is the standard storr interface and the former produces a stand-alone R6 class
+#'  that replicates the storr interface with additional features.
+#'
+#'   Another difference, but not visible to the user, is that the
 #'  `storr_tiledb`'s cache layer uses hash tables via [hashtab()] instead of
 #'  environments.
 #'
 #'  By default, the cache layer is enabled. The global option `storr.tiledb.cache`
-#'  can be used to disable it, like so `options(storr.tiledb.cache = FALSE)`.
+#'  can be used to disable it, like so: `options(storr.tiledb.cache = FALSE)`.
 #'
 #
 #' @inheritParams driver_tiledb

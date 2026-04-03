@@ -19,8 +19,8 @@ written by [Rich FitzJohn](https://github.com/richfitz).
 *What is storr.tiledb?*
 
 The `storr.tiledb` contributes a new storr compliant driver using the TileDB storage engine.
-The package has its own storr R6 subclass that utilises the strengths of the underlying storage
-engine and offers some extra feature such as the option to add notes and expiration
+The package has its own storr R6 class that utilises the strengths of the underlying storage
+engine and offers some extra features, such as the option to add notes and expiration
 time-stamps along with key-namespace pairs. 
 
 > [!WARNING]  
@@ -32,7 +32,7 @@ time-stamps along with key-namespace pairs.
 
 ## Key features
 
- - Key interface methods have been overwritten to make the most of the underlying
+ - Key interface methods have been re-written to make the most of the underlying
  back end with respect to speed and efficiency
 
  - Set optional notes and expiration timestamps when setting keys

@@ -4,13 +4,14 @@
 #' @description An R6 class that represents a storr interface for TileDB
 #' driver.
 #'
-#' `TileDBStorr` is a subclass of \link[storr:storr]{‘storr’} that works only
-#' with [TileDBDriver] as it overwrites some of its parent class methods in order
-#' to use the back-end's methods directly.
-#'
-#' `TileDBStorr` also enhances the storr interface by adding new features:
-#'  - optional notes and key expiration timestamps
+#' `TileDBStorr` replicates the `storr` interface but also enhances
+#' it with additional new features:
+#'  - notes and key expiration timestamps
 #'  - asynchronous writes
+#'
+#' Note that the following methods from `storr` are not supported by
+#' `TileDBStorr`: `$import`, `$export`, `$archive_import`, `$archive_export`,
+#' `$check` and `$repair`.
 #'
 #' This class is not intended to be used directly and the preferred
 #' usage is through [storr_tiledb()].
