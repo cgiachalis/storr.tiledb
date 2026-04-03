@@ -30,8 +30,6 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{driver}}{The TileDB driver.}
-
 \item{\code{envir}}{The object hash table.}
 
 \item{\code{envir_metadata}}{The key metadata hash table.}

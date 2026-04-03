@@ -1,3 +1,4 @@
+
 #' @title Generate a `TileDBStorr` Object
 #'
 #' @description An R6 class that represents a storr interface for TileDB
@@ -26,10 +27,6 @@ TileDBStorr <- R6::R6Class(
   cloneable = FALSE,
 
   public = list(
-
-    #' @field driver The TileDB driver.
-    #'
-    driver = NULL,
 
     #' @field envir The object hash table.
     #'
@@ -87,7 +84,7 @@ TileDBStorr <- R6::R6Class(
         driver$open(instantiate = TRUE)
       }
 
-      self$driver <- driver
+      private$DRIVER <- driver
 
       # Key-value: <'hash', R object>
       self$envir <- hashtab()
@@ -110,8 +107,8 @@ TileDBStorr <- R6::R6Class(
     #'
     destroy = function() {
 
-      self$driver$destroy()
-      self$driver <- NULL
+      private$DRIVER$destroy()
+      private$DRIVER <- NULL
 
       invisible(NULL)
     },
@@ -164,7 +161,7 @@ TileDBStorr <- R6::R6Class(
       private$check_input(expires_at, n = 1, type = "datetime")
 
       hash <- self$set_value(value, use_cache)
-      self$driver$set_hash(key, namespace, hash, expires_at, notes)
+      private$DRIVER$set_hash(key, namespace, hash, expires_at, notes)
 
       km <- paste(key, namespace, sep = ":")
 
@@ -219,7 +216,7 @@ TileDBStorr <- R6::R6Class(
       private$check_input(value, n, "value")
 
       hash <- self$mset_value(value, use_cache)
-      self$driver$mset_hash(key, namespace, hash, expires_at, notes)
+      private$DRIVER$mset_hash(key, namespace, hash, expires_at, notes)
 
       km <- paste(key, namespace, sep = ":")
 
@@ -285,7 +282,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -307,7 +304,7 @@ TileDBStorr <- R6::R6Class(
       m1 <- TRUE
       if (!(use_cache && exists0(hash, self$envir))) {
 
-        uri <- self$driver$uri
+        uri <- private$DRIVER$uri
 
         m1 <- mirai::mirai({
           driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
@@ -398,7 +395,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -421,7 +418,7 @@ TileDBStorr <- R6::R6Class(
       cached <- logical(length(hash))
 
       envir <- self$envir
-      uri <- self$driver$uri
+      uri <- private$DRIVER$uri
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
@@ -533,7 +530,7 @@ TileDBStorr <- R6::R6Class(
       private$check_input(expires_at, n = 1, type = "datetime")
 
       hash <- self$set_value(value, use_cache)
-      self$driver$set_hash(hash, namespace, hash, expires_at, notes)
+      private$DRIVER$set_hash(hash, namespace, hash, expires_at, notes)
 
       km <- paste(hash, namespace, sep = ":")
 
@@ -581,7 +578,7 @@ TileDBStorr <- R6::R6Class(
       private$check_input(namespace, n, "value")
 
       hash <- self$mset_value(value, use_cache)
-      self$driver$mset_hash(hash, namespace, hash, expires_at, notes)
+      private$DRIVER$mset_hash(hash, namespace, hash, expires_at, notes)
 
       km <- paste(rep_len(hash, n), rep_len(namespace, n), sep = ":")
       if (use_cache) {
@@ -639,7 +636,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -661,7 +658,7 @@ TileDBStorr <- R6::R6Class(
       m1 <- TRUE
       if (!(use_cache && exists0(hash, self$envir))) {
 
-        uri <- self$driver$uri
+        uri <- private$DRIVER$uri
 
         m1 <- mirai::mirai({
           driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
@@ -751,7 +748,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -774,7 +771,7 @@ TileDBStorr <- R6::R6Class(
       cached <- logical(length(hash))
 
       envir <- self$envir
-      uri <- self$driver$uri
+      uri <- private$DRIVER$uri
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
@@ -880,8 +877,8 @@ TileDBStorr <- R6::R6Class(
 
       if (!(use_cache && exists0(hash, self$envir))) {
 
-        if (!self$driver$exists_object(hash)) {
-          self$driver$set_object(hash, value_ser)
+        if (!private$DRIVER$exists_object(hash)) {
+          private$DRIVER$set_object(hash, value_ser)
         }
 
         if (use_cache) {
@@ -911,16 +908,16 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
         cached <- exists0(hash, envir) # vlapply(hash, exists0, self$envir)
         upload <- logical(length(hash))
-        upload[!cached] <- !self$driver$exists_object(hash[!cached])
+        upload[!cached] <- !private$DRIVER$exists_object(hash[!cached])
       } else {
-        upload <- !self$driver$exists_object(hash)
+        upload <- !private$DRIVER$exists_object(hash)
       }
 
       if (any(upload)) {
         # TODO: NO NEED
         send <- if (self$traits$accept == "object") values else values_ser
 
-        self$driver$mset_object(hash[upload], send[upload])
+        private$DRIVER$mset_object(hash[upload], send[upload])
       }
 
       if (use_cache) {
@@ -978,12 +975,12 @@ TileDBStorr <- R6::R6Class(
       private$check_input(namespace, n = 1, type = "character")
 
       if (self$traits$throw_missing) {
-        tryCatch(self$driver$get_hash(key, namespace), error = function(e) stop(KeyError(key,
+        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) stop(KeyError(key,
                                                                                          namespace)))
       }
       else {
         if (self$exists(key, namespace)) {
-          self$driver$get_hash(key, namespace)
+          private$DRIVER$get_hash(key, namespace)
         }
         else {
           stop(KeyError(key, namespace))
@@ -1002,7 +999,7 @@ TileDBStorr <- R6::R6Class(
     #'
     mget_hash = function(key, namespace = self$default_namespace) {
 
-      self$driver$mget_hash(key, namespace)
+      private$DRIVER$mget_hash(key, namespace)
     },
 
     #' @description Create a hash digest for an R object.
@@ -1033,13 +1030,13 @@ TileDBStorr <- R6::R6Class(
       } else {
         # TODO: no need for traits
         if (self$traits$throw_missing) {
-          value <- tryCatch(self$driver$get_object(hash),
+          value <- tryCatch(private$DRIVER$get_object(hash),
                             error = function(e) stop(HashError(hash)))
         } else {
-          if (!self$driver$exists_object(hash)) {
+          if (!private$DRIVER$exists_object(hash)) {
             stop(HashError(hash))
           }
-          value <- self$driver$get_object(hash)
+          value <- private$DRIVER$get_object(hash)
         }
         if (use_cache) {
           envir[[hash]] <- value
@@ -1076,10 +1073,10 @@ TileDBStorr <- R6::R6Class(
 
       if (any(!cached)) {
         # TODO: REMOVE IS.NULL
-        if (is.null(self$driver$mget_object)) {
+        if (is.null(private$DRIVER$mget_object)) {
           value[!cached] <- lapply(hash[!cached], self$get_value, FALSE)
         } else {
-          value[!cached] <- self$driver$mget_object(hash[!cached])
+          value[!cached] <- private$DRIVER$mget_object(hash[!cached])
         }
 
         if (use_cache) {
@@ -1133,7 +1130,7 @@ TileDBStorr <- R6::R6Class(
         return(invisible(character()))
       }
 
-      self$driver$set_keymeta(key, namespace, expires_at, notes)
+      private$DRIVER$set_keymeta(key, namespace, expires_at, notes)
 
       km <- paste(key, namespace, sep = ":")
 
@@ -1205,7 +1202,7 @@ TileDBStorr <- R6::R6Class(
         return(invisible(character()))
       }
 
-      self$driver$mset_keymeta(p$key, p$namespace, expires_at, notes)
+      private$DRIVER$mset_keymeta(p$key, p$namespace, expires_at, notes)
       km <- paste(p$key, p$namespace, sep = ":")
 
       if (use_cache) {
@@ -1295,7 +1292,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -1311,7 +1308,7 @@ TileDBStorr <- R6::R6Class(
       config_params = as.vector(cfg), .compute = ns)
 
 
-      uri <- self$driver$uri
+      uri <- private$DRIVER$uri
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
@@ -1410,7 +1407,7 @@ TileDBStorr <- R6::R6Class(
       private$set_daemons()
 
       if (is.null(cfg)) {
-        cfg <- tiledb::config(self$driver$ctx)
+        cfg <- tiledb::config(private$DRIVER$ctx)
       }
 
       check_tiledb_config(cfg)
@@ -1426,7 +1423,7 @@ TileDBStorr <- R6::R6Class(
       config_params = as.vector(cfg), .compute = ns)
 
 
-      uri <- self$driver$uri
+      uri <- private$DRIVER$uri
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
@@ -1499,7 +1496,7 @@ TileDBStorr <- R6::R6Class(
       if (use_cache && exists0(keyns, envir)) {
         value <- gethash(envir, keyns)
       } else {
-        value <- self$driver$get_keymeta(key, namespace)
+        value <- private$DRIVER$get_keymeta(key, namespace)
 
         if (use_cache) {
           sethash(envir, keyns, value)
@@ -1556,7 +1553,7 @@ TileDBStorr <- R6::R6Class(
       if (status_not_cached) {
 
         # From not_cached find also which are truly missing
-        cc <- self$driver$mget_keymeta(key[not_cached],
+        cc <- private$DRIVER$mget_keymeta(key[not_cached],
                                        namespace[not_cached],
                                        nomatch = missing)
 
@@ -1606,7 +1603,7 @@ TileDBStorr <- R6::R6Class(
       p <- storr::join_key_namespace(key, namespace)
 
       hash <- self$set_value(value, use_cache = use_cache)
-      self$driver$mset_hash(p$key, p$namespace, rep(hash, p$n))
+      private$DRIVER$mset_hash(p$key, p$namespace, rep(hash, p$n))
       invisible(hash)
     },
 
@@ -1630,7 +1627,7 @@ TileDBStorr <- R6::R6Class(
                          namespace_dest = namespace) {
 
       hash_src <- self$mget_hash(key_src, namespace_src)
-      self$driver$mset_hash(key_dest, namespace_dest, hash_src)
+      private$DRIVER$mset_hash(key_dest, namespace_dest, hash_src)
 
       invisible(NULL)
     },
@@ -1651,7 +1648,7 @@ TileDBStorr <- R6::R6Class(
                      class(namespace)), call. = FALSE)
       }
 
-      self$driver$delete_namespaces(namespace)
+      private$DRIVER$delete_namespaces(namespace)
     },
 
     #' @description Check a key-namespace pair exists.
@@ -1664,7 +1661,7 @@ TileDBStorr <- R6::R6Class(
     #' @return A logical vector indicating which key-namespace pair exists.
     #'
     exists = function(key, namespace = self$default_namespace) {
-      self$driver$exists_hash(key, namespace)
+      private$DRIVER$exists_hash(key, namespace)
     },
 
     #' @description Check a serialised object exists given a hash.
@@ -1674,7 +1671,7 @@ TileDBStorr <- R6::R6Class(
     #' @return A logical vector indicating which object exists.
     #'
     exists_object = function(hash) {
-      self$driver$exists_object(hash)
+      private$DRIVER$exists_object(hash)
     },
 
     #' @description Delete an object from the storr.
@@ -1691,7 +1688,7 @@ TileDBStorr <- R6::R6Class(
 
       n <- storr::join_key_namespace(key, namespace)
 
-      deleted_hashes <- self$driver$del_hash(n$key, n$namespace)
+      deleted_hashes <- private$DRIVER$del_hash(n$key, n$namespace)
 
       # Remove cache metadata for primary index key:namespace
       #
@@ -1722,7 +1719,7 @@ TileDBStorr <- R6::R6Class(
     #' @return An object of class `data.table`.
     #'
     keys_with_expiration = function(namespace = self$default_namespace, datetimes = TRUE) {
-      out <- self$driver$keys_with_expiration(namespace, datetimes = datetimes)
+      out <- private$DRIVER$keys_with_expiration(namespace, datetimes = datetimes)
       data.table::as.data.table(out)
     },
 
@@ -1735,7 +1732,7 @@ TileDBStorr <- R6::R6Class(
     #' @return An object of class `data.table`.
     #'
     expired_keys = function(namespace = self$default_namespace, datetimes = TRUE) {
-      out <- self$driver$expired_keys(namespace, datetimes = datetimes)
+      out <- private$DRIVER$expired_keys(namespace, datetimes = datetimes)
       data.table::as.data.table(out)
     },
 
@@ -1747,7 +1744,7 @@ TileDBStorr <- R6::R6Class(
     #'
     has_expired_keys = function(namespace = self$default_namespace) {
 
-      self$driver$has_expired_keys(namespace)
+      private$DRIVER$has_expired_keys(namespace)
 
     },
 
@@ -1758,7 +1755,7 @@ TileDBStorr <- R6::R6Class(
     #' @return A boolean value `TRUE` indicating success, invisibly.
     #'
     clear_expired_keys = function(namespace = self$default_namespace) {
-      self$driver$delete_expired_keys(namespace)
+      private$DRIVER$delete_expired_keys(namespace)
     },
 
     #' @description List all keys stored in a namespace.
@@ -1769,7 +1766,7 @@ TileDBStorr <- R6::R6Class(
     #'
     list = function(namespace = self$default_namespace) {
 
-      sort(self$driver$list_keys(namespace))
+      sort(private$DRIVER$list_keys(namespace))
     },
 
     #' @description List all hashes stored in the storr.
@@ -1779,7 +1776,7 @@ TileDBStorr <- R6::R6Class(
     #'
     list_hashes = function() {
 
-      sort(self$driver$list_hashes())
+      sort(private$DRIVER$list_hashes())
     },
 
     #' @description List all namespaces in the storr.
@@ -1789,7 +1786,7 @@ TileDBStorr <- R6::R6Class(
     #'
     list_namespaces = function() {
 
-      sort(self$driver$list_namespaces())
+      sort(private$DRIVER$list_namespaces())
     },
 
     #' @description Garbage collect the storr.
@@ -1802,11 +1799,11 @@ TileDBStorr <- R6::R6Class(
     gc = function(clear_expired = FALSE) {
 
       if (clear_expired) {
-        self$driver$delete_expired_keys(NULL)
+        private$DRIVER$delete_expired_keys(NULL)
       }
 
       # Deletes the objects in 'tbl_data'
-      unused <- self$driver$delete_unused_hashes()
+      unused <- private$DRIVER$delete_unused_hashes()
 
       # Delete unused hashes from cache; note that metadata for
       # the respective key:namespaces have been deleted by
@@ -1828,7 +1825,7 @@ TileDBStorr <- R6::R6Class(
     #'
     index_export = function(namespace = NULL) {
 
-      out <- self$driver$filter_keys(character(), namespace = namespace)[]
+      out <- private$DRIVER$filter_keys(character(), namespace = namespace)[]
 
       if (nrow(out) == 0) {
 
@@ -1890,7 +1887,7 @@ TileDBStorr <- R6::R6Class(
 
       }
 
-      self$driver$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
+      private$DRIVER$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     }
   ),
 
@@ -1910,6 +1907,10 @@ TileDBStorr <- R6::R6Class(
   ),
 
   private = list(
+
+    # @field driver The TileDB driver.
+    #
+    DRIVER = NULL,
 
   # NOTE: extracted from storr:::check_length
   check_length = function(key, namespace) {
