@@ -91,7 +91,7 @@ stoe$get("a") # 1
 # No access without the key
 # stoe_new <- storr_tiledb(uri_enc) # This will fail
 
-# Need a context that encryption configuration
+# Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
 stoe_new$get("a") # 1
 }

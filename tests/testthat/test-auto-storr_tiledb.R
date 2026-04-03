@@ -42,6 +42,8 @@ test_that("basic", {
   hash <- st$hash_object(d)
 
   res <- st$set(key, d)
+  expect_true(st$exists(key))
+  expect_true(st$exists_object(hash))
 
   expect_identical(res, hash)
   expect_identical(st$list(), key)
@@ -91,7 +93,6 @@ test_that("basic", {
   expect_equal(st$get(key2, use_cache = FALSE), d,
                          tolerance = 1e-15)
 })
-
 
 test_that("replace value", {
 
@@ -372,4 +373,139 @@ test_that("gc", {
   st$del(c("a", "c", "x"))
   expect_equal(st$list(), character(0))
   expect_equal(sort(st$gc()), sort(c(hx, hz)))
+})
+
+
+test_that("destroy", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  expect_equal(tiledb::tiledb_object_type(uri), "GROUP")
+  expect_null(st$destroy())
+  expect_equal(tiledb::tiledb_object_type(uri), "INVALID")
+
+})
+
+test_that("fill", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  v <- runif(10)
+  keys <- letters[1:3]
+  h <- st$fill(keys, v)
+  expect_equal(h, st$hash_object(v))
+  expect_equal(st$mget(keys),
+               rep(list(v), length(keys)))
+})
+
+
+test_that("duplicate", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  h1 <- st$set("a", runif(10))
+  expect_null(st$duplicate("a", "b"))
+
+  expect_identical(st$get("b"), st$get("a"))
+  expect_identical(st$get_hash("b"), st$get_hash("a"))
+})
+
+
+test_that("index - empty", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  d <- data.frame(
+    namespace = character(0),
+    key = character(0),
+    hash = character(0),
+    expires_at = as.POSIXct(double()),
+    notes = character(0)
+  )
+  trg <- data.table::as.data.table(d)
+  expect_identical(st$index_export(), trg)
+
+  expect_silent(st$index_import(st$index_export()))
+  expect_equal(st$list_hashes(), character(0))
+})
+
+
+test_that("index one namespace", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+  letters4 <- letters[1:4]
+  st$mset(letters4, LETTERS[1:4],
+          expires_at = c(rep(as.POSIXct(NA),3), as.POSIXct(1)),
+          notes = c("hi", rep(NA_character_, 3)))
+
+  d <- st$index_export()
+  cmp <- data.frame(
+    namespace = "objects",
+    key = sort( letters4),
+    hash = vcapply(toupper(sort( letters4)), st$hash_object, USE.NAMES = FALSE),
+    expires_at = c(rep(as.POSIXct(NA),3), as.POSIXct(1)),
+    notes = c("hi", rep(NA_character_, 3)))
+
+  expect_equal(d, cmp, ignore_attr = TRUE)
+
+  st$del(letters4)
+  expect_equal(nrow(st$index_export()), 0L)
+
+  st$index_import(d)
+  expect_identical(st$index_export(), d)
+})
+
+
+test_that("index multiple namespaces", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  k1 <- letters[1:10]
+  k2 <- letters[7:13]
+  v1 <- runif(length(k1))
+  v2 <- runif(length(k2))
+
+  st$mset(k1, v1, "n1")
+  st$mset(k2, v2, "n2")
+
+  d <- st$index_export()
+
+  trg <- data.frame(namespace =  rep(c("n1", "n2"), c(length(k1), length(k2))),
+                    key = c(k1, k2),
+                    hash = vcapply(c(v1, v2), st$hash_object, USE.NAMES = FALSE),
+                    expires_at = as.POSIXct(NA),
+                    notes = NA_character_)
+
+  trg <- sort_by(trg, ~key)
+  expect_equal(d, trg, ignore_attr = TRUE)
+
+
+  d1 <- st$index_export("n1")
+  d2 <- st$index_export("n2")
+  expect_equal(d1,  subset(trg, namespace == "n1"), ignore_attr = TRUE)
+  expect_equal(d2,  subset(trg, namespace == "n2"), ignore_attr = TRUE)
+})
+
+
+test_that("invalid import", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  d <- data.frame(namespace = "objects",
+                  key = "foo",
+                  hash = st$hash_object(1))
+
+  expect_error(
+    st$index_import(mtcars),
+    "Missing required columns for index: 'namespace', 'key', 'hash'",
+    fixed = TRUE)
+  expect_error(st$index_import(d),
+               "Missing 1 / 1 hashes - can't import")
+  d$key <- factor(d$key)
+  expect_error(st$index_import(d),
+               "Column not character: 'key'")
 })

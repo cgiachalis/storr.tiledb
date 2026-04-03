@@ -16,7 +16,7 @@ to use the back-end's methods directly.
 
 \code{TileDBStorr} also enhances the storr interface by adding new features:
 \itemize{
-\item Optional notes and key expiration timestamps
+\item optional notes and key expiration timestamps
 \item asynchronous writes
 }
 
@@ -57,6 +57,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TileDBStorr-new}{\code{TileDBStorr$new()}}
+\item \href{#method-TileDBStorr-destroy}{\code{TileDBStorr$destroy()}}
 \item \href{#method-TileDBStorr-flush_cache}{\code{TileDBStorr$flush_cache()}}
 \item \href{#method-TileDBStorr-set}{\code{TileDBStorr$set()}}
 \item \href{#method-TileDBStorr-mset}{\code{TileDBStorr$mset()}}
@@ -70,6 +71,9 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mset_value}{\code{TileDBStorr$mset_value()}}
 \item \href{#method-TileDBStorr-get}{\code{TileDBStorr$get()}}
 \item \href{#method-TileDBStorr-mget}{\code{TileDBStorr$mget()}}
+\item \href{#method-TileDBStorr-get_hash}{\code{TileDBStorr$get_hash()}}
+\item \href{#method-TileDBStorr-mget_hash}{\code{TileDBStorr$mget_hash()}}
+\item \href{#method-TileDBStorr-hash_object}{\code{TileDBStorr$hash_object()}}
 \item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
 \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
 \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
@@ -78,13 +82,22 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
+\item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
+\item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
+\item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
+\item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
 \item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
 \item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
 \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
 \item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
 \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
+\item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
+\item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
+\item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
+\item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
+\item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
 }
 }
 \if{html}{\out{
@@ -93,21 +106,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_export"><a href='../../storr/html/storr.html#method-storr-archive_export'><code>storr::storr$archive_export()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="archive_import"><a href='../../storr/html/storr.html#method-storr-archive_import'><code>storr::storr$archive_import()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="check"><a href='../../storr/html/storr.html#method-storr-check'><code>storr::storr$check()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="destroy"><a href='../../storr/html/storr.html#method-storr-destroy'><code>storr::storr$destroy()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="duplicate"><a href='../../storr/html/storr.html#method-storr-duplicate'><code>storr::storr$duplicate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists"><a href='../../storr/html/storr.html#method-storr-exists'><code>storr::storr$exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="exists_object"><a href='../../storr/html/storr.html#method-storr-exists_object'><code>storr::storr$exists_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="export"><a href='../../storr/html/storr.html#method-storr-export'><code>storr::storr$export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="fill"><a href='../../storr/html/storr.html#method-storr-fill'><code>storr::storr$fill()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="get_hash"><a href='../../storr/html/storr.html#method-storr-get_hash'><code>storr::storr$get_hash()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="hash_object"><a href='../../storr/html/storr.html#method-storr-hash_object'><code>storr::storr$hash_object()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="import"><a href='../../storr/html/storr.html#method-storr-import'><code>storr::storr$import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_export"><a href='../../storr/html/storr.html#method-storr-index_export'><code>storr::storr$index_export()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="index_import"><a href='../../storr/html/storr.html#method-storr-index_import'><code>storr::storr$index_import()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list"><a href='../../storr/html/storr.html#method-storr-list'><code>storr::storr$list()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_hashes"><a href='../../storr/html/storr.html#method-storr-list_hashes'><code>storr::storr$list_hashes()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="list_namespaces"><a href='../../storr/html/storr.html#method-storr-list_namespaces'><code>storr::storr$list_namespaces()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="mget_hash"><a href='../../storr/html/storr.html#method-storr-mget_hash'><code>storr::storr$mget_hash()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr" data-topic="storr" data-id="repair"><a href='../../storr/html/storr.html#method-storr-repair'><code>storr::storr$repair()</code></a></span></li>
 </ul>
 </details>
@@ -132,6 +132,19 @@ Initialise \code{TileDBStorr}.
 functions? Default is  \code{FALSE}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-destroy"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-destroy}{}}}
+\subsection{Method \code{destroy()}}{
+Destroy (delete) 'storr'.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$destroy()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+\code{NULL}, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
@@ -542,6 +555,74 @@ A list of \code{R} objects.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-get_hash"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-get_hash}{}}}
+\subsection{Method \code{get_hash()}}{
+Get hash value.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_hash(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A scalar character of key name.}
+
+\item{\code{namespace}}{A scalar character of namespace name.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The hash value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mget_hash"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mget_hash}{}}}
+\subsection{Method \code{mget_hash()}}{
+Get hash values.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_hash(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hashes.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-hash_object"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-hash_object}{}}}
+\subsection{Method \code{hash_object()}}{
+Create a hash digest for an R object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$hash_object(object)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{object}}{An R object.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A character string of a fixed length containing the
+requested digest (hash) of the supplied R object.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_value}{}}}
 \subsection{Method \code{get_value()}}{
@@ -815,6 +896,68 @@ pair. For not found pairs will return the \code{missing} value.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-fill"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-fill}{}}}
+\subsection{Method \code{fill()}}{
+Set one or more keys to the same value.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$fill(key, value, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{value}}{An R object to store.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of hash values, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-duplicate"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-duplicate}{}}}
+\subsection{Method \code{duplicate()}}{
+Duplicate a set of keys.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$duplicate(key_src, key_dest, namespace = self$default_namespace,
+  namespace_src = namespace, namespace_dest = namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key_src}}{A character vector of source keys.}
+
+\item{\code{key_dest}}{A character vector of destination keys.}
+
+\item{\code{namespace}}{The namespace to copy keys within (used only of
+\code{namespace_src} and \code{namespace_dest} are not provided.}
+
+\item{\code{namespace_src}}{The source namespace - use this where keys are
+duplicated across namespaces.}
+
+\item{\code{namespace_dest}}{The destination namespace - use this where keys are duplicated
+across namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{NULL}, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-clear"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear}{}}}
 \subsection{Method \code{clear()}}{
@@ -833,6 +976,51 @@ clear all namespaces.}
 }
 \subsection{Returns}{
 The number of deleted namespaces.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-exists"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-exists}{}}}
+\subsection{Method \code{exists()}}{
+Check a key-namespace pair exists.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating which key-namespace pair exists.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-exists_object"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-exists_object}{}}}
+\subsection{Method \code{exists_object()}}{
+Check a serialised object exists given a hash.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists_object(hash)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{hash}}{A vector of hash values.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical vector indicating which object exists.
 }
 }
 \if{html}{\out{<hr>}}
@@ -950,6 +1138,52 @@ A boolean value \code{TRUE} indicating success, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list}{}}}
+\subsection{Method \code{list()}}{
+List all keys stored in a namespace.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A scalar character of namespace name.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A sorted character vector with keys.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_hashes}{}}}
+\subsection{Method \code{list_hashes()}}{
+List all hashes stored in the storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_hashes()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A sorted character vector with hashes.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_namespaces"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_namespaces}{}}}
+\subsection{Method \code{list_namespaces()}}{
+List all namespaces in the storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_namespaces()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A sorted character vector with namespaces.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-gc"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-gc}{}}}
 \subsection{Method \code{gc()}}{
@@ -968,6 +1202,49 @@ Default is \code{FALSE}.}
 }
 \subsection{Returns}{
 A vector of unused hashes, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-index_export"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-index_export}{}}}
+\subsection{Method \code{index_export()}}{
+Generate a \code{data.table} with an index of objects
+present in a storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_export(namespace = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An object of class \code{data.table}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-index_import"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-index_import}{}}}
+\subsection{Method \code{index_import()}}{
+Import an index of objects from a storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_import(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{A \code{data.frame} with minimum required columns 'namespace', 'key'
+'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
+hashes are present in the storr.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE}, invisibly.
 }
 }
 }

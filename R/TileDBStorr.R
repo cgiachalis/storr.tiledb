@@ -8,7 +8,7 @@
 #' to use the back-end's methods directly.
 #'
 #' `TileDBStorr` also enhances the storr interface by adding new features:
-#'  - Optional notes and key expiration timestamps
+#'  - optional notes and key expiration timestamps
 #'  - asynchronous writes
 #'
 #' This class is not intended to be used directly and the preferred
@@ -104,6 +104,17 @@ TileDBStorr <- R6::R6Class(
                                      self$traits$accept == "string")
     },
 
+    #' @description Destroy (delete) 'storr'.
+    #'
+    #' @return `NULL`, invisibly.
+    #'
+    destroy = function() {
+
+      self$driver$destroy()
+      self$driver <- NULL
+
+      invisible(NULL)
+    },
 
     #' @description Flush the cache of `R` objects.
     #'
@@ -953,6 +964,58 @@ TileDBStorr <- R6::R6Class(
       self$mget_value(self$mget_hash(key, namespace), use_cache, missing)
     },
 
+    #' @description Get hash value.
+    #'
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return The hash value.
+    #'
+    get_hash = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (self$traits$throw_missing) {
+        tryCatch(self$driver$get_hash(key, namespace), error = function(e) stop(KeyError(key,
+                                                                                         namespace)))
+      }
+      else {
+        if (self$exists(key, namespace)) {
+          self$driver$get_hash(key, namespace)
+        }
+        else {
+          stop(KeyError(key, namespace))
+        }
+      }
+    },
+
+    #' @description Get hash values.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #'
+    #' @return A vector of hashes.
+    #'
+    mget_hash = function(key, namespace = self$default_namespace) {
+
+      self$driver$mget_hash(key, namespace)
+    },
+
+    #' @description Create a hash digest for an R object.
+    #'
+    #' @param object An R object.
+    #'
+    #' @return A character string of a fixed length containing the
+    #'  requested digest (hash) of the supplied R object.
+    #'
+    hash_object = function(object) {
+      self$hash_raw(self$serialize_object(object))
+    },
+
     #' @description Get an object given its hash.
     #'
     #'
@@ -1526,6 +1589,52 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
+    #' @description Set one or more keys to the same value.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return A vector of hash values, invisibly.
+    #'
+    fill = function(key, value, namespace = self$default_namespace,
+                    use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      p <- storr::join_key_namespace(key, namespace)
+
+      hash <- self$set_value(value, use_cache = use_cache)
+      self$driver$mset_hash(p$key, p$namespace, rep(hash, p$n))
+      invisible(hash)
+    },
+
+    #' @description Duplicate a set of keys.
+    #'
+    #' @param key_src A character vector of source keys.
+    #' @param key_dest A character vector of destination keys.
+    #' @param namespace The namespace to copy keys within (used only of
+    #'  `namespace_src` and `namespace_dest` are not provided.
+    #' @param namespace_src The source namespace - use this where keys are
+    #'  duplicated across namespaces.
+    #' @param namespace_dest  The destination namespace - use this where keys are duplicated
+    #'  across namespaces.
+    #'
+    #' @return `NULL`, invisibly.
+    #'
+    duplicate = function(key_src,
+                         key_dest,
+                         namespace = self$default_namespace,
+                         namespace_src = namespace,
+                         namespace_dest = namespace) {
+
+      hash_src <- self$mget_hash(key_src, namespace_src)
+      self$driver$mset_hash(key_dest, namespace_dest, hash_src)
+
+      invisible(NULL)
+    },
+
     # NB: storr reports back the number of deleted keys
     #' @description Clear a storr.
     #'
@@ -1543,6 +1652,29 @@ TileDBStorr <- R6::R6Class(
       }
 
       self$driver$delete_namespaces(namespace)
+    },
+
+    #' @description Check a key-namespace pair exists.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #'
+    #' @return A logical vector indicating which key-namespace pair exists.
+    #'
+    exists = function(key, namespace = self$default_namespace) {
+      self$driver$exists_hash(key, namespace)
+    },
+
+    #' @description Check a serialised object exists given a hash.
+    #'
+    #' @param hash `r roxy_hash`
+    #'
+    #' @return A logical vector indicating which object exists.
+    #'
+    exists_object = function(hash) {
+      self$driver$exists_object(hash)
     },
 
     #' @description Delete an object from the storr.
@@ -1629,6 +1761,37 @@ TileDBStorr <- R6::R6Class(
       self$driver$delete_expired_keys(namespace)
     },
 
+    #' @description List all keys stored in a namespace.
+    #'
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return A sorted character vector with keys.
+    #'
+    list = function(namespace = self$default_namespace) {
+
+      sort(self$driver$list_keys(namespace))
+    },
+
+    #' @description List all hashes stored in the storr.
+    #'
+    #'
+    #' @return A sorted character vector with hashes.
+    #'
+    list_hashes = function() {
+
+      sort(self$driver$list_hashes())
+    },
+
+    #' @description List all namespaces in the storr.
+    #'
+    #'
+    #' @return A sorted character vector with namespaces.
+    #'
+    list_namespaces = function() {
+
+      sort(self$driver$list_namespaces())
+    },
+
     #' @description Garbage collect the storr.
     #'
     #' @param clear_expired Should the expired keys be deleted?
@@ -1653,6 +1816,81 @@ TileDBStorr <- R6::R6Class(
         })
 
       invisible(unused)
+    },
+
+    #' @description Generate a `data.table` with an index of objects
+    #' present in a storr.
+    #'
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #'
+    #' @return An object of class `data.table`.
+    #'
+    index_export = function(namespace = NULL) {
+
+      out <- self$driver$filter_keys(character(), namespace = namespace)[]
+
+      if (nrow(out) == 0) {
+
+        d <- data.frame(
+          namespace = character(0),
+          key = character(0),
+          hash = character(0),
+          expires_at = as.POSIXct(double()),
+          notes = character(0)
+        )
+
+        out <- data.table::as.data.table(d)
+      }
+
+      out
+    },
+
+    #' @description Import an index of objects from a storr.
+    #'
+    #'
+    #' @param index A `data.frame` with minimum required columns 'namespace', 'key'
+    #' 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
+    #'  hashes are present in the storr.
+    #'
+    #' @return `TRUE`, invisibly.
+    #'
+    index_import = function(index) {
+
+      cols <- c("namespace", "key", "hash")
+
+      nms <- colnames(index)
+      msg <- setdiff(cols, nms)
+      if (length(msg) > 0L) {
+        stop("Missing required columns for index: ", paste(squote(msg),
+                                                           collapse = ", "), call. = FALSE)
+      }
+
+      ok <- vlapply(index[, c("namespace", "key", "hash")], is.character)
+      if (!all(ok)) {
+        stop("Column not character: ", paste(squote(cols[!ok]),
+                                             collapse = ", "), call. = FALSE)
+      }
+
+      msg <- setdiff(index$hash, self$list_hashes())
+      if (length(msg) > 0L) {
+        stop(sprintf("Missing %d / %d hashes - can't import",
+                     length(msg), nrow(index)), call. = FALSE)
+      }
+
+
+      if (all(c("expires_at", "notes") %in% nms)) {
+        if (!inherits(index[["expires_at"]], "POSIXct")) {
+          stop("Column not datetime: ", sQuote("expires_at"), call. = FALSE)
+        }
+
+        if (!is.character(index[["notes"]])) {
+          stop("Column not character: ", sQuote("notes"), call. = FALSE)
+        }
+
+      }
+
+      self$driver$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     }
   ),
 
