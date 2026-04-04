@@ -10,17 +10,19 @@
 
 A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
 
-A storr is a content addressed key-value store for R objects with an optional cache layer
-that offers a common interface (set, get, del methods) across a range of different
-storage drivers (DBI, LMDB, redis, rds, environment). The interface is provided
-by [storr](https://cloud.r-project.org/web/packages/storr/index.html) package and
+*What is storr?*
+
+A storr is a content addressed key-value store for R objects with an optional cache layer.
+The interface is provided by [storr](https://cloud.r-project.org/web/packages/storr/index.html)
+package and defines a set of common operations (set, get, del methods) across a range of different
+storage drivers (DBI, LMDB, Redis, RDS, environment). The `storr` package is
 written by [Rich FitzJohn](https://github.com/richfitz). 
 
 *What is storr.tiledb?*
 
 The `storr.tiledb` contributes a new storr compliant driver using the TileDB storage engine.
-The package has its own storr R6 subclass that utilises the strengths of the underlying storage
-engine and offers some extra feature such as the option to add notes and expiration
+The package has its own storr R6 class that utilises the strengths of the underlying
+engine and offers some extra features, such as the option to add notes and expiration
 time-stamps along with key-namespace pairs. 
 
 > [!WARNING]  
@@ -32,7 +34,7 @@ time-stamps along with key-namespace pairs.
 
 ## Key features
 
- - Key interface methods have been overwritten to make the most of the underlying
+ - Key interface methods have been re-written to make the most of the underlying
  back end with respect to speed and efficiency
 
  - Set optional notes and expiration timestamps when setting keys

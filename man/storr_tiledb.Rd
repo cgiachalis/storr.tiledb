@@ -34,21 +34,22 @@ Create a 'storr' using TileDB driver for storage.
 \details{
 \link[storr:storr]{‘storr’} is a content addressed key-value store
 with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
-object, a subclass of \code{storr}, with identical interface as \code{storr}
-but with some of its methods to have been rewritten for speed and efficiency.
-Additionally, it supports metadata next to key-values (notes and
-expiration timestamps) and asynchronous writes using the
-\href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai} framework.
+object with identical interface as \code{storr} that additionally supports
+metadata next to key-values (notes and expiration timestamps) as well as asynchronous
+writes using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
+framework.
 
 \code{storr_tiledb()} and \code{storr(driver_tiledb())} can not be used interchangeably
 if you use the extra features (i.e., expiration timestamps). The latter
-is the standard storr interface and the former produces a subclass to support
-the new features. Another difference, but not visible to the user, is that the
+is the standard storr interface and the former produces a stand-alone R6 class
+that replicates the storr interface with additional features.
+
+Another difference, but not visible to the user, is that the
 \code{storr_tiledb}'s cache layer uses hash tables via \code{\link[=hashtab]{hashtab()}} instead of
 environments.
 
 By default, the cache layer is enabled. The global option \code{storr.tiledb.cache}
-can be used to disable it, like so \code{options(storr.tiledb.cache = FALSE)}.
+can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
 }
 \examples{
 \dontrun{

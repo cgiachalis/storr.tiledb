@@ -1,9 +1,4 @@
 
-# Imports from 'storr' in order to subclass 'R6_storr'.
-# Ideally, the "R6_storr" should be exported and the rest be
-# private member functions.
-
-R6_storr <- utils::getFromNamespace("R6_storr", "storr")
 storr_traits <- utils::getFromNamespace("storr_traits", "storr")
 make_hash_serialized_object <- utils::getFromNamespace("make_hash_serialized_object", "storr")
 make_serialize_object <- utils::getFromNamespace("make_serialize_object", "storr")
