@@ -46,9 +46,9 @@ CAS <- R6::R6Class(
      super$create(mode = "WRITE")
 
      ok1 <- tiledb::tiledb_array_create(uri_keys,
-                                        schema = schema_keys())
+                                        schema = schema_keys(ctx = self$ctx))
      ok2 <- tiledb::tiledb_array_create(uri_data,
-                                        schema = schema_data(compression_level))
+                                        schema = schema_data(compression_level, ctx = self$ctx))
 
      arr1 <- TileDBArray$new(uri_keys, ctx = self$ctx)
      arr2 <- TileDBArray$new(uri_data, ctx = self$ctx)
