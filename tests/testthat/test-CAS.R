@@ -77,3 +77,26 @@ test_that("Test 'CAS' basic methods", {
 
   })
 
+
+test_that("ctx is unique and not cached", {
+
+  # NB: Verify that passing an uncache context via new_context
+  # (not via tiledb_cxt) is not cached accidentally
+  #
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+
+  cfg <- tiledb::tiledb_config()
+  cfg["vfs.s3.region"] <- "eu-north-1"
+  ctx <- R6.tiledb::new_context(cfg)
+
+  cas <- CAS$new(uri, ctx)
+  cas$create()
+  cas_cfg <- tiledb::config(cas$ctx)
+  expect_equal(unname(cas_cfg["vfs.s3.region"]), "eu-north-1")
+
+  # get config from cached ctx in tiledb package enviroment
+  pkg_cfg <- tiledb::config(tiledb::tiledb_get_context())
+  expect_equal(unname(pkg_cfg["vfs.s3.region"]), "")
+
+})
+
