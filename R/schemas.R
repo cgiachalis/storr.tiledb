@@ -38,7 +38,7 @@
 
 # Dims: namespace, keys
 # Attrs: hash, expires_at
-schema_keys <- function() {
+schema_keys <- function(ctx) {
 
   .filter_zstd <- .tiledb_flist(level = -1, name = "ZSTD")
   .filter_rle <- .tiledb_flist(level = -1, name = "RLE")
@@ -82,7 +82,8 @@ schema_keys <- function() {
     allows_dups = FALSE,
     coords_filter_list = .filter_zstd,
     offsets_filter_list = .filter_zstd,
-    validity_filter_list = .filter_rle)
+    validity_filter_list = .filter_rle,
+    ctx = ctx)
 
   sch
 
@@ -91,7 +92,7 @@ schema_keys <- function() {
 
 
 
-schema_data <- function(compression_level = -7) {
+schema_data <- function(compression_level = -7, ctx) {
 
   .filter_zstd <- .tiledb_flist(level = -7, name = "ZSTD")
   .filter_rle <- .tiledb_flist(level = -7, name = "RLE")
@@ -121,7 +122,8 @@ schema_data <- function(compression_level = -7) {
     allows_dups = FALSE,
     coords_filter_list = .filter_zstd,
     offsets_filter_list = .filter_zstd,
-    validity_filter_list = .filter_rle)
+    validity_filter_list = .filter_rle,
+    ctx = ctx)
 
   sch
 
