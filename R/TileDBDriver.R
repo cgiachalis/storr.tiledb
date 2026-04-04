@@ -167,7 +167,7 @@ TileDBDriver <- R6::R6Class(
       # NB: 'storr' class does not support 'expires_at' and 'notes',
       #   so we sanitise missing values
       if (missing(expires_at)) {
-        expires_at <- NA_real_
+        expires_at <- as.POSIXct(NA_real_)
       }
 
       if (missing(notes)) {
@@ -207,7 +207,7 @@ TileDBDriver <- R6::R6Class(
         # support 'throw_missing' trait. Doing so, we're
         # avoiding the extra query (e.g., exists_object) in storr
         # layer.
-        stop(hashError(hash))
+        stop(HashError(hash))
       }
 
       result

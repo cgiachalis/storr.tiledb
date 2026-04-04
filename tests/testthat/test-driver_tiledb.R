@@ -27,3 +27,29 @@ test_that("driver_tiledb_create", {
   expect_equal(driver_tiledb(uri)$hash_algorithm, "sha1")
 
 })
+
+test_that("Encrypted storr works with new_context", {
+
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+
+  key <- "5b643a5e173c27d76b3f2af01fcb327b"
+  config <- tiledb::tiledb_config()
+  config["sm.encryption_type"] <- "AES_256_GCM";
+  config["sm.encryption_key"] <- key
+  ctx <- R6.tiledb::new_context(config) # not cached, only within driver
+
+  dr <- driver_tiledb(uri, init = TRUE, context = ctx, keep_open = FALSE)
+  dr$open(instantiate = TRUE)
+  dr$set_hash(key = "a", namespace = "boo", hash = "0102020")
+  dr$close()
+
+  # This fails as storr arrays are encrypted and context cannot be found
+  expect_error(dr_nokey <- driver_tiledb(uri, init = FALSE, context = NULL))
+
+   # This works because ctx encapsulates encryption key
+  expect_no_error(dr_withkey <- driver_tiledb(uri, init = FALSE, context = ctx))
+
+  # Verify
+  expect_equal(dr_withkey$get_hash("a", "boo")[], "0102020")
+
+})
