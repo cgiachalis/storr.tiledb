@@ -15,7 +15,7 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 
 \item{context}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
 
-\item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
+\item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
 \item{...}{Other arguments passed to driver's create method when \code{init = TRUE}.
 Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}

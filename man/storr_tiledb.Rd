@@ -14,7 +14,7 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 \item{context}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
 
-\item{init}{Should the driver be created if not exist? Defalut is  \code{FALSE}.}
+\item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
