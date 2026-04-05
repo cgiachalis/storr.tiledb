@@ -386,3 +386,19 @@ test_that("delete_expired_keys", {
   expect_equal(dr$num_expired_keys(NULL), 0)
 
 })
+
+test_that("mset_object with dupes", {
+
+  # Ensure mset_object removes duplicate coordinates
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  dr <- driver_tiledb(uri, init = TRUE, keep_open = FALSE)
+  dr$open(instantiate = TRUE)
+
+  hash_in <- "0012"
+  expect_no_error(dr$mset_object(rep(hash_in, 3) , rep("xxxx", 3)))
+
+  hash <- dr$members$tbl_data$object$object[]$hash
+
+  expect_equal(hash, hash_in)
+
+})

@@ -301,6 +301,9 @@ TileDBDriver <- R6::R6Class(
       dat <- data.frame(hash = hash,
                         value = value)
 
+      keep <- !duplicated(dat[, "hash"], fromLast = TRUE)
+      dat <- dat[keep, ]
+
       arr <- private$data_array()$tiledb_array()
       arr[] <- dat
 
