@@ -60,7 +60,8 @@ CAS <- R6::R6Class(
      private$.hash_algo <- algo
 
      if (keep_open) {
-       super$reopen("WRITE")
+       self$close()
+       self$open("WRITE", instantiate = TRUE)
      } else {
        self$close()
      }
