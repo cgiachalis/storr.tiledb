@@ -52,4 +52,9 @@ test_that("Encrypted storr works with new_context", {
   # Verify
   expect_equal(dr_withkey$get_hash("a", "boo")[], "0102020")
 
+  # Verify that is not leaked to package cached ctx
+  ctx2 <- tiledb::tiledb_get_context()
+  config2 <- tiledb::config(ctx2)
+  expect_equal(config2["sm.encryption_key"][[1]], "")
+
 })
