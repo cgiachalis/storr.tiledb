@@ -37,8 +37,8 @@ navbar:
     href: index.html
     icon: fa-home fa-lg
     aria-label: storr.tiledb
-  - text: Getting Started
-    href: articles/getting_started.html
+  - text: Get Started
+    href: articles/storr-tiledb.html
   - text: Reference
     href: reference/index.html
   - text: Articles
@@ -46,28 +46,24 @@ navbar:
     - text: "storr.tiledb"
     - text: "Introduction"
       href: articles/introduction.html
+    - text: " FAQ"
+      href: articles/faq.html
   - text: "News"
     href: news/index.html
 
 reference:
 
-- title: Storr Interface
+- title: TileDB Storr
   desc: |
-   A convenient wrapper to create and manage a 'storr' using TileDB
-   storage engine. For most cases, it will be the go to function.
+   The core functions to create and manage a TileDB 'storr'.
   contents:
   - storr_tiledb
-
-- title: Storr Driver
-  desc: ~
-  contents:
   - starts_with("driver")
 
 - title: R6 Classes
   desc: |
    R6 classes that represent the storr interface and the TileDB driver.
-   These are internal objects and it is not advisable to use them directly;
-   but exposed here for documentation purposes.
+   These are internal objects and should not be used directly.
   contents:
   - CAS
   - TileDBDriver

@@ -7,9 +7,9 @@
 
 source("./vignettes/src/helpers.R")
 
-.precompile_vignette("getting_started", render = TRUE)
+.precompile_vignette("storr-tiledb", render = TRUE)
 .precompile_vignette("introduction", render = TRUE)
-.precompile_vignette("fag", render = TRUE)
+.precompile_vignette("faq", render = TRUE)
 
 # Pre-compile all vignettes
 .precompile_all(render = TRUE)
