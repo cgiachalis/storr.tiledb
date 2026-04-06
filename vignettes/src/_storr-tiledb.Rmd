@@ -227,7 +227,7 @@ config["vfs.s3.aws_secret_access_key"] <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
 ctx <- R6.tiledb::new_context(config)
 ```
 
-```{r, eval==FALSE}
+```{r, eval=FALSE}
 # Create a remote storr
 uri <- 's3//bucket/my-storr'
 sto <- storr_tiledb(uri, init = TRUE, context = ctx)

@@ -119,7 +119,7 @@ sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
 # Retrieve 'notes' and 'expiration'
 sto$get_keymeta("key1")
 # $expires_at
-# [1] "2026-04-06 19:55:49 EEST"
+# [1] "2026-04-06 19:58:09 EEST"
 # 
 # $notes
 # [1] "my notes"
@@ -133,8 +133,8 @@ sto$get_keymeta("key1")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 19:55:49
-# 2:   objects   key2 2026-04-06 19:57:28
+# 1:   objects   key1 2026-04-06 19:58:09
+# 2:   objects   key2 2026-04-06 19:59:49
 
 Sys.sleep(2)
 
@@ -144,7 +144,7 @@ sto$has_expired_keys()
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 19:55:49
+# 1:   objects   key1 2026-04-06 19:58:09
 
 sto$clear_expired_keys()
 
@@ -160,7 +160,7 @@ sto$expired_keys()
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key2 2026-04-06 19:57:28
+# 1:   objects   key2 2026-04-06 19:59:49
 
 # Reset expiration timestamp
 sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
