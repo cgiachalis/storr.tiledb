@@ -196,7 +196,8 @@ CAS <- R6::R6Class(
      sp <- list(namespace = namespace, key = key)
      arr <- arrobj$tiledb_array(attrs = attrnames,
                                 selected_points = sp,
-                                return_as = "arrow")
+                                return_as = "arrow",
+                                ctx = self$ctx)
 
      dt <- data.table::as.data.table(arr[])
 
@@ -372,7 +373,8 @@ CAS <- R6::R6Class(
       sp <- list(namespace = namespace, key = key)
       arr <- arrobj$tiledb_array(attrs = attrname,
                                  selected_points = sp,
-                                 return_as = "arrow")
+                                 return_as = "arrow",
+                                 ctx = self$ctx)
       list(dat.req = dat.req,
            arr = arr)
 
