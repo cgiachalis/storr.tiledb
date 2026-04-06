@@ -9,11 +9,13 @@ vignette: >
 
 
 
-## `storr`
 
- **storr**:  is a key value store interface provided by homonymous R package.
- For implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
+## Overview
 
+ **storr**: a key value store interface provided by homonymous R package.
+ For its implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
+ 
+ **storr_tiledb**: a function that implements the storr interface with a TileDB driver for storage.
 
 ## 1. Basic Usage
 
@@ -70,7 +72,8 @@ We saved three keys, but only two `R` objects. Check for deduplication:
 # 2 hashes for 3 keys
 hashes <- sto$list_hashes()
 hashes
-# [1] "20bce84369c17ac389b9b60fe0add435" "632336c518ae1c89ecf26ae5fbec5860"
+# [1] "20bce84369c17ac389b9b60fe0add435"
+# [2] "632336c518ae1c89ecf26ae5fbec5860"
 
 # get R object for this hash
 sto$get_value(hashes[1])
@@ -92,7 +95,8 @@ sto$get("b")
 
 # NB: none object has been deleted, only the index
 sto$list_hashes()
-# [1] "20bce84369c17ac389b9b60fe0add435" "632336c518ae1c89ecf26ae5fbec5860"
+# [1] "20bce84369c17ac389b9b60fe0add435"
+# [2] "632336c518ae1c89ecf26ae5fbec5860"
 
 # Now, delete the unused hashes
 sto$gc()
@@ -115,7 +119,7 @@ sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
 # Retrieve 'notes' and 'expiration'
 sto$get_keymeta("key1")
 # $expires_at
-# [1] "2026-04-06 14:09:10 EEST"
+# [1] "2026-04-06 19:11:45 EEST"
 # 
 # $notes
 # [1] "my notes"
@@ -129,8 +133,8 @@ sto$get_keymeta("key1")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 14:09:10
-# 2:   objects   key2 2026-04-06 14:10:49
+# 1:   objects   key1 2026-04-06 19:11:45
+# 2:   objects   key2 2026-04-06 19:13:24
 
 Sys.sleep(2)
 
@@ -140,7 +144,7 @@ sto$has_expired_keys()
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 14:09:10
+# 1:   objects   key1 2026-04-06 19:11:45
 
 sto$clear_expired_keys()
 
@@ -156,7 +160,7 @@ sto$expired_keys()
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key2 2026-04-06 14:10:49
+# 1:   objects   key2 2026-04-06 19:13:24
 
 # Reset expiration timestamp
 sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
@@ -236,7 +240,7 @@ config["sm.encryption_key"] <- key
 ctx <- R6.tiledb::new_context(config) # tiledb::tiledb_ctx(config)
 ```
 
-Note that we've created a context using`R6.tiledb::new_context()` instead of `tiledb_tiledb_ctx()`, because the latter stores the context to package cache and we do want that on this case.
+Note that we've created a context using `R6.tiledb::new_context()` instead of `tiledb_tiledb_ctx()`, because the latter stores the context to package cache.
 
 Now, create a storr with encryption:
 

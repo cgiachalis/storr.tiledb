@@ -15,11 +15,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-## `storr`
 
- **storr**:  is a key value store interface provided by homonymous R package.
- For implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
+## Overview
 
+ **storr**: a key value store interface provided by homonymous R package.
+ For its implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
+ 
+ **storr_tiledb**: a function that implements the storr interface with a TileDB driver for storage.
 
 ## 1. Basic Usage
 
@@ -191,7 +193,7 @@ config["sm.encryption_key"] <- key
 ctx <- R6.tiledb::new_context(config) # tiledb::tiledb_ctx(config)
 ```
 
-Note that we've created a context using `R6.tiledb::new_context()` instead of `tiledb_tiledb_ctx()`, because the latter stores the context to package cache and we do want that.
+Note that we've created a context using `R6.tiledb::new_context()` instead of `tiledb_tiledb_ctx()`, because the latter stores the context to package cache.
 
 Now, create a storr with encryption:
 

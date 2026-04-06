@@ -8,7 +8,8 @@
 source("./vignettes/src/helpers.R")
 
 .precompile_vignette("getting_started", render = TRUE)
-
+.precompile_vignette("introduction", render = TRUE)
+.precompile_vignette("fag", render = TRUE)
 
 # Pre-compile all vignettes
 .precompile_all(render = TRUE)
