@@ -1815,6 +1815,33 @@ TileDBStorr <- R6::R6Class(
       invisible(unused)
     },
 
+    #' @description Export objects from storr.
+    #'
+    #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
+    #'
+    #' @param dest A destination to export objects to. It can be a storr, list, or environment.
+    #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
+    #'  If named, the names of the character vector will be the names of the objects as created in the storr.
+    #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
+    #' then this will export namespaces from this (source) storr into the destination;
+    #' if there is more than one namespace, this is only possible if `dest`
+    #' is a storr (otherwise there will be an error).
+    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' should be skipped over, rather than being treated as an error (the default).
+    #'
+    #'
+    #' @return `dest` object, invisibly.
+    #'
+    export = function(dest, list = NULL, namespace = self$default_namespace,
+                      skip_missing = FALSE) {
+
+      if (is.null(namespace)) {
+        namespace <- self$list_namespaces()
+      }
+
+      invisible(storr_copy(dest, self, list, namespace, skip_missing)$dest)
+    },
+
     #' @description Generate a `data.table` with an index of objects
     #' present in a storr.
     #'
