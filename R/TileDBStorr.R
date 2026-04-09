@@ -1815,6 +1815,35 @@ TileDBStorr <- R6::R6Class(
       invisible(unused)
     },
 
+    #' @description Import objects to storr.
+    #'
+    #'
+    #' @param src A source to import objects from. It can be a storr, list, or environment.
+    #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
+    #'  If named, the names of the character vector will be the names of the objects as created in the storr.
+    #' @param namespace  Namespace to get objects from, and to put objects into.
+    #' If `NULL`, all namespaces from `src` will be imported. If named,
+    #' then the same rule is followed as `list`; `namespace = c(a = b)` will import the
+    #' contents of namespace `b` as namespace `a`.
+    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' should be skipped over, rather than being treated as an error (the default).
+    #'
+    #'
+    #' @return A vector with destination namespaces, invisibly.
+    #'
+    import = function(src, list = NULL, namespace = self$default_namespace,
+                      skip_missing = FALSE) {
+
+      if (is.null(namespace)) {
+        if (inherits(src, "storr")) {
+          namespace <- src$list_namespaces()
+        } else {
+          stop("If src is not a storr, namespace can't be NULL")
+        }
+      }
+      invisible(storr_copy(self, src, list, namespace, skip_missing)$info)
+    },
+
     #' @description Export objects from storr.
     #'
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.

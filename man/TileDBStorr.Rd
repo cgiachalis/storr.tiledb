@@ -92,6 +92,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
 \item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
 \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
+\item \href{#method-TileDBStorr-import}{\code{TileDBStorr$import()}}
 \item \href{#method-TileDBStorr-export}{\code{TileDBStorr$export()}}
 \item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
 \item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
@@ -1187,6 +1188,38 @@ Default is \code{FALSE}.}
 }
 \subsection{Returns}{
 A vector of unused hashes, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-import"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-import}{}}}
+\subsection{Method \code{import()}}{
+Import objects to storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$import(src, list = NULL, namespace = self$default_namespace,
+  skip_missing = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{src}}{A source to import objects from. It can be a storr, list, or environment.}
+
+\item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
+If named, the names of the character vector will be the names of the objects as created in the storr.}
+
+\item{\code{namespace}}{Namespace to get objects from, and to put objects into.
+If \code{NULL}, all namespaces from \code{src} will be imported. If named,
+then the same rule is followed as \code{list}; \code{namespace = c(a = b)} will import the
+contents of namespace \code{b} as namespace \code{a}.}
+
+\item{\code{skip_missing}}{Logical, indicating if missing keys (specified in \code{list})
+should be skipped over, rather than being treated as an error (the default).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector with destination namespaces, invisibly.
 }
 }
 \if{html}{\out{<hr>}}
