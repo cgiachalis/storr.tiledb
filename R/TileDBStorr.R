@@ -2005,9 +2005,17 @@ TileDBStorr <- R6::R6Class(
     }
   },
 
+  # Set up persistent daemons for storr compute profile
   set_daemons = function() {
     if (!mirai::daemons_set(.storr_profile)) {
       enable_mirai()
+    }
+  },
+
+  # Reset daemons for storr compute profile
+  finalize = function() {
+    if (mirai::daemons_set(.storr_profile)) {
+      disable_mirai()
     }
   }
 
