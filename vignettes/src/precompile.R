@@ -8,7 +8,8 @@
 source("./vignettes/src/helpers.R")
 
 .precompile_vignette("storr-tiledb", render = TRUE)
-.precompile_vignette("introduction", render = TRUE)
+.precompile_vignette("api", render = TRUE)
+.precompile_vignette("data-model", render = TRUE)
 .precompile_vignette("faq", render = TRUE)
 
 # Pre-compile all vignettes

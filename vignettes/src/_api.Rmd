@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction
+## Storr setup
 
 Create a `storr` either via `storr_tiledb()`:
 
@@ -79,7 +79,12 @@ sto$list("ns1")
 
 ```
 
-### 2. Key Metadata methods
+### 2. get_keymeta, set_keymeta
+
+With a key-namespace pair, you can attached notes and expiration metadata.
+
+Set key metadata when creating a key:
+
 ```{r}
 # Expires in 5 minutes
 sto$set("aa", 1, expires_at = Sys.time() + 60 * 5, 
@@ -87,19 +92,23 @@ sto$set("aa", 1, expires_at = Sys.time() + 60 * 5,
 
 # Expires in 1 second
 sto$set("bb", 1, expires_at = Sys.time() + 1)
+```
 
+Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
+
+```r
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
+
+# Update key metadata
+sto$set_keymeta("bb", notes = "Updated Note")
+sto$get_keymeta("bb")
 
 ```
 
 **Expiration management**
 ```{r}
-# Update key metadata
-sto$set_keymeta("bb", notes = "Updated Note")
-sto$get_keymeta("bb")
-
 # Retrieve keys with expiration
 sto$keys_with_expiration()
 
@@ -116,9 +125,10 @@ sto$has_expired_keys()
 
 # Or via gc()
 sto$gc(clear_expired = TRUE)
+```
 
-
-# Clear metadata
+**Clear metadata**
+```{r}
 sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
 sto$get_keymeta("aa")
 ```
@@ -126,8 +136,11 @@ sto$get_keymeta("aa")
 
 ### 3. Async methods
 ```{r}
-
+# TODO
 ```
 
-
+```{r, echo=FALSE}
+unlink(uri, recursive = TRUE)
+unlink(uri2, recursive = TRUE)
+```
 
