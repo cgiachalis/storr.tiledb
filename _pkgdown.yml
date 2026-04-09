@@ -7,7 +7,7 @@ template:
     heading_font: {google: "Roboto Slab"}
     primary: "#090D14"
     link-color: "#1C4BC4ED"
-    code-color: "#5D4311"
+    code-color:  "#725c30"
     text-decoration-color: "#151B21"
     body-color: "#1B222B" # Black Perl
 
@@ -44,8 +44,10 @@ navbar:
   - text: Articles
     menu:
     - text: "storr.tiledb"
-    - text: "Introduction"
-      href: articles/introduction.html
+    - text: "API Usage"
+      href: articles/api.html
+    - text: "Data Model"
+      href: articles/data-model.html
     - text: " FAQ"
       href: articles/faq.html
   - text: "News"

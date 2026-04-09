@@ -1,7 +1,7 @@
 # storr.tiledb
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/storr.tiledb)](https://CRAN.R-project.org/package=storr.tiledb) 
+[![CRAN status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=storr.tiledb) 
 [![repo-status](https://img.shields.io/badge/repo%20status-experimental-orange.svg)](#) 
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -13,6 +13,7 @@ A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) sto
 *What is storr?*
 
 A storr is a content addressed key-value store for R objects with an optional cache layer.
+
 The interface is provided by [storr](https://cloud.r-project.org/web/packages/storr/index.html)
 package and defines a set of common operations (set, get, del methods) across a range of different
 storage drivers (DBI, LMDB, Redis, RDS, environment). The `storr` package is
@@ -20,7 +21,8 @@ written by [Rich FitzJohn](https://github.com/richfitz).
 
 *What is storr.tiledb?*
 
-The `storr.tiledb` contributes a new storr compliant driver using the TileDB storage engine.
+The `storr.tiledb` contributes a new storr compliant driver using TileDB as a back-end.
+
 The package has its own storr R6 class that utilises the strengths of the underlying
 engine and offers some extra features, such as the option to add notes and expiration
 time-stamps along with key-namespace pairs. 
@@ -29,7 +31,7 @@ time-stamps along with key-namespace pairs.
 > The package is in experimental status. Currently, the driver is complete and
 > fully functional in that it passes the auto test specification defined by storr
 > package. More testing is needed and additional features to be implemented before
-> it is moved to mature state. Feedback is highly welcomed!
+> it is moved to mature state. Feedback is welcomed.
 
 
 ## Key features
