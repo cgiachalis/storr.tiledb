@@ -18,7 +18,7 @@ it with additional new features:
 }
 
 Note that the following methods from \code{storr} are not supported by
-\code{TileDBStorr}: \verb{$import}, \verb{$export}, \verb{$archive_import}, \verb{$archive_export},
+\code{TileDBStorr}: \verb{$archive_import}, \verb{$archive_export},
 \verb{$check} and \verb{$repair}.
 
 This class is not intended to be used directly and the preferred

@@ -10,7 +10,7 @@
 #'  - asynchronous writes
 #'
 #' Note that the following methods from `storr` are not supported by
-#' `TileDBStorr`: `$import`, `$export`, `$archive_import`, `$archive_export`,
+#' `TileDBStorr`: `$archive_import`, `$archive_export`,
 #' `$check` and `$repair`.
 #'
 #' This class is not intended to be used directly and the preferred
