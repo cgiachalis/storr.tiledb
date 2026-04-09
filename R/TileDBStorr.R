@@ -1586,6 +1586,91 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
+    #' @description Remove key metadata.
+    #'
+    #' This method is a convenient  wrapper around `set_keymeta()` and `mset_keymeta()`
+    #' and sets the key metadata fields to `NA` values, i.e., `as.POSIXct(NA)` and
+    #' `NA_character`.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache_meta`
+    #'
+    #' @return The `key:namespace` character vector of the recycled length,
+    #' invisibly.
+    #'
+    clr_keymeta = function(key,
+                           namespace = self$default_namespace,
+                           use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      n <- private$check_length(key, namespace)
+
+      if (n > 1) {
+
+        self$mset_keymeta(key,
+                          namespace = namespace,
+                          notes = rep(NA_character_, n),
+                          expires_at = rep(as.POSIXct(NA), n),
+                          use_cache = use_cache)
+
+      } else {
+
+        self$set_keymeta(key,
+                         namespace = namespace,
+                         notes = NA_character_,
+                         expires_at = as.POSIXct(NA),
+                         use_cache = use_cache)
+      }
+
+    },
+
+    #' @description Remove key metadata asynchronously.
+    #'
+    #' This method is a convenient  wrapper around `set_keymeta_async()` and `mset_keymeta_async()`
+    #' and sets the key metadata fields to `NA` values, i.e., `as.POSIXct(NA)` and
+    #' `NA_character`.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache_meta`
+    #' @param cfg `r sto_cfg`
+    #'
+    #' @return A named list with two elements (invisibly):
+    #'
+    #'  - `mirai`: a mirai object
+    #'  - `keyns`: The `key:namespace` character vector of the recycled length
+    #'
+    clr_keymeta_async = function(key,
+                           namespace = self$default_namespace,
+                           use_cache = getOption("storr.tiledb.cache", TRUE),
+                           cfg = NULL) {
+
+      n <- private$check_length(key, namespace)
+
+      if (n > 1) {
+
+        self$mset_keymeta_async(key,
+                                namespace = namespace,
+                                notes = rep(NA_character_, n),
+                                expires_at = rep(as.POSIXct(NA), n),
+                                use_cache = use_cache,
+                                cfg = cfg)
+
+      } else {
+
+        self$set_keymeta_async(key,
+                               namespace = namespace,
+                               notes = NA_character_,
+                               expires_at = as.POSIXct(NA),
+                               use_cache = use_cache,
+                               cfg = cfg)
+      }
+    },
+
     #' @description Set one or more keys to the same value.
     #'
     #' `r sto_recycle_note`

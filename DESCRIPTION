@@ -1,6 +1,6 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.18
+Version: 0.0.19
 Date: 2026-04-09
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
@@ -24,7 +24,7 @@ Imports:
     data.table,
     digest,
     mirai (>= 2.6.0),
-    R6,
+    R6 (>= 2.4.0),
     R6.tiledb (>= 0.2.0.44),
     storr,
     tiledb (>= 0.33.0)
@@ -34,6 +34,8 @@ Suggests:
     withr
 VignetteBuilder: 
     litedown
+Remotes: 
+    cgiachalis/R6.tiledb
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: auto*

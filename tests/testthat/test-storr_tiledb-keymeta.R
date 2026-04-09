@@ -319,3 +319,68 @@ test_that("mset_keymeta", {
                class = "error")
 
   })
+
+
+test_that("clr_keymeta", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  sto$mset(key = c("x", "y", "z"),
+           list(1, 2, 3),
+           namespace = c("ns1", "ns2", "ns2"),
+    notes =  c("xnote", "ynote", "znote"),
+    expires_at = rep(Sys.time(), 3))
+
+
+  # Clear single value ---
+  expect_no_error(xres <-sto$clr_keymeta("x", "ns1"))
+  expect_equal(xres, "x:ns1")
+
+  trg <- list(expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
+  ), tzone = ""), notes = NA_character_)
+
+  expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
+
+  # Clear in bulk ---
+  expect_no_error(xres <-sto$clr_keymeta(c("y", "z"), c("ns2", "ns2")))
+  expect_equal(xres, c("y:ns2", "z:ns2"))
+
+
+  expect_equal(sto$mget_keymeta(c("y", "z"), c("ns2", "ns2"), use_cache = FALSE),
+  list(trg, trg), ignore_attr = TRUE)
+
+})
+
+
+test_that("clr_keymeta_async", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  sto$mset(key = c("x", "y", "z"),
+           list(1, 2, 3),
+           namespace = c("ns1", "ns2", "ns2"),
+           notes =  c("xnote", "ynote", "znote"),
+           expires_at = rep(Sys.time(), 3))
+
+
+  # Clear single value ---
+  expect_no_error(xres <-sto$clr_keymeta_async("x", "ns1"))
+  expect_equal(xres$keyns, "x:ns1")
+
+  trg <- list(expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
+  ), tzone = ""), notes = NA_character_)
+
+  xres$mirai[] # block until resolves
+  expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
+
+  # Clear in bulk ---
+  expect_no_error(xres <-sto$clr_keymeta_async(c("y", "z"), c("ns2", "ns2")))
+  expect_equal(xres$keyns, c("y:ns2", "z:ns2"))
+
+  xres$mirai[] # block until resolves
+  expect_equal(sto$mget_keymeta(c("y", "z"), c("ns2", "ns2"), use_cache = FALSE),
+               list(trg, trg), ignore_attr = TRUE)
+
+})

@@ -78,6 +78,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
 \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
 \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
+\item \href{#method-TileDBStorr-clr_keymeta}{\code{TileDBStorr$clr_keymeta()}}
+\item \href{#method-TileDBStorr-clr_keymeta_async}{\code{TileDBStorr$clr_keymeta_async()}}
 \item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
 \item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
 \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
@@ -879,6 +881,87 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \subsection{Returns}{
 A list with key metadata for each key-namespace
 pair. For not found pairs will return the \code{missing} value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-clr_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta}{}}}
+\subsection{Method \code{clr_keymeta()}}{
+Remove key metadata.
+
+This method is a convenient  wrapper around \code{set_keymeta()} and \code{mset_keymeta()}
+and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
+\code{NA_character}.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clr_keymeta(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+Default is \code{TRUE}. If a key:namespace not found in the cache, it will
+be fetched from database. Note that when setting \code{FALSE}, the cache
+will always be cleared for this key-namespace; this is to avoid mismatch
+between cache and database when reading back  with
+\code{use_cache = TRUE}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The \code{key:namespace} character vector of the recycled length,
+invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-clr_keymeta_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta_async}{}}}
+\subsection{Method \code{clr_keymeta_async()}}{
+Remove key metadata asynchronously.
+
+This method is a convenient  wrapper around \code{set_keymeta_async()} and \code{mset_keymeta_async()}
+and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
+\code{NA_character}.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clr_keymeta_async(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of key names.}
+
+\item{\code{namespace}}{A character vector of namespaces.}
+
+\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+Default is \code{TRUE}. If a key:namespace not found in the cache, it will
+be fetched from database. Note that when setting \code{FALSE}, the cache
+will always be cleared for this key-namespace; this is to avoid mismatch
+between cache and database when reading back  with
+\code{use_cache = TRUE}.}
+
+\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A named list with two elements (invisibly):
+\itemize{
+\item \code{mirai}: a mirai object
+\item \code{keyns}: The \code{key:namespace} character vector of the recycled length
+}
 }
 }
 \if{html}{\out{<hr>}}
