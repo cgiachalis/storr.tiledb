@@ -1,0 +1,12 @@
+---
+title: Data Model
+date: "2026-04-07"
+vignette: >
+  %\VignetteIndexEntry{Data Model}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+Examples with public API - usage
+

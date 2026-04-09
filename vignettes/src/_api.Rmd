@@ -1,0 +1,146 @@
+---
+title: API Usage
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{API Usage}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitr-setup, include = FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+## Storr setup
+
+Create a `storr` either via `storr_tiledb()`:
+
+```{r}
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+```
+
+Or more explicitly:
+
+```{r}
+uri2 <- tempfile()
+dr <- driver_tiledb(uri2, init = TRUE)
+sto2 <- storr::storr(dr)
+```
+
+The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality.
+The latter is the standard `storr` object.
+
+## API Usage
+
+### 1. get, set, del
+```{r}
+dat <- head(mtcars, 2)
+
+# set
+sto$set("a", dat)
+sto$set("b", list(name = "John"))
+sto$mset(c("a", "b", "c"), value = list(dat, dat, dat), namespace = "ns1")
+
+# get
+sto$get("b")
+sto$mget(c("b", "b"), namespace = c("objects", "ns1"))
+
+# list keys
+sto$list("objects")
+sto$list("ns1")
+
+# list namespaces
+sto$list_namespaces()
+
+# list hashes
+sto$list_hashes()
+
+# del
+sto$del("a")
+sto$del("b")
+sto$exists("a")
+
+# Retrieve hashes and namespaces
+sto$list_namespaces()
+sto$list_hashes()
+
+# Delete unused hash
+sto$gc()
+sto$list_hashes()
+
+# Delete by namespace
+sto$clear("ns1")
+sto$list("ns1")
+
+```
+
+### 2. get_keymeta, set_keymeta
+
+With a key-namespace pair, you can attached notes and expiration metadata.
+
+Set key metadata when creating a key:
+
+```{r}
+# Expires in 5 minutes
+sto$set("aa", 1, expires_at = Sys.time() + 60 * 5, 
+        notes = "{\"name\":\"John\",\"id\":12345}")
+
+# Expires in 1 second
+sto$set("bb", 1, expires_at = Sys.time() + 1)
+```
+
+Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
+
+```r
+# Retrieve key metadata
+sto$get_keymeta("aa", use_cache = FALSE)
+sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
+
+# Update key metadata
+sto$set_keymeta("bb", notes = "Updated Note")
+sto$get_keymeta("bb")
+
+```
+
+**Expiration management**
+```{r}
+# Retrieve keys with expiration
+sto$keys_with_expiration()
+
+Sys.sleep(1)
+
+# Retrieve expired keys
+sto$expired_keys()
+
+# Remove expired keys
+sto$clear_expired_keys()
+
+# Check for expired keys
+sto$has_expired_keys()
+
+# Or via gc()
+sto$gc(clear_expired = TRUE)
+```
+
+**Clear metadata**
+```{r}
+sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$get_keymeta("aa")
+```
+
+
+### 3. Async methods
+```{r}
+# TODO
+```
+
+```{r, echo=FALSE}
+unlink(uri, recursive = TRUE)
+unlink(uri2, recursive = TRUE)
+```
+

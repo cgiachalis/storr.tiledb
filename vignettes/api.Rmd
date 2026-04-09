@@ -1,0 +1,177 @@
+---
+title: API Usage
+date: "2026-04-09"
+vignette: >
+  %\VignetteIndexEntry{API Usage}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+## Storr setup
+
+Create a `storr` either via `storr_tiledb()`:
+
+
+``` r
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+```
+
+Or more explicitly:
+
+
+``` r
+uri2 <- tempfile()
+dr <- driver_tiledb(uri2, init = TRUE)
+sto2 <- storr::storr(dr)
+```
+
+The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality.
+The latter is the standard `storr` object.
+
+## API Usage
+
+### 1. get, set, del
+
+``` r
+dat <- head(mtcars, 2)
+
+# set
+sto$set("a", dat)
+sto$set("b", list(name = "John"))
+sto$mset(c("a", "b", "c"), value = list(dat, dat, dat), namespace = "ns1")
+
+# get
+sto$get("b")
+# $name
+# [1] "John"
+sto$mget(c("b", "b"), namespace = c("objects", "ns1"))
+# [[1]]
+# [[1]]$name
+# [1] "John"
+# 
+# 
+# [[2]]
+#               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+# Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
+# Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4
+
+# list keys
+sto$list("objects")
+# [1] "a" "b"
+sto$list("ns1")
+# [1] "a" "b" "c"
+
+# list namespaces
+sto$list_namespaces()
+# [1] "ns1"     "objects"
+
+# list hashes
+sto$list_hashes()
+# [1] "20bce84369c17ac389b9b60fe0add435" "7bf9fc55c201456723db2c7ed050af32"
+
+# del
+sto$del("a")
+sto$del("b")
+sto$exists("a")
+# [1] FALSE
+
+# Retrieve hashes and namespaces
+sto$list_namespaces()
+# [1] "ns1"
+sto$list_hashes()
+# [1] "20bce84369c17ac389b9b60fe0add435" "7bf9fc55c201456723db2c7ed050af32"
+
+# Delete unused hash
+sto$gc()
+sto$list_hashes()
+# [1] "20bce84369c17ac389b9b60fe0add435"
+
+# Delete by namespace
+sto$clear("ns1")
+# [1] TRUE
+sto$list("ns1")
+# character(0)
+```
+
+### 2. get_keymeta, set_keymeta
+
+With a key-namespace pair, you can attached notes and expiration metadata.
+
+Set key metadata when creating a key:
+
+
+``` r
+# Expires in 5 minutes
+sto$set("aa", 1, expires_at = Sys.time() + 60 * 5, 
+        notes = "{\"name\":\"John\",\"id\":12345}")
+
+# Expires in 1 second
+sto$set("bb", 1, expires_at = Sys.time() + 1)
+```
+
+Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
+
+```r
+# Retrieve key metadata
+sto$get_keymeta("aa", use_cache = FALSE)
+sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
+
+# Update key metadata
+sto$set_keymeta("bb", notes = "Updated Note")
+sto$get_keymeta("bb")
+
+```
+
+**Expiration management**
+
+``` r
+# Retrieve keys with expiration
+sto$keys_with_expiration()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects     aa 2026-04-09 09:43:07
+# 2:   objects     bb 2026-04-09 09:38:08
+
+Sys.sleep(1)
+
+# Retrieve expired keys
+sto$expired_keys()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects     bb 2026-04-09 09:38:08
+
+# Remove expired keys
+sto$clear_expired_keys()
+
+# Check for expired keys
+sto$has_expired_keys()
+# [1] FALSE
+
+# Or via gc()
+sto$gc(clear_expired = TRUE)
+```
+
+**Clear metadata**
+
+``` r
+sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$get_keymeta("aa")
+# $expires_at
+# [1] NA
+# 
+# $notes
+# [1] NA
+```
+
+
+### 3. Async methods
+
+``` r
+# TODO
+```
+
+
+

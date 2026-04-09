@@ -48,7 +48,7 @@
 #'
 #' @param uri The URI path of storr.
 #' @param context Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-#' @param init Should the driver be created if not exist? Defalut is  `FALSE`.
+#' @param init Should the driver be created if not exist? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver's create method when `init = TRUE`.
 #'  Valid arguments: `hash_algorithm`, `compression_level` and `keep_open`.
 #'
