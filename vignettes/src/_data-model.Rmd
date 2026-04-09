@@ -1,0 +1,12 @@
+---
+title: Data Model
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Data Model}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+Examples with public API - usage
+

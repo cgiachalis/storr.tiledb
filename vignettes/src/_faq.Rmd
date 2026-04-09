@@ -1,0 +1,12 @@
+---
+title: FAQ
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{FAQ}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+Examples with public API - usage
+
