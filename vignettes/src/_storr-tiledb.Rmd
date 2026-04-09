@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
  **storr**: a key value store interface provided by homonymous R package.
  For its implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
  
- **storr_tiledb**: a function that implements the storr interface with a TileDB driver for storage.
+ **storr_tiledb**: a function that implements the storr interface with TileDB backend.
 
 ## 1. Basic Usage
 
@@ -34,7 +34,7 @@ uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 ```
 
-Use `driver_tiledb_create()` for the side-effects and then instantiate
+Alternatively, you can use `driver_tiledb_create()` for the side-effects and then instantiate
 a TileDB Storr for the given URI path as follows:
 
 ```{r}
@@ -47,7 +47,7 @@ uri <- tempfile()
 # Create driver
 driver_tiledb_create(uri)
 
-# Existing TileDB storr
+# Open storr
 sto <- storr_tiledb(uri)
 ```
 

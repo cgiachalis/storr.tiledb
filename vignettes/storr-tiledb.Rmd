@@ -1,6 +1,6 @@
 ---
 title: Quick Reference
-date: "2026-04-06"
+date: "2026-04-09"
 vignette: >
   %\VignetteIndexEntry{Quick Reference}
   %\VignetteEngine{litedown::vignette}
@@ -15,7 +15,7 @@ vignette: >
  **storr**: a key value store interface provided by homonymous R package.
  For its implementation details, please refer to [storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
  
- **storr_tiledb**: a function that implements the storr interface with a TileDB driver for storage.
+ **storr_tiledb**: a function that implements the storr interface with TileDB backend.
 
 ## 1. Basic Usage
 
@@ -29,7 +29,7 @@ uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 ```
 
-Use `driver_tiledb_create()` for the side-effects and then instantiate
+Alternatively, you can use `driver_tiledb_create()` for the side-effects and then instantiate
 a TileDB Storr for the given URI path as follows:
 
 
@@ -43,7 +43,7 @@ uri <- tempfile()
 # Create driver
 driver_tiledb_create(uri)
 
-# Existing TileDB storr
+# Open storr
 sto <- storr_tiledb(uri)
 ```
 
@@ -72,8 +72,7 @@ We saved three keys, but only two `R` objects. Check for deduplication:
 # 2 hashes for 3 keys
 hashes <- sto$list_hashes()
 hashes
-# [1] "20bce84369c17ac389b9b60fe0add435"
-# [2] "632336c518ae1c89ecf26ae5fbec5860"
+# [1] "20bce84369c17ac389b9b60fe0add435" "632336c518ae1c89ecf26ae5fbec5860"
 
 # get R object for this hash
 sto$get_value(hashes[1])
@@ -95,8 +94,7 @@ sto$get("b")
 
 # NB: none object has been deleted, only the index
 sto$list_hashes()
-# [1] "20bce84369c17ac389b9b60fe0add435"
-# [2] "632336c518ae1c89ecf26ae5fbec5860"
+# [1] "20bce84369c17ac389b9b60fe0add435" "632336c518ae1c89ecf26ae5fbec5860"
 
 # Now, delete the unused hashes
 sto$gc()
@@ -119,7 +117,7 @@ sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
 # Retrieve 'notes' and 'expiration'
 sto$get_keymeta("key1")
 # $expires_at
-# [1] "2026-04-06 19:58:09 EEST"
+# [1] "2026-04-09 09:35:21 EEST"
 # 
 # $notes
 # [1] "my notes"
@@ -133,8 +131,8 @@ sto$get_keymeta("key1")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 19:58:09
-# 2:   objects   key2 2026-04-06 19:59:49
+# 1:   objects   key1 2026-04-09 09:35:21
+# 2:   objects   key2 2026-04-09 09:37:00
 
 Sys.sleep(2)
 
@@ -144,7 +142,7 @@ sto$has_expired_keys()
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-06 19:58:09
+# 1:   objects   key1 2026-04-09 09:35:21
 
 sto$clear_expired_keys()
 
@@ -160,7 +158,7 @@ sto$expired_keys()
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key2 2026-04-06 19:59:49
+# 1:   objects   key2 2026-04-09 09:37:00
 
 # Reset expiration timestamp
 sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
@@ -186,7 +184,8 @@ Sys.sleep(0.5)
 
 # Retrieve key, keymeta
 sto$get("key3", "_session")
-# [1] 2
+# Error:
+# ! key 'key3' ('_session') not found
 sto$get_keymeta("key2", "objects")
 # $expires_at
 # [1] NA
