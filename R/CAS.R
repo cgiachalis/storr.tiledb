@@ -87,7 +87,7 @@ CAS <- R6::R6Class(
 
      algo <- self$get_metadata("hash_algo")
 
-     # Case where 'hash_algo' key is not  present
+     # Case where 'hash_algo' key is not present
      #
      if (is.null(algo)) {
 
