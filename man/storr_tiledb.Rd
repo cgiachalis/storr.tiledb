@@ -45,11 +45,19 @@ is the standard storr interface and the former produces a stand-alone R6 class
 that replicates the storr interface with additional features.
 
 Another difference, but not visible to the user, is that the
-\code{storr_tiledb}'s cache layer uses hash tables via \code{\link[=hashtab]{hashtab()}} instead of
+\code{storr_tiledb}'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 environments.
+\subsection{Cache option}{
 
-By default, the cache layer is enabled. The global option \code{storr.tiledb.cache}
+By default, the in-memory caching layer is enabled. The global option \code{storr.tiledb.cache}
 can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
+}
+
+\subsection{Buffer size}{
+
+The buffer allocation size is set to 3 MB per column when fetching data. Use
+\code{\link[tiledb:save_allocation_size_preference]{tiledb::set_allocation_size_preference()}} to set a different limit.
+}
 }
 \examples{
 \dontrun{

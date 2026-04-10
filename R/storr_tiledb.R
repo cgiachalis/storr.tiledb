@@ -15,13 +15,17 @@
 #'  that replicates the storr interface with additional features.
 #'
 #'   Another difference, but not visible to the user, is that the
-#'  `storr_tiledb`'s cache layer uses hash tables via [hashtab()] instead of
+#'  `storr_tiledb`'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 #'  environments.
 #'
-#'  By default, the cache layer is enabled. The global option `storr.tiledb.cache`
+#'  ## Cache option
+#'  By default, the in-memory caching layer is enabled. The global option `storr.tiledb.cache`
 #'  can be used to disable it, like so: `options(storr.tiledb.cache = FALSE)`.
 #'
-#
+#'  ## Buffer size
+#'  The buffer allocation size is set to 3 MB per column when fetching data. Use
+#'  [tiledb::set_allocation_size_preference()] to set a different limit.
+#'
 #' @inheritParams driver_tiledb
 #' @param default_namespace The default namespace: `"objects"`.
 #' @param async Should the [mirai] daemons be enabled for async
