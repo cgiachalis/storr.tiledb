@@ -148,39 +148,6 @@ CAS <- R6::R6Class(
      invisible(self)
    },
 
-   #' @description Query 'tbl_keys' array
-   #'
-   #' @param key `r roxy_key`
-   #' @param namespace `r roxy_namespace`
-   #' @param attrname The attribute name (column), either
-   #' `hash`, `expires_at` or `notes`
-   #'
-   #' @return A vector of recycled length (key,namespace pair) with
-   #' attribute values. When a pair is not found, the value is set
-   #' to `NA`.
-   #'
-   query_keys = function(key, namespace, attrname) {
-
-     qo <- private$query_keys0(key, namespace, attrname)
-     dat.recv <- data.table::as.data.table(qo$arr[])
-
-     # TODO: Remove when TileDB fixes it
-     if (attrname == "expires_at") {
-       # Sanitise datetime columns
-       # See: https://github.com/TileDB-Inc/TileDB-R/issues/866
-      expires_at <- NULL
-      dat.recv[expires_at < 0 , expires_at := as.POSIXct(NA)]
-     }
-
-     # Return vector of length p$n with attrname values; each element corresponds
-     # to <namespace, key> pair. If a pair has no value, the value is set
-     # to NA.
-     res <- merge(qo$dat.req, dat.recv, all = TRUE)
-     res <- data.table::setorderv(res, cols = "id")[]
-
-     na.omit(res, cols = "id")[[attrname]]
-   },
-
    #' @description Filter `tbl_keys` by key and namespace
    #'
    #' @param key `r roxy_key`
@@ -226,6 +193,7 @@ CAS <- R6::R6Class(
    dump = function() {
      super$dump("Storr Directory")
    }
+
   ),
 
   active = list(
@@ -360,23 +328,22 @@ CAS <- R6::R6Class(
 
     # @description Query 'tbl_keys' array by single attribute
     #
-    query_keys0 = function(key, namespace, attrname) {
+    query_hash = function(key, namespace) {
 
       p <- storr::join_key_namespace(key, namespace)
-      dat.req <- data.table::as.data.table(list(namespace = p$namespace,
-                                                key = p$key,
-                                                id = 1:p$n))
-
       arrobj <- private$keys_array()
 
       # Slice array
       sp <- list(namespace = namespace, key = key)
-      arr <- arrobj$tiledb_array(attrs = attrname,
+      arr <- arrobj$tiledb_array(attrs = "hash",
                                  selected_points = sp,
                                  return_as = "arrow",
                                  ctx = self$ctx)
-      list(dat.req = dat.req,
-           arr = arr)
+
+
+      dta <- data.table::as.data.table(arr[], key =  c("namespace", "key"))
+      dta[.(namespace, key), "hash", with = FALSE,
+             env = list(namespace = I(namespace), key = I(key))][[1]]
 
     }
   ) # private

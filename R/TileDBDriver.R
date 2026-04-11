@@ -105,7 +105,7 @@ TileDBDriver <- R6::R6Class(
     #'
     get_hash = function(key, namespace) {
 
-      result <- self$query_keys(key, namespace, "hash")
+      result <- private$query_hash(key, namespace)
 
       if (is.na(result)) {
         # 'get_hash' always returns NA if missing as we need
@@ -128,7 +128,7 @@ TileDBDriver <- R6::R6Class(
     #'
     mget_hash = function(key, namespace) {
 
-      self$query_keys(key, namespace, "hash")
+      private$query_hash(key, namespace)
 
     },
 
