@@ -64,7 +64,7 @@ reference:
 
 - title: R6 Classes
   desc: |
-   R6 classes that represent the storr interface and the TileDB driver.
+   R6 classes that represent the storr interface and TileDB driver.
    These are internal objects and should not be used directly.
   contents:
   - CAS

@@ -861,9 +861,9 @@ TileDBStorr <- R6::R6Class(
       invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
     },
 
-    #' @description Add an R object. The key will be the hash value
-    #' of the object.
+    #' @description Add an R object without key.
     #'
+    #' This is used internally.
     #'
     #' @param value `r sto_value()`
     #' @param use_cache `r sto_cache`
@@ -888,9 +888,9 @@ TileDBStorr <- R6::R6Class(
       invisible(hash)
     },
 
-    #' @description Add a vector of R objects. The keys will be the hash
-    #'  values of the objects.
+    #' @description Add a vector of R objects.
     #'
+    #' This is used internally.
     #'
     #' @param values `r sto_value(1)`
     #' @param use_cache `r sto_cache`
