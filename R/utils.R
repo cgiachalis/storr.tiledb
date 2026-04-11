@@ -1,3 +1,5 @@
+.libtiledb_vfs_copy_dir <- utils::getFromNamespace("libtiledb_vfs_copy_dir", "tiledb")
+
 file_path <- function(..., fsep = .Platform$file.sep) {
 
   paths <- list(...)
@@ -85,3 +87,13 @@ check_character_or_null <- function(x) {
     cli::cli_abort("{.arg {deparse(substitute(x))}} should be a character vector or NULL.", call = NULL)
   }
 }
+
+check_uri <- function(uri) {
+  if (isFALSE(rlang::is_scalar_character(uri))) {
+    cli::cli_abort(
+      "{.arg {deparse(substitute(uri))}} should be a character string for URI path",
+      call = NULL
+    )
+  }
+}
+

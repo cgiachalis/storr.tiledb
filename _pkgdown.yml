@@ -55,12 +55,20 @@ navbar:
 
 reference:
 
-- title: TileDB Storr
+- title: Storr Interface
   desc: |
-   The core functions to create and manage a TileDB 'storr'.
+   Use the following function to create and work with a 'storr',
+   a key-value store that uses TileDB for storage (backend).
   contents:
   - storr_tiledb
-  - starts_with("driver")
+
+
+- subtitle: TileDB Driver
+  desc: |
+   Create and/or open a TileDB driver with `driver_tiledb`. The rest
+   routines are utilities to create only, copy, move or rename an existing storr.
+  contents:
+   - driver_tiledb
 
 - title: R6 Classes
   desc: |
