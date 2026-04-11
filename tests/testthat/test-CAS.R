@@ -45,6 +45,9 @@ test_that("Test 'CAS' basic methods", {
   expect_error(cas$hash_algorithm <- "invalid")
   expect_equal(cas$hash_algorithm, "md5")
 
+  # Check type
+  expect_equal(cas$get_metadata("type"), "storr")
+
   # Set new hash algo
   expect_no_error(cas$hash_algorithm <- "blake3")
   expect_equal(cas$hash_algorithm, "blake3")
@@ -77,10 +80,19 @@ test_that("Test 'CAS' basic methods", {
 
   })
 
+test_that("$open() checks type is 'storr'", {
+  uri <- file.path(withr::local_tempdir(), "test-group")
+
+  grpuri <- tiledb::tiledb_group_create(uri, ctx = R6.tiledb::new_context())
+
+  cas <- CAS$new(uri)
+  expect_error(cas$open(), label = "Not a 'TileDB Storr'")
+
+})
 
 test_that("ctx is unique and not cached", {
 
-  # NB: Verify that passing an uncache context via new_context
+  # NB: Verify that passing a not cached context via new_context
   # (not via tiledb_cxt) is not cached accidentally
   #
   uri <- file.path(withr::local_tempdir(), "test-cas")
@@ -94,7 +106,7 @@ test_that("ctx is unique and not cached", {
   cas_cfg <- tiledb::config(cas$ctx)
   expect_equal(unname(cas_cfg["vfs.s3.region"]), "eu-north-1")
 
-  # get config from cached ctx in tiledb package enviroment
+  # get config from cached ctx in tiledb package environment
   pkg_cfg <- tiledb::config(tiledb::tiledb_get_context())
   expect_equal(unname(pkg_cfg["vfs.s3.region"]), "")
 
