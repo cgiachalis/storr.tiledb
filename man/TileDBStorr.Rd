@@ -443,8 +443,9 @@ logical \code{TRUE} if an evaluation is successful.
 \if{html}{\out{<a id="method-TileDBStorr-set_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_value}{}}}
 \subsection{Method \code{set_value()}}{
-Add an R object. The key will be the hash value
-of the object.
+Add an R object without key.
+
+This is used internally.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_value(value, use_cache = getOption("storr.tiledb.cache",
   TRUE))}\if{html}{\out{</div>}}
@@ -467,8 +468,9 @@ The hash value, invisibly.
 \if{html}{\out{<a id="method-TileDBStorr-mset_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_value}{}}}
 \subsection{Method \code{mset_value()}}{
-Add a vector of R objects. The keys will be the hash
-values of the objects.
+Add a vector of R objects.
+
+This is used internally.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_value(values, use_cache = getOption("storr.tiledb.cache",
   TRUE))}\if{html}{\out{</div>}}

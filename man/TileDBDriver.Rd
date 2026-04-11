@@ -131,7 +131,6 @@ for specific namespaces.
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dump"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dump'><code>storr.tiledb::CAS$dump()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="filter_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-filter_keys'><code>storr.tiledb::CAS$filter_keys()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="open"><a href='../../storr.tiledb/html/CAS.html#method-CAS-open'><code>storr.tiledb::CAS$open()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="query_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-query_keys'><code>storr.tiledb::CAS$query_keys()</code></a></span></li>
 </ul>
 </details>
 }}

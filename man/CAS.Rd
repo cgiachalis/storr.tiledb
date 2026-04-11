@@ -31,7 +31,6 @@ An R6 class for creating a content addressable storage.
 \item \href{#method-CAS-open}{\code{CAS$open()}}
 \item \href{#method-CAS-close}{\code{CAS$close()}}
 \item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
-\item \href{#method-CAS-query_keys}{\code{CAS$query_keys()}}
 \item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
 \item \href{#method-CAS-dir_tree}{\code{CAS$dir_tree()}}
 \item \href{#method-CAS-dump}{\code{CAS$dump()}}
@@ -140,33 +139,6 @@ Delete CAS.
 
 \subsection{Returns}{
 The object, invisibly.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAS-query_keys"></a>}}
-\if{latex}{\out{\hypertarget{method-CAS-query_keys}{}}}
-\subsection{Method \code{query_keys()}}{
-Query 'tbl_keys' array
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$query_keys(key, namespace, attrname)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{attrname}}{The attribute name (column), either
-\code{hash}, \code{expires_at} or \code{notes}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of recycled length (key,namespace pair) with
-attribute values. When a pair is not found, the value is set
-to \code{NA}.
 }
 }
 \if{html}{\out{<hr>}}
