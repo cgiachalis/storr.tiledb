@@ -28,6 +28,49 @@ test_that("driver_tiledb_create", {
 
 })
 
+test_that("driver_tiledb_copy", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  to_uri <- file.path(withr::local_tempdir(), "test-driver2")
+
+  driver_tiledb_create(uri)
+  expect_equal(driver_tiledb_copy(uri, to_uri = to_uri), to_uri)
+  expect_no_error(driver_tiledb(to_uri))
+
+})
+
+
+test_that("driver_tiledb_move", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  newuri <- file.path(withr::local_tempdir(), "test-driver2")
+
+  driver_tiledb_create(uri)
+  expect_equal(driver_tiledb_move(uri, newuri = newuri), newuri)
+  expect_no_error(driver_tiledb(newuri))
+  expect_error(driver_tiledb(uri),
+               "'storr' not found, please create one.",
+               class = "error", fixed = TRUE)
+
+})
+
+
+test_that("driver_tiledb_rename", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  newname <- "newstorr"
+  newuri <- file.path(dirname(uri), newname)
+
+  driver_tiledb_create(uri)
+  expect_equal(driver_tiledb_rename(uri, newname = newname), newuri)
+  expect_no_error(driver_tiledb(newuri))
+  expect_error(driver_tiledb(uri),
+               "'storr' not found, please create one.",
+               class = "error", fixed = TRUE)
+
+})
+
+
 test_that("Encrypted storr works with new_context", {
 
   uri <- file.path(withr::local_tempdir(), "test-cas")
