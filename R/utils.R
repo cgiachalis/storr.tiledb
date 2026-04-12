@@ -28,25 +28,12 @@ squote <- function (x) {
   sprintf("'%s'", x)
 }
 
-validate_hash_algo <- function(x) {
-  hash_choices <- c(
-    "md5",
-    "sha1",
-    "crc32",
-    "sha256",
-    "sha512",
-    "xxhash32",
-    "xxhash64",
-    "murmur32",
-    "spookyhash",
-    "blake3",
-    "crc32c",
-    "xxh3_64",
-    "xxh3_128"
-  )
-  x <- match.arg(x, choices = hash_choices)
+.hash_choices <- function() {
+  eval(formals(digest::digest)$algo)
+}
 
-  x
+validate_hash_algo <- function(x) {
+  x <- match.arg(x, choices = .hash_choices())
 }
 
 .is_scalar <- function(x, type) {
