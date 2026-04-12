@@ -3,12 +3,21 @@
 \name{driver_tiledb}
 \alias{driver_tiledb}
 \alias{driver_tiledb_create}
+\alias{driver_tiledb_copy}
+\alias{driver_tiledb_move}
+\alias{driver_tiledb_rename}
 \title{TileDB Storr Driver}
 \usage{
 driver_tiledb(uri, context = NULL, init = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
   context = NULL)
+
+driver_tiledb_copy(uri, to_uri, context = NULL)
+
+driver_tiledb_move(uri, newuri, context = NULL)
+
+driver_tiledb_rename(uri, newname, context = NULL)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -25,63 +34,79 @@ Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_
 
 \item{compression_level}{Set an integer value for ZSTD compression level applied
 in data objects. (experimental).}
+
+\item{to_uri}{Destination URI path to copy the storr to.}
+
+\item{newuri}{Destination URI path to move the storr to.}
+
+\item{newname}{Suffix to rename storr URI path.}
 }
 \value{
-\emph{driver_tiledb()} returns a \link{TileDBDriver} object and
-\emph{driver_tiledb_create()} returns logical \code{TRUE} invisibly, for successful
+\itemize{
+\item \emph{driver_tiledb()} returns a \link{TileDBDriver} object.
+\item \emph{driver_tiledb_create()} returns logical \code{TRUE} invisibly, for successful
 driver creation.
+\item \emph{driver_tiledb_copy()}, \emph{driver_tiledb_move()} and \emph{driver_tiledb_rename()}
+return the new uri path, invisibly.
+}
 }
 \description{
 Storr driver using TileDB storage engine.
 }
 \details{
 \code{driver_tiledb()} returns the TileDB driver given a URI path. You can create
-new driver using \code{init} argument or use the convenient wrapper \code{driver_tiledb_create()}.
+a new driver using \code{init} argument or with \code{driver_tiledb_create()}.
 
-\code{\link[=storr_tiledb]{storr_tiledb()}} abstracts the driver creation, so it's the preferred way unless
+Note that \code{\link[=storr_tiledb]{storr_tiledb()}} abstracts the driver creation, so it's the preferred way unless
 you want to pass the driver onto  \link[storr:storr]{storr}.
 
-The underlying structure is similar to \link[storr:driver_dbi]{driver_dbi()}
-in that the content-addressed storage is based on two (array) tables.
-For more details, see \strong{Data Model} section.
+\code{driver_tiledb_copy()} copies the driver to another URI path.
+
+\code{driver_tiledb_move()} moves the driver to another URI path.
+
+\code{driver_tiledb_rename()} renames the driver's basename, i.e., 'path/oldname' to
+'path/newname'
 }
 \section{Data Model}{
 
 
-The driver storage consists of a TileDB Group with two member Arrays which
-are stored relative to Group's URI path. The next sub-sections describe
+The underlying structure is similar to \link[storr:driver_dbi]{driver_dbi()};
+a content-addressed database that consists of two (array) tables.
+
+Specifically, the driver storage is a TileDB Group with two member Arrays
+which are stored relative to Group's URI path. The next sub-sections describe
 the group structure and array data models.
 
 \strong{Group}
 
-\emph{Group Members}
-\itemize{
-\item \code{tbl_keys} (array): maps key-namespace pairs to hashes (and to expiry or/and
-notes, optionally)
+\emph{Members}
+\enumerate{
+\item \code{tbl_keys} (array): maps key-namespace pairs to hashes (and to expiry and/or
+notes, optional)
 \item \code{tbl_data} (array): maps hashes to values (serialised R objects)
 }
 
 \emph{Metadata}
 \itemize{
-\item \code{hash_algo} The name of hash algorithm.
+\item \code{hash_algo}: The name of hash algorithm.
+\item \code{type}: Group identifier, \code{"storr"}
 }
 
-\strong{Array: \code{tbl_keys}}
+\strong{Arrays}
 
-A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
-TileDB datatypes in parentheses.
+\emph{tbl_keys} - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
 \itemize{
 \item Dimensions: \code{namespace} (\emph{ASCII}) and \code{key} (\emph{ASCII})
 \item Attributes: \code{hash} (\emph{ASCII}), \code{expires_at} (\emph{DATETIME_MS}) and \code{notes} (\emph{UTF8})
 }
 
-\strong{Array: \code{tbl_data}}
-
-A 1D sparse array that maps hashes to object values. TileDB datatypes in parentheses.
+\emph{tbl_data} - A 1D sparse array that maps hashes to object values.
 \itemize{
 \item Dimensions: \code{hash} (\emph{ASCII})
 \item Attributes: \code{value} (\emph{ASCII})
 }
+
+TileDB datatypes in parentheses.
 }
 
 \examples{
@@ -100,9 +125,7 @@ dr$print()
 # members
 dr$names()
 # "tbl_keys" "tbl_data"
-
 }
-
 
 }
 \seealso{

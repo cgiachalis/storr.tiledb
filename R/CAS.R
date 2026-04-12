@@ -56,7 +56,7 @@ CAS <- R6::R6Class(
      self$set_member(arr1)
      self$set_member(arr2)
 
-     self$set_metadata(list(hash_algo = algo))
+     self$set_metadata(list(type = "storr", hash_algo = algo))
      private$.hash_algo <- algo
 
      if (keep_open) {
@@ -85,13 +85,21 @@ CAS <- R6::R6Class(
 
      super$open(mode = mode)
 
+     type <- self$get_metadata("type")
+
+     if (type != "storr" || is.null(type)) {
+
+       cli::cli_abort("Not a {.arg TileDB Storr} at URI: {.url {self$uri}}", call = NULL)
+
+     }
+
      algo <- self$get_metadata("hash_algo")
 
      # Case where 'hash_algo' key is not present
      #
      if (is.null(algo)) {
 
-       warning("Hash algorithim not found, defaulting to 'md5'")
+       warning("Hash algorithm not found, defaulting to 'md5'")
        algo <- "md5"
 
        if (mode != "WRITE") {
