@@ -39,13 +39,13 @@
 #'
 #' **Arrays**
 #'
-#' *tbl_keys*: A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+#' *tbl_keys* - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
 #'
 #' - Dimensions: `namespace` (*ASCII*) and `key` (*ASCII*)
 #' - Attributes: `hash` (*ASCII*), `expires_at` (*DATETIME_MS*) and `notes` (*UTF8*)
 #'
 #'
-#' *tbl_data*: A 1D sparse array that maps hashes to object values.
+#' *tbl_data* - A 1D sparse array that maps hashes to object values.
 #'
 #' - Dimensions: `hash` (*ASCII*)
 #' - Attributes: `value` (*ASCII*)
@@ -117,7 +117,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 }
 
 #' @param hash_algorithm Select a hash algorithm supported by \link[digest:digest]{digest}:
-#'  `r sQuote(formals(digest::digest)$algo[-1])`. If not given, the  default is 'md5'.
+#'  `r sQuote(.hash_choices())`. If not given, the  default is 'md5'.
 #' @param compression_level Set an integer value for ZSTD compression level applied
 #' in data objects. (experimental).
 #'

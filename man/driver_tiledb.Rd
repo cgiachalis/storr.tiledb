@@ -94,13 +94,13 @@ notes, optional)
 
 \strong{Arrays}
 
-\emph{tbl_keys}: A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+\emph{tbl_keys} - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
 \itemize{
 \item Dimensions: \code{namespace} (\emph{ASCII}) and \code{key} (\emph{ASCII})
 \item Attributes: \code{hash} (\emph{ASCII}), \code{expires_at} (\emph{DATETIME_MS}) and \code{notes} (\emph{UTF8})
 }
 
-\emph{tbl_data}: A 1D sparse array that maps hashes to object values.
+\emph{tbl_data} - A 1D sparse array that maps hashes to object values.
 \itemize{
 \item Dimensions: \code{hash} (\emph{ASCII})
 \item Attributes: \code{value} (\emph{ASCII})
