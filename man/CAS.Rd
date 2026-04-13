@@ -71,8 +71,7 @@ Create CAS.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{compression_level}}{Set an integer value for ZSTD compression level applied
-in data objects. (experimental)}
+\item{\code{compression_level}}{Set an integer value for ZSTD compression level.}
 
 \item{\code{algo}}{Select a hash algorithm to be used.}
 

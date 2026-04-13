@@ -32,8 +32,7 @@ Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
-\item{compression_level}{Set an integer value for ZSTD compression level applied
-in data objects. (experimental).}
+\item{compression_level}{Set an integer value for ZSTD compression level.}
 
 \item{to_uri}{Destination URI path to copy the storr to.}
 
