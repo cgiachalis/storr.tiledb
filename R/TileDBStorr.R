@@ -2040,7 +2040,7 @@ TileDBStorr <- R6::R6Class(
     async_info = function(value) {
 
       if (!missing(value)) {
-        cli::cli_abort(paste0(cli::style_italic("{.val {value}}"), " is a read-only field."), call = NULL)
+        check_read_only("async_info")
       }
 
       mirai::info(.storr_profile)
