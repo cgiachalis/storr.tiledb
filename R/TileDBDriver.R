@@ -233,6 +233,8 @@ TileDBDriver <- R6::R6Class(
                                  selected_points = sp,
                                  return_as = "arrow")
 
+      tiledb::query_layout(arr) <- "COL_MAJOR"
+
       x <- arrow::Array$create(hash)
       nona_hash <- arrow::call_function("is_in",
                                   x,
