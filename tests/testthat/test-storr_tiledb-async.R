@@ -10,7 +10,7 @@ test_that("set_async", {
 
   expect_named(m1, c("mirai", "hash"))
   expect_all_true(sapply(m1$mirai, mirai::is_mirai))
-  expect_equal(m1$hash, "632336c518ae1c89ecf26ae5fbec5860")
+  expect_equal(m1$hash, "38e42db36c4414f7bbc19d750f71a721")
 
   # cached keymeta are available immediately
   trg <- list(list(expires_at = t0, notes = "async"),
@@ -20,12 +20,10 @@ test_that("set_async", {
   expect_equal(sto$mget_keymeta(c("a", "b"), c("objects", "ns2")), trg)
 
   # wait mirai elements to be resolved
-  miall <- c(unclass(m1$mirai), unclass(m2$mirai))
-  all_resolved <- all(!sapply(miall, mirai::unresolved))
-
-  while (!all_resolved) {
-    all_resolved <- all(!sapply(miall, mirai::unresolved))
-  }
+  m1$mirai$obj[]
+  m1$mirai$key[]
+  m2$mirai$obj[]
+  m2$mirai$key[]
 
   # Sys.sleep(1)
   # expect_equal(sto$get("a"), 1)
@@ -71,7 +69,8 @@ test_that("set_async", {
                fixed = TRUE,
                class = "error")
 
-  })
+  disable_mirai()
+})
 
 
 test_that("mset_async", {
@@ -94,12 +93,8 @@ test_that("mset_async", {
   expect_equal(sto$mget_keymeta(c("a", "b"), c("ns1", "ns2")), trg)
 
   # wait mirai elements to be resolved
-  miall <- unclass(m1$mirai)
-  all_resolved <- all(!sapply(miall, mirai::unresolved))
-
-  while (!all_resolved) {
-    all_resolved <- all(!sapply(miall, mirai::unresolved))
-  }
+  m1$mirai$obj[]
+  m1$mirai$key[]
 
 
   # test cached values
@@ -136,6 +131,7 @@ test_that("mset_async", {
   #              fixed = TRUE,
   #              class = "error")
 
+  disable_mirai()
 })
 
 
@@ -160,12 +156,10 @@ test_that("set_by_value_async", {
   expect_equal(sto$mget_keymeta(h, c("objects", "ns2")), trg)
 
   # wait mirai elements to be resolved
-  miall <- c(unclass(m1$mirai), unclass(m2$mirai))
-  all_resolved <- all(!sapply(miall, mirai::unresolved))
-
-  while (!all_resolved) {
-    all_resolved <- all(!sapply(miall, mirai::unresolved))
-  }
+  m1$mirai$obj[]
+  m1$mirai$key[]
+  m2$mirai$obj[]
+  m2$mirai$key[]
 
   # Sys.sleep(1)
   # expect_equal(sto$get("a"), 1)
@@ -232,12 +226,8 @@ test_that("mset_by_value_async", {
   expect_equal(sto$mget_keymeta(h, c("ns1", "ns2")), trg)
 
   # wait mirai elements to be resolved
-  miall <- unclass(m1$mirai)
-  all_resolved <- all(!sapply(miall, mirai::unresolved))
-
-  while (!all_resolved) {
-    all_resolved <- all(!sapply(miall, mirai::unresolved))
-  }
+  m1$mirai$key[]
+  m1$mirai$obj[]
 
   # test cached values
   expect_equal(sto$mget(h, c("ns1", "ns2")), list(1, 2))
@@ -278,7 +268,7 @@ test_that("mset_by_value_async", {
                fixed = TRUE,
                class = "error")
 
-
+  disable_mirai()
 })
 
 
@@ -303,12 +293,7 @@ test_that("set_keymeta_async", {
   expect_equal(sto$get_keymeta("x"), trgval)
 
   # wait mirai elements to be resolved
-  miall <- m1$mirai
-  all_resolved <- !mirai::unresolved(miall)
-
-  while (!all_resolved) {
-    all_resolved <- !mirai::unresolved(miall)
-  }
+  m1$mirai[]
 
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
@@ -350,7 +335,7 @@ test_that("set_keymeta_async", {
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
-
+  disable_mirai()
   })
 
 
@@ -380,12 +365,7 @@ test_that("mset_keymeta_async", {
   expect_equal(sto$mget_keymeta(c("x", "y")), trgval)
 
   # wait mirai elements to be resolved
-  miall <- m1$mirai
-  all_resolved <- !mirai::unresolved(miall)
-
-  while (!all_resolved) {
-    all_resolved <- !mirai::unresolved(miall)
-  }
+  miall <- m1$mirai[]
 
   expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trgval,
                ignore_attr = TRUE)
@@ -429,6 +409,6 @@ test_that("mset_keymeta_async", {
                "'expires_at' must have 1 elements (recieved 3)",
                fixed = TRUE,
                class = "error")
-
+  disable_mirai()
 
 })
