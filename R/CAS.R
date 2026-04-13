@@ -18,8 +18,7 @@ CAS <- R6::R6Class(
   public = list(
    #' @description Create CAS.
    #'
-   #' @param compression_level Set an integer value for ZSTD compression level applied
-   #' in data objects. (experimental)
+   #' @param compression_level Set an integer value for ZSTD compression level.
    #' @param algo Select a hash algorithm to be used.
    #' @param keep_open Should `CAS` be kept opened after creation? Default is
    #' `TRUE`; the mode will be `"WRITE"`.
@@ -46,7 +45,7 @@ CAS <- R6::R6Class(
      super$create(mode = "WRITE")
 
      ok1 <- tiledb::tiledb_array_create(uri_keys,
-                                        schema = schema_keys(ctx = self$ctx))
+                                        schema = schema_keys(compression_level, ctx = self$ctx))
      ok2 <- tiledb::tiledb_array_create(uri_data,
                                         schema = schema_data(compression_level, ctx = self$ctx))
 
