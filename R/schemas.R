@@ -12,7 +12,7 @@
   tiledb::tiledb_filter_list(c(.tiledb_filter(level = level, name = name)))
 }
 
-# Set up common Dims
+# Set up shared Dimensions
 .dim_ascii <- function(name, level = -1L, fname = "ZSTD") {
 
   tiledb::tiledb_dim(name = name,
@@ -22,29 +22,20 @@
                      filter_list = .tiledb_flist(level = level, name = fname))
 }
 
-# Set up common Dims
-# .dim_utf8 <- function(name, level = -1L, fname = "ZSTD") {
-#
-#   tiledb::tiledb_dim(name = name,
-#                      domain = c(NULL, NULL),
-#                      tile = NULL,
-#                      type = "UTF-8",
-#                      filter_list = .tiledb_flist(level = level, name = fname))
-# }
-
-# add utf8 type for notes
 
 # Schemas -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
+# 2-D Array
 # Dims: namespace, keys
 # Attrs: hash, expires_at
-schema_keys <- function(ctx) {
+schema_keys <- function(compression_level = -7, ctx) {
 
-  .filter_zstd <- .tiledb_flist(level = -1, name = "ZSTD")
+  .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD")
   .filter_rle <- .tiledb_flist(level = -1, name = "RLE")
 
   # domain
-  dom <- tiledb::tiledb_domain(c(.dim_ascii("namespace"), .dim_ascii("key")))
+  dom <- tiledb::tiledb_domain(c(.dim_ascii("namespace", level = compression_level),
+                                 .dim_ascii("key", level = compression_level)))
 
   # attributes
   attrs <-  c(
@@ -90,15 +81,16 @@ schema_keys <- function(ctx) {
 }
 
 
-
-
+# 1-D Array
+# Dims: hash
+# Attrs: value
 schema_data <- function(compression_level = -7, ctx) {
 
-  .filter_zstd <- .tiledb_flist(level = -7, name = "ZSTD")
-  .filter_rle <- .tiledb_flist(level = -7, name = "RLE")
+  .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD")
+  .filter_rle <- .tiledb_flist(level = -1, name = "RLE")
 
   # domain
-  dom <- tiledb::tiledb_domain(.dim_ascii("hash", level = -1))
+  dom <- tiledb::tiledb_domain(.dim_ascii("hash", level = compression_level))
 
   # attributes
   attrs <-  c(
@@ -107,7 +99,7 @@ schema_data <- function(compression_level = -7, ctx) {
       type = "ASCII",
       ncells = NA,
       nullable = FALSE,
-      filter_list = .tiledb_flist(level = compression_level, name = "ZSTD")
+      filter_list = .filter_zstd
     )
   )
 
