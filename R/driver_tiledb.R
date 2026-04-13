@@ -192,7 +192,7 @@ driver_tiledb_rename <- function(uri, newname, context = NULL) {
 
   dr <- TileDBDriver$new(uri, ctx = context)
 
-  if (isFALSE(rlang::is_scalar_character(newname))) {
+  if (isFALSE(.is_scalar_character(newname))) {
     cli::cli_abort(
       "{.arg {deparse(substitute(newname))}} should be a character string.", call = NULL
     )
