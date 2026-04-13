@@ -37,6 +37,9 @@ test_that("driver_tiledb_copy", {
   expect_equal(driver_tiledb_copy(uri, to_uri = to_uri), to_uri)
   expect_no_error(driver_tiledb(to_uri))
 
+  expect_error(driver_tiledb_copy(uri, to_uri = to_uri),
+               label = "Directory is already present")
+
 })
 
 
@@ -51,6 +54,13 @@ test_that("driver_tiledb_move", {
   expect_error(driver_tiledb(uri),
                "'storr' not found, please create one.",
                class = "error", fixed = TRUE)
+
+
+  expect_error(driver_tiledb_move(newuri, newuri = newuri),
+               label = "Directory is already present")
+
+  # Test it is not moved
+  expect_no_error(driver_tiledb(newuri))
 
 })
 
@@ -67,6 +77,9 @@ test_that("driver_tiledb_rename", {
   expect_error(driver_tiledb(uri),
                "'storr' not found, please create one.",
                class = "error", fixed = TRUE)
+
+  expect_error(driver_tiledb_rename(newuri, newname = "newstorr"),
+               label = "Directory is already present")
 
 })
 

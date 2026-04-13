@@ -76,7 +76,7 @@ check_character_or_null <- function(x) {
 }
 
 check_uri <- function(uri) {
-  if (isFALSE(rlang::is_scalar_character(uri))) {
+  if (isFALSE(.is_scalar_character(uri))) {
     cli::cli_abort(
       "{.arg {deparse(substitute(uri))}} should be a character string for URI path",
       call = NULL
