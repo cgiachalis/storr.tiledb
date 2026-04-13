@@ -233,6 +233,7 @@ TileDBDriver <- R6::R6Class(
                                  selected_points = sp,
                                  return_as = "arrow")
 
+      # we care about the order of result
       tiledb::query_layout(arr) <- "COL_MAJOR"
 
       x <- arrow::Array$create(hash)
