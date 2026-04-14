@@ -172,4 +172,43 @@ test_that("'StorrFragments' vacuum method", {
 
 })
 
-# Test config is respected
+test_that("'StorrFragments' consolidate method with TileDB configuration", {
+
+  uri <- file.path(withr::local_tempdir(), "sto1")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  sto$set("a", 1)
+  sto$set("b", 2)
+  sto$set("c", 3)
+
+  fosto <- StorrFragments$new(uri)
+
+  # Basically, no consolidation
+  cfg <- tiledb::tiledb_config(c("sm.consolidation.timestamp_start" = "0",
+                                 "sm.consolidation.timestamp_end" = "0"))
+
+  # consolidation ---
+  expect_true(fosto$consolidate(what = "all", cfg = cfg))
+  expect_equal(fosto$frag_num(), 6)
+
+  expect_true(fosto$consolidate(what = "keys", cfg = cfg))
+  expect_equal(fosto$frag_num(), 6)
+
+  expect_true(fosto$consolidate(what = "data", cfg = cfg))
+  expect_equal(fosto$frag_num(), 6)
+
+
+  # consolidation async ---
+  expect_true(fosto$consolidate(what = "all", cfg = cfg, async = TRUE)[])
+  expect_equal(fosto$frag_num(), 6)
+
+  expect_true(fosto$consolidate(what = "keys", cfg = cfg, async = TRUE)[])
+  expect_equal(fosto$frag_num(), 6)
+
+  expect_true(fosto$consolidate(what = "data", cfg = cfg, async = TRUE)[])
+  expect_equal(fosto$frag_num(), 6)
+
+})
+
+
+# TODO: Test 'StorrFragments' vacuum method with TileDB configuration
