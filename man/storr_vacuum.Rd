@@ -21,7 +21,11 @@ For \code{async = TRUE}, it returns a \code{\link[mirai:mirai]{mirai::mirai()}} 
 resolved, it returns \code{TRUE} indicating vacuum success.
 }
 \description{
-Vacuum Storr Fragments
+Remove old consolidated fragments to free space.
+}
+\details{
+The function supports selective vacuuming ("keys"/"data") or full ("all")
+and it can be run synchronously or asynchronously
 }
 \examples{
 # URI path
@@ -29,4 +33,7 @@ uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 
 storr_vacuum(uri)
+}
+\seealso{
+\code{\link[=storr_consolidate]{storr_consolidate()}}
 }

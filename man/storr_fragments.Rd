@@ -15,7 +15,12 @@ storr_fragments(uri, context = NULL)
 An object of class \code{StorrFragments}, \code{R6}.
 }
 \description{
-Storr Fragments
+Generate a \link{StorrFragments} object to work with and manage TileDB Fragments.
+}
+\details{
+The class includes fragment consolidation and vacuuming methods but also
+provides access to \link[R6.tiledb:TileDBFragments]{R6.tiledb::TileDBFragments} instances for \code{keys} and \code{data} arrays
+where you can further inspect and manage the fragments for the specify arrays.
 }
 \examples{
 # URI path
@@ -25,4 +30,7 @@ sto <- storr_tiledb(uri, init = TRUE)
 fosto <- storr_fragments(uri)
 
 fosto$frag_num()
+}
+\seealso{
+\code{\link[=storr_consolidate]{storr_consolidate()}} and \code{\link[=storr_vacuum]{storr_vacuum()}}
 }

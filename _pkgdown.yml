@@ -62,9 +62,9 @@ reference:
   contents:
   - storr_tiledb
 
-- subtitle: Storr Management
+- subtitle: Fragment Management
   desc: |
-   Functionality to manage TileDB fragments.
+   Functionality to inspect and manage TileDB fragments.
   contents:
    - storr_fragments
    - storr_consolidate

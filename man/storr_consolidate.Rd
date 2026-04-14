@@ -24,7 +24,12 @@ For \code{async = TRUE}, it returns a \code{\link[mirai:mirai]{mirai::mirai()}} 
 resolved, it returns \code{TRUE} indicating consolidation success.
 }
 \description{
-Consolidate Storr Fragments
+Perform fragment consolidation for better query performance.
+}
+\details{
+The function supports selective consolidation ("keys"/"data") or full ("all").
+The process can be run synchronously or asynchronously and has an optional
+argument to delete old fragments afterwards (vacuum).
 }
 \examples{
 # URI path
@@ -32,4 +37,7 @@ uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 
 storr_consolidate(uri)
+}
+\seealso{
+\code{\link[=storr_vacuum]{storr_vacuum()}}
 }
