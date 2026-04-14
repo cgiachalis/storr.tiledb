@@ -300,6 +300,8 @@ StorrFragments <- R6::R6Class(
 
     #' @description Get the number of fragments.
     #'
+    #' @return A numeric value.
+    #'
     frag_num = function() {
 
       nk <- self$fob_keys$frag_num()
@@ -311,7 +313,7 @@ StorrFragments <- R6::R6Class(
 
     #' @description Return the number of fragments to vacuum.
     #'
-    #' @return An numeric value.
+    #' @return A numeric value.
     #'
     to_vacuum_num = function() {
 

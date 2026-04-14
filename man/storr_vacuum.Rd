@@ -25,7 +25,7 @@ Remove old consolidated fragments to free space.
 }
 \details{
 The function supports selective vacuuming ("keys"/"data") or full ("all")
-and it can be run synchronously or asynchronously
+and it can be run synchronously or asynchronously.
 }
 \examples{
 # URI path

@@ -136,6 +136,9 @@ Get the number of fragments.
 \if{html}{\out{<div class="r">}}\preformatted{StorrFragments$frag_num()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+A numeric value.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StorrFragments-to_vacuum_num"></a>}}
@@ -147,7 +150,7 @@ Return the number of fragments to vacuum.
 }
 
 \subsection{Returns}{
-An numeric value.
+A numeric value.
 }
 }
 \if{html}{\out{<hr>}}
