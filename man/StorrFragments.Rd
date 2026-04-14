@@ -90,7 +90,7 @@ object's context.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-When \code{async = FALSE}, it return \code{TRUE} for successful consolidation.
+When \code{async = FALSE}, it returns \code{TRUE} for successful consolidation.
 For \code{async = TRUE}, it returns a \code{\link[mirai:mirai]{mirai::mirai()}} object immediately; once
 resolved, it returns \code{TRUE} indicating consolidation success.
 }
@@ -122,7 +122,7 @@ object's context.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-When \code{async = FALSE}, it return \code{TRUE} for successful vacuum.
+When \code{async = FALSE}, it returns \code{TRUE} for successful vacuuming.
 For \code{async = TRUE}, it returns a \code{\link[mirai:mirai]{mirai::mirai()}} object immediately; once
 resolved, it returns \code{TRUE} indicating vacuum success.
 }

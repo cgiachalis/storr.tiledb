@@ -65,7 +65,7 @@ StorrFragments <- R6::R6Class(
     #' @param vacuum Should the old fragments (consolidated) be deleted? Default is `FALSE`.
     #' @param async Should it consolidate asynchronously? Default is `FALSE`.
     #'
-    #' @return When `async = FALSE`, it return `TRUE` for successful consolidation.
+    #' @return When `async = FALSE`, it returns `TRUE` for successful consolidation.
     #' For `async = TRUE`, it returns a [mirai::mirai()] object immediately; once
     #' resolved, it returns `TRUE` indicating consolidation success.
     #'
@@ -199,7 +199,7 @@ StorrFragments <- R6::R6Class(
     #'  object's context.
     #' @param async Should it vacuum asynchronously? Default is `FALSE`.
     #'
-    #' @return When `async = FALSE`, it return `TRUE` for successful vacuum.
+    #' @return When `async = FALSE`, it returns `TRUE` for successful vacuuming.
     #' For `async = TRUE`, it returns a [mirai::mirai()] object immediately; once
     #' resolved, it returns `TRUE` indicating vacuum success.
     #'
