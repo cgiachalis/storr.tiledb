@@ -1,5 +1,6 @@
 .libtiledb_vfs_copy_dir <- utils::getFromNamespace("libtiledb_vfs_copy_dir", "tiledb")
-
+.libtiledb_array_consolidate <- utils::getFromNamespace("libtiledb_array_consolidate", "tiledb")
+.libtiledb_array_vacuum <- utils::getFromNamespace("libtiledb_array_vacuum", "tiledb")
 file_path <- function(..., fsep = .Platform$file.sep) {
 
   paths <- list(...)
@@ -69,6 +70,12 @@ check_tiledb_config <- function(x) {
   }
 }
 
+check_tiledb_ctx <- function(x) {
+  if (!inherits(x, what = 'tiledb_ctx')) {
+    cli::cli_abort("{.arg {deparse(substitute(x))}} should be a {.help [{.fun tiledb_ctx}](tiledb::tiledb_ctx)} object.", call = NULL)
+  }
+}
+
 check_character_or_null <- function(x) {
   if (!(.is_character(x) || is.null(x))) {
     cli::cli_abort("{.arg {deparse(substitute(x))}} should be a character vector or NULL.", call = NULL)
@@ -82,5 +89,10 @@ check_uri <- function(uri) {
       call = NULL
     )
   }
+}
+
+check_read_only = function(x) {
+  cli::cli_abort(paste0(cli::style_italic("{.val {x}}"), " is a read-only field."), call = NULL)
+
 }
 

@@ -62,6 +62,13 @@ reference:
   contents:
   - storr_tiledb
 
+- subtitle: Fragment Management
+  desc: |
+   Functionality to inspect and manage TileDB fragments.
+  contents:
+   - storr_fragments
+   - storr_consolidate
+   - storr_vacuum
 
 - subtitle: TileDB Driver
   desc: |
@@ -78,3 +85,4 @@ reference:
   - CAS
   - TileDBDriver
   - TileDBStorr
+  - StorrFragments
