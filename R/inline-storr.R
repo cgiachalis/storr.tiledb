@@ -1,4 +1,4 @@
-storr_copy <- utils::getFromNamespace("storr_copy", "storr")
+.base_export <- utils::getFromNamespace("storr_copy", "storr")
 storr_traits <- utils::getFromNamespace("storr_traits", "storr")
 make_hash_serialized_object <- utils::getFromNamespace("make_hash_serialized_object", "storr")
 

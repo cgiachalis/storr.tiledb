@@ -1926,7 +1926,7 @@ TileDBStorr <- R6::R6Class(
           stop("If src is not a storr, namespace can't be NULL")
         }
       }
-      invisible(storr_copy(self, src, list, namespace, skip_missing)$info)
+      invisible(.base_export(self, src, list, namespace, skip_missing)$info)
     },
 
     #' @description Export objects from storr.
@@ -1953,7 +1953,7 @@ TileDBStorr <- R6::R6Class(
         namespace <- self$list_namespaces()
       }
 
-      invisible(storr_copy(dest, self, list, namespace, skip_missing)$dest)
+      invisible(.base_export(dest, self, list, namespace, skip_missing)$dest)
     },
 
     #' @description Generate a `data.table` with an index of objects
