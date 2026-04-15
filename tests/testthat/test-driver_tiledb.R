@@ -28,35 +28,35 @@ test_that("driver_tiledb_create", {
 
 })
 
-test_that("driver_tiledb_copy", {
+test_that("storr_copy", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
   to_uri <- file.path(withr::local_tempdir(), "test-driver2")
 
   driver_tiledb_create(uri)
-  expect_equal(driver_tiledb_copy(uri, to_uri = to_uri), to_uri)
+  expect_equal(storr_copy(uri, to_uri = to_uri), to_uri)
   expect_no_error(driver_tiledb(to_uri))
 
-  expect_error(driver_tiledb_copy(uri, to_uri = to_uri),
+  expect_error(storr_copy(uri, to_uri = to_uri),
                label = "Directory is already present")
 
 })
 
 
-test_that("driver_tiledb_move", {
+test_that("storr_move", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
   newuri <- file.path(withr::local_tempdir(), "test-driver2")
 
   driver_tiledb_create(uri)
-  expect_equal(driver_tiledb_move(uri, newuri = newuri), newuri)
+  expect_equal(storr_move(uri, newuri = newuri), newuri)
   expect_no_error(driver_tiledb(newuri))
   expect_error(driver_tiledb(uri),
                "'storr' not found, please create one.",
                class = "error", fixed = TRUE)
 
 
-  expect_error(driver_tiledb_move(newuri, newuri = newuri),
+  expect_error(storr_move(newuri, newuri = newuri),
                label = "Directory is already present")
 
   # Test it is not moved
@@ -65,20 +65,20 @@ test_that("driver_tiledb_move", {
 })
 
 
-test_that("driver_tiledb_rename", {
+test_that("storr_rename", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
   newname <- "newstorr"
   newuri <- file.path(dirname(uri), newname)
 
   driver_tiledb_create(uri)
-  expect_equal(driver_tiledb_rename(uri, newname = newname), newuri)
+  expect_equal(storr_rename(uri, newname = newname), newuri)
   expect_no_error(driver_tiledb(newuri))
   expect_error(driver_tiledb(uri),
                "'storr' not found, please create one.",
                class = "error", fixed = TRUE)
 
-  expect_error(driver_tiledb_rename(newuri, newname = "newstorr"),
+  expect_error(storr_rename(newuri, newname = "newstorr"),
                label = "Directory is already present")
 
 })
