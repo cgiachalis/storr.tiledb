@@ -15,7 +15,8 @@ storr_fragments(uri, context = NULL)
 An object of class \code{StorrFragments}, \code{R6}.
 }
 \description{
-Generate a \link{StorrFragments} object to work with and manage TileDB Fragments.
+Functional interface that initialises a \link{StorrFragments} instance to
+work with TileDB Fragments.
 }
 \details{
 The class includes fragment consolidation and vacuuming methods but also

@@ -1,6 +1,7 @@
 #' Storr Fragments
 #'
-#' Generate a [StorrFragments] object to work with and manage TileDB Fragments.
+#' Functional interface that initialises a [StorrFragments] instance to
+#' work with TileDB Fragments.
 #'
 #' The class includes fragment consolidation and vacuuming methods but also
 #' provides access to [TileDBFragments] instances for `keys` and `data` arrays
