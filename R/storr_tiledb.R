@@ -98,3 +98,103 @@ storr_tiledb <- function(uri,
   TileDBStorr$new(dr, default_namespace = default_namespace, async = async)
 
 }
+
+#' Copy Storr to another URI
+#'
+#' @inheritParams storr_tiledb
+#'
+#' @param to_uri Destination URI path to copy the storr to.
+#'
+#' @export
+#'
+#' @returns The new uri path, invisibly.
+#'
+#' @family storr-utilities
+#'
+#' @rdname storr_copy
+storr_copy <- function(uri, to_uri, context = NULL) {
+
+  dr <- TileDBDriver$new(uri, ctx = context)
+
+  check_uri(to_uri)
+
+  olduri <- dr$uri
+
+  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+
+  if (tiledb::tiledb_vfs_is_dir(to_uri, vfs = vfs)) {
+    cli::cli_abort("Directory is already present with uri: {.url {to_uri}}.", call = NULL)
+  }
+
+  newuri <- .libtiledb_vfs_copy_dir(vfs@ptr, olduri, to_uri)
+
+  invisible(newuri)
+}
+
+#' Move Storr to another URI
+#'
+#' @inheritParams storr_tiledb
+#' @param newuri Destination URI path to move the storr to.
+#'
+#' @export
+#'
+#' @returns The new uri path, invisibly.
+#'
+#' @family storr-utilities
+#'
+#' @rdname storr_move
+storr_move <- function(uri, newuri, context = NULL) {
+
+  dr <- TileDBDriver$new(uri, ctx = context)
+  olduri <- dr$uri
+
+  check_uri(newuri)
+
+  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+
+  if (tiledb::tiledb_vfs_is_dir(newuri, vfs = vfs)) {
+    cli::cli_abort("Directory is already present with uri: {.url {newuri}}.", call = NULL)
+  }
+
+  newuri <- tiledb::tiledb_vfs_move_dir(olduri, newuri, vfs = vfs)
+
+  invisible(newuri)
+}
+
+#' Rename Storr URI
+#'
+#' It renames the driver's basename, i.e., 'path/oldname' to 'path/newname'.
+#'
+#' @inheritParams storr_tiledb
+#' @param newname Suffix to rename storr URI path.
+#'
+#' @export
+#'
+#' @returns The new uri path, invisibly.
+#'
+#' @family storr-utilities
+#'
+#' @rdname storr_rename
+storr_rename <- function(uri, newname, context = NULL) {
+
+  dr <- TileDBDriver$new(uri, ctx = context)
+
+  if (isFALSE(.is_scalar_character(newname))) {
+    cli::cli_abort(
+      "{.arg {deparse(substitute(newname))}} should be a character string.", call = NULL
+    )
+  }
+
+  olduri <- dr$uri
+  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+
+  newuri <- file_path(dirname(olduri), newname)
+
+  if (tiledb::tiledb_vfs_is_dir(newuri, vfs = vfs)) {
+    cli::cli_abort("Directory is already present with uri: {.url {newuri}}.", call = NULL)
+  }
+
+  newuri <- tiledb::tiledb_vfs_move_dir(olduri, newuri, vfs = vfs)
+
+  invisible(newuri)
+}

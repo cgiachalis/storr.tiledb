@@ -57,10 +57,26 @@ reference:
 
 - title: Storr Interface
   desc: |
-   Use the following function to create and work with a 'storr',
-   a key-value store that uses TileDB for storage (backend).
+   The storr interface is built on top of the R6 class system which provides the
+   framework for managing content-addressable storage with TileDB. The key
+   function to interact with a storr is `storr_tiledb()`. Additional
+   functionality is provided for managing TileDB fragments as well as convenient
+   storr utilities.
+
+- subtitle: Storr
+  desc: |
+   Key functions to work with a 'storr' or creating a TileDB driver.
   contents:
   - storr_tiledb
+  - driver_tiledb
+
+- subtitle: Storr Management
+  desc: |
+   Utilities for Storr management.
+  contents:
+   - storr_copy
+   - storr_move
+   - storr_rename
 
 - subtitle: Fragment Management
   desc: |
@@ -69,13 +85,6 @@ reference:
    - storr_fragments
    - storr_consolidate
    - storr_vacuum
-
-- subtitle: TileDB Driver
-  desc: |
-   Create and/or open a TileDB driver with `driver_tiledb`. The rest
-   routines are utilities to create only, copy, move or rename an existing storr.
-  contents:
-   - driver_tiledb
 
 - title: R6 Classes
   desc: |

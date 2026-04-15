@@ -3,21 +3,12 @@
 \name{driver_tiledb}
 \alias{driver_tiledb}
 \alias{driver_tiledb_create}
-\alias{driver_tiledb_copy}
-\alias{driver_tiledb_move}
-\alias{driver_tiledb_rename}
 \title{TileDB Storr Driver}
 \usage{
 driver_tiledb(uri, context = NULL, init = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
   context = NULL)
-
-driver_tiledb_copy(uri, to_uri, context = NULL)
-
-driver_tiledb_move(uri, newuri, context = NULL)
-
-driver_tiledb_rename(uri, newname, context = NULL)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -33,20 +24,12 @@ Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
 \item{compression_level}{Set an integer value for ZSTD compression level.}
-
-\item{to_uri}{Destination URI path to copy the storr to.}
-
-\item{newuri}{Destination URI path to move the storr to.}
-
-\item{newname}{Suffix to rename storr URI path.}
 }
 \value{
 \itemize{
 \item \emph{driver_tiledb()} returns a \link{TileDBDriver} object.
 \item \emph{driver_tiledb_create()} returns logical \code{TRUE} invisibly, for successful
 driver creation.
-\item \emph{driver_tiledb_copy()}, \emph{driver_tiledb_move()} and \emph{driver_tiledb_rename()}
-return the new uri path, invisibly.
 }
 }
 \description{
@@ -58,13 +41,6 @@ a new driver using \code{init} argument or with \code{driver_tiledb_create()}.
 
 Note that \code{\link[=storr_tiledb]{storr_tiledb()}} abstracts the driver creation, so it's the preferred way unless
 you want to pass the driver onto  \link[storr:storr]{storr}.
-
-\code{driver_tiledb_copy()} copies the driver to another URI path.
-
-\code{driver_tiledb_move()} moves the driver to another URI path.
-
-\code{driver_tiledb_rename()} renames the driver's basename, i.e., 'path/oldname' to
-'path/newname'
 }
 \section{Data Model}{
 
