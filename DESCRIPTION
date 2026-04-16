@@ -1,7 +1,7 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.26
-Date: 2026-04-15
+Version: 0.0.27
+Date: 2026-04-16
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>

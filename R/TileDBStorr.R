@@ -915,7 +915,11 @@ TileDBStorr <- R6::R6Class(
 
       if (any(upload)) {
         # TODO: NO NEED
-        send <- if (self$traits$accept == "object") values else values_ser
+        send <- if (self$traits$accept == "object") {
+          values
+        } else {
+          values_ser
+        }
 
         private$DRIVER$mset_object(hash[upload], send[upload])
       }
@@ -1026,7 +1030,7 @@ TileDBStorr <- R6::R6Class(
       envir <- self$envir
 
       if (use_cache && exists0(hash, envir)) {
-        value <- envir[[hash]]
+        value <- gethash(envir, hash)
       } else {
         # TODO: no need for traits
         if (self$traits$throw_missing) {
@@ -1039,8 +1043,7 @@ TileDBStorr <- R6::R6Class(
           value <- private$DRIVER$get_object(hash)
         }
         if (use_cache) {
-          envir[[hash]] <- value
-          # TODO: USE sethash(envir, hash, value)
+          sethash(envir, hash, value)
         }
       }
       value
@@ -1072,13 +1075,7 @@ TileDBStorr <- R6::R6Class(
       value[is_missing] <- list(missing)
 
       if (any(!cached)) {
-        # TODO: REMOVE IS.NULL
-        if (is.null(private$DRIVER$mget_object)) {
-          value[!cached] <- lapply(hash[!cached], self$get_value, FALSE)
-        } else {
           value[!cached] <- private$DRIVER$mget_object(hash[!cached])
-        }
-
         if (use_cache) {
           for (i in which(!cached)) {
             sethash(envir, hash[[i]], value[[i]])
