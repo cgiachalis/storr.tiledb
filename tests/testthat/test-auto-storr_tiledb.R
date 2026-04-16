@@ -285,6 +285,28 @@ test_that("get_value", {
 })
 
 
+test_that("mget_value", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  st$set("a", 1, use_cache = FALSE)
+  st$set("a", 1, namespace = "ns1", use_cache = F)
+  st$set("b", 3, namespace = "ns1", use_cache = F)
+  st$set("d", 4, namespace = "ns1", use_cache = F)
+
+  hashes <- st$index_export()[, 1:3][["hash"]]
+
+  expect_equal(st$mget_value(hashes, use_cache = FALSE), list(1, 1, 3, 4))
+
+  expect_equal(st$mget_value(hashes[c(4,3,2)], use_cache = FALSE), list(4, 3, 1))
+
+  expect_equal(st$mget_value(hashes), list(1, 1, 3, 4))
+
+  expect_equal(st$mget_value(hashes[c(4,3,2)]), list(4, 3, 1))
+
+})
+
 ## Really simple test to make sure that mget works correctly.  This is
 ## primarily up to storr, rather than the driver, because we'll test
 ## mget at the driver level separately.

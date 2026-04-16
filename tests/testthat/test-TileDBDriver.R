@@ -402,3 +402,21 @@ test_that("mset_object with dupes", {
   expect_equal(hash, hash_in)
 
 })
+
+test_that("mget_object", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
+
+  st$set("a", 1, use_cache = FALSE)
+  st$set("a", 1, namespace = "ns1", use_cache = F)
+  st$set("b", 3, namespace = "ns1", use_cache = F)
+  st$set("d", 4, namespace = "ns1", use_cache = F)
+
+  hashes <- st$index_export()[, 1:3][["hash"]]
+
+  expect_equal(dr$mget_object(hashes), list(1, 1, 3, 4))
+  expect_equal(dr$mget_object(hashes[c(4,3,2)]), list(4, 3, 1))
+
+})
