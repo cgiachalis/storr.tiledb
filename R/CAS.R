@@ -322,15 +322,12 @@ CAS <- R6::R6Class(
     keys_array = function() {
     # TODO: should we check for cached first?
       self$members$tbl_keys$object
-
     },
 
     # @description Get cached 'tbl_data' array object
     #
     data_array = function() {
-
       self$members$tbl_data$object
-
     },
 
     # @description Query 'tbl_keys' array by single attribute
@@ -348,7 +345,7 @@ CAS <- R6::R6Class(
                                  ctx = self$ctx)
 
 
-      dta <- data.table::as.data.table(arr[], key =  c("namespace", "key"))
+      dta <- data.table::as.data.table(arr[], key = c("namespace", "key"))
       dta[.(namespace, key), "hash", with = FALSE,
              env = list(namespace = I(namespace), key = I(key))][[1]]
 
