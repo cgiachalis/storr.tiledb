@@ -95,10 +95,8 @@ TileDBStorr <- R6::R6Class(
       self$default_namespace <- default_namespace
       self$traits <- storr_traits(driver$traits)
 
-      self$hash_raw <- make_hash_serialized_object(driver$hash_algorithm,
-                                           !self$traits$drop_r_version)
-      self$serialize_object <- make_serialize_object(self$traits$drop_r_version,
-                                     self$traits$accept == "string")
+      self$hash_raw <- make_hash_serialized_object(driver$hash_algorithm, !self$traits$drop_r_version)
+      self$serialize_object <- make_serialize_object(self$traits$drop_r_version, self$traits$accept == "string")
     },
 
     #' @description Destroy (delete) 'storr'.
@@ -2026,6 +2024,16 @@ TileDBStorr <- R6::R6Class(
       }
 
       private$DRIVER$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
+    },
+
+    export_tdb = function(key = character(),
+                          namespace = self$default_namespace,
+                          uri_dest,
+                          context_dest = NULL) {
+
+      dest_driver <- driver_tiledb(uri_dest, context = context_dest)
+
+      private$DRIVER$export_tdb(key, namespace = namespace, dest_driver = dest_driver)
     }
   ),
 
