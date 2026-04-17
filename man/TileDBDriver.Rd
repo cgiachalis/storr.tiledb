@@ -54,6 +54,11 @@ for specific namespaces.
 \item \code{has_expired_keys} and \code{has_unexpired_keys}: Verify the existence of (un)expired keys or
 for specific namespaces.
 }
+
+\strong{Export Utilities}
+\itemize{
+\item \code{export_tdb}: Export objects to another TileDB storr only.
+}
 }
 \keyword{internal}
 \section{Super classes}{
@@ -104,6 +109,7 @@ for specific namespaces.
 \item \href{#method-TileDBDriver-num_unexpired_keys}{\code{TileDBDriver$num_unexpired_keys()}}
 \item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
 \item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
+\item \href{#method-TileDBDriver-export_tdb}{\code{TileDBDriver$export_tdb()}}
 }
 }
 \if{html}{\out{
@@ -821,6 +827,30 @@ Check for unexpired key-namespace pairs.
 }
 \subsection{Returns}{
 \code{TRUE} for unexpired keys, \code{FALSE} otherwise.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-export_tdb"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-export_tdb}{}}}
+\subsection{Method \code{export_tdb()}}{
+Export objects from storr to another TileDB storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$export_tdb(key, namespace, dest_driver)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of source keys.}
+
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+
+\item{\code{dest_driver}}{The destination TileDB driver, See \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical \code{TRUE} indicating successful export, invisibly.
 }
 }
 }

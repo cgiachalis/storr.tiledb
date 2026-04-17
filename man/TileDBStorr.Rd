@@ -98,6 +98,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \item \href{#method-TileDBStorr-export}{\code{TileDBStorr$export()}}
 \item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
 \item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
+\item \href{#method-TileDBStorr-export_tdb}{\code{TileDBStorr$export_tdb()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -1382,6 +1383,34 @@ hashes are present in the storr.}
 }
 \subsection{Returns}{
 \code{TRUE}, invisibly.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-export_tdb"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-export_tdb}{}}}
+\subsection{Method \code{export_tdb()}}{
+Export objects from storr to another TileDB storr.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$export_tdb(key = character(0),
+  namespace = self$default_namespace, uri_dest, context_dest = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{key}}{A character vector of source keys.}
+
+\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+
+\item{\code{uri_dest}}{The URI path of destination storr.}
+
+\item{\code{context_dest}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object
+for destination storr.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A logical \code{TRUE} indicating successful export, invisibly.
 }
 }
 }

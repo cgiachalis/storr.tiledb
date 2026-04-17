@@ -2026,7 +2026,17 @@ TileDBStorr <- R6::R6Class(
       private$DRIVER$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     },
 
-    export_tdb = function(key = character(),
+    #' @description Export objects from storr to another TileDB storr.
+    #'
+    #' @param key A character vector of source keys.
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param uri_dest The URI path of destination storr.
+    #' @param context_dest Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object
+    #' for destination storr.
+    #'
+    #' @return A logical `TRUE` indicating successful export, invisibly.
+    #'
+    export_tdb = function(key = character(0),
                           namespace = self$default_namespace,
                           uri_dest,
                           context_dest = NULL) {
@@ -2038,7 +2048,6 @@ TileDBStorr <- R6::R6Class(
   ),
 
   active = list(
-   # stats or num_keys/num_namespaces/db_size/report
 
     #' @field async_info `mirai` information
     #'

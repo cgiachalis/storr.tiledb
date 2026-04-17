@@ -46,6 +46,8 @@
 #' - `has_expired_keys` and `has_unexpired_keys`: Verify the existence of (un)expired keys or
 #'  for specific namespaces.
 #'
+#' **Export Utilities**
+#' - `export_tdb`: Export objects to another TileDB storr only.
 #'
 #' @returns A `TileDBDriver`, `R6` object.
 #'
@@ -1072,6 +1074,14 @@ TileDBDriver <- R6::R6Class(
       arr[]$num_rows != 0
     },
 
+    #' @description Export objects from storr to another TileDB storr.
+    #'
+    #' @param key A character vector of source keys.
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param dest_driver The destination TileDB driver, See [driver_tiledb()].
+    #'
+    #' @return A logical `TRUE` indicating successful export, invisibly.
+    #'
     export_tdb = function(key,
                           namespace,
                           dest_driver) {
@@ -1159,7 +1169,7 @@ TileDBDriver <- R6::R6Class(
           # print(dta[, "new_hashes"])
 
           # Find hashes to send over
-          upload <- !dest_driver$exists_object(new_hashes)
+          upload <- !dest_driver$exists_object(dta$new_hashes)
 
           # Copy data to destination storr
           if (any(upload)) {
@@ -1182,6 +1192,7 @@ TileDBDriver <- R6::R6Class(
         }
 
       }
+      invisible(TRUE)
     }
   )
 )
