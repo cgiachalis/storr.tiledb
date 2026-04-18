@@ -186,10 +186,27 @@ CAS <- R6::R6Class(
 
    #' @description Print directory contents.
    #'
+   #' @param what Select directory: 'all' for storr, 'keys' for `tbl_keys`
+   #' array and 'data' for `tbl_data` array.
+   #'
    #' @return A character vector with file paths, invisibly.
    #'
-   dir_tree = function() {
-     R6.tiledb::vfs_dir_tree(self$uri, vfs = private$vfs())
+   dir_tree = function(what = c("all", "keys", "data")) {
+     what <- match.arg(what)
+
+     uri <- switch (what,
+       all = {
+         self$uri
+       },
+       keys = {
+         self$members$tbl_keys$uri
+       },
+       data = {
+         self$members$tbl_data$uri
+       }
+     )
+
+     R6.tiledb::vfs_dir_tree(uri, vfs = private$vfs())
    },
 
    #' @description Dump the Storr structure to string.
