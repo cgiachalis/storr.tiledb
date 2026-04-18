@@ -170,9 +170,17 @@ A `data.table.
 \subsection{Method \code{dir_tree()}}{
 Print directory contents.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$dir_tree()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{CAS$dir_tree(what = c("all", "keys", "data"))}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{what}}{Select directory: 'all' for storr, 'keys' for \code{tbl_keys}
+array and 'data' for \code{tbl_data} array.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A character vector with file paths, invisibly.
 }
