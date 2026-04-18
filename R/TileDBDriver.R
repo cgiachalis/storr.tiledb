@@ -10,44 +10,7 @@
 #' driver that complies with 'storr' interface using TileDB Embedded as a
 #' back-end.
 #'
-#' This class is intended for usage in [storr] or [TileDBStorr]. See `Methods`
-#' section for class methods definitions.
-#'
-#' Overview of core operations:
-#'
-#' **Hash Management**
-#' - `get_hash` and `mget_hash`: Retrieve hash values for a given key and namespace.
-#' - `set_hash` and `mset_hash`: Set hash values with metadata like expiry date-times and notes.
-#' - `exists_hash`: Verify the existence of specific keys, namespaces
-#' - `del_hash`: Remove key-namespace pairs.
-#' - `delete_namespaces`: Clear namespaces or delete specified ones.
-#' - `list_namespaces`, `list_keys`: Retrieve all namespaces or keys for a given namespace.
-#'
-#' **Object Management**
-#' - `get_object` and `mget_object`: Fetch serialized R objects using hash values.
-#' - `set_object` and `mset_object`: Store serialized R objects.
-#' - `exists_object`: Verify the existence of specific objects.
-#' - `del_object`: Remove serialized objects.
-#' - `delete_unused_hashes`: Remove hashes that are not in active use.
-#' - `list_hashes`: Retrieve all hashes
-#' - `list_unused_hashes`: Identify unused hashes.
-#'
-#' **Key-Namespace Metadata**
-#'  - `get_keymeta`, `set_keymeta`, and `mset_keymeta`: Manage metadata such as
-#'   expiry times and notes for key-namespace pairs.
-#'
-#' **Expiration Management**
-#' - `keys_with_expiration` and `keys_without_expiration`:  Retrieve the key namespace pairs with
-#' or without expiration timestamps.
-#' - `expired_keys` and `unexpired_keys`: Retrieve the (un)expired key namespace pairs.
-#' - `delete_expired_keys`: Delete all expired keys or for specific namespaces.
-#' - `num_expired_keys` and `num_unexpired_keys`: Get the number of (un)expired keys or
-#' for specific namespaces.
-#' - `has_expired_keys` and `has_unexpired_keys`: Verify the existence of (un)expired keys or
-#'  for specific namespaces.
-#'
-#' **Export Utilities**
-#' - `export_tdb`: Export objects to another TileDB storr only.
+#' This class is intended for usage in [storr] or [TileDBStorr].
 #'
 #' @returns A `TileDBDriver`, `R6` object.
 #'
