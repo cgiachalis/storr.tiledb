@@ -3,13 +3,13 @@
 <!-- badges: start -->
 [![CRAN status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=storr.tiledb) 
 [![repo-status](https://img.shields.io/badge/repo%20status-experimental-orange.svg)](#) 
-[![License](https://img.shields.io/badge/License-%20%20MIT-003366.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://cgiachalis.github.io/storr.tiledb/)
 <!-- badges: end -->
 
 ## Overview
 
-A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
+A [storr](https://github.com/richfitz/storr) driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
 
 *What is storr?*
 
