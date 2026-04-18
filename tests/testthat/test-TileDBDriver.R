@@ -445,7 +445,8 @@ test_that("export_tdb - identical hash algo", {
                fixed = TRUE)
 
   # Export all to destination
-  expect_no_error(st$export_tdb(uri_dest = uri_dest, namespace = NULL))
+  expect_no_error(out <- st$export_tdb(uri_dest = uri_dest, namespace = NULL))
+  expect_true(out)
 
   # Test export was successful
   std <- storr_tiledb(uri_dest)
@@ -551,4 +552,20 @@ test_that("export_tdb - different hash algo", {
   # Export namespace "ns4" to destination
   st$export_tdb(uri_dest = uri_dest, namespace = "ns4")
   expect_equal(std$mget(c("aa", "bb"), "ns4", use_cache = F), list("aa", 200))
+})
+
+test_that("export_tdb - Nothing to export", {
+
+  # Temp URIs
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  uri_dest <- file.path(withr::local_tempdir(), "test-storr_dest")
+
+  # Create storr source
+  st <- storr_tiledb(uri, init = TRUE, default_namespace = "ns0")
+
+  # Create storr destination with different hash algo
+  driver_tiledb_create(uri_dest, hash_algorithm = "sha256")
+
+  expect_warning(st$export_tdb(uri_dest = uri_dest, namespace = NULL),
+                  "Nothing to export for the selected key-namespace.")
 })

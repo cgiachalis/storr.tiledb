@@ -4,15 +4,16 @@
 [![CRAN status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=storr.tiledb) 
 [![repo-status](https://img.shields.io/badge/repo%20status-experimental-orange.svg)](#) 
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT)
+[![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://cgiachalis.github.io/storr.tiledb/)
 <!-- badges: end -->
 
 ## Overview
 
-A storr driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
+A [storr](https://github.com/richfitz/storr) driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
 
 *What is storr?*
 
-A storr is a content addressed key-value store for R objects with an optional cache layer.
+A key-value store with content addressable storage for R objects with optional in-memory caching layer.
 
 The interface is provided by [storr](https://cloud.r-project.org/web/packages/storr/index.html)
 package and defines a set of common operations (set, get, del methods) across a range of different
@@ -21,7 +22,7 @@ written by [Rich FitzJohn](https://github.com/richfitz).
 
 *What is storr.tiledb?*
 
-The `storr.tiledb` contributes a new storr compliant driver using TileDB as a back-end.
+The `storr.tiledb` contributes a new storr compliant driver using TileDB Engine for backend.
 
 The package has its own storr R6 class that utilises the strengths of the underlying
 engine and offers some extra features, such as the option to add notes and expiration
