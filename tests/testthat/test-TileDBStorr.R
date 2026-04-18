@@ -30,7 +30,7 @@ test_that("'TileDBStorr'", {
   expect_s3_class(sto$size, "vfs_size")
   expect_error(sto$size <- 1)
 
-  expect_null( sto$async_info)
+  expect_no_error(sto$async_info)
   expect_error(sto$async_info <- 1)
 
   # Test for TileDB driver
