@@ -46,6 +46,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{async_info}}{\code{mirai} information}
+
+\item{\code{size}}{Return Storr size}
 }
 \if{html}{\out{</div>}}
 }

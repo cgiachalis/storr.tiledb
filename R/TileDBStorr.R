@@ -2058,6 +2058,17 @@ TileDBStorr <- R6::R6Class(
       }
 
       mirai::info(.storr_profile)
+    },
+
+    #' @field size Return Storr size
+    #'
+    size = function(value) {
+
+      if (!missing(value)) {
+        check_read_only("size")
+      }
+
+      private$DRIVER$size
     }
   ),
 

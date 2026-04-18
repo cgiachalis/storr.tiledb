@@ -1,5 +1,6 @@
-test_that("'TileDBStorr'", {
 
+
+test_that("'TileDBStorr'", {
 
   TileDBStorrMock <- R6::R6Class(
     cloneable = FALSE,
@@ -11,7 +12,6 @@ test_that("'TileDBStorr'", {
       }
     ),
   )
-
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   dr <- driver_tiledb(uri, init = TRUE)
@@ -25,6 +25,13 @@ test_that("'TileDBStorr'", {
 
   expect_true(is.hashtab(sto$envir_metadata))
   expect_equal(numhash(sto$envir_metadata), 0)
+
+  # Active fields
+  expect_s3_class(sto$size, "vfs_size")
+  expect_error(sto$size <- 1)
+
+  expect_null( sto$async_info)
+  expect_error(sto$async_info <- 1)
 
   # Test for TileDB driver
   expect_error(TileDBStorrMock$new("not_valid", "objects"))
