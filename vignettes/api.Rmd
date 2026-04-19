@@ -132,8 +132,8 @@ sto$get_keymeta("bb")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     aa 2026-04-19 16:56:11
-# 2:   objects     bb 2026-04-19 16:51:13
+# 1:   objects     aa 2026-04-19 17:09:25
+# 2:   objects     bb 2026-04-19 17:04:26
 
 Sys.sleep(1)
 
@@ -141,7 +141,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-04-19 16:51:13
+# 1:   objects     bb 2026-04-19 17:04:26
 
 # Remove expired keys
 sto$clear_expired_keys()
@@ -238,7 +238,7 @@ fosto$frag_num()
 fosto$to_vacuum_num()
 # [1] 5
 ```
-Now, let's clean up old fragments.
+Now, let's clean up the old fragments.
 
 
 ``` r

@@ -195,7 +195,7 @@ fosto$frag_num()
 # Total fragments to vacuum (5)
 fosto$to_vacuum_num()
 ```
-Now, let's clean up old fragments.
+Now, let's clean up the old fragments.
 
 ```{r }
 # Cleaup old fragments
