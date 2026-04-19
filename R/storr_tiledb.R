@@ -5,8 +5,10 @@
 #' # Details
 #'
 #' \link[storr:storr]{‘storr’} is a content addressed key-value store
-#'  with an optional caching layer. The `storr_tiledb` generates a [TileDBStorr]
-#'  object with identical interface as `storr` that additionally supports
+#'  with an optional caching layer.
+#'
+#'  The `storr_tiledb` generates a [TileDBStorr] object with identical
+#'  interface as `storr` that additionally supports
 #'  metadata next to key-values (notes and expiration timestamps) as well as asynchronous
 #'  writes using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
 #'  framework.

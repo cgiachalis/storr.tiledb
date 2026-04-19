@@ -33,8 +33,10 @@ Create a 'storr' using TileDB driver for storage.
 }
 \section{Details}{
 \link[storr:storr]{‘storr’} is a content addressed key-value store
-with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
-object with identical interface as \code{storr} that additionally supports
+with an optional caching layer.
+
+The \code{storr_tiledb} generates a \link{TileDBStorr} object with identical
+interface as \code{storr} that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as asynchronous
 writes using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
 framework.
