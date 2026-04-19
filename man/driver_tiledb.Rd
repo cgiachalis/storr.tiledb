@@ -35,16 +35,63 @@ driver creation.
 \description{
 Storr driver using TileDB storage engine.
 }
-\details{
+\section{Details}{
 \code{driver_tiledb()} returns the TileDB driver given a URI path. You can create
 a new driver using \code{init} argument or with \code{driver_tiledb_create()}.
 
 Note that \code{\link[=storr_tiledb]{storr_tiledb()}} abstracts the driver creation, so it's the preferred way unless
 you want to pass the driver onto  \link[storr:storr]{storr}.
 }
+
+\section{Class Methods Summary}{
+For complete definitions, see \strong{Methods} section in \link{TileDBDriver}.
+
+\strong{Hash Management}
+\itemize{
+\item \strong{\code{get_hash()}} and \strong{\code{mget_hash()}}: Retrieve hash values for a given key and namespace.
+\item \strong{\code{set_hash()}} and \strong{\code{mset_hash()}}: Set hash values with metadata like expiry date-times and notes.
+\item \strong{\code{exists_hash()}}: Verify the existence of specific keys, namespaces
+\item \strong{\code{del_hash()}}: Remove key-namespace pairs.
+\item \strong{\code{delete_namespaces()}}: Clear namespaces or delete specified ones.
+\item \strong{\code{list_namespaces()}}, \strong{\code{list_keys()}}: Retrieve all namespaces or keys for a given namespace.
+}
+
+\strong{Object Management}
+\itemize{
+\item \strong{\code{get_object()}} and \strong{\code{mget_object()}}: Fetch serialized R objects using hash values.
+\item \strong{\code{set_object()}} and \strong{\code{mset_object()}}: Store serialized R objects.
+\item \strong{\code{exists_object()}}: Verify the existence of specific objects.
+\item \strong{\code{del_object()}}: Remove serialized objects.
+\item \strong{\code{delete_unused_hashes()}}: Remove hashes that are not in active use.
+\item \strong{\code{list_hashes()}}: Retrieve all hashes
+\item \strong{\code{list_unused_hashes()}}: Identify unused hashes.
+}
+
+\strong{Key-Namespace Metadata}
+\itemize{
+\item \strong{\code{get_keymeta()}}, \strong{\code{set_keymeta()}}, and \strong{\code{mset_keymeta()}}: Manage metadata such as
+expiry times and notes for key-namespace pairs.
+}
+
+\strong{Expiration Management}
+\itemize{
+\item \strong{\code{keys_with_expiration}} and \strong{\code{keys_without_expiration}}:  Retrieve the key namespace pairs with
+or without expiration timestamps.
+\item \strong{\code{expired_keys()}} and \strong{\code{unexpired_keys()}}: Retrieve the (un)expired key namespace pairs.
+\item \strong{\code{delete_expired_keys()}}: Delete all expired keys or for specific namespaces.
+\item \strong{\code{num_expired_keys()}} and \strong{\code{num_unexpired_keys()}}: Get the number of (un)expired keys or
+for specific namespaces.
+\item \strong{\code{has_expired_keys()}} and \strong{\code{has_unexpired_keys()}}: Verify the existence of (un)expired keys or
+for specific namespaces.
+}
+
+\strong{Export Utilities}
+\itemize{
+\item \strong{\code{export_tdb()}}: Export objects to another TileDB storr only.
+}
+}
+
 \section{Data Model}{
-
-
 The underlying structure is similar to \link[storr:driver_dbi]{driver_dbi()};
 a content-addressed database that consists of two (array) tables.
 

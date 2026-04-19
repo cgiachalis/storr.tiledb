@@ -11,54 +11,7 @@ An R6 class that represents a content addressed storage
 driver that complies with 'storr' interface using TileDB Embedded as a
 back-end.
 
-This class is intended for usage in \link[storr:storr]{storr::storr} or \link{TileDBStorr}. See \code{Methods}
-section for class methods definitions.
-
-Overview of core operations:
-
-\strong{Hash Management}
-\itemize{
-\item \code{get_hash} and \code{mget_hash}: Retrieve hash values for a given key and namespace.
-\item \code{set_hash} and \code{mset_hash}: Set hash values with metadata like expiry date-times and notes.
-\item \code{exists_hash}: Verify the existence of specific keys, namespaces
-\item \code{del_hash}: Remove key-namespace pairs.
-\item \code{delete_namespaces}: Clear namespaces or delete specified ones.
-\item \code{list_namespaces}, \code{list_keys}: Retrieve all namespaces or keys for a given namespace.
-}
-
-\strong{Object Management}
-\itemize{
-\item \code{get_object} and \code{mget_object}: Fetch serialized R objects using hash values.
-\item \code{set_object} and \code{mset_object}: Store serialized R objects.
-\item \code{exists_object}: Verify the existence of specific objects.
-\item \code{del_object}: Remove serialized objects.
-\item \code{delete_unused_hashes}: Remove hashes that are not in active use.
-\item \code{list_hashes}: Retrieve all hashes
-\item \code{list_unused_hashes}: Identify unused hashes.
-}
-
-\strong{Key-Namespace Metadata}
-\itemize{
-\item \code{get_keymeta}, \code{set_keymeta}, and \code{mset_keymeta}: Manage metadata such as
-expiry times and notes for key-namespace pairs.
-}
-
-\strong{Expiration Management}
-\itemize{
-\item \code{keys_with_expiration} and \code{keys_without_expiration}:  Retrieve the key namespace pairs with
-or without expiration timestamps.
-\item \code{expired_keys} and \code{unexpired_keys}: Retrieve the (un)expired key namespace pairs.
-\item \code{delete_expired_keys}: Delete all expired keys or for specific namespaces.
-\item \code{num_expired_keys} and \code{num_unexpired_keys}: Get the number of (un)expired keys or
-for specific namespaces.
-\item \code{has_expired_keys} and \code{has_unexpired_keys}: Verify the existence of (un)expired keys or
-for specific namespaces.
-}
-
-\strong{Export Utilities}
-\itemize{
-\item \code{export_tdb}: Export objects to another TileDB storr only.
-}
+This class is intended for usage in \link[storr:storr]{storr::storr} or \link{TileDBStorr}.
 }
 \keyword{internal}
 \section{Super classes}{

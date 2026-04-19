@@ -31,10 +31,12 @@ An object of class \link{TileDBStorr}, R6.
 \description{
 Create a 'storr' using TileDB driver for storage.
 }
-\details{
+\section{Details}{
 \link[storr:storr]{‘storr’} is a content addressed key-value store
-with an optional caching layer. The \code{storr_tiledb} generates a \link{TileDBStorr}
-object with identical interface as \code{storr} that additionally supports
+with an optional caching layer.
+
+The \code{storr_tiledb} generates a \link{TileDBStorr} object with identical
+interface as \code{storr} that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as asynchronous
 writes using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
 framework.
@@ -59,6 +61,108 @@ The buffer allocation size is set to 3 MB per column when fetching data. Use
 \code{\link[tiledb:save_allocation_size_preference]{tiledb::set_allocation_size_preference()}} to set a different limit.
 }
 }
+
+\section{Class Methods Summary}{
+For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
+
+\strong{Active Fields}
+\itemize{
+\item \strong{\code{async_info}} - Get mirai daemon information (read-only)
+\item \strong{\code{size}} - Get storr size (read-only)
+}
+
+\strong{Initialisation & Lifecycle}
+\itemize{
+\item \strong{\code{new()}} - Initialise a TileDBStorr object with a TileDB driver, default namespace, and optional async support
+\item \strong{\code{destroy()}} - Destroy/delete the storr and clean up the driver
+}
+
+\strong{Cache Management}
+\itemize{
+\item \strong{\code{flush_cache()}} - Remove all items from both object and metadata hash tables
+}
+
+\strong{Single Key-Value Operations}
+\itemize{
+\item \strong{\code{set()}} - Set a key-value pair with optional metadata (expires_at, notes)
+\item \strong{\code{get()}} - Retrieve an object by key-namespace pair
+\item \strong{\code{set_by_value()}} - Set a key-value pair using the object's hash as the key
+\item \strong{\code{get_value()}} - Retrieve an object given its hash
+}
+
+\strong{Multiple Key-Value Operations}
+\itemize{
+\item \strong{\code{mset()}} - Set multiple key-value pairs in batch
+\item \strong{\code{mget()}} - Get multiple objects by keys
+\item \strong{\code{mset_by_value()}} - Set multiple key-value pairs using their hashes as keys
+\item \strong{\code{mget_value()}} - Get multiple objects by their hashes
+}
+
+\strong{Asynchronous Operations}
+\itemize{
+\item \strong{\code{set_async()}} - Set a key-value pair asynchronously using mirai
+\item \strong{\code{mset_async()}} - Set multiple key-value pairs asynchronously
+\item \strong{\code{set_by_value_async()}} - Set key-value pair using hash, asynchronously
+\item \strong{\code{mset_by_value_async()}} - Set multiple key-value pairs using hashes, asynchronously
+}
+
+\strong{Metadata Operations}
+\itemize{
+\item \strong{\code{set_keymeta()}} - Set metadata (expires_at, notes) for a key
+\item \strong{\code{mset_keymeta()}} - Set metadata for multiple keys
+\item \strong{\code{get_keymeta()}} - Retrieve metadata for a key
+\item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
+\item \strong{\code{set_keymeta_async()}} - Set metadata asynchronously
+\item \strong{\code{mset_keymeta_async()}} - Set multiple metadata asynchronously
+\item \strong{\code{clr_keymeta()}} - Clear metadata (set to NA) for key(s)
+\item \strong{\code{clr_keymeta_async()}} - Clear metadata asynchronously
+}
+
+\strong{Object Hash Management}
+\itemize{
+\item \strong{\code{set_value()}} - Add an R object and return its hash (internal use)
+\item \strong{\code{mset_value()}} - Add multiple R objects and return their hashes (internal use)
+\item \strong{\code{get_hash()}} - Get hash value for a key-namespace pair
+\item \strong{\code{mget_hash()}} - Get hash values for multiple keys
+\item \strong{\code{hash_object()}} - Create a hash digest for an R object
+}
+
+\strong{Key Management}
+\itemize{
+\item \strong{\code{exists()}} - Check if key-namespace pair(s) exist
+\item \strong{\code{exists_object()}} - Check if object(s) with given hash(es) exist
+\item \strong{\code{del()}} - Delete key-namespace pair(s)
+\item \strong{\code{fill()}} - Set one or more keys to the same value
+\item \strong{\code{duplicate()}} - Duplicate/copy keys from source to destination
+}
+
+\strong{Expiration Management}
+\itemize{
+\item \strong{\code{keys_with_expiration()}} - List keys that have expiration timestamps
+\item \strong{\code{expired_keys()}} - Get keys that have already expired
+\item \strong{\code{has_expired_keys()}} - Check if any keys are expired
+\item \strong{\code{clear_expired_keys()}} - Remove expired key-namespace pairs
+}
+
+\strong{Listing}
+\itemize{
+\item \strong{\code{list()}} - List all keys in a namespace
+\item \strong{\code{list_hashes()}} - List all stored object hashes
+\item \strong{\code{list_namespaces()}} - List all namespaces
+}
+
+\strong{Storage Management}
+\itemize{
+\item \strong{\code{clear()}} - Clear a namespace or all namespaces
+\item \strong{\code{gc()}} - Garbage collect unused hashes
+\item \strong{\code{index_export()}} - Export object index as data.table
+\item \strong{\code{index_import()}} - Import objects from index
+\item \strong{\code{import()}} - Import objects from another storr/list/environment
+\item \strong{\code{export()}} - Export objects to another storr/list/environment
+\item \strong{\code{export_tdb()}} - Export objects to another TileDB storr
+}
+}
+
 \examples{
 \dontrun{
 # URI path
