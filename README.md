@@ -24,9 +24,8 @@ written by [Rich FitzJohn](https://github.com/richfitz).
 
 The `storr.tiledb` contributes a new storr compliant driver using TileDB Engine for backend.
 
-The package has its own storr R6 class that utilises the strengths of the underlying
-engine and offers some extra features, such as the option to add notes and expiration
-time-stamps along with key-namespace pairs. 
+It defines a new storr R6 class that leverages the advantages of TileDB and provides new features
+such as adding notes and expiration time-stamps along with key-namespace pairs. 
 
 > [!WARNING]  
 > The package is in experimental status. Currently, the driver is complete and
@@ -37,21 +36,18 @@ time-stamps along with key-namespace pairs.
 
 ## Key features
 
- - Key interface methods have been re-written to make the most of the underlying
- back end with respect to speed and efficiency
+ - Key-value operations use driver's methods for speed and efficiency
 
- - Set optional notes and expiration timestamps when setting keys
+ - Key-value metadata such as notes and timestamps for data expiration (time-to-live, TTL)
 
- - Set keys asynchronously and in parallel through [mirai](https://cran.rstudio.com/web/packages/mirai/) 
- framework (optional)
+ - Asynchronous key-value operations or in parallel through [mirai](https://cran.rstudio.com/web/packages/mirai/) 
+ framework 
  
- - Cache layers are using hash tables (hashtab) instead of environments
-
-Additional features that TileDB supports:
+ - Hash tables (hashtab)  for in memory caching layers instead of environments
 
  - Cloud storage (S3, Azure, GSC)
  
- - Data versioning (time-travelling) and 
+ - Data versioning (time-travelling)
  
  - Encryption
 
@@ -73,16 +69,26 @@ remotes::install_github("cgiachalis/storr.tiledb")
 
 library(storr.tiledb)
 
+# Temp URI path
 uri <- tempfile()
 
+# Set up storr
 sto <- storr_tiledb(uri, init = TRUE)
 
-sto$set("mykey", list(a = 1))
+# Set
+sto$set("mykey1", list(a = 1))
+sto$set("mykey2", "abc")
 
-sto$get("mykey")
+# Get
+sto$get("mykey2")
+ [1] "abc"
+ 
+# List all keys
+sto$list()
+[1] "mykey1" "mykey2"
 
-$a
-[1] 1
+# Del
+sto$del("mykey1")
 
 ```
 
