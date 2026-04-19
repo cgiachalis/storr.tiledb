@@ -87,7 +87,7 @@ for specific namespaces.
 
 \strong{Export Utilities}
 \itemize{
-\item \strong{\code{export_tdb()}}: Export objects to another TileDB storr only.
+\item \strong{\code{export_tdb()}}: Export objects to another TileDB storr.
 }
 }
 

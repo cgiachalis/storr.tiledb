@@ -51,7 +51,7 @@
 #'
 #' **Export Utilities**
 #'
-#' - **`export_tdb()`**: Export objects to another TileDB storr only.
+#' - **`export_tdb()`**: Export objects to another TileDB storr.
 #'
 #' # Data Model
 #'
