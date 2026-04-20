@@ -1,6 +1,6 @@
 ---
 title: FAQ
-date: "2026-04-19"
+date: "2026-04-20"
 vignette: >
   %\VignetteIndexEntry{FAQ}
   %\VignetteEngine{litedown::vignette}
@@ -44,7 +44,6 @@ dr <- driver_tiledb(uri)
 dr$hash_algorithm
 # [1] "sha256"
 
-
 # Change hash digest to 'md5'
 dr$hash_algorithm <- 'md5'
 
@@ -61,7 +60,7 @@ sto <- storr_tiledb(uri)
 
 sto$set("a", 1)
 
-# now, key 'a' hashed with 'md5'
+# key 'a' is hashed with 'md5'
 sto$get_hash("a")
 # [1] "38e42db36c4414f7bbc19d750f71a721"
 ```

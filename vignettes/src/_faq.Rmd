@@ -46,7 +46,6 @@ dr <- driver_tiledb(uri)
 # Check its hash algo
 dr$hash_algorithm
 
-
 # Change hash digest to 'md5'
 dr$hash_algorithm <- 'md5'
 
@@ -61,7 +60,7 @@ sto <- storr_tiledb(uri)
 
 sto$set("a", 1)
 
-# now, key 'a' hashed with 'md5'
+# key 'a' is hashed with 'md5'
 sto$get_hash("a")
 
 ```

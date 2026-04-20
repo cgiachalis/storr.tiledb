@@ -66,7 +66,6 @@ remotes::install_github("cgiachalis/storr.tiledb")
 ## Quick start
 
 ```r
-
 library(storr.tiledb)
 
 # Temp URI path
