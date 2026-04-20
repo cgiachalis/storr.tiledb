@@ -44,50 +44,72 @@ you want to pass the driver onto  \link[storr:storr]{storr}.
 }
 
 \section{Class Methods Summary}{
-For complete definitions, see \strong{Methods} section in \link{TileDBDriver}.
+For complete definitions, see \strong{Methods} section in \link{TileDBDriver} and its
+parent class \link{CAS}.
+
+\strong{Active Fields}
+\itemize{
+\item \strong{\code{hash_algorithm}} - Property for managing the hash algorithm (read/write)
+\item \strong{\code{members_instantiated}} - Property indicating instantiation status (read-only)
+\item \strong{\code{size}} - Get storr size (read-only)
+}
+
+\strong{Lifecycle}
+\itemize{
+\item \strong{\code{open()}} - Opens the driver for read/write operations
+\item \strong{\code{create()}} - Create a new driver object
+\item \strong{\code{close()}} - Closes the driver
+\item \strong{\code{destroy()}} - Destroy/delete the driver
+}
 
 \strong{Hash Management}
 \itemize{
-\item \strong{\code{get_hash()}} and \strong{\code{mget_hash()}}: Retrieve hash values for a given key and namespace.
-\item \strong{\code{set_hash()}} and \strong{\code{mset_hash()}}: Set hash values with metadata like expiry date-times and notes.
-\item \strong{\code{exists_hash()}}: Verify the existence of specific keys, namespaces
-\item \strong{\code{del_hash()}}: Remove key-namespace pairs.
-\item \strong{\code{delete_namespaces()}}: Clear namespaces or delete specified ones.
-\item \strong{\code{list_namespaces()}}, \strong{\code{list_keys()}}: Retrieve all namespaces or keys for a given namespace.
+\item \strong{\code{get_hash()}} and \strong{\code{mget_hash()}} - Retrieve hash values for a given key and namespace
+\item \strong{\code{set_hash()}} and \strong{\code{mset_hash()}} - Set hash values with metadata like expiry date-times and notes
+\item \strong{\code{exists_hash()}} - Verify the existence of specific keys, namespaces
+\item \strong{\code{del_hash()}} - Remove key-namespace pairs
+\item \strong{\code{delete_namespaces()}} - Clear namespaces or delete specified ones
+\item \strong{\code{list_namespaces()}}, \strong{\code{list_keys()}} - Retrieve all namespaces or keys for a given namespace
 }
 
 \strong{Object Management}
 \itemize{
-\item \strong{\code{get_object()}} and \strong{\code{mget_object()}}: Fetch serialized R objects using hash values.
-\item \strong{\code{set_object()}} and \strong{\code{mset_object()}}: Store serialized R objects.
-\item \strong{\code{exists_object()}}: Verify the existence of specific objects.
-\item \strong{\code{del_object()}}: Remove serialized objects.
-\item \strong{\code{delete_unused_hashes()}}: Remove hashes that are not in active use.
-\item \strong{\code{list_hashes()}}: Retrieve all hashes
-\item \strong{\code{list_unused_hashes()}}: Identify unused hashes.
+\item \strong{\code{get_object()}} and \strong{\code{mget_object()}} - Fetch serialized R objects using hash values
+\item \strong{\code{set_object()}} and \strong{\code{mset_object()}} - Store serialized R objects
+\item \strong{\code{exists_object()}} - Verify the existence of specific objects
+\item \strong{\code{del_object()}} - Remove serialized objects.
+\item \strong{\code{delete_unused_hashes()}} - Remove hashes that are not in active use
+\item \strong{\code{list_hashes()}} - Retrieve all hashes
+\item \strong{\code{list_unused_hashes()}} - Identify unused hashes
 }
 
 \strong{Key-Namespace Metadata}
 \itemize{
-\item \strong{\code{get_keymeta()}}, \strong{\code{set_keymeta()}}, and \strong{\code{mset_keymeta()}}: Manage metadata such as
-expiry times and notes for key-namespace pairs.
+\item \strong{\code{get_keymeta()}}, \strong{\code{set_keymeta()}}, and \strong{\code{mset_keymeta()}} - Manage metadata such as
+expiry times and notes for key-namespace pairs
 }
 
 \strong{Expiration Management}
 \itemize{
-\item \strong{\code{keys_with_expiration}} and \strong{\code{keys_without_expiration}}:  Retrieve the key namespace pairs with
-or without expiration timestamps.
-\item \strong{\code{expired_keys()}} and \strong{\code{unexpired_keys()}}: Retrieve the (un)expired key namespace pairs.
-\item \strong{\code{delete_expired_keys()}}: Delete all expired keys or for specific namespaces.
-\item \strong{\code{num_expired_keys()}} and \strong{\code{num_unexpired_keys()}}: Get the number of (un)expired keys or
-for specific namespaces.
-\item \strong{\code{has_expired_keys()}} and \strong{\code{has_unexpired_keys()}}: Verify the existence of (un)expired keys or
-for specific namespaces.
+\item \strong{\code{keys_with_expiration}} and \strong{\code{keys_without_expiration}} - Retrieve the key namespace pairs with
+or without expiration timestamps
+\item \strong{\code{expired_keys()}} and \strong{\code{unexpired_keys()}} - Retrieve the (un)expired key namespace pairs
+\item \strong{\code{delete_expired_keys()}} - Delete all expired keys or for specific namespaces
+\item \strong{\code{num_expired_keys()}} and \strong{\code{num_unexpired_keys()}} - Get the number of (un)expired keys or
+for specific namespaces
+\item \strong{\code{has_expired_keys()}} and \strong{\code{has_unexpired_keys()}} - Verify the existence of (un)expired keys or
+for specific namespaces
 }
 
 \strong{Export Utilities}
 \itemize{
-\item \strong{\code{export_tdb()}}: Export objects to another TileDB storr.
+\item \strong{\code{export_tdb()}} - Export objects to another TileDB storr
+}
+
+\strong{Directory Methods}
+\itemize{
+\item \strong{\code{dir_tree()}} - Displays directory structure
+\item \strong{\code{dump()}} - Outputs a string representation of storr structure
 }
 }
 
