@@ -12,46 +12,65 @@
 #'
 #' # Class Methods Summary
 #'
-#' For complete definitions, see **Methods** section in [TileDBDriver].
+#' For complete definitions, see **Methods** section in [TileDBDriver] and its
+#' parent class [CAS].
+#'
+#' **Active Fields**
+#'
+#' - **`hash_algorithm`** - Property for managing the hash algorithm (read/write)
+#' - **`members_instantiated`** - Property indicating instantiation status (read-only)
+#' - **`size`** - Get storr size (read-only)
+#'
+#' **Lifecycle**
+#'
+#' - **`open()`** - Opens the driver for read/write operations
+#' - **`create()`** - Create a new driver object
+#' - **`close()`** - Closes the driver
+#' - **`destroy()`** - Destroy/delete the driver
 #'
 #' **Hash Management**
 #'
-#' - **`get_hash()`** and **`mget_hash()`**: Retrieve hash values for a given key and namespace.
-#' - **`set_hash()`** and **`mset_hash()`**: Set hash values with metadata like expiry date-times and notes.
-#' - **`exists_hash()`**: Verify the existence of specific keys, namespaces
-#' - **`del_hash()`**: Remove key-namespace pairs.
-#' - **`delete_namespaces()`**: Clear namespaces or delete specified ones.
-#' - **`list_namespaces()`**, **`list_keys()`**: Retrieve all namespaces or keys for a given namespace.
+#' - **`get_hash()`** and **`mget_hash()`** - Retrieve hash values for a given key and namespace
+#' - **`set_hash()`** and **`mset_hash()`** - Set hash values with metadata like expiry date-times and notes
+#' - **`exists_hash()`** - Verify the existence of specific keys, namespaces
+#' - **`del_hash()`** - Remove key-namespace pairs
+#' - **`delete_namespaces()`** - Clear namespaces or delete specified ones
+#' - **`list_namespaces()`**, **`list_keys()`** - Retrieve all namespaces or keys for a given namespace
 #'
 #' **Object Management**
 #'
-#' - **`get_object()`** and **`mget_object()`**: Fetch serialized R objects using hash values.
-#' - **`set_object()`** and **`mset_object()`**: Store serialized R objects.
-#' - **`exists_object()`**: Verify the existence of specific objects.
-#' - **`del_object()`**: Remove serialized objects.
-#' - **`delete_unused_hashes()`**: Remove hashes that are not in active use.
-#' - **`list_hashes()`**: Retrieve all hashes
-#' - **`list_unused_hashes()`**: Identify unused hashes.
+#' - **`get_object()`** and **`mget_object()`** - Fetch serialized R objects using hash values
+#' - **`set_object()`** and **`mset_object()`** - Store serialized R objects
+#' - **`exists_object()`** - Verify the existence of specific objects
+#' - **`del_object()`** - Remove serialized objects.
+#' - **`delete_unused_hashes()`** - Remove hashes that are not in active use
+#' - **`list_hashes()`** - Retrieve all hashes
+#' - **`list_unused_hashes()`** - Identify unused hashes
 #'
 #' **Key-Namespace Metadata**
 #'
-#'  - **`get_keymeta()`**, **`set_keymeta()`**, and **`mset_keymeta()`**: Manage metadata such as
-#'   expiry times and notes for key-namespace pairs.
+#'  - **`get_keymeta()`**, **`set_keymeta()`**, and **`mset_keymeta()`** - Manage metadata such as
+#'   expiry times and notes for key-namespace pairs
 #'
 #' **Expiration Management**
 #'
-#' - **`keys_with_expiration`** and **`keys_without_expiration`**:  Retrieve the key namespace pairs with
-#' or without expiration timestamps.
-#' - **`expired_keys()`** and **`unexpired_keys()`**: Retrieve the (un)expired key namespace pairs.
-#' - **`delete_expired_keys()`**: Delete all expired keys or for specific namespaces.
-#' - **`num_expired_keys()`** and **`num_unexpired_keys()`**: Get the number of (un)expired keys or
-#' for specific namespaces.
-#' - **`has_expired_keys()`** and **`has_unexpired_keys()`**: Verify the existence of (un)expired keys or
-#'  for specific namespaces.
+#' - **`keys_with_expiration`** and **`keys_without_expiration`** - Retrieve the key namespace pairs with
+#' or without expiration timestamps
+#' - **`expired_keys()`** and **`unexpired_keys()`** - Retrieve the (un)expired key namespace pairs
+#' - **`delete_expired_keys()`** - Delete all expired keys or for specific namespaces
+#' - **`num_expired_keys()`** and **`num_unexpired_keys()`** - Get the number of (un)expired keys or
+#' for specific namespaces
+#' - **`has_expired_keys()`** and **`has_unexpired_keys()`** - Verify the existence of (un)expired keys or
+#'  for specific namespaces
 #'
 #' **Export Utilities**
 #'
-#' - **`export_tdb()`**: Export objects to another TileDB storr.
+#' - **`export_tdb()`** - Export objects to another TileDB storr
+#'
+#' **Directory Methods**
+#'
+#' - **`dir_tree()`** - Displays directory structure
+#' - **`dump()`** - Outputs a string representation of storr structure
 #'
 #' # Data Model
 #'
