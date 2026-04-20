@@ -377,7 +377,7 @@ TileDBDriver <- R6::R6Class(
 
       # TODO: Remove when TileDB fixes it
       expires_at <- NULL
-      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+      DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
 
 
       if (nrow(DT) == 0) {
@@ -409,7 +409,7 @@ TileDBDriver <- R6::R6Class(
       # TODO: Remove when TileDB fixes it
       # Sanitise datetime columns
       expires_at <- NULL
-      DT[expires_at < 0 , expires_at := as.POSIXct(NA)]
+      DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
 
       DT <- DT[.(namespace, key), env = list(namespace = I(namespace), key = I(key))]
       hash_isna <- is.na(DT[["hash"]])
