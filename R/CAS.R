@@ -178,7 +178,7 @@ CAS <- R6::R6Class(
      # TODO: Remove when TileDB fixes it
      if (attrnames == "expires_at" || length(attrnames) == 0) {
        expires_at <- NULL
-       dt[expires_at < 0 , expires_at := as.POSIXct(NA)]
+       dt[expires_at <= 0 , expires_at := as.POSIXct(NA)]
      }
 
      dt
