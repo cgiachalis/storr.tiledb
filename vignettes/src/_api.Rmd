@@ -129,7 +129,7 @@ sto$gc(clear_expired = TRUE)
 
 **Clear metadata**
 ```{r}
-sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$clr_keymeta("aa")
 sto$get_keymeta("aa")
 ```
 

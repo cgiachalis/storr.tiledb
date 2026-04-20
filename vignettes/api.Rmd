@@ -1,6 +1,6 @@
 ---
 title: API Usage
-date: "2026-04-19"
+date: "2026-04-20"
 vignette: >
   %\VignetteIndexEntry{API Usage}
   %\VignetteEngine{litedown::vignette}
@@ -132,8 +132,8 @@ sto$get_keymeta("bb")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     aa 2026-04-19 17:09:25
-# 2:   objects     bb 2026-04-19 17:04:26
+# 1:   objects     aa 2026-04-20 10:55:26
+# 2:   objects     bb 2026-04-20 10:50:27
 
 Sys.sleep(1)
 
@@ -141,7 +141,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-04-19 17:04:26
+# 1:   objects     bb 2026-04-20 10:50:27
 
 # Remove expired keys
 sto$clear_expired_keys()
@@ -157,7 +157,7 @@ sto$gc(clear_expired = TRUE)
 **Clear metadata**
 
 ``` r
-sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$clr_keymeta("aa")
 sto$get_keymeta("aa")
 # $expires_at
 # [1] NA
