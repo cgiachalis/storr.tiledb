@@ -129,18 +129,83 @@ sto$gc(clear_expired = TRUE)
 
 **Clear metadata**
 ```{r}
-sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$clr_keymeta("aa")
 sto$get_keymeta("aa")
 ```
 
 
 ### 3. Async methods
-```{r}
-# TODO
+
+Set keys without blocking R session:
+
+```{r, eval=FALSE}
+Sys.sleep(1)
+sto$set_async("abc", 1)
+sto$set_async("abc2", 2)
+```
+
+
+
+### 4. Fragments Management
+
+When writing data to TileDB, it generates multiple array fragments on disk.
+Over time, these files need to be consolidated in order to improve query
+performance by reducing I/O overhead.
+
+Note that the consolidation operation does **not** delete the old fragments;
+it only creates new consolidated fragments. The actual cleanup of old fragments
+is performed by the separate **vacuum** operation.
+
+To manage storr TileDB fragments use `storr_fragments()` which encapsulates the 
+consolidation and vacuum operations.
+
+```{r }
+# Set up a new storr
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# Set 3 keys and 2 objects
+sto$set("a", 1)
+sto$set("b", 2)
+sto$set("c", 1)
+```
+
+```{r }
+# Initialise StorrFragments class
+fosto <- storr_fragments(uri)
+
+# Total fragments (5, 3 for keys, 2 for hashes)
+fosto$frag_num()
+
+# Total fragments to vacuum
+fosto$to_vacuum_num()
+```
+
+Consolidate everything (both arrays)
+
+```{r }
+# Consolidate all
+fosto$consolidate()
+```
+
+```{r }
+# Total fragments (2, 1 for keys, 1 for hashes)
+fosto$frag_num()
+
+# Total fragments to vacuum (5)
+fosto$to_vacuum_num()
+```
+Now, let's clean up the old fragments.
+
+```{r }
+# Cleaup old fragments
+fosto$vacuum()
+
+# Total fragments to vacuum (0)
+fosto$to_vacuum_num()
 ```
 
 ```{r, echo=FALSE}
 unlink(uri, recursive = TRUE)
 unlink(uri2, recursive = TRUE)
 ```
-

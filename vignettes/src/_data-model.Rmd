@@ -7,6 +7,66 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r knitr-setup, include = FALSE}
 
-Examples with public API - usage
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#"
+)
+```
+
+## Overview
+
+The **Content Addressable Storage (CAS)** system using TileDB as the underlying 
+storage consists of collection two Sparse Arrays: one that maps keys to hashes
+and another that maps hashes to objects.
+
+Specifically, the driver storage is a TileDB Group with two member TileDB Arrays
+which are stored relative to Group's URI path.
+
+## CAS 
+
+### Group Structure
+
+**`Members`**
+
+1. `tbl_keys` (array): maps key-namespace pairs to hashes (and to expiry and/or
+notes, optional)
+2. `tbl_data` (array): maps hashes to values (serialised R objects)
+
+**`Metadata`**
+
+ - `hash_algo`: The name of hash algorithm.
+ - `type`: Group identifier, `"storr"`
+
+### Array Data Models
+
+**`tbl_keys`** - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+
+ - **Dimensions**: `namespace` (*ASCII*) and `key` (*ASCII*)
+ - **Attributes**: `hash` (*ASCII*), `expires_at` (*DATETIME_MS*) and `notes` (*UTF8*)
+
+
+**`tbl_data`** - A 1D sparse array that maps hashes to object values.
+
+ - **Dimensions**: `hash` (*ASCII*)
+ - **Attributes**: `value` (*ASCII*)
+
+ TileDB datatypes in parentheses.
+
+### Example
+
+```{r}
+# URI path
+uri <- tempfile()
+
+# Create a driver
+dr <- driver_tiledb(uri, init = TRUE)
+```
+
+CAS Structure:
+```{r, collapse=FALSE}
+
+dr$dir_tree()
+```
 

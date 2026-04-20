@@ -147,7 +147,7 @@ sto$set_async("key3", 2, namespace = "_session")
 sto$set_async("key1", 1, namespace = "ns1")
 sto$set_keymeta_async("key2", notes = "key1-note")
 
-Sys.sleep(0.5)
+Sys.sleep(2)
 
 # Retrieve key, keymeta
 sto$get("key3", "_session")

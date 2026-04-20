@@ -1,6 +1,6 @@
 ---
 title: API Usage
-date: "2026-04-09"
+date: "2026-04-20"
 vignette: >
   %\VignetteIndexEntry{API Usage}
   %\VignetteEngine{litedown::vignette}
@@ -70,7 +70,7 @@ sto$list_namespaces()
 
 # list hashes
 sto$list_hashes()
-# [1] "20bce84369c17ac389b9b60fe0add435" "7bf9fc55c201456723db2c7ed050af32"
+# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
 
 # del
 sto$del("a")
@@ -82,12 +82,12 @@ sto$exists("a")
 sto$list_namespaces()
 # [1] "ns1"
 sto$list_hashes()
-# [1] "20bce84369c17ac389b9b60fe0add435" "7bf9fc55c201456723db2c7ed050af32"
+# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
 
 # Delete unused hash
 sto$gc()
 sto$list_hashes()
-# [1] "20bce84369c17ac389b9b60fe0add435"
+# [1] "c184c6034d956360b5bb682fcd4b6cb8"
 
 # Delete by namespace
 sto$clear("ns1")
@@ -132,8 +132,8 @@ sto$get_keymeta("bb")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     aa 2026-04-09 09:43:07
-# 2:   objects     bb 2026-04-09 09:38:08
+# 1:   objects     aa 2026-04-20 10:55:26
+# 2:   objects     bb 2026-04-20 10:50:27
 
 Sys.sleep(1)
 
@@ -141,7 +141,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-04-09 09:38:08
+# 1:   objects     bb 2026-04-20 10:50:27
 
 # Remove expired keys
 sto$clear_expired_keys()
@@ -157,7 +157,7 @@ sto$gc(clear_expired = TRUE)
 **Clear metadata**
 
 ``` r
-sto$set_keymeta("aa", expires_at = as.POSIXct(NA), notes = NA_character_)
+sto$clr_keymeta("aa")
 sto$get_keymeta("aa")
 # $expires_at
 # [1] NA
@@ -169,9 +169,86 @@ sto$get_keymeta("aa")
 
 ### 3. Async methods
 
+Set keys without blocking R session:
+
+
 ``` r
-# TODO
+Sys.sleep(1)
+sto$set_async("abc", 1)
+sto$set_async("abc2", 2)
 ```
 
+
+
+### 4. Fragments Management
+
+When writing data to TileDB, it generates multiple array fragments on disk.
+Over time, these files need to be consolidated in order to improve query
+performance by reducing I/O overhead.
+
+Note that the consolidation operation does **not** delete the old fragments;
+it only creates new consolidated fragments. The actual cleanup of old fragments
+is performed by the separate **vacuum** operation.
+
+To manage storr TileDB fragments use `storr_fragments()` which encapsulates the 
+consolidation and vacuum operations.
+
+
+``` r
+# Set up a new storr
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# Set 3 keys and 2 objects
+sto$set("a", 1)
+sto$set("b", 2)
+sto$set("c", 1)
+```
+
+
+``` r
+# Initialise StorrFragments class
+fosto <- storr_fragments(uri)
+
+# Total fragments (5, 3 for keys, 2 for hashes)
+fosto$frag_num()
+# [1] 5
+
+# Total fragments to vacuum
+fosto$to_vacuum_num()
+# [1] 0
+```
+
+Consolidate everything (both arrays)
+
+
+``` r
+# Consolidate all
+fosto$consolidate()
+# [1] TRUE
+```
+
+
+``` r
+# Total fragments (2, 1 for keys, 1 for hashes)
+fosto$frag_num()
+# [1] 2
+
+# Total fragments to vacuum (5)
+fosto$to_vacuum_num()
+# [1] 5
+```
+Now, let's clean up the old fragments.
+
+
+``` r
+# Cleaup old fragments
+fosto$vacuum()
+# [1] TRUE
+
+# Total fragments to vacuum (0)
+fosto$to_vacuum_num()
+# [1] 0
+```
 
 
