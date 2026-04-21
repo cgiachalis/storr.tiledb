@@ -14,7 +14,7 @@ Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
     expiration timestamps as well as support for asynchronous and in
     parallel writes.
 License: MIT + file LICENSE
-URL: https://github.com/cgiachalis/storr.tiledb
+URL: https://github.com/cgiachalis/storr.tiledb, https://cgiachalis.github.io/storr.tiledb/
 BugReports: https://github.com/cgiachalis/storr.tiledb/issues
 Depends:
     R (>= 4.4.0)
