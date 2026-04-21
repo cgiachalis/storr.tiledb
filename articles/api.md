@@ -1,0 +1,236 @@
+# API Usage
+
+## Storr setup
+
+Create a `storr` either via
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md):
+
+``` r
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+```
+
+Or more explicitly:
+
+``` r
+uri2 <- tempfile()
+dr <- driver_tiledb(uri2, init = TRUE)
+sto2 <- storr::storr(dr)
+```
+
+The first approach generates a `TileDBStorr` object that represents the
+storr interface optimised for TileDB storage and provides additional
+functionality. The latter is the standard `storr` object.
+
+## API Usage
+
+### 1. get, set, del
+
+``` r
+dat <- head(mtcars, 2)
+
+# set
+sto$set("a", dat)
+sto$set("b", list(name = "John"))
+sto$mset(c("a", "b", "c"), value = list(dat, dat, dat), namespace = "ns1")
+
+# get
+sto$get("b")
+# $name
+# [1] "John"
+sto$mget(c("b", "b"), namespace = c("objects", "ns1"))
+# [[1]]
+# [[1]]$name
+# [1] "John"
+# 
+# 
+# [[2]]
+#               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+# Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
+# Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4
+
+# list keys
+sto$list("objects")
+# [1] "a" "b"
+sto$list("ns1")
+# [1] "a" "b" "c"
+
+# list namespaces
+sto$list_namespaces()
+# [1] "ns1"     "objects"
+
+# list hashes
+sto$list_hashes()
+# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
+
+# del
+sto$del("a")
+sto$del("b")
+sto$exists("a")
+# [1] FALSE
+
+# Retrieve hashes and namespaces
+sto$list_namespaces()
+# [1] "ns1"
+sto$list_hashes()
+# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
+
+# Delete unused hash
+sto$gc()
+sto$list_hashes()
+# [1] "c184c6034d956360b5bb682fcd4b6cb8"
+
+# Delete by namespace
+sto$clear("ns1")
+# [1] TRUE
+sto$list("ns1")
+# character(0)
+```
+
+### 2. get_keymeta, set_keymeta
+
+With a key-namespace pair, you can attached notes and expiration
+metadata.
+
+Set key metadata when creating a key:
+
+``` r
+# Expires in 5 minutes
+sto$set("aa", 1, expires_at = Sys.time() + 60 * 5, 
+        notes = "{\"name\":\"John\",\"id\":12345}")
+
+# Expires in 1 second
+sto$set("bb", 1, expires_at = Sys.time() + 1)
+```
+
+Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
+
+``` r
+# Retrieve key metadata
+sto$get_keymeta("aa", use_cache = FALSE)
+sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
+
+# Update key metadata
+sto$set_keymeta("bb", notes = "Updated Note")
+sto$get_keymeta("bb")
+```
+
+**Expiration management**
+
+``` r
+# Retrieve keys with expiration
+sto$keys_with_expiration()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects     aa 2026-04-20 10:55:26
+# 2:   objects     bb 2026-04-20 10:50:27
+
+Sys.sleep(1)
+
+# Retrieve expired keys
+sto$expired_keys()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects     bb 2026-04-20 10:50:27
+
+# Remove expired keys
+sto$clear_expired_keys()
+
+# Check for expired keys
+sto$has_expired_keys()
+# [1] FALSE
+
+# Or via gc()
+sto$gc(clear_expired = TRUE)
+```
+
+**Clear metadata**
+
+``` r
+sto$clr_keymeta("aa")
+sto$get_keymeta("aa")
+# $expires_at
+# [1] NA
+# 
+# $notes
+# [1] NA
+```
+
+### 3. Async methods
+
+Set keys without blocking R session:
+
+``` r
+Sys.sleep(1)
+sto$set_async("abc", 1)
+sto$set_async("abc2", 2)
+```
+
+### 4. Fragments Management
+
+When writing data to TileDB, it generates multiple array fragments on
+disk. Over time, these files need to be consolidated in order to improve
+query performance by reducing I/O overhead.
+
+Note that the consolidation operation does **not** delete the old
+fragments; it only creates new consolidated fragments. The actual
+cleanup of old fragments is performed by the separate **vacuum**
+operation.
+
+To manage storr TileDB fragments use
+[`storr_fragments()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_fragments.md)
+which encapsulates the consolidation and vacuum operations.
+
+``` r
+# Set up a new storr
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# Set 3 keys and 2 objects
+sto$set("a", 1)
+sto$set("b", 2)
+sto$set("c", 1)
+```
+
+``` r
+# Initialise StorrFragments class
+fosto <- storr_fragments(uri)
+
+# Total fragments (5, 3 for keys, 2 for hashes)
+fosto$frag_num()
+# [1] 5
+
+# Total fragments to vacuum
+fosto$to_vacuum_num()
+# [1] 0
+```
+
+Consolidate everything (both arrays)
+
+``` r
+# Consolidate all
+fosto$consolidate()
+# [1] TRUE
+```
+
+``` r
+# Total fragments (2, 1 for keys, 1 for hashes)
+fosto$frag_num()
+# [1] 2
+
+# Total fragments to vacuum (5)
+fosto$to_vacuum_num()
+# [1] 5
+```
+
+Now, let’s clean up the old fragments.
+
+``` r
+# Cleaup old fragments
+fosto$vacuum()
+# [1] TRUE
+
+# Total fragments to vacuum (0)
+fosto$to_vacuum_num()
+# [1] 0
+```

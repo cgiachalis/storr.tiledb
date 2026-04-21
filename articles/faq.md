@@ -1,0 +1,84 @@
+# FAQ
+
+**storr.tiledb FAQ**
+
+------------------------------------------------------------------------
+
+#### Can I change the storr’s hash algorithm?
+
+Yes, by using driver’s active field `$hash_algorithm`:
+
+``` r
+# URI path
+uri <- tempfile()
+
+# Create a storr with "sha256" digest
+sto <- storr_tiledb(uri, init = TRUE, hash_algorithm = "sha256")
+
+sto$set("a", 1)
+
+sto$get_hash("a")
+# [1] "55d98602c58516fba3b169ccfebb0edc98fe5af34f86f82822125c4521273da3"
+```
+
+Change the hash algorithm as follows:
+
+``` r
+# Initialise the driver
+dr <- driver_tiledb(uri)
+
+# Check its hash algo
+dr$hash_algorithm
+# [1] "sha256"
+
+# Change hash digest to 'md5'
+dr$hash_algorithm <- 'md5'
+
+dr$hash_algorithm
+# [1] "md5"
+```
+
+Reopen storr to pick up the new hash algorithm:
+
+``` r
+# Open new storr instance
+sto <- storr_tiledb(uri)
+
+sto$set("a", 1)
+
+# key 'a' is hashed with 'md5'
+sto$get_hash("a")
+# [1] "38e42db36c4414f7bbc19d750f71a721"
+```
+
+#### How can I rehash the entire key-value storr?
+
+You need to create a new storr with the desired hash algorithm, and then
+export from source storr to the new one.
+
+``` r
+# source storr
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+sto$set("a", 1)
+sto$get_hash("a")
+# [1] "38e42db36c4414f7bbc19d750f71a721"
+```
+
+``` r
+# create a storr with new hash algorithm
+uri_dest <- tempfile()
+sto_dest <- storr_tiledb(uri_dest, init = TRUE, hash_algorithm = "blake3")
+```
+
+Now, export from source to destination storr using the class method
+`$export_tdb()`:
+
+``` r
+sto$export_tdb(uri_dest = uri_dest)
+
+# check
+sto_dest$set("a", 1)
+sto_dest$get_hash("a")
+# [1] "235cda51f465ddead90eb33b8aa23d485dfa7bc6b7cbd642ef3f06ecc8197569"
+```

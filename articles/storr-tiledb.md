@@ -1,0 +1,271 @@
+# Quick Reference
+
+## Overview
+
+**storr**: a key value store interface provided by homonymous R package.
+For its implementation details, please refer to
+[storr](https://richfitz.github.io/storr/articles/storr.html) vignette.
+
+**storr_tiledb**: a function that implements the storr interface with
+TileDB backend.
+
+## 1. Basic Usage
+
+### Create a TileDB Storr
+
+``` r
+# URI path
+uri <- tempfile()
+# Create a new storr with TileDB driver
+sto <- storr_tiledb(uri, init = TRUE)
+```
+
+Alternatively, you can use
+[`driver_tiledb_create()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
+for the side-effects and then instantiate a TileDB Storr for the given
+URI path as follows:
+
+``` r
+# Clean up previous path
+unlink(uri, recursive = TRUE)
+
+# URI path
+uri <- tempfile()
+
+# Create driver
+driver_tiledb_create(uri)
+
+# Open storr
+sto <- storr_tiledb(uri)
+```
+
+### set(), get()
+
+``` r
+sto$set("a", head(mtcars, 2))
+sto$mset(c("b", "c"), list(head(mtcars, 2), 1))
+
+# list keys for the default namespace
+sto$list()
+# [1] "a" "b" "c"
+
+sto$get("a")
+#               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+# Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
+# Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4
+```
+
+### Deduplication
+
+We saved three keys, but only two `R` objects. Check for deduplication:
+
+``` r
+# 2 hashes for 3 keys
+hashes <- sto$list_hashes()
+hashes
+# [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"
+
+# get R object for this hash
+sto$get_value(hashes[1])
+# [1] 1
+```
+
+### del(), gc() and listing methods
+
+``` r
+sto$del(c("b", "c"))
+
+# Not found
+sto$get("b")
+# Error:
+# ! key 'b' ('objects') not found
+
+# NB: none object has been deleted, only the index
+sto$list_hashes()
+# [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"
+
+# Now, delete the unused hashes
+sto$gc()
+
+# Only one hash is left
+sto$list_hashes()
+# [1] "c184c6034d956360b5bb682fcd4b6cb8"
+```
+
+## 2. Key Metadata
+
+With
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md),
+we can add notes and/or expiration timestamps to key-namespace pairs.
+
+``` r
+# This key will expire momentarily!
+sto$set("key1", 10, notes = "my notes", expires_at = Sys.time() + 1)
+sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
+
+# Retrieve 'notes' and 'expiration'
+sto$get_keymeta("key1")
+# $expires_at
+# [1] "2026-04-19 17:14:51 EEST"
+# 
+# $notes
+# [1] "my notes"
+```
+
+### Expiration Management
+
+``` r
+# Get keys with expiration time-stamp
+sto$keys_with_expiration()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects   key1 2026-04-19 17:14:51
+# 2:   objects   key2 2026-04-19 17:16:30
+
+Sys.sleep(2)
+
+sto$has_expired_keys()
+# [1] TRUE
+
+sto$expired_keys()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects   key1 2026-04-19 17:14:51
+
+sto$clear_expired_keys()
+
+# Also, you can clear expired keys with gc()
+sto$gc(clear_expired = TRUE)
+
+sto$has_expired_keys()
+# [1] FALSE
+sto$expired_keys()
+# Empty data.table (0 rows and 3 cols): namespace,key,expires_at
+
+# Get keys with expiration time-stamp
+sto$keys_with_expiration()
+#    namespace    key          expires_at
+#       <char> <char>              <POSc>
+# 1:   objects   key2 2026-04-19 17:16:30
+
+# Reset expiration timestamp
+sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
+
+# No key with expiration time-stamp
+sto$keys_with_expiration()
+# Empty data.table (0 rows and 3 cols): namespace,key,expires_at
+```
+
+## 3. Async methods
+
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md)
+supports storing keys in asynchronous or in parallel via `mirai`
+framework.
+
+``` r
+# Set asynchronously (non-blocking)
+sto$set_async("key3", 2, namespace = "_session")
+sto$set_async("key1", 1, namespace = "ns1")
+sto$set_keymeta_async("key2", notes = "key1-note")
+
+Sys.sleep(2)
+
+# Retrieve key, keymeta
+sto$get("key3", "_session")
+# [1] 2
+sto$get_keymeta("key2", "objects")
+# $expires_at
+# [1] NA
+# 
+# $notes
+# [1] "key1-note"
+```
+
+``` r
+# clear default namespace
+sto$clear()
+# [1] TRUE
+
+# set keys in parallel
+vals <- 1:3
+keys <- paste0("aa", vals)
+
+ma <- mapply(function(k, v) {
+
+  sto$set_async(k,
+                value = v,
+                use_cache = FALSE)
+  },
+  k = keys, v = vals, SIMPLIFY = FALSE)
+
+
+Sys.sleep(2)
+
+sto$index_export(namespace = "objects")[, 1:3]
+#    namespace    key                             hash
+#       <char> <char>                           <char>
+# 1:   objects    aa1 9dc695ac953ca975b83c673f7144cffb
+# 2:   objects    aa2 574f34320260479985d0afc302223d8d
+# 3:   objects    aa3 54227b57594b584567dfb54b10047d9b
+```
+
+## 4. Encrypted Storr
+
+TileDB backend supports encryption:
+
+``` r
+# Requires a TileDB Context with encryption configuration parameters
+key <- "5b643a5e173c27d76b3f2af01fcb327b"
+config <- tiledb::tiledb_config()
+config["sm.encryption_type"] <- "AES_256_GCM";
+config["sm.encryption_key"] <- key
+ctx <- R6.tiledb::new_context(config) # tiledb::tiledb_ctx(config)
+```
+
+Note that we’ve created a context using
+[`R6.tiledb::new_context()`](https://cgiachalis.github.io/R6.tiledb/reference/new_context.html)
+instead of `tiledb_tiledb_ctx()`, because the latter stores the context
+to package cache.
+
+Now, create a storr with encryption:
+
+``` r
+# Create a storr with context that encapsulates encryption configuration
+uri_enc <- tempfile()
+stoe <- storr_tiledb(uri_enc, init = TRUE, context = ctx)
+
+stoe$set("a", 1)
+stoe$get("a") 
+# [1] 1
+
+# No access without the key
+stoe_new <- storr_tiledb(uri_enc)
+# Error:
+# ! GenericTileIO: Error reading generic tile; tile is encrypted with AES_256_GCM but given key is for NO_ENCRYPTION
+
+# Pass the context with encryption parameters
+stoe_new <- storr_tiledb(uri_enc, context = ctx)
+stoe_new$get("a")
+# [1] 1
+```
+
+## 5. Remote Storr
+
+Create a storr in cloud storage:
+
+``` r
+# Set context with AWS S3 config parameters
+# NB: store values in ENV or in credential store, i.e., via keyring package
+config <- tiledb::tiledb_config()
+
+config["vfs.s3.region"] <- Sys.getenv("AWS_DEFAULT_REGION")
+config["vfs.s3.aws_access_key_id"] <- Sys.getenv("AWS_ACCESS_KEY_ID")
+config["vfs.s3.aws_secret_access_key"] <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
+ctx <- R6.tiledb::new_context(config)
+```
+
+``` r
+# Create a remote storr
+uri <- 's3//bucket/my-storr'
+sto <- storr_tiledb(uri, init = TRUE, context = ctx)
+```
