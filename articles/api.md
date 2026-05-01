@@ -6,6 +6,7 @@ Create a `storr` either via
 [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md):
 
 ``` r
+
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 ```
@@ -13,6 +14,7 @@ sto <- storr_tiledb(uri, init = TRUE)
 Or more explicitly:
 
 ``` r
+
 uri2 <- tempfile()
 dr <- driver_tiledb(uri2, init = TRUE)
 sto2 <- storr::storr(dr)
@@ -27,6 +29,7 @@ functionality. The latter is the standard `storr` object.
 ### 1. get, set, del
 
 ``` r
+
 dat <- head(mtcars, 2)
 
 # set
@@ -95,6 +98,7 @@ metadata.
 Set key metadata when creating a key:
 
 ``` r
+
 # Expires in 5 minutes
 sto$set("aa", 1, expires_at = Sys.time() + 60 * 5, 
         notes = "{\"name\":\"John\",\"id\":12345}")
@@ -106,6 +110,7 @@ sto$set("bb", 1, expires_at = Sys.time() + 1)
 Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 
 ``` r
+
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
@@ -118,6 +123,7 @@ sto$get_keymeta("bb")
 **Expiration management**
 
 ``` r
+
 # Retrieve keys with expiration
 sto$keys_with_expiration()
 #    namespace    key          expires_at
@@ -147,6 +153,7 @@ sto$gc(clear_expired = TRUE)
 **Clear metadata**
 
 ``` r
+
 sto$clr_keymeta("aa")
 sto$get_keymeta("aa")
 # $expires_at
@@ -161,6 +168,7 @@ sto$get_keymeta("aa")
 Set keys without blocking R session:
 
 ``` r
+
 Sys.sleep(1)
 sto$set_async("abc", 1)
 sto$set_async("abc2", 2)
@@ -182,6 +190,7 @@ To manage storr TileDB fragments use
 which encapsulates the consolidation and vacuum operations.
 
 ``` r
+
 # Set up a new storr
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
@@ -193,6 +202,7 @@ sto$set("c", 1)
 ```
 
 ``` r
+
 # Initialise StorrFragments class
 fosto <- storr_fragments(uri)
 
@@ -208,12 +218,14 @@ fosto$to_vacuum_num()
 Consolidate everything (both arrays)
 
 ``` r
+
 # Consolidate all
 fosto$consolidate()
 # [1] TRUE
 ```
 
 ``` r
+
 # Total fragments (2, 1 for keys, 1 for hashes)
 fosto$frag_num()
 # [1] 2
@@ -226,6 +238,7 @@ fosto$to_vacuum_num()
 Now, let’s clean up the old fragments.
 
 ``` r
+
 # Cleaup old fragments
 fosto$vacuum()
 # [1] TRUE

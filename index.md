@@ -57,6 +57,7 @@ time-stamps along with key-namespace pairs.
 Development version from GitHub:
 
 ``` r
+
 # pak
 pak::pkg_install("cgiachalis/storr.tiledb")
 

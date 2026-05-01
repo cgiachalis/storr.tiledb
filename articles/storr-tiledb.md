@@ -14,6 +14,7 @@ TileDB backend.
 ### Create a TileDB Storr
 
 ``` r
+
 # URI path
 uri <- tempfile()
 # Create a new storr with TileDB driver
@@ -26,6 +27,7 @@ for the side-effects and then instantiate a TileDB Storr for the given
 URI path as follows:
 
 ``` r
+
 # Clean up previous path
 unlink(uri, recursive = TRUE)
 
@@ -42,6 +44,7 @@ sto <- storr_tiledb(uri)
 ### set(), get()
 
 ``` r
+
 sto$set("a", head(mtcars, 2))
 sto$mset(c("b", "c"), list(head(mtcars, 2), 1))
 
@@ -60,6 +63,7 @@ sto$get("a")
 We saved three keys, but only two `R` objects. Check for deduplication:
 
 ``` r
+
 # 2 hashes for 3 keys
 hashes <- sto$list_hashes()
 hashes
@@ -73,6 +77,7 @@ sto$get_value(hashes[1])
 ### del(), gc() and listing methods
 
 ``` r
+
 sto$del(c("b", "c"))
 
 # Not found
@@ -99,6 +104,7 @@ With
 we can add notes and/or expiration timestamps to key-namespace pairs.
 
 ``` r
+
 # This key will expire momentarily!
 sto$set("key1", 10, notes = "my notes", expires_at = Sys.time() + 1)
 sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
@@ -115,6 +121,7 @@ sto$get_keymeta("key1")
 ### Expiration Management
 
 ``` r
+
 # Get keys with expiration time-stamp
 sto$keys_with_expiration()
 #    namespace    key          expires_at
@@ -163,6 +170,7 @@ supports storing keys in asynchronous or in parallel via `mirai`
 framework.
 
 ``` r
+
 # Set asynchronously (non-blocking)
 sto$set_async("key3", 2, namespace = "_session")
 sto$set_async("key1", 1, namespace = "ns1")
@@ -182,6 +190,7 @@ sto$get_keymeta("key2", "objects")
 ```
 
 ``` r
+
 # clear default namespace
 sto$clear()
 # [1] TRUE
@@ -214,6 +223,7 @@ sto$index_export(namespace = "objects")[, 1:3]
 TileDB backend supports encryption:
 
 ``` r
+
 # Requires a TileDB Context with encryption configuration parameters
 key <- "5b643a5e173c27d76b3f2af01fcb327b"
 config <- tiledb::tiledb_config()
@@ -230,6 +240,7 @@ to package cache.
 Now, create a storr with encryption:
 
 ``` r
+
 # Create a storr with context that encapsulates encryption configuration
 uri_enc <- tempfile()
 stoe <- storr_tiledb(uri_enc, init = TRUE, context = ctx)
@@ -254,6 +265,7 @@ stoe_new$get("a")
 Create a storr in cloud storage:
 
 ``` r
+
 # Set context with AWS S3 config parameters
 # NB: store values in ENV or in credential store, i.e., via keyring package
 config <- tiledb::tiledb_config()
@@ -265,6 +277,7 @@ ctx <- R6.tiledb::new_context(config)
 ```
 
 ``` r
+
 # Create a remote storr
 uri <- 's3//bucket/my-storr'
 sto <- storr_tiledb(uri, init = TRUE, context = ctx)

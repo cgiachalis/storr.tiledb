@@ -43,6 +43,7 @@ TileDB datatypes in parentheses.
 ### Example
 
 ``` r
+
 # URI path
 uri <- tempfile()
 
@@ -53,6 +54,7 @@ dr <- driver_tiledb(uri, init = TRUE)
 CAS Structure:
 
 ``` r
+
 dr$dir_tree()
 ```
 

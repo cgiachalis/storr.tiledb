@@ -9,6 +9,7 @@
 Yes, by using driver’s active field `$hash_algorithm`:
 
 ``` r
+
 # URI path
 uri <- tempfile()
 
@@ -24,6 +25,7 @@ sto$get_hash("a")
 Change the hash algorithm as follows:
 
 ``` r
+
 # Initialise the driver
 dr <- driver_tiledb(uri)
 
@@ -41,6 +43,7 @@ dr$hash_algorithm
 Reopen storr to pick up the new hash algorithm:
 
 ``` r
+
 # Open new storr instance
 sto <- storr_tiledb(uri)
 
@@ -57,6 +60,7 @@ You need to create a new storr with the desired hash algorithm, and then
 export from source storr to the new one.
 
 ``` r
+
 # source storr
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
@@ -66,6 +70,7 @@ sto$get_hash("a")
 ```
 
 ``` r
+
 # create a storr with new hash algorithm
 uri_dest <- tempfile()
 sto_dest <- storr_tiledb(uri_dest, init = TRUE, hash_algorithm = "blake3")
@@ -75,6 +80,7 @@ Now, export from source to destination storr using the class method
 `$export_tdb()`:
 
 ``` r
+
 sto$export_tdb(uri_dest = uri_dest)
 
 # check
