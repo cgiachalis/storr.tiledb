@@ -12,6 +12,7 @@ Provides a TileDB driver for 'storr' interface. A 'storr' is a content addressed
 Useful links:
 \itemize{
   \item \url{https://github.com/cgiachalis/storr.tiledb}
+  \item \url{https://cgiachalis.github.io/storr.tiledb/}
   \item Report bugs at \url{https://github.com/cgiachalis/storr.tiledb/issues}
 }
 
