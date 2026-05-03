@@ -4,7 +4,7 @@ An R6 class that represents a content addressed storage driver that
 complies with 'storr' interface using TileDB Embedded as a back-end.
 
 This class is intended for usage in
-[storr::storr](https://richfitz.github.io/storr/reference/storr.html) or
+[storr](https://richfitz.github.io/storr/reference/storr.html) or
 [TileDBStorr](https://cgiachalis.github.io/storr.tiledb/reference/TileDBStorr.md).
 
 ## Value
@@ -16,8 +16,7 @@ A `TileDBDriver`, `R6` object.
 [`R6.tiledb::TileDBObject`](https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html)
 -\>
 [`R6.tiledb::TileDBGroup`](https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html)
--\>
-[`storr.tiledb::CAS`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.md)
+-\> [`CAS`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.md)
 -\> `TileDBDriver`
 
 ## Public fields
@@ -34,7 +33,7 @@ A `TileDBDriver`, `R6` object.
 
 ### Public methods
 
-- [`TileDBDriver$new()`](#method-TileDBDriver-new)
+- [`TileDBDriver$new()`](#method-TileDBDriver-initialize)
 
 - [`TileDBDriver$type()`](#method-TileDBDriver-type)
 
@@ -119,17 +118,17 @@ Inherited methods
 - [`R6.tiledb::TileDBGroup$print()`](https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-print)
 - [`R6.tiledb::TileDBGroup$remove()`](https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-remove)
 - [`R6.tiledb::TileDBGroup$set_member()`](https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-set_member)
-- [`storr.tiledb::CAS$close()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-close)
-- [`storr.tiledb::CAS$create()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-create)
-- [`storr.tiledb::CAS$destroy()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-destroy)
-- [`storr.tiledb::CAS$dir_tree()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-dir_tree)
-- [`storr.tiledb::CAS$dump()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-dump)
-- [`storr.tiledb::CAS$filter_keys()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-filter_keys)
-- [`storr.tiledb::CAS$open()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-open)
+- [`CAS$close()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-close)
+- [`CAS$create()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-create)
+- [`CAS$destroy()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-destroy)
+- [`CAS$dir_tree()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-dir_tree)
+- [`CAS$dump()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-dump)
+- [`CAS$filter_keys()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-filter_keys)
+- [`CAS$open()`](https://cgiachalis.github.io/storr.tiledb/reference/CAS.html#method-open)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TileDBDriver$new()`
 
 Create a new `TileDBDriver` object.
 
@@ -151,7 +150,7 @@ Create a new `TileDBDriver` object.
 
 ------------------------------------------------------------------------
 
-### Method `type()`
+### `TileDBDriver$type()`
 
 Driver type.
 
@@ -165,7 +164,7 @@ A character string.
 
 ------------------------------------------------------------------------
 
-### Method `get_hash()`
+### `TileDBDriver$get_hash()`
 
 Get hash values.
 
@@ -189,7 +188,7 @@ A vector of hashes.
 
 ------------------------------------------------------------------------
 
-### Method `mget_hash()`
+### `TileDBDriver$mget_hash()`
 
 Get hash values.
 
@@ -213,7 +212,7 @@ A vector of hashes.
 
 ------------------------------------------------------------------------
 
-### Method `set_hash()`
+### `TileDBDriver$set_hash()`
 
 Set hash values.
 
@@ -249,7 +248,7 @@ Set hash values.
 
 ------------------------------------------------------------------------
 
-### Method `mset_hash()`
+### `TileDBDriver$mset_hash()`
 
 Set hash values.
 
@@ -285,7 +284,7 @@ Set hash values.
 
 ------------------------------------------------------------------------
 
-### Method `get_object()`
+### `TileDBDriver$get_object()`
 
 Get R object given a hash.
 
@@ -305,7 +304,7 @@ A de-serialized R object.
 
 ------------------------------------------------------------------------
 
-### Method `mget_object()`
+### `TileDBDriver$mget_object()`
 
 Get a list R objects given a hash vector.
 
@@ -325,7 +324,7 @@ A list with de-serialized R objects.
 
 ------------------------------------------------------------------------
 
-### Method `set_object()`
+### `TileDBDriver$set_object()`
 
 Store serialised R objects.
 
@@ -349,7 +348,7 @@ Store serialised R objects.
 
 ------------------------------------------------------------------------
 
-### Method `mset_object()`
+### `TileDBDriver$mset_object()`
 
 Store serialised R objects.
 
@@ -373,7 +372,7 @@ Store serialised R objects.
 
 ------------------------------------------------------------------------
 
-### Method `set_keymeta()`
+### `TileDBDriver$set_keymeta()`
 
 Set key-namespace metadata.
 
@@ -407,7 +406,7 @@ Sets a pair of expiry date-time and notes.
 
 ------------------------------------------------------------------------
 
-### Method `mset_keymeta()`
+### `TileDBDriver$mset_keymeta()`
 
 Set multiple key-namespace metadata.
 
@@ -441,7 +440,7 @@ Sets a pair of expiry date-time and notes.
 
 ------------------------------------------------------------------------
 
-### Method `get_keymeta()`
+### `TileDBDriver$get_keymeta()`
 
 Get key-namespace metadata.
 
@@ -465,7 +464,7 @@ A named list with key-metadata, `"expires_at"` and `"notes".`
 
 ------------------------------------------------------------------------
 
-### Method `mget_keymeta()`
+### `TileDBDriver$mget_keymeta()`
 
 Get multiple key-namespace metadata.
 
@@ -494,7 +493,7 @@ pairs will return the nomatch value.
 
 ------------------------------------------------------------------------
 
-### Method `exists_hash()`
+### `TileDBDriver$exists_hash()`
 
 Check a key-namespace pair exists.
 
@@ -518,7 +517,7 @@ A logical vector.
 
 ------------------------------------------------------------------------
 
-### Method `exists_object()`
+### `TileDBDriver$exists_object()`
 
 Check a serialised object exists.
 
@@ -538,7 +537,7 @@ A logical vector.
 
 ------------------------------------------------------------------------
 
-### Method `del_hash()`
+### `TileDBDriver$del_hash()`
 
 Delete a key/namespace pair.
 
@@ -562,7 +561,7 @@ A logical vector.
 
 ------------------------------------------------------------------------
 
-### Method `del_object()`
+### `TileDBDriver$del_object()`
 
 Delete serialised objects.
 
@@ -582,7 +581,7 @@ A logical vector.
 
 ------------------------------------------------------------------------
 
-### Method `list_hashes()`
+### `TileDBDriver$list_hashes()`
 
 List all hash values.
 
@@ -596,7 +595,7 @@ A vector of hash values.
 
 ------------------------------------------------------------------------
 
-### Method `list_namespaces()`
+### `TileDBDriver$list_namespaces()`
 
 List all namespace values.
 
@@ -610,7 +609,7 @@ A vector of namespace values.
 
 ------------------------------------------------------------------------
 
-### Method `list_keys()`
+### `TileDBDriver$list_keys()`
 
 List keys given a namespace.
 
@@ -630,7 +629,7 @@ A vector of key values.
 
 ------------------------------------------------------------------------
 
-### Method `list_unused_hashes()`
+### `TileDBDriver$list_unused_hashes()`
 
 List unused hashes.
 
@@ -644,7 +643,7 @@ A vector of hash values.
 
 ------------------------------------------------------------------------
 
-### Method `delete_unused_hashes()`
+### `TileDBDriver$delete_unused_hashes()`
 
 Delete unused hashes.
 
@@ -658,7 +657,7 @@ A vector of deleted hash values, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `delete_namespaces()`
+### `TileDBDriver$delete_namespaces()`
 
 Delete namespaces.
 
@@ -679,7 +678,7 @@ the namespace was not found in database.
 
 ------------------------------------------------------------------------
 
-### Method `keys_with_expiration()`
+### `TileDBDriver$keys_with_expiration()`
 
 Get the key-namespace pairs with expiration timestamps.
 
@@ -703,7 +702,7 @@ An `ArrowObject` object.
 
 ------------------------------------------------------------------------
 
-### Method `keys_without_expiration()`
+### `TileDBDriver$keys_without_expiration()`
 
 Get the key-namespace pairs without expiration timestamps.
 
@@ -727,7 +726,7 @@ An `ArrowObject` object.
 
 ------------------------------------------------------------------------
 
-### Method `expired_keys()`
+### `TileDBDriver$expired_keys()`
 
 Get the expired key-namespace pairs.
 
@@ -751,7 +750,7 @@ An `ArrowObject` object.
 
 ------------------------------------------------------------------------
 
-### Method `unexpired_keys()`
+### `TileDBDriver$unexpired_keys()`
 
 Get the unexpired key-namespace pairs.
 
@@ -775,7 +774,7 @@ An `ArrowObject` object.
 
 ------------------------------------------------------------------------
 
-### Method `delete_expired_keys()`
+### `TileDBDriver$delete_expired_keys()`
 
 Get the expired key-namespace pairs.
 
@@ -795,7 +794,7 @@ A boolean value `TRUE` indicating success, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `num_expired_keys()`
+### `TileDBDriver$num_expired_keys()`
 
 Get the number of expired key-namespace pairs.
 
@@ -815,7 +814,7 @@ A numeric value.
 
 ------------------------------------------------------------------------
 
-### Method `num_unexpired_keys()`
+### `TileDBDriver$num_unexpired_keys()`
 
 Get the number of unexpired key-namespace pairs.
 
@@ -835,7 +834,7 @@ A numeric value.
 
 ------------------------------------------------------------------------
 
-### Method `has_expired_keys()`
+### `TileDBDriver$has_expired_keys()`
 
 Check for expired key-namespace pairs.
 
@@ -855,7 +854,7 @@ Check for expired key-namespace pairs.
 
 ------------------------------------------------------------------------
 
-### Method `has_unexpired_keys()`
+### `TileDBDriver$has_unexpired_keys()`
 
 Check for unexpired key-namespace pairs.
 
@@ -875,7 +874,7 @@ Check for unexpired key-namespace pairs.
 
 ------------------------------------------------------------------------
 
-### Method `export_tdb()`
+### `TileDBDriver$export_tdb()`
 
 Export objects from storr to another TileDB storr.
 

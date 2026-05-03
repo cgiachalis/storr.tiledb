@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.36</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.37</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,16 +54,16 @@
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>fob_keys</code></dt>
-<dd><p>Retrieve the <a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html" class="external-link">R6.tiledb::TileDBFragments</a> instance for <code>keys</code>
+<dd><p>Retrieve the <a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html" class="external-link">TileDBFragments</a> instance for <code>keys</code>
 array.</p></dd>
 
 
-<dt><code>fob_data</code></dt>
-<dd><p>Retrieve the <a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html" class="external-link">R6.tiledb::TileDBFragments</a> instance for <code>data</code>
+    <dt><code>fob_data</code></dt>
+<dd><p>Retrieve the <a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html" class="external-link">TileDBFragments</a> instance for <code>data</code>
 array.</p></dd>
 
 
-<dt><code>size</code></dt>
+    <dt><code>size</code></dt>
 <dd><p>Return directory size.</p></dd>
 
 
@@ -74,36 +74,34 @@ array.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-StorrFragments-new"><code>StorrFragments$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-StorrFragments-initialize"><code>StorrFragments$new()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-consolidate"><code>StorrFragments$consolidate()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-vacuum"><code>StorrFragments$vacuum()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-frag_num"><code>StorrFragments$frag_num()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-to_vacuum_num"><code>StorrFragments$to_vacuum_num()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-reload_finfo"><code>StorrFragments$reload_finfo()</code></a></p></li>
 <li><p><a href="#method-StorrFragments-print"><code>StorrFragments$print()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-StorrFragments-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-StorrFragments-initialize"></a><div class="section">
+<h3 id="storrfragments-new-"><code>StorrFragments$new()</code><a class="anchor" aria-label="anchor" href="#storrfragments-new-"></a></h3>
 <p>Create a new <code>StorrFragments</code> instance.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/StorrFragments.html">StorrFragments</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">uri</span>, ctx <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>uri</code></dt>
 <dd><p>URI path for TileDB Storr.</p></dd>
 
-
-<dt><code>ctx</code></dt>
+      <dt><code>ctx</code></dt>
 <dd><p>Optional <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html" class="external-link">tiledb::tiledb_ctx()</a></code> object.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-consolidate"></a><div class="section">
-<h3 id="method-consolidate-">Method <code>consolidate()</code><a class="anchor" aria-label="anchor" href="#method-consolidate-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-consolidate"></a><div class="section">
+<h3 id="storrfragments-consolidate-"><code>StorrFragments$consolidate()</code><a class="anchor" aria-label="anchor" href="#storrfragments-consolidate-"></a></h3>
 <p>Consolidates the 'storr' fragments.</p>
 <p>Consolidation in TileDB merges multiple array fragments into a single
 fragment to improve query performance by reducing the number of files that
@@ -115,118 +113,111 @@ use the class method <code>$vacuum()</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">consolidate</span><span class="op">(</span>what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"keys"</span>, <span class="st">"data"</span><span class="op">)</span>, cfg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vacuum <span class="op">=</span> <span class="cn">FALSE</span>, async <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>what</code></dt>
 <dd><p>Which array should be consolidated? Defaults to <code>"all"</code> arrays.</p></dd>
 
-
-<dt><code>cfg</code></dt>
+      <dt><code>cfg</code></dt>
 <dd><p>A configuration object <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb::tiledb_config()</a></code> to override context
 configuration.
 When <code>NULL</code> (default) the configuration parameters will be retrieved from
 object's context.</p></dd>
 
-
-<dt><code>vacuum</code></dt>
+      <dt><code>vacuum</code></dt>
 <dd><p>Should the old fragments (consolidated) be deleted? Default is <code>FALSE</code>.</p></dd>
 
-
-<dt><code>async</code></dt>
+      <dt><code>async</code></dt>
 <dd><p>Should it consolidate asynchronously? Default is <code>FALSE</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>When <code>async = FALSE</code>, it returns <code>TRUE</code> for successful consolidation.
 For <code>async = TRUE</code>, it returns a <code><a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai::mirai()</a></code> object immediately; once
 resolved, it returns <code>TRUE</code> indicating consolidation success.</p>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-vacuum"></a><div class="section">
-<h3 id="method-vacuum-">Method <code>vacuum()</code><a class="anchor" aria-label="anchor" href="#method-vacuum-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-vacuum"></a><div class="section">
+<h3 id="storrfragments-vacuum-"><code>StorrFragments$vacuum()</code><a class="anchor" aria-label="anchor" href="#storrfragments-vacuum-"></a></h3>
 <p>Vacuum Storr fragments</p>
 <p>This operation deletes the old fragments (consolidated).</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">vacuum</span><span class="op">(</span>what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"keys"</span>, <span class="st">"data"</span><span class="op">)</span>, cfg <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  async <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>what</code></dt>
 <dd><p>Which array to vacuum? Defaults to <code>"all"</code> arrays.</p></dd>
 
-
-<dt><code>cfg</code></dt>
+      <dt><code>cfg</code></dt>
 <dd><p>A configuration object <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb::tiledb_config()</a></code> to override context
 configuration.
 When <code>NULL</code> (default) the configuration parameters will be retrieved from
 object's context.</p></dd>
 
-
-<dt><code>async</code></dt>
+      <dt><code>async</code></dt>
 <dd><p>Should it vacuum asynchronously? Default is <code>FALSE</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>When <code>async = FALSE</code>, it returns <code>TRUE</code> for successful vacuuming.
 For <code>async = TRUE</code>, it returns a <code><a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai::mirai()</a></code> object immediately; once
 resolved, it returns <code>TRUE</code> indicating vacuum success.</p>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-frag_num"></a><div class="section">
-<h3 id="method-frag-num-">Method <code>frag_num()</code><a class="anchor" aria-label="anchor" href="#method-frag-num-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-frag_num"></a><div class="section">
+<h3 id="storrfragments-frag-num-"><code>StorrFragments$frag_num()</code><a class="anchor" aria-label="anchor" href="#storrfragments-frag-num-"></a></h3>
 <p>Get the number of fragments.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">frag_num</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>A numeric value.</p>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-to_vacuum_num"></a><div class="section">
-<h3 id="method-to-vacuum-num-">Method <code>to_vacuum_num()</code><a class="anchor" aria-label="anchor" href="#method-to-vacuum-num-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-to_vacuum_num"></a><div class="section">
+<h3 id="storrfragments-to-vacuum-num-"><code>StorrFragments$to_vacuum_num()</code><a class="anchor" aria-label="anchor" href="#storrfragments-to-vacuum-num-"></a></h3>
 <p>Return the number of fragments to vacuum.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">to_vacuum_num</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>A numeric value.</p>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-reload_finfo"></a><div class="section">
-<h3 id="method-reload-finfo-">Method <code>reload_finfo()</code><a class="anchor" aria-label="anchor" href="#method-reload-finfo-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-reload_finfo"></a><div class="section">
+<h3 id="storrfragments-reload-finfo-"><code>StorrFragments$reload_finfo()</code><a class="anchor" aria-label="anchor" href="#storrfragments-reload-finfo-"></a></h3>
 <p>Refresh the Storr's Fragment Info objects.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">reload_finfo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>The object, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-StorrFragments-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-StorrFragments-print"></a><div class="section">
+<h3 id="storrfragments-print-"><code>StorrFragments$print()</code><a class="anchor" aria-label="anchor" href="#storrfragments-print-"></a></h3>
 <p>Print Fragments class.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-
 </div>
+
 
     </div>
 

@@ -30,7 +30,7 @@ An object of class `StorrFragments`, `R6`.
 
 The class includes fragment consolidation and vacuuming methods but also
 provides access to
-[R6.tiledb::TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
+[TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
 instances for `keys` and `data` arrays where you can further inspect and
 manage the fragments for the specify arrays.
 

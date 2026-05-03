@@ -39,9 +39,8 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 - async:
 
-  Should the
-  [mirai::mirai](https://mirai.r-lib.org/reference/mirai.html) daemons
-  be enabled for async functions? Default is `FALSE`.
+  Should the [mirai](https://mirai.r-lib.org/reference/mirai.html)
+  daemons be enabled for async functions? Default is `FALSE`.
 
 - ...:
 

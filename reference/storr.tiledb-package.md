@@ -21,3 +21,7 @@ Useful links:
 ## Author
 
 **Maintainer**: Constantinos Giachalis <xx@github.com>
+
+Authors:
+
+- Constantinos Giachalis <xx@github.com>

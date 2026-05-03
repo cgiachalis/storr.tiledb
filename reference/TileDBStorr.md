@@ -61,7 +61,7 @@ A `TileDBStorr`, `R6` object.
 
 ### Public methods
 
-- [`TileDBStorr$new()`](#method-TileDBStorr-new)
+- [`TileDBStorr$new()`](#method-TileDBStorr-initialize)
 
 - [`TileDBStorr$destroy()`](#method-TileDBStorr-destroy)
 
@@ -157,7 +157,7 @@ A `TileDBStorr`, `R6` object.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TileDBStorr$new()`
 
 Initialise `TileDBStorr`.
 
@@ -178,13 +178,12 @@ Initialise `TileDBStorr`.
 
 - `async`:
 
-  Should the
-  [mirai::mirai](https://mirai.r-lib.org/reference/mirai.html) daemons
-  be enabled for async functions? Default is `FALSE`.
+  Should the [mirai](https://mirai.r-lib.org/reference/mirai.html)
+  daemons be enabled for async functions? Default is `FALSE`.
 
 ------------------------------------------------------------------------
 
-### Method `destroy()`
+### `TileDBStorr$destroy()`
 
 Destroy (delete) 'storr'.
 
@@ -198,7 +197,7 @@ Destroy (delete) 'storr'.
 
 ------------------------------------------------------------------------
 
-### Method `flush_cache()`
+### `TileDBStorr$flush_cache()`
 
 Flush the cache of `R` objects.
 
@@ -215,7 +214,7 @@ The object, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `set()`
+### `TileDBStorr$set()`
 
 Set a key value pair.
 
@@ -256,7 +255,7 @@ The hash value, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `mset()`
+### `TileDBStorr$mset()`
 
 Set multiple key value pairs.
 
@@ -301,7 +300,7 @@ A vector of hash values, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `set_async()`
+### `TileDBStorr$set_async()`
 
 Set a key value pair asynchronously.
 
@@ -348,15 +347,15 @@ Set a key value pair asynchronously.
 Invisibly, a named list with two elements:
 
 - `mirai`: a named list of two
-  [`mirai::mirai()`](https://mirai.r-lib.org/reference/mirai.html)
-  objects, `obj` and `key`; `obj` refers to object table and `key` to
-  key table. Both return logical `TRUE` if an evaluation is successful.
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
 
 - `hash`: the hash value
 
 ------------------------------------------------------------------------
 
-### Method `mset_async()`
+### `TileDBStorr$mset_async()`
 
 Set multiple key value pairs asynchronously.
 
@@ -407,15 +406,15 @@ permitted.
 Invisibly, a named list with two elements:
 
 - `mirai`: a named list of two
-  [`mirai::mirai()`](https://mirai.r-lib.org/reference/mirai.html)
-  objects, `obj` and `key`; `obj` refers to object table and `key` to
-  key table. Both return logical `TRUE` if an evaluation is successful.
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
 
 - `hash`: a vector with hash values
 
 ------------------------------------------------------------------------
 
-### Method `set_by_value()`
+### `TileDBStorr$set_by_value()`
 
 Set a key value pair using its hash as key.
 
@@ -452,7 +451,7 @@ The hash value, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `mset_by_value()`
+### `TileDBStorr$mset_by_value()`
 
 Set multiple key value pairs using their hashes as keys.
 
@@ -489,7 +488,7 @@ A vector of hash values, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `set_by_value_async()`
+### `TileDBStorr$set_by_value_async()`
 
 Set a key value pair using its hash as key, asynchronously.
 
@@ -532,15 +531,15 @@ Set a key value pair using its hash as key, asynchronously.
 Invisibly, a named list with two elements:
 
 - `mirai`: a named list of two
-  [`mirai::mirai()`](https://mirai.r-lib.org/reference/mirai.html)
-  objects, `obj` and `key`; `obj` refers to object table and `key` to
-  key table. Both return logical `TRUE` if an evaluation is successful.
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
 
 - `hash`: the hash value
 
 ------------------------------------------------------------------------
 
-### Method `mset_by_value_async()`
+### `TileDBStorr$mset_by_value_async()`
 
 Set multiple key value pairs using their hashes as keys, asynchronously.
 
@@ -587,15 +586,15 @@ permitted.
 Invisibly, a named list with two elements:
 
 - `mirai`: a named list of two
-  [`mirai::mirai()`](https://mirai.r-lib.org/reference/mirai.html)
-  objects, `obj` and `key`; `obj` refers to object table and `key` to
-  key table. Both return logical `TRUE` if an evaluation is successful.
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
 
 - `hash`: a vector with hash values
 
 ------------------------------------------------------------------------
 
-### Method `set_value()`
+### `TileDBStorr$set_value()`
 
 Add an R object without key.
 
@@ -622,7 +621,7 @@ The hash value, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `mset_value()`
+### `TileDBStorr$mset_value()`
 
 Add a vector of R objects.
 
@@ -649,7 +648,7 @@ A vector of hash values, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method [`get()`](https://rdrr.io/r/base/get.html)
+### `TileDBStorr$get()`
 
 Get an object given a key-namespace pair.
 
@@ -678,7 +677,7 @@ The `R` object if available.
 
 ------------------------------------------------------------------------
 
-### Method [`mget()`](https://rdrr.io/r/base/get.html)
+### `TileDBStorr$mget()`
 
 Get multiple objects.
 
@@ -715,7 +714,7 @@ A list of `R` objects.
 
 ------------------------------------------------------------------------
 
-### Method `get_hash()`
+### `TileDBStorr$get_hash()`
 
 Get hash value.
 
@@ -739,7 +738,7 @@ The hash value.
 
 ------------------------------------------------------------------------
 
-### Method `mget_hash()`
+### `TileDBStorr$mget_hash()`
 
 Get hash values.
 
@@ -767,7 +766,7 @@ A vector of hashes.
 
 ------------------------------------------------------------------------
 
-### Method `hash_object()`
+### `TileDBStorr$hash_object()`
 
 Create a hash digest for an R object.
 
@@ -788,7 +787,7 @@ A character string of a fixed length containing the requested digest
 
 ------------------------------------------------------------------------
 
-### Method `get_value()`
+### `TileDBStorr$get_value()`
 
 Get an object given its hash.
 
@@ -813,7 +812,7 @@ The `R` object if available.
 
 ------------------------------------------------------------------------
 
-### Method `mget_value()`
+### `TileDBStorr$mget_value()`
 
 Get multiple objects given their hashes.
 
@@ -842,7 +841,7 @@ A list of `R` objects.
 
 ------------------------------------------------------------------------
 
-### Method `set_keymeta()`
+### `TileDBStorr$set_keymeta()`
 
 Set key metadata.
 
@@ -885,7 +884,7 @@ character vector is returned.
 
 ------------------------------------------------------------------------
 
-### Method `mset_keymeta()`
+### `TileDBStorr$mset_keymeta()`
 
 Set multiple key metadata.
 
@@ -932,7 +931,7 @@ is set and a zero length character vector is returned.
 
 ------------------------------------------------------------------------
 
-### Method `set_keymeta_async()`
+### `TileDBStorr$set_keymeta_async()`
 
 Set key metadata asynchronously.
 
@@ -987,7 +986,7 @@ is set and a zero length character vector is returned.
 
 ------------------------------------------------------------------------
 
-### Method `mset_keymeta_async()`
+### `TileDBStorr$mset_keymeta_async()`
 
 Set multiple key metadata.
 
@@ -1046,7 +1045,7 @@ is set and a zero length character vector is returned.
 
 ------------------------------------------------------------------------
 
-### Method `get_keymeta()`
+### `TileDBStorr$get_keymeta()`
 
 Get key's metadata.
 
@@ -1075,7 +1074,7 @@ A named list with the key-metadata: `"expires_at"` and `"notes".`
 
 ------------------------------------------------------------------------
 
-### Method `mget_keymeta()`
+### `TileDBStorr$mget_keymeta()`
 
 Get multiple key metadata.
 
@@ -1113,7 +1112,7 @@ pairs will return the `missing` value.
 
 ------------------------------------------------------------------------
 
-### Method `clr_keymeta()`
+### `TileDBStorr$clr_keymeta()`
 
 Remove key metadata.
 
@@ -1154,7 +1153,7 @@ The `key:namespace` character vector of the recycled length, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `clr_keymeta_async()`
+### `TileDBStorr$clr_keymeta_async()`
 
 Remove key metadata asynchronously.
 
@@ -1205,7 +1204,7 @@ A named list with two elements (invisibly):
 
 ------------------------------------------------------------------------
 
-### Method `fill()`
+### `TileDBStorr$fill()`
 
 Set one or more keys to the same value.
 
@@ -1242,7 +1241,7 @@ A vector of hash values, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `duplicate()`
+### `TileDBStorr$duplicate()`
 
 Duplicate a set of keys.
 
@@ -1282,7 +1281,7 @@ Duplicate a set of keys.
 
 ------------------------------------------------------------------------
 
-### Method `clear()`
+### `TileDBStorr$clear()`
 
 Clear a storr.
 
@@ -1303,7 +1302,7 @@ The number of deleted namespaces.
 
 ------------------------------------------------------------------------
 
-### Method [`exists()`](https://rdrr.io/r/base/exists.html)
+### `TileDBStorr$exists()`
 
 Check a key-namespace pair exists.
 
@@ -1331,7 +1330,7 @@ A logical vector indicating which key-namespace pair exists.
 
 ------------------------------------------------------------------------
 
-### Method `exists_object()`
+### `TileDBStorr$exists_object()`
 
 Check a serialised object exists given a hash.
 
@@ -1351,7 +1350,7 @@ A logical vector indicating which object exists.
 
 ------------------------------------------------------------------------
 
-### Method `del()`
+### `TileDBStorr$del()`
 
 Delete an object from the storr.
 
@@ -1380,7 +1379,7 @@ invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `keys_with_expiration()`
+### `TileDBStorr$keys_with_expiration()`
 
 Get the key-namespace pairs with expiration timestamps.
 
@@ -1405,7 +1404,7 @@ An object of class `data.table`.
 
 ------------------------------------------------------------------------
 
-### Method `expired_keys()`
+### `TileDBStorr$expired_keys()`
 
 Get the expired key-namespace pairs.
 
@@ -1430,7 +1429,7 @@ An object of class `data.table`.
 
 ------------------------------------------------------------------------
 
-### Method `has_expired_keys()`
+### `TileDBStorr$has_expired_keys()`
 
 Check for expired key-namespace pairs.
 
@@ -1450,7 +1449,7 @@ Check for expired key-namespace pairs.
 
 ------------------------------------------------------------------------
 
-### Method `clear_expired_keys()`
+### `TileDBStorr$clear_expired_keys()`
 
 Remove the expired key-namespace pairs.
 
@@ -1470,7 +1469,7 @@ A boolean value `TRUE` indicating success, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method [`list()`](https://rdrr.io/r/base/list.html)
+### `TileDBStorr$list()`
 
 List all keys stored in a namespace.
 
@@ -1490,7 +1489,7 @@ A sorted character vector with keys.
 
 ------------------------------------------------------------------------
 
-### Method `list_hashes()`
+### `TileDBStorr$list_hashes()`
 
 List all hashes stored in the storr.
 
@@ -1504,7 +1503,7 @@ A sorted character vector with hashes.
 
 ------------------------------------------------------------------------
 
-### Method `list_namespaces()`
+### `TileDBStorr$list_namespaces()`
 
 List all namespaces in the storr.
 
@@ -1518,7 +1517,7 @@ A sorted character vector with namespaces.
 
 ------------------------------------------------------------------------
 
-### Method [`gc()`](https://rdrr.io/r/base/gc.html)
+### `TileDBStorr$gc()`
 
 Garbage collect the storr.
 
@@ -1538,7 +1537,7 @@ A vector of unused hashes, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `import()`
+### `TileDBStorr$import()`
 
 Import objects to storr.
 
@@ -1578,7 +1577,7 @@ A vector with destination namespaces, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `export()`
+### `TileDBStorr$export()`
 
 Export objects from storr.
 
@@ -1621,7 +1620,7 @@ shorthand.
 
 ------------------------------------------------------------------------
 
-### Method `index_export()`
+### `TileDBStorr$index_export()`
 
 Generate a `data.table` with an index of objects present in a storr.
 
@@ -1641,7 +1640,7 @@ An object of class `data.table`.
 
 ------------------------------------------------------------------------
 
-### Method `index_import()`
+### `TileDBStorr$index_import()`
 
 Import an index of objects from a storr.
 
@@ -1663,7 +1662,7 @@ Import an index of objects from a storr.
 
 ------------------------------------------------------------------------
 
-### Method `export_tdb()`
+### `TileDBStorr$export_tdb()`
 
 Export objects from storr to another TileDB storr.
 

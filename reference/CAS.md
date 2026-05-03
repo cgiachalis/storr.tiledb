@@ -68,7 +68,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `create()`
+### `CAS$create()`
 
 Create CAS.
 
@@ -97,7 +97,7 @@ The object, invisibly
 
 ------------------------------------------------------------------------
 
-### Method [`open()`](https://rdrr.io/r/base/connections.html)
+### `CAS$open()`
 
 Open `CAS` object for read or write.
 
@@ -125,7 +125,7 @@ The object, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method [`close()`](https://rdrr.io/r/base/connections.html)
+### `CAS$close()`
 
 Close the group object.
 
@@ -142,7 +142,7 @@ The object, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `destroy()`
+### `CAS$destroy()`
 
 Delete CAS.
 
@@ -156,7 +156,7 @@ The object, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `filter_keys()`
+### `CAS$filter_keys()`
 
 Filter `tbl_keys` by key and namespace
 
@@ -184,7 +184,7 @@ A \`data.table.
 
 ------------------------------------------------------------------------
 
-### Method `dir_tree()`
+### `CAS$dir_tree()`
 
 Print directory contents.
 
@@ -205,7 +205,7 @@ A character vector with file paths, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method [`dump()`](https://rdrr.io/r/base/dump.html)
+### `CAS$dump()`
 
 Dump the Storr structure to string.
 
@@ -219,7 +219,7 @@ A `character` string, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `CAS$clone()`
 
 The objects of this class are cloneable with this method.
 

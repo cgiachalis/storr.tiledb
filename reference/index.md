@@ -41,6 +41,16 @@ Functionality to inspect and manage TileDB fragments.
 - [`storr_vacuum()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_vacuum.md)
   : Vacuum Storr Fragments
 
+### Re-exported Functions
+
+- [`reexports`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`new_context`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`tiledb_config`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`tiledb_ctx`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`set_allocation_size_preference`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`get_allocation_size_preference`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  : Objects exported from other packages
+
 ## R6 Classes
 
 R6 classes that represent the storr interface and TileDB driver. These

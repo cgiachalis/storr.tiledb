@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.36</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.37</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,11 +61,11 @@
 <dd><p>Hash algorithm</p></dd>
 
 
-<dt><code>members_instantiated</code></dt>
+    <dt><code>members_instantiated</code></dt>
 <dd><p>Have the members been instantiated?</p></dd>
 
 
-<dt><code>size</code></dt>
+    <dt><code>size</code></dt>
 <dd><p>Return directory size</p></dd>
 
 
@@ -76,8 +76,7 @@
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-CAS-create"><code>CAS$create()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-CAS-create"><code>CAS$create()</code></a></p></li>
 <li><p><a href="#method-CAS-open"><code>CAS$open()</code></a></p></li>
 <li><p><a href="#method-CAS-close"><code>CAS$close()</code></a></p></li>
 <li><p><a href="#method-CAS-destroy"><code>CAS$destroy()</code></a></p></li>
@@ -86,140 +85,130 @@
 <li><p><a href="#method-CAS-dump"><code>CAS$dump()</code></a></p></li>
 <li><p><a href="#method-CAS-clone"><code>CAS$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-class"><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-exists"><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-get_metadata"><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="initialize"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-initialize"><code>R6.tiledb::TileDBObject$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-is_open"><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-reopen"><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-set_metadata"><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-count_members"><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-delete"><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-get_member"><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-get_members_df"><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-member_exists"><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-names"><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-print"><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-remove"><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-set_member"><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-exists"><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-get_metadata"><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="initialize"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-initialize"><code>R6.tiledb::TileDBObject$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-is_open"><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-reopen"><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-set_metadata"><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-count_members"><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-delete"><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-get_member"><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-get_members_df"><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-member_exists"><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-names"><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-print"><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-remove"><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBGroup.html#method-set_member"><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
 </ul></details></p><hr><a id="method-CAS-create"></a><div class="section">
-<h3 id="method-create-">Method <code>create()</code><a class="anchor" aria-label="anchor" href="#method-create-"></a></h3>
+<h3 id="cas-create-"><code>CAS$create()</code><a class="anchor" aria-label="anchor" href="#cas-create-"></a></h3>
 <p>Create CAS.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">create</span><span class="op">(</span>compression_level <span class="op">=</span> <span class="op">-</span><span class="fl">7</span>, algo <span class="op">=</span> <span class="cn">NULL</span>, keep_open <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>compression_level</code></dt>
 <dd><p>Set an integer value for ZSTD compression level.</p></dd>
 
-
-<dt><code>algo</code></dt>
+      <dt><code>algo</code></dt>
 <dd><p>Select a hash algorithm to be used.</p></dd>
 
-
-<dt><code>keep_open</code></dt>
+      <dt><code>keep_open</code></dt>
 <dd><p>Should <code>CAS</code> be kept opened after creation? Default is
 <code>TRUE</code>; the mode will be <code>"WRITE"</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>The object, invisibly</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-open"></a><div class="section">
-<h3 id="method-open-">Method <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">open()</a></code><a class="anchor" aria-label="anchor" href="#method-open-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-open"></a><div class="section">
+<h3 id="cas-open-"><code>CAS$open()</code><a class="anchor" aria-label="anchor" href="#cas-open-"></a></h3>
 <p>Open <code>CAS</code> object for read or write.</p>
 <p>Setting<code>instantiate</code> argument to <code>TRUE</code>, all members will be instantiated
 and cached on opening. They can be accessed via <code>members</code> active field, i.e., using
 <code>&lt;member&gt;$object</code> element.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">open</span><span class="op">(</span>mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"READ"</span>, <span class="st">"WRITE"</span><span class="op">)</span>, instantiate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>mode</code></dt>
 <dd><p>Mode to open : either <code>"READ"</code> or <code>"WRITE"</code>. Default is <code>"READ"</code>.</p></dd>
 
-
-<dt><code>instantiate</code></dt>
+      <dt><code>instantiate</code></dt>
 <dd><p>Should be all members be instantiated at opening?
 Default is <code>FALSE</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>The object, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-close"></a><div class="section">
-<h3 id="method-close-">Method <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">close()</a></code><a class="anchor" aria-label="anchor" href="#method-close-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-close"></a><div class="section">
+<h3 id="cas-close-"><code>CAS$close()</code><a class="anchor" aria-label="anchor" href="#cas-close-"></a></h3>
 <p>Close the group object.</p>
 <p>All instantiated group members will be closed if opened, and before
 closing the group object.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">close</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>The object, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-destroy"></a><div class="section">
-<h3 id="method-destroy-">Method <code>destroy()</code><a class="anchor" aria-label="anchor" href="#method-destroy-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-destroy"></a><div class="section">
+<h3 id="cas-destroy-"><code>CAS$destroy()</code><a class="anchor" aria-label="anchor" href="#cas-destroy-"></a></h3>
 <p>Delete CAS.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">destroy</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>The object, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-filter_keys"></a><div class="section">
-<h3 id="method-filter-keys-">Method <code>filter_keys()</code><a class="anchor" aria-label="anchor" href="#method-filter-keys-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-filter_keys"></a><div class="section">
+<h3 id="cas-filter-keys-"><code>CAS$filter_keys()</code><a class="anchor" aria-label="anchor" href="#cas-filter-keys-"></a></h3>
 <p>Filter <code>tbl_keys</code> by key and namespace</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">filter_keys</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, attrnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of keys.</p></dd>
 
-
-<dt><code>namespace</code></dt>
+      <dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces.</p></dd>
 
-
-<dt><code>attrnames</code></dt>
+      <dt><code>attrnames</code></dt>
 <dd><p>A character vector with tiledb attributes (columns).</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>A `data.table.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-dir_tree"></a><div class="section">
-<h3 id="method-dir-tree-">Method <code>dir_tree()</code><a class="anchor" aria-label="anchor" href="#method-dir-tree-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-dir_tree"></a><div class="section">
+<h3 id="cas-dir-tree-"><code>CAS$dir_tree()</code><a class="anchor" aria-label="anchor" href="#cas-dir-tree-"></a></h3>
 <p>Print directory contents.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">dir_tree</span><span class="op">(</span>what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"keys"</span>, <span class="st">"data"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>what</code></dt>
 <dd><p>Select directory: 'all' for storr, 'keys' for <code>tbl_keys</code>
@@ -227,32 +216,31 @@ array and 'data' for <code>tbl_data</code> array.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
 <p>A character vector with file paths, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-dump"></a><div class="section">
-<h3 id="method-dump-">Method <code><a href="https://rdrr.io/r/base/dump.html" class="external-link">dump()</a></code><a class="anchor" aria-label="anchor" href="#method-dump-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-dump"></a><div class="section">
+<h3 id="cas-dump-"><code>CAS$dump()</code><a class="anchor" aria-label="anchor" href="#cas-dump-"></a></h3>
 <p>Dump the Storr structure to string.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">dump</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
 <p>A <code>character</code> string, invisibly.</p>
 </div>
 
-</div><p></p><hr><a id="method-CAS-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-CAS-clone"></a><div class="section">
+<h3 id="cas-clone-"><code>CAS$clone()</code><a class="anchor" aria-label="anchor" href="#cas-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">CAS</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -262,6 +250,7 @@ array and 'data' for <code>tbl_data</code> array.</p></dd>
 </div>
 
 </div>
+
 
     </div>
 

@@ -11,13 +11,13 @@ An object of class `StorrFragments`, `R6`.
 - `fob_keys`:
 
   Retrieve the
-  [R6.tiledb::TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
+  [TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
   instance for `keys` array.
 
 - `fob_data`:
 
   Retrieve the
-  [R6.tiledb::TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
+  [TileDBFragments](https://cgiachalis.github.io/R6.tiledb/reference/TileDBFragments.html)
   instance for `data` array.
 
 - `size`:
@@ -28,7 +28,7 @@ An object of class `StorrFragments`, `R6`.
 
 ### Public methods
 
-- [`StorrFragments$new()`](#method-StorrFragments-new)
+- [`StorrFragments$new()`](#method-StorrFragments-initialize)
 
 - [`StorrFragments$consolidate()`](#method-StorrFragments-consolidate)
 
@@ -44,7 +44,7 @@ An object of class `StorrFragments`, `R6`.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `StorrFragments$new()`
 
 Create a new `StorrFragments` instance.
 
@@ -66,7 +66,7 @@ Create a new `StorrFragments` instance.
 
 ------------------------------------------------------------------------
 
-### Method `consolidate()`
+### `StorrFragments$consolidate()`
 
 Consolidates the 'storr' fragments.
 
@@ -116,7 +116,7 @@ success.
 
 ------------------------------------------------------------------------
 
-### Method `vacuum()`
+### `StorrFragments$vacuum()`
 
 Vacuum Storr fragments
 
@@ -153,7 +153,7 @@ immediately; once resolved, it returns `TRUE` indicating vacuum success.
 
 ------------------------------------------------------------------------
 
-### Method `frag_num()`
+### `StorrFragments$frag_num()`
 
 Get the number of fragments.
 
@@ -167,7 +167,7 @@ A numeric value.
 
 ------------------------------------------------------------------------
 
-### Method `to_vacuum_num()`
+### `StorrFragments$to_vacuum_num()`
 
 Return the number of fragments to vacuum.
 
@@ -181,7 +181,7 @@ A numeric value.
 
 ------------------------------------------------------------------------
 
-### Method `reload_finfo()`
+### `StorrFragments$reload_finfo()`
 
 Refresh the Storr's Fragment Info objects.
 
@@ -195,7 +195,7 @@ The object, invisibly.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `StorrFragments$print()`
 
 Print Fragments class.
 
