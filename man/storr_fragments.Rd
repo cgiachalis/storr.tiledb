@@ -20,7 +20,7 @@ work with TileDB Fragments.
 }
 \details{
 The class includes fragment consolidation and vacuuming methods but also
-provides access to \link[R6.tiledb:TileDBFragments]{R6.tiledb::TileDBFragments} instances for \code{keys} and \code{data} arrays
+provides access to \link[R6.tiledb:TileDBFragments]{TileDBFragments} instances for \code{keys} and \code{data} arrays
 where you can further inspect and manage the fragments for the specify arrays.
 }
 \examples{

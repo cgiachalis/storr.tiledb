@@ -14,205 +14,214 @@ An R6 class for creating a content addressable storage.
 \code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{CAS}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{hash_algorithm}}{Hash algorithm}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{hash_algorithm}}{Hash algorithm}
 
-\item{\code{members_instantiated}}{Have the members been instantiated?}
+    \item{\code{members_instantiated}}{Have the members been instantiated?}
 
-\item{\code{size}}{Return directory size}
-}
-\if{html}{\out{</div>}}
+    \item{\code{size}}{Return directory size}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-CAS-create}{\code{CAS$create()}}
-\item \href{#method-CAS-open}{\code{CAS$open()}}
-\item \href{#method-CAS-close}{\code{CAS$close()}}
-\item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
-\item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
-\item \href{#method-CAS-dir_tree}{\code{CAS$dir_tree()}}
-\item \href{#method-CAS-dump}{\code{CAS$dump()}}
-\item \href{#method-CAS-clone}{\code{CAS$clone()}}
+  \itemize{
+    \item \href{#method-CAS-create}{\code{CAS$create()}}
+    \item \href{#method-CAS-open}{\code{CAS$open()}}
+    \item \href{#method-CAS-close}{\code{CAS$close()}}
+    \item \href{#method-CAS-destroy}{\code{CAS$destroy()}}
+    \item \href{#method-CAS-filter_keys}{\code{CAS$filter_keys()}}
+    \item \href{#method-CAS-dir_tree}{\code{CAS$dir_tree()}}
+    \item \href{#method-CAS-dump}{\code{CAS$dump()}}
+    \item \href{#method-CAS-clone}{\code{CAS$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-class'><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-exists'><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-get_metadata'><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="initialize"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-initialize'><code>R6.tiledb::TileDBObject$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_members_df'><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-member_exists'><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-names'><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-print'><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-remove'><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-set_member'><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-class'><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-exists'><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-get_metadata'><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="initialize"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-initialize'><code>R6.tiledb::TileDBObject$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_members_df'><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-member_exists'><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-names'><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-print'><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-remove'><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-set_member'><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-create"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-create}{}}}
-\subsection{Method \code{create()}}{
-Create CAS.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{compression_level}}{Set an integer value for ZSTD compression level.}
-
-\item{\code{algo}}{Select a hash algorithm to be used.}
-
-\item{\code{keep_open}}{Should \code{CAS} be kept opened after creation? Default is
+\subsection{\code{CAS$create()}}{
+  Create CAS.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{compression_level}}{Set an integer value for ZSTD compression level.}
+      \item{\code{algo}}{Select a hash algorithm to be used.}
+      \item{\code{keep_open}}{Should \code{CAS} be kept opened after creation? Default is
 \code{TRUE}; the mode will be \code{"WRITE"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object, invisibly
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The object, invisibly
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-open"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-open}{}}}
-\subsection{Method \code{open()}}{
-Open \code{CAS} object for read or write.
+\subsection{\code{CAS$open()}}{
+  Open \code{CAS} object for read or write.
 
 Setting\code{instantiate} argument to \code{TRUE}, all members will be instantiated
 and cached on opening. They can be accessed via \code{members} active field, i.e., using
 \verb{<member>$object} element.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$open(mode = c("READ", "WRITE"), instantiate = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{mode}}{Mode to open : either \code{"READ"} or \code{"WRITE"}. Default is \code{"READ"}.}
-
-\item{\code{instantiate}}{Should be all members be instantiated at opening?
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$open(mode = c("READ", "WRITE"), instantiate = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{mode}}{Mode to open : either \code{"READ"} or \code{"WRITE"}. Default is \code{"READ"}.}
+      \item{\code{instantiate}}{Should be all members be instantiated at opening?
 Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The object, invisibly.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-close"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-close}{}}}
-\subsection{Method \code{close()}}{
-Close the group object.
+\subsection{\code{CAS$close()}}{
+  Close the group object.
 
 All instantiated group members will be closed if opened, and before
 closing the group object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$close()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$close()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object, invisibly.
+  }
 }
 
-\subsection{Returns}{
-The object, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-destroy"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-destroy}{}}}
-\subsection{Method \code{destroy()}}{
-Delete CAS.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$destroy()}\if{html}{\out{</div>}}
+\subsection{\code{CAS$destroy()}}{
+  Delete CAS.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$destroy()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object, invisibly.
+  }
 }
 
-\subsection{Returns}{
-The object, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-filter_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-filter_keys}{}}}
-\subsection{Method \code{filter_keys()}}{
-Filter \code{tbl_keys} by key and namespace
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$filter_keys(key, namespace, attrnames = character())}\if{html}{\out{</div>}}
+\subsection{\code{CAS$filter_keys()}}{
+  Filter \code{tbl_keys} by key and namespace
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$filter_keys(key, namespace, attrnames = character())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{attrnames}}{A character vector with tiledb attributes (columns).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A `data.table.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{attrnames}}{A character vector with tiledb attributes (columns).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A `data.table.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-dir_tree"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-dir_tree}{}}}
-\subsection{Method \code{dir_tree()}}{
-Print directory contents.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$dir_tree(what = c("all", "keys", "data"))}\if{html}{\out{</div>}}
+\subsection{\code{CAS$dir_tree()}}{
+  Print directory contents.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$dir_tree(what = c("all", "keys", "data"))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{what}}{Select directory: 'all' for storr, 'keys' for \code{tbl_keys}
+array and 'data' for \code{tbl_data} array.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A character vector with file paths, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{what}}{Select directory: 'all' for storr, 'keys' for \code{tbl_keys}
-array and 'data' for \code{tbl_data} array.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A character vector with file paths, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-dump"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-dump}{}}}
-\subsection{Method \code{dump()}}{
-Dump the Storr structure to string.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$dump()}\if{html}{\out{</div>}}
+\subsection{\code{CAS$dump()}}{
+  Dump the Storr structure to string.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$dump()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A \code{character} string, invisibly.
+  }
 }
 
-\subsection{Returns}{
-A \code{character} string, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CAS-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-CAS-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CAS$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{CAS$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CAS$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

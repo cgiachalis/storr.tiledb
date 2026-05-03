@@ -1,7 +1,7 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.36
-Date: 2026-04-21
+Version: 0.0.37
+Date: 2026-05-03
 Authors@R: 
     person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis <xx@github.com>
@@ -42,4 +42,4 @@ Config/testthat/start-first: StorrFragments,auto*
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0
