@@ -20,5 +20,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Constantinos Giachalis \email{xx@github.com}
 
+Authors:
+\itemize{
+  \item Constantinos Giachalis \email{xx@github.com}
+}
+
 }
 \keyword{internal}

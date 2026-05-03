@@ -19,7 +19,7 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
-\item{async}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
+\item{async}{Should the \link[mirai:mirai]{mirai} daemons be enabled for async
 functions? Default is  \code{FALSE}.}
 
 \item{...}{Other arguments passed to driver when \code{init = TRUE}.
@@ -58,7 +58,7 @@ can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
 \subsection{Buffer size}{
 
 The buffer allocation size is set to 3 MB per column when fetching data. Use
-\code{\link[tiledb:save_allocation_size_preference]{tiledb::set_allocation_size_preference()}} to set a different limit.
+\code{\link[tiledb:set_allocation_size_preference]{tiledb::set_allocation_size_preference()}} to set a different limit.
 }
 }
 

@@ -26,753 +26,731 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{envir}}{The object hash table.}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{envir}}{The object hash table.}
 
-\item{\code{envir_metadata}}{The key metadata hash table.}
+    \item{\code{envir_metadata}}{The key metadata hash table.}
 
-\item{\code{default_namespace}}{The default namespace.}
+    \item{\code{default_namespace}}{The default namespace.}
 
-\item{\code{traits}}{Driver traits.}
+    \item{\code{traits}}{Driver traits.}
 
-\item{\code{hash_raw}}{The hash function.}
+    \item{\code{hash_raw}}{The hash function.}
 
-\item{\code{serialize_object}}{The serialisation function.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{serialize_object}}{The serialisation function.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{async_info}}{\code{mirai} information}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{async_info}}{\code{mirai} information}
 
-\item{\code{size}}{Return Storr size}
-}
-\if{html}{\out{</div>}}
+    \item{\code{size}}{Return Storr size}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TileDBStorr-new}{\code{TileDBStorr$new()}}
-\item \href{#method-TileDBStorr-destroy}{\code{TileDBStorr$destroy()}}
-\item \href{#method-TileDBStorr-flush_cache}{\code{TileDBStorr$flush_cache()}}
-\item \href{#method-TileDBStorr-set}{\code{TileDBStorr$set()}}
-\item \href{#method-TileDBStorr-mset}{\code{TileDBStorr$mset()}}
-\item \href{#method-TileDBStorr-set_async}{\code{TileDBStorr$set_async()}}
-\item \href{#method-TileDBStorr-mset_async}{\code{TileDBStorr$mset_async()}}
-\item \href{#method-TileDBStorr-set_by_value}{\code{TileDBStorr$set_by_value()}}
-\item \href{#method-TileDBStorr-mset_by_value}{\code{TileDBStorr$mset_by_value()}}
-\item \href{#method-TileDBStorr-set_by_value_async}{\code{TileDBStorr$set_by_value_async()}}
-\item \href{#method-TileDBStorr-mset_by_value_async}{\code{TileDBStorr$mset_by_value_async()}}
-\item \href{#method-TileDBStorr-set_value}{\code{TileDBStorr$set_value()}}
-\item \href{#method-TileDBStorr-mset_value}{\code{TileDBStorr$mset_value()}}
-\item \href{#method-TileDBStorr-get}{\code{TileDBStorr$get()}}
-\item \href{#method-TileDBStorr-mget}{\code{TileDBStorr$mget()}}
-\item \href{#method-TileDBStorr-get_hash}{\code{TileDBStorr$get_hash()}}
-\item \href{#method-TileDBStorr-mget_hash}{\code{TileDBStorr$mget_hash()}}
-\item \href{#method-TileDBStorr-hash_object}{\code{TileDBStorr$hash_object()}}
-\item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
-\item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
-\item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
-\item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
-\item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
-\item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
-\item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
-\item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
-\item \href{#method-TileDBStorr-clr_keymeta}{\code{TileDBStorr$clr_keymeta()}}
-\item \href{#method-TileDBStorr-clr_keymeta_async}{\code{TileDBStorr$clr_keymeta_async()}}
-\item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
-\item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
-\item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
-\item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
-\item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
-\item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
-\item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
-\item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
-\item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
-\item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
-\item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
-\item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
-\item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
-\item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
-\item \href{#method-TileDBStorr-import}{\code{TileDBStorr$import()}}
-\item \href{#method-TileDBStorr-export}{\code{TileDBStorr$export()}}
-\item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
-\item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
-\item \href{#method-TileDBStorr-export_tdb}{\code{TileDBStorr$export_tdb()}}
-}
+  \itemize{
+    \item \href{#method-TileDBStorr-initialize}{\code{TileDBStorr$new()}}
+    \item \href{#method-TileDBStorr-destroy}{\code{TileDBStorr$destroy()}}
+    \item \href{#method-TileDBStorr-flush_cache}{\code{TileDBStorr$flush_cache()}}
+    \item \href{#method-TileDBStorr-set}{\code{TileDBStorr$set()}}
+    \item \href{#method-TileDBStorr-mset}{\code{TileDBStorr$mset()}}
+    \item \href{#method-TileDBStorr-set_async}{\code{TileDBStorr$set_async()}}
+    \item \href{#method-TileDBStorr-mset_async}{\code{TileDBStorr$mset_async()}}
+    \item \href{#method-TileDBStorr-set_by_value}{\code{TileDBStorr$set_by_value()}}
+    \item \href{#method-TileDBStorr-mset_by_value}{\code{TileDBStorr$mset_by_value()}}
+    \item \href{#method-TileDBStorr-set_by_value_async}{\code{TileDBStorr$set_by_value_async()}}
+    \item \href{#method-TileDBStorr-mset_by_value_async}{\code{TileDBStorr$mset_by_value_async()}}
+    \item \href{#method-TileDBStorr-set_value}{\code{TileDBStorr$set_value()}}
+    \item \href{#method-TileDBStorr-mset_value}{\code{TileDBStorr$mset_value()}}
+    \item \href{#method-TileDBStorr-get}{\code{TileDBStorr$get()}}
+    \item \href{#method-TileDBStorr-mget}{\code{TileDBStorr$mget()}}
+    \item \href{#method-TileDBStorr-get_hash}{\code{TileDBStorr$get_hash()}}
+    \item \href{#method-TileDBStorr-mget_hash}{\code{TileDBStorr$mget_hash()}}
+    \item \href{#method-TileDBStorr-hash_object}{\code{TileDBStorr$hash_object()}}
+    \item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
+    \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
+    \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
+    \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
+    \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
+    \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
+    \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
+    \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
+    \item \href{#method-TileDBStorr-clr_keymeta}{\code{TileDBStorr$clr_keymeta()}}
+    \item \href{#method-TileDBStorr-clr_keymeta_async}{\code{TileDBStorr$clr_keymeta_async()}}
+    \item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
+    \item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
+    \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
+    \item \href{#method-TileDBStorr-exists}{\code{TileDBStorr$exists()}}
+    \item \href{#method-TileDBStorr-exists_object}{\code{TileDBStorr$exists_object()}}
+    \item \href{#method-TileDBStorr-del}{\code{TileDBStorr$del()}}
+    \item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
+    \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
+    \item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
+    \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
+    \item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
+    \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
+    \item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
+    \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
+    \item \href{#method-TileDBStorr-import}{\code{TileDBStorr$import()}}
+    \item \href{#method-TileDBStorr-export}{\code{TileDBStorr$export()}}
+    \item \href{#method-TileDBStorr-index_export}{\code{TileDBStorr$index_export()}}
+    \item \href{#method-TileDBStorr-index_import}{\code{TileDBStorr$index_import()}}
+    \item \href{#method-TileDBStorr-export_tdb}{\code{TileDBStorr$export_tdb()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-new}{}}}
-\subsection{Method \code{new()}}{
-Initialise \code{TileDBStorr}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$new(driver, default_namespace, async = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{driver}}{A TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.}
-
-\item{\code{default_namespace}}{The default namespace.}
-
-\item{\code{async}}{Should the \link[mirai:mirai]{mirai::mirai} daemons be enabled for async
+\if{html}{\out{<a id="method-TileDBStorr-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-initialize}{}}}
+\subsection{\code{TileDBStorr$new()}}{
+  Initialise \code{TileDBStorr}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$new(driver, default_namespace, async = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{driver}}{A TileDB driver, see \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+      \item{\code{default_namespace}}{The default namespace.}
+      \item{\code{async}}{Should the \link[mirai:mirai]{mirai} daemons be enabled for async
 functions? Default is  \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-destroy"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-destroy}{}}}
-\subsection{Method \code{destroy()}}{
-Destroy (delete) 'storr'.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$destroy()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$destroy()}}{
+  Destroy (delete) 'storr'.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$destroy()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{NULL}, invisibly.
+  }
 }
 
-\subsection{Returns}{
-\code{NULL}, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-flush_cache"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-flush_cache}{}}}
-\subsection{Method \code{flush_cache()}}{
-Flush the cache of \code{R} objects.
+\subsection{\code{TileDBStorr$flush_cache()}}{
+  Flush the cache of \code{R} objects.
 
 It removes all items from the hash tables (R objects and
 their metadata).
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$flush_cache()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$flush_cache()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The object, invisibly.
+  }
 }
 
-\subsection{Returns}{
-The object, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set}{}}}
-\subsection{Method \code{set()}}{
-Set a key value pair.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set(key, value, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$set()}}{
+  Set a key value pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set(key, value, namespace = self$default_namespace, expires_at,
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The hash value, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{value}}{An R object to store.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The hash value, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset}{}}}
-\subsection{Method \code{mset()}}{
-Set multiple key value pairs.
+\subsection{\code{TileDBStorr$mset()}}{
+  Set multiple key value pairs.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{value}}{A vector of values to store.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{value}}{A vector of values to store.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hash values, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_async}{}}}
-\subsection{Method \code{set_async()}}{
-Set a key value pair asynchronously.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_async(key, value, namespace = self$default_namespace,
+\subsection{\code{TileDBStorr$set_async()}}{
+  Set a key value pair asynchronously.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_async(key, value, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{value}}{An R object to store.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Invisibly, a named list with two elements:
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai()}} objects, \code{obj} and \code{key};
 \code{obj} refers to object table and \code{key} to key table. Both return
 logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_async}{}}}
-\subsection{Method \code{mset_async()}}{
-Set multiple key value pairs asynchronously.
+\subsection{\code{TileDBStorr$mset_async()}}{
+  Set multiple key value pairs asynchronously.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{value}}{A vector of values to store.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Invisibly, a named list with two elements:
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{value}}{A vector of values to store.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai()}} objects, \code{obj} and \code{key};
 \code{obj} refers to object table and \code{key} to key table. Both return
 logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_by_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_by_value}{}}}
-\subsection{Method \code{set_by_value()}}{
-Set a key value pair using its hash as key.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$set_by_value()}}{
+  Set a key value pair using its hash as key.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_by_value(value, namespace = self$default_namespace,
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The hash value, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{value}}{An R object to store.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The hash value, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_by_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_by_value}{}}}
-\subsection{Method \code{mset_by_value()}}{
-Set multiple key value pairs using their
+\subsection{\code{TileDBStorr$mset_by_value()}}{
+  Set multiple key value pairs using their
 hashes as keys.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value(value, namespace = self$default_namespace,
-  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_by_value(value, namespace = self$default_namespace,
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{value}}{A vector of values to store.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{value}}{A vector of values to store.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hash values, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_by_value_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_by_value_async}{}}}
-\subsection{Method \code{set_by_value_async()}}{
-Set a key value pair using its hash as key,
+\subsection{\code{TileDBStorr$set_by_value_async()}}{
+  Set a key value pair using its hash as key,
 asynchronously.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_by_value_async(value, namespace = self$default_namespace,
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_by_value_async(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{value}}{An R object to store.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Invisibly, a named list with two elements:
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai()}} objects, \code{obj} and \code{key};
 \code{obj} refers to object table and \code{key} to key table. Both return
 logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: the hash value
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_by_value_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_by_value_async}{}}}
-\subsection{Method \code{mset_by_value_async()}}{
-Set multiple key value pairs using their
+\subsection{\code{TileDBStorr$mset_by_value_async()}}{
+  Set multiple key value pairs using their
 hashes as keys, asynchronously.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{value}}{A vector of values to store.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Invisibly, a named list with two elements:
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{value}}{A vector of values to store.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Invisibly, a named list with two elements:
 \itemize{
-\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai::mirai()}} objects, \code{obj} and \code{key};
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai()}} objects, \code{obj} and \code{key};
 \code{obj} refers to object table and \code{key} to key table. Both return
 logical \code{TRUE} if an evaluation is successful.
 \item \code{hash}: a vector with hash values
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_value}{}}}
-\subsection{Method \code{set_value()}}{
-Add an R object without key.
+\subsection{\code{TileDBStorr$set_value()}}{
+  Add an R object without key.
 
 This is used internally.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_value(value, use_cache = getOption("storr.tiledb.cache",
-  TRUE))}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_value(value, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{value}}{An R object to store.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The hash value, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{value}}{An R object to store.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The hash value, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_value}{}}}
-\subsection{Method \code{mset_value()}}{
-Add a vector of R objects.
+\subsection{\code{TileDBStorr$mset_value()}}{
+  Add a vector of R objects.
 
 This is used internally.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_value(values, use_cache = getOption("storr.tiledb.cache",
-  TRUE))}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_value(values, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{values}}{A vector of values to store.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{values}}{A vector of values to store.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hash values, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get}{}}}
-\subsection{Method \code{get()}}{
-Get an object given a key-namespace pair.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$get()}}{
+  Get an object given a key-namespace pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{R} object if available.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{R} object if available.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mget"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget}{}}}
-\subsection{Method \code{mget()}}{
-Get multiple objects.
+\subsection{\code{TileDBStorr$mget()}}{
+  Get multiple objects.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{missing}}{Value to use for missing elements.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of \code{R} objects.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{missing}}{Value to use for missing elements.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list of \code{R} objects.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_hash}{}}}
-\subsection{Method \code{get_hash()}}{
-Get hash value.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_hash(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$get_hash()}}{
+  Get hash value.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_hash(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The hash value.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The hash value.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mget_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_hash}{}}}
-\subsection{Method \code{mget_hash()}}{
-Get hash values.
+\subsection{\code{TileDBStorr$mget_hash()}}{
+  Get hash values.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_hash(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_hash(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hashes.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hashes.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-hash_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-hash_object}{}}}
-\subsection{Method \code{hash_object()}}{
-Create a hash digest for an R object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$hash_object(object)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$hash_object()}}{
+  Create a hash digest for an R object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$hash_object(object)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{object}}{An R object.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A character string of a fixed length containing the
+requested digest (hash) of the supplied R object.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{object}}{An R object.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A character string of a fixed length containing the
-requested digest (hash) of the supplied R object.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_value}{}}}
-\subsection{Method \code{get_value()}}{
-Get an object given its hash.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_value(hash, use_cache = getOption("storr.tiledb.cache",
-  TRUE))}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$get_value()}}{
+  Get an object given its hash.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_value(hash, use_cache = getOption("storr.tiledb.cache",
+  TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{The hash value of the object.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{R} object if available.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{The hash value of the object.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{R} object if available.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mget_value"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_value}{}}}
-\subsection{Method \code{mget_value()}}{
-Get multiple objects given their hashes.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_value(hash, use_cache = getOption("storr.tiledb.cache",
-  TRUE), missing = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$mget_value()}}{
+  Get multiple objects given their hashes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_value(hash, use_cache = getOption("storr.tiledb.cache",
+  TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values."}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{missing}}{Value to use for missing elements.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of \code{R} objects.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values."}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-
-\item{\code{missing}}{Value to use for missing elements.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list of \code{R} objects.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta}{}}}
-\subsection{Method \code{set_keymeta()}}{
-Set key metadata.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+\subsection{\code{TileDBStorr$set_keymeta()}}{
+  Set key metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_keymeta(key, namespace = self$default_namespace, expires_at,
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{key:namespace} string, invisibly. If both arguments
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{key:namespace} string, invisibly. If both arguments
 \code{"expires_at"} and \code{"notes"} are missing, then nothing is set and
 a zero length character vector is returned.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta}{}}}
-\subsection{Method \code{mset_keymeta()}}{
-Set multiple key metadata.
+\subsection{\code{TileDBStorr$mset_keymeta()}}{
+  Set multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
+  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{key:namespace} character vector of the recycled length,
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{key:namespace} character vector of the recycled length,
 invisibly. If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_keymeta_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta_async}{}}}
-\subsection{Method \code{set_keymeta_async()}}{
-Set key metadata asynchronously.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$set_keymeta_async(key, namespace = self$default_namespace,
+\subsection{\code{TileDBStorr$set_keymeta_async()}}{
+  Set key metadata asynchronously.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$set_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A scalar character of key name.}
-
-\item{\code{namespace}}{A scalar character of namespace name.}
-
-\item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A scalar string of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{expires_at}}{A date-time object of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A scalar string of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list with two elements (invisibly):
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list with two elements (invisibly):
 \itemize{
 \item \code{mirai}: a mirai object
 \item \code{keyns}: The \code{key:namespace} string
@@ -780,46 +758,43 @@ A named list with two elements (invisibly):
 
 If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mset_keymeta_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta_async}{}}}
-\subsection{Method \code{mset_keymeta_async()}}{
-Set multiple key metadata.
+\subsection{\code{TileDBStorr$mset_keymeta_async()}}{
+  Set multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
-  cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
-
-\item{\code{notes}}{A character vector of notes (optional).}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+  cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of date-times of class \code{POSIXct} (optional).}
+      \item{\code{notes}}{A character vector of notes (optional).}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list with two elements (invisibly):
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list with two elements (invisibly):
 \itemize{
 \item \code{mirai}: a mirai object
 \item \code{keyns}: The \code{key:namespace} character vector of the recycled length
@@ -827,72 +802,72 @@ A named list with two elements (invisibly):
 
 If both arguments \code{"expires_at"} and \code{"notes"} are missing,
 then nothing is set and a zero length character vector is returned.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-get_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-get_keymeta}{}}}
-\subsection{Method \code{get_keymeta()}}{
-Get key's metadata.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$get_keymeta(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{The key name to get metadata values from.}
-
-\item{\code{namespace}}{The namespace to look the key within.}
-
-\item{\code{use_cache}}{Should it be retrieved from cache? Default is
+\subsection{\code{TileDBStorr$get_keymeta()}}{
+  Get key's metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_keymeta(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{The key name to get metadata values from.}
+      \item{\code{namespace}}{The namespace to look the key within.}
+      \item{\code{use_cache}}{Should it be retrieved from cache? Default is
 \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list with the key-metadata: \code{"expires_at"}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list with the key-metadata: \code{"expires_at"}
 and \verb{"notes".}
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-mget_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_keymeta}{}}}
-\subsection{Method \code{mget_keymeta()}}{
-Get multiple key metadata.
+\subsection{\code{TileDBStorr$mget_keymeta()}}{
+  Get multiple key metadata.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector with keys to get metadata values from.}
-
-\item{\code{namespace}}{A character vector of namespaces to look the keys within.}
-
-\item{\code{use_cache}}{Should it be retrieved from cache? Default is
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector with keys to get metadata values from.}
+      \item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+      \item{\code{use_cache}}{Should it be retrieved from cache? Default is
 \code{TRUE}.}
-
-\item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list with key metadata for each key-namespace
+      \item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list with key metadata for each key-namespace
 pair. For not found pairs will return the \code{missing} value.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-clr_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta}{}}}
-\subsection{Method \code{clr_keymeta()}}{
-Remove key metadata.
+\subsection{\code{TileDBStorr$clr_keymeta()}}{
+  Remove key metadata.
 
 This method is a convenient  wrapper around \code{set_keymeta()} and \code{mset_keymeta()}
 and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
@@ -900,37 +875,37 @@ and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clr_keymeta(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$clr_keymeta(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{key:namespace} character vector of the recycled length,
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{key:namespace} character vector of the recycled length,
 invisibly.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-clr_keymeta_async"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta_async}{}}}
-\subsection{Method \code{clr_keymeta_async()}}{
-Remove key metadata asynchronously.
+\subsection{\code{TileDBStorr$clr_keymeta_async()}}{
+  Remove key metadata asynchronously.
 
 This method is a convenient  wrapper around \code{set_keymeta_async()} and \code{mset_keymeta_async()}
 and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
@@ -938,481 +913,498 @@ and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clr_keymeta_async(key, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$clr_keymeta_async(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{use_cache}}{Should the cache be used to retrieve the metadata?
 Default is \code{TRUE}. If a key:namespace not found in the cache, it will
 be fetched from database. Note that when setting \code{FALSE}, the cache
 will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 \code{use_cache = TRUE}.}
-
-\item{\code{cfg}}{Pass a \code{\link[tiledb:generics]{tiledb::config()}} object to override context's configuration.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list with two elements (invisibly):
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list with two elements (invisibly):
 \itemize{
 \item \code{mirai}: a mirai object
 \item \code{keyns}: The \code{key:namespace} character vector of the recycled length
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-fill"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-fill}{}}}
-\subsection{Method \code{fill()}}{
-Set one or more keys to the same value.
+\subsection{\code{TileDBStorr$fill()}}{
+  Set one or more keys to the same value.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$fill(key, value, namespace = self$default_namespace,
-  use_cache = getOption("storr.tiledb.cache", TRUE))}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$fill(key, value, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{value}}{An R object to store.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hash values, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-duplicate"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-duplicate}{}}}
-\subsection{Method \code{duplicate()}}{
-Duplicate a set of keys.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$duplicate(key_src, key_dest, namespace = self$default_namespace,
-  namespace_src = namespace, namespace_dest = namespace)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key_src}}{A character vector of source keys.}
-
-\item{\code{key_dest}}{A character vector of destination keys.}
-
-\item{\code{namespace}}{The namespace to copy keys within (used only of
+\subsection{\code{TileDBStorr$duplicate()}}{
+  Duplicate a set of keys.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$duplicate(key_src, key_dest, namespace = self$default_namespace,
+  namespace_src = namespace, namespace_dest = namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key_src}}{A character vector of source keys.}
+      \item{\code{key_dest}}{A character vector of destination keys.}
+      \item{\code{namespace}}{The namespace to copy keys within (used only of
 \code{namespace_src} and \code{namespace_dest} are not provided.}
-
-\item{\code{namespace_src}}{The source namespace - use this where keys are
+      \item{\code{namespace_src}}{The source namespace - use this where keys are
 duplicated across namespaces.}
-
-\item{\code{namespace_dest}}{The destination namespace - use this where keys are duplicated
+      \item{\code{namespace_dest}}{The destination namespace - use this where keys are duplicated
 across namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{NULL}, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{NULL}, invisibly.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-clear"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear}{}}}
-\subsection{Method \code{clear()}}{
-Clear a storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clear(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$clear()}}{
+  Clear a storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$clear(namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A scalar character of namespace name or \code{NULL} to
+clear all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The number of deleted namespaces.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A scalar character of namespace name or \code{NULL} to
-clear all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The number of deleted namespaces.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-exists"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-exists}{}}}
-\subsection{Method \code{exists()}}{
-Check a key-namespace pair exists.
+\subsection{\code{TileDBStorr$exists()}}{
+  Check a key-namespace pair exists.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$exists(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector indicating which key-namespace pair exists.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector indicating which key-namespace pair exists.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-exists_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-exists_object}{}}}
-\subsection{Method \code{exists_object()}}{
-Check a serialised object exists given a hash.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$exists_object(hash)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$exists_object()}}{
+  Check a serialised object exists given a hash.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$exists_object(hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector indicating which object exists.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector indicating which object exists.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-del"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-del}{}}}
-\subsection{Method \code{del()}}{
-Delete an object from the storr.
+\subsection{\code{TileDBStorr$del()}}{
+  Delete an object from the storr.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$del(key, namespace = self$default_namespace)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of key names.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector indicating which key-namespace pair was
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$del(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector indicating which key-namespace pair was
 deleted, invisibly.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-keys_with_expiration"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-keys_with_expiration}{}}}
-\subsection{Method \code{keys_with_expiration()}}{
-Get the key-namespace pairs with expiration timestamps.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$keys_with_expiration(namespace = self$default_namespace,
-  datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBStorr$keys_with_expiration()}}{
+  Get the key-namespace pairs with expiration timestamps.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$keys_with_expiration(namespace = self$default_namespace,
+  datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{data.table}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An object of class \code{data.table}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-expired_keys}{}}}
-\subsection{Method \code{expired_keys()}}{
-Get the expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$expired_keys(namespace = self$default_namespace,
-  datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBStorr$expired_keys()}}{
+  Get the expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$expired_keys(namespace = self$default_namespace,
+  datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{data.table}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An object of class \code{data.table}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-has_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-has_expired_keys}{}}}
-\subsection{Method \code{has_expired_keys()}}{
-Check for expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$has_expired_keys(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$has_expired_keys()}}{
+  Check for expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$has_expired_keys(namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for expired keys, \code{FALSE} otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for expired keys, \code{FALSE} otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-clear_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear_expired_keys}{}}}
-\subsection{Method \code{clear_expired_keys()}}{
-Remove the expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$clear_expired_keys(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$clear_expired_keys()}}{
+  Remove the expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$clear_expired_keys(namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A boolean value \code{TRUE} indicating success, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A boolean value \code{TRUE} indicating success, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-list"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-list}{}}}
-\subsection{Method \code{list()}}{
-List all keys stored in a namespace.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list(namespace = self$default_namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$list()}}{
+  List all keys stored in a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$list(namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A scalar character of namespace name.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A sorted character vector with keys.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A scalar character of namespace name.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A sorted character vector with keys.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-list_hashes"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-list_hashes}{}}}
-\subsection{Method \code{list_hashes()}}{
-List all hashes stored in the storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_hashes()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$list_hashes()}}{
+  List all hashes stored in the storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$list_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A sorted character vector with hashes.
+  }
 }
 
-\subsection{Returns}{
-A sorted character vector with hashes.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-list_namespaces"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-list_namespaces}{}}}
-\subsection{Method \code{list_namespaces()}}{
-List all namespaces in the storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$list_namespaces()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$list_namespaces()}}{
+  List all namespaces in the storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$list_namespaces()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A sorted character vector with namespaces.
+  }
 }
 
-\subsection{Returns}{
-A sorted character vector with namespaces.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-gc"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-gc}{}}}
-\subsection{Method \code{gc()}}{
-Garbage collect the storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$gc(clear_expired = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBStorr$gc()}}{
+  Garbage collect the storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$gc(clear_expired = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{clear_expired}}{Should the expired keys be deleted?
+Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of unused hashes, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{clear_expired}}{Should the expired keys be deleted?
-Default is \code{FALSE}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of unused hashes, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-import"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-import}{}}}
-\subsection{Method \code{import()}}{
-Import objects to storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$import(src, list = NULL, namespace = self$default_namespace,
-  skip_missing = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{src}}{A source to import objects from. It can be a storr, list, or environment.}
-
-\item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
+\subsection{\code{TileDBStorr$import()}}{
+  Import objects to storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$import(src, list = NULL, namespace = self$default_namespace,
+  skip_missing = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{src}}{A source to import objects from. It can be a storr, list, or environment.}
+      \item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
 If named, the names of the character vector will be the names of the objects as created in the storr.}
-
-\item{\code{namespace}}{Namespace to get objects from, and to put objects into.
+      \item{\code{namespace}}{Namespace to get objects from, and to put objects into.
 If \code{NULL}, all namespaces from \code{src} will be imported. If named,
 then the same rule is followed as \code{list}; \code{namespace = c(a = b)} will import the
 contents of namespace \code{b} as namespace \code{a}.}
-
-\item{\code{skip_missing}}{Logical, indicating if missing keys (specified in \code{list})
+      \item{\code{skip_missing}}{Logical, indicating if missing keys (specified in \code{list})
 should be skipped over, rather than being treated as an error (the default).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector with destination namespaces, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector with destination namespaces, invisibly.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-export"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-export}{}}}
-\subsection{Method \code{export()}}{
-Export objects from storr.
+\subsection{\code{TileDBStorr$export()}}{
+  Export objects from storr.
 
 Use list() to export to a brand new list, or use as.list(object) for a shorthand.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$export(dest, list = NULL, namespace = self$default_namespace,
-  skip_missing = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dest}}{A destination to export objects to. It can be a storr, list, or environment.}
-
-\item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$export(dest, list = NULL, namespace = self$default_namespace,
+  skip_missing = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{dest}}{A destination to export objects to. It can be a storr, list, or environment.}
+      \item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
 If named, the names of the character vector will be the names of the objects as created in the storr.}
-
-\item{\code{namespace}}{Namespace to get objects from, and to put objects into.  If \code{NULL},
+      \item{\code{namespace}}{Namespace to get objects from, and to put objects into.  If \code{NULL},
 then this will export namespaces from this (source) storr into the destination;
 if there is more than one namespace, this is only possible if \code{dest}
 is a storr (otherwise there will be an error).}
-
-\item{\code{skip_missing}}{Logical, indicating if missing keys (specified in \code{list})
+      \item{\code{skip_missing}}{Logical, indicating if missing keys (specified in \code{list})
 should be skipped over, rather than being treated as an error (the default).}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{dest} object, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{dest} object, invisibly.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-index_export"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-index_export}{}}}
-\subsection{Method \code{index_export()}}{
-Generate a \code{data.table} with an index of objects
+\subsection{\code{TileDBStorr$index_export()}}{
+  Generate a \code{data.table} with an index of objects
 present in a storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_export(namespace = NULL)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$index_export(namespace = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{data.table}.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An object of class \code{data.table}.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-index_import"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-index_import}{}}}
-\subsection{Method \code{index_import()}}{
-Import an index of objects from a storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$index_import(index)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{index}}{A \code{data.frame} with minimum required columns 'namespace', 'key'
+\subsection{\code{TileDBStorr$index_import()}}{
+  Import an index of objects from a storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$index_import(index)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{index}}{A \code{data.frame} with minimum required columns 'namespace', 'key'
 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
 hashes are present in the storr.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE}, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE}, invisibly.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-export_tdb"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-export_tdb}{}}}
-\subsection{Method \code{export_tdb()}}{
-Export objects from storr to another TileDB storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBStorr$export_tdb(key = character(0),
-  namespace = self$default_namespace, uri_dest, context_dest = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of source keys.}
-
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{uri_dest}}{The URI path of destination storr.}
-
-\item{\code{context_dest}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object
+\subsection{\code{TileDBStorr$export_tdb()}}{
+  Export objects from storr to another TileDB storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$export_tdb(key = character(0),
+  namespace = self$default_namespace, uri_dest, context_dest = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of source keys.}
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{uri_dest}}{The URI path of destination storr.}
+      \item{\code{context_dest}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object
 for destination storr.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical \code{TRUE} indicating successful export, invisibly.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical \code{TRUE} indicating successful export, invisibly.
-}
-}
+
 }

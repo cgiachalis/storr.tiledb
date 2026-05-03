@@ -20,8 +20,8 @@ The new uri path, invisibly.
 It renames the driver's basename, i.e., 'path/oldname' to 'path/newname'.
 }
 \seealso{
-Other storr-utilities: 
-\code{\link{storr_copy}()},
-\code{\link{storr_move}()}
+Other storr-utilities:
+\code{\link[=storr_copy]{storr_copy()}},
+\code{\link[=storr_move]{storr_move()}}
 }
 \concept{storr-utilities}

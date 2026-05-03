@@ -20,8 +20,8 @@ The new uri path, invisibly.
 Copy Storr to another URI
 }
 \seealso{
-Other storr-utilities: 
-\code{\link{storr_move}()},
-\code{\link{storr_rename}()}
+Other storr-utilities:
+\code{\link[=storr_move]{storr_move()}},
+\code{\link[=storr_rename]{storr_rename()}}
 }
 \concept{storr-utilities}

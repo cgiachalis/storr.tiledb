@@ -11,799 +11,835 @@ An R6 class that represents a content addressed storage
 driver that complies with 'storr' interface using TileDB Embedded as a
 back-end.
 
-This class is intended for usage in \link[storr:storr]{storr::storr} or \link{TileDBStorr}.
+This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBStorr}.
 }
 \keyword{internal}
 \section{Super classes}{
-\code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{\link[storr.tiledb:CAS]{storr.tiledb::CAS}} -> \code{TileDBDriver}
+\code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{\link[storr.tiledb:CAS]{CAS}} -> \code{TileDBDriver}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{traits}}{Driver traits (\strong{immutable}).}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{traits}}{Driver traits (\strong{immutable}).}
 
-\item{\code{binary}}{Binary toggle, default is \code{FALSE} (\strong{immutable}).}
-}
-\if{html}{\out{</div>}}
+    \item{\code{binary}}{Binary toggle, default is \code{FALSE} (\strong{immutable}).}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TileDBDriver-new}{\code{TileDBDriver$new()}}
-\item \href{#method-TileDBDriver-type}{\code{TileDBDriver$type()}}
-\item \href{#method-TileDBDriver-get_hash}{\code{TileDBDriver$get_hash()}}
-\item \href{#method-TileDBDriver-mget_hash}{\code{TileDBDriver$mget_hash()}}
-\item \href{#method-TileDBDriver-set_hash}{\code{TileDBDriver$set_hash()}}
-\item \href{#method-TileDBDriver-mset_hash}{\code{TileDBDriver$mset_hash()}}
-\item \href{#method-TileDBDriver-get_object}{\code{TileDBDriver$get_object()}}
-\item \href{#method-TileDBDriver-mget_object}{\code{TileDBDriver$mget_object()}}
-\item \href{#method-TileDBDriver-set_object}{\code{TileDBDriver$set_object()}}
-\item \href{#method-TileDBDriver-mset_object}{\code{TileDBDriver$mset_object()}}
-\item \href{#method-TileDBDriver-set_keymeta}{\code{TileDBDriver$set_keymeta()}}
-\item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
-\item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
-\item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
-\item \href{#method-TileDBDriver-exists_hash}{\code{TileDBDriver$exists_hash()}}
-\item \href{#method-TileDBDriver-exists_object}{\code{TileDBDriver$exists_object()}}
-\item \href{#method-TileDBDriver-del_hash}{\code{TileDBDriver$del_hash()}}
-\item \href{#method-TileDBDriver-del_object}{\code{TileDBDriver$del_object()}}
-\item \href{#method-TileDBDriver-list_hashes}{\code{TileDBDriver$list_hashes()}}
-\item \href{#method-TileDBDriver-list_namespaces}{\code{TileDBDriver$list_namespaces()}}
-\item \href{#method-TileDBDriver-list_keys}{\code{TileDBDriver$list_keys()}}
-\item \href{#method-TileDBDriver-list_unused_hashes}{\code{TileDBDriver$list_unused_hashes()}}
-\item \href{#method-TileDBDriver-delete_unused_hashes}{\code{TileDBDriver$delete_unused_hashes()}}
-\item \href{#method-TileDBDriver-delete_namespaces}{\code{TileDBDriver$delete_namespaces()}}
-\item \href{#method-TileDBDriver-keys_with_expiration}{\code{TileDBDriver$keys_with_expiration()}}
-\item \href{#method-TileDBDriver-keys_without_expiration}{\code{TileDBDriver$keys_without_expiration()}}
-\item \href{#method-TileDBDriver-expired_keys}{\code{TileDBDriver$expired_keys()}}
-\item \href{#method-TileDBDriver-unexpired_keys}{\code{TileDBDriver$unexpired_keys()}}
-\item \href{#method-TileDBDriver-delete_expired_keys}{\code{TileDBDriver$delete_expired_keys()}}
-\item \href{#method-TileDBDriver-num_expired_keys}{\code{TileDBDriver$num_expired_keys()}}
-\item \href{#method-TileDBDriver-num_unexpired_keys}{\code{TileDBDriver$num_unexpired_keys()}}
-\item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
-\item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
-\item \href{#method-TileDBDriver-export_tdb}{\code{TileDBDriver$export_tdb()}}
+  \itemize{
+    \item \href{#method-TileDBDriver-initialize}{\code{TileDBDriver$new()}}
+    \item \href{#method-TileDBDriver-type}{\code{TileDBDriver$type()}}
+    \item \href{#method-TileDBDriver-get_hash}{\code{TileDBDriver$get_hash()}}
+    \item \href{#method-TileDBDriver-mget_hash}{\code{TileDBDriver$mget_hash()}}
+    \item \href{#method-TileDBDriver-set_hash}{\code{TileDBDriver$set_hash()}}
+    \item \href{#method-TileDBDriver-mset_hash}{\code{TileDBDriver$mset_hash()}}
+    \item \href{#method-TileDBDriver-get_object}{\code{TileDBDriver$get_object()}}
+    \item \href{#method-TileDBDriver-mget_object}{\code{TileDBDriver$mget_object()}}
+    \item \href{#method-TileDBDriver-set_object}{\code{TileDBDriver$set_object()}}
+    \item \href{#method-TileDBDriver-mset_object}{\code{TileDBDriver$mset_object()}}
+    \item \href{#method-TileDBDriver-set_keymeta}{\code{TileDBDriver$set_keymeta()}}
+    \item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
+    \item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
+    \item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
+    \item \href{#method-TileDBDriver-exists_hash}{\code{TileDBDriver$exists_hash()}}
+    \item \href{#method-TileDBDriver-exists_object}{\code{TileDBDriver$exists_object()}}
+    \item \href{#method-TileDBDriver-del_hash}{\code{TileDBDriver$del_hash()}}
+    \item \href{#method-TileDBDriver-del_object}{\code{TileDBDriver$del_object()}}
+    \item \href{#method-TileDBDriver-list_hashes}{\code{TileDBDriver$list_hashes()}}
+    \item \href{#method-TileDBDriver-list_namespaces}{\code{TileDBDriver$list_namespaces()}}
+    \item \href{#method-TileDBDriver-list_keys}{\code{TileDBDriver$list_keys()}}
+    \item \href{#method-TileDBDriver-list_unused_hashes}{\code{TileDBDriver$list_unused_hashes()}}
+    \item \href{#method-TileDBDriver-delete_unused_hashes}{\code{TileDBDriver$delete_unused_hashes()}}
+    \item \href{#method-TileDBDriver-delete_namespaces}{\code{TileDBDriver$delete_namespaces()}}
+    \item \href{#method-TileDBDriver-keys_with_expiration}{\code{TileDBDriver$keys_with_expiration()}}
+    \item \href{#method-TileDBDriver-keys_without_expiration}{\code{TileDBDriver$keys_without_expiration()}}
+    \item \href{#method-TileDBDriver-expired_keys}{\code{TileDBDriver$expired_keys()}}
+    \item \href{#method-TileDBDriver-unexpired_keys}{\code{TileDBDriver$unexpired_keys()}}
+    \item \href{#method-TileDBDriver-delete_expired_keys}{\code{TileDBDriver$delete_expired_keys()}}
+    \item \href{#method-TileDBDriver-num_expired_keys}{\code{TileDBDriver$num_expired_keys()}}
+    \item \href{#method-TileDBDriver-num_unexpired_keys}{\code{TileDBDriver$num_unexpired_keys()}}
+    \item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
+    \item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
+    \item \href{#method-TileDBDriver-export_tdb}{\code{TileDBDriver$export_tdb()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-class'><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-exists'><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-get_metadata'><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_members_df'><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-member_exists'><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-names'><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-print'><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-remove'><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-set_member'><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="close"><a href='../../storr.tiledb/html/CAS.html#method-CAS-close'><code>storr.tiledb::CAS$close()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="create"><a href='../../storr.tiledb/html/CAS.html#method-CAS-create'><code>storr.tiledb::CAS$create()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="destroy"><a href='../../storr.tiledb/html/CAS.html#method-CAS-destroy'><code>storr.tiledb::CAS$destroy()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dir_tree"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dir_tree'><code>storr.tiledb::CAS$dir_tree()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dump"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dump'><code>storr.tiledb::CAS$dump()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="filter_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-filter_keys'><code>storr.tiledb::CAS$filter_keys()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="open"><a href='../../storr.tiledb/html/CAS.html#method-CAS-open'><code>storr.tiledb::CAS$open()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-class'><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-exists'><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="get_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-get_metadata'><code>R6.tiledb::TileDBObject$get_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="is_open"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-is_open'><code>R6.tiledb::TileDBObject$is_open()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="reopen"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-reopen'><code>R6.tiledb::TileDBObject$reopen()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="set_metadata"><a href='../../R6.tiledb/html/TileDBObject.html#method-TileDBObject-set_metadata'><code>R6.tiledb::TileDBObject$set_metadata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="count_members"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-count_members'><code>R6.tiledb::TileDBGroup$count_members()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="delete"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-delete'><code>R6.tiledb::TileDBGroup$delete()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_member'><code>R6.tiledb::TileDBGroup$get_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="get_members_df"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-get_members_df'><code>R6.tiledb::TileDBGroup$get_members_df()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="member_exists"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-member_exists'><code>R6.tiledb::TileDBGroup$member_exists()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="names"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-names'><code>R6.tiledb::TileDBGroup$names()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="print"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-print'><code>R6.tiledb::TileDBGroup$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="remove"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-remove'><code>R6.tiledb::TileDBGroup$remove()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBGroup" data-id="set_member"><a href='../../R6.tiledb/html/TileDBGroup.html#method-TileDBGroup-set_member'><code>R6.tiledb::TileDBGroup$set_member()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="close"><a href='../../storr.tiledb/html/CAS.html#method-CAS-close'><code>CAS$close()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="create"><a href='../../storr.tiledb/html/CAS.html#method-CAS-create'><code>CAS$create()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="destroy"><a href='../../storr.tiledb/html/CAS.html#method-CAS-destroy'><code>CAS$destroy()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dir_tree"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dir_tree'><code>CAS$dir_tree()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="dump"><a href='../../storr.tiledb/html/CAS.html#method-CAS-dump'><code>CAS$dump()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="filter_keys"><a href='../../storr.tiledb/html/CAS.html#method-CAS-filter_keys'><code>CAS$filter_keys()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="CAS" data-id="open"><a href='../../storr.tiledb/html/CAS.html#method-CAS-open'><code>CAS$open()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{TileDBDriver} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$new(uri, ctx = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-TileDBDriver-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-initialize}{}}}
+\subsection{\code{TileDBDriver$new()}}{
+  Create a new \code{TileDBDriver} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$new(uri, ctx = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{uri}}{URI path for the \code{TileDBDriver} object.}
+      \item{\code{ctx}}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{uri}}{URI path for the \code{TileDBDriver} object.}
-
-\item{\code{ctx}}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-type"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-type}{}}}
-\subsection{Method \code{type()}}{
-Driver type.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$type()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$type()}}{
+  Driver type.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$type()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A character string.
+  }
 }
 
-\subsection{Returns}{
-A character string.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-get_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-get_hash}{}}}
-\subsection{Method \code{get_hash()}}{
-Get hash values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$get_hash(key, namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$get_hash()}}{
+  Get hash values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$get_hash(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hashes.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hashes.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mget_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mget_hash}{}}}
-\subsection{Method \code{mget_hash()}}{
-Get hash values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mget_hash(key, namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$mget_hash()}}{
+  Get hash values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mget_hash(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hashes.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of hashes.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-set_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-set_hash}{}}}
-\subsection{Method \code{set_hash()}}{
-Set hash values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$set_hash(key, namespace, hash, expires_at, notes)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$set_hash()}}{
+  Set hash values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$set_hash(key, namespace, hash, expires_at, notes)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{hash}}{A vector of hash values.}
+      \item{\code{expires_at}}{A vector of expiration datetimes.}
+      \item{\code{notes}}{A character vector of notes.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{hash}}{A vector of hash values.}
-
-\item{\code{expires_at}}{A vector of expiration datetimes.}
-
-\item{\code{notes}}{A character vector of notes.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mset_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mset_hash}{}}}
-\subsection{Method \code{mset_hash()}}{
-Set hash values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mset_hash(key, namespace, hash, expires_at, notes)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$mset_hash()}}{
+  Set hash values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mset_hash(key, namespace, hash, expires_at, notes)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{hash}}{A vector of hash values.}
+      \item{\code{expires_at}}{A vector of expiration datetimes.}
+      \item{\code{notes}}{A character vector of notes.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{hash}}{A vector of hash values.}
-
-\item{\code{expires_at}}{A vector of expiration datetimes.}
-
-\item{\code{notes}}{A character vector of notes.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-get_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-get_object}{}}}
-\subsection{Method \code{get_object()}}{
-Get R object given a hash.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$get_object(hash)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$get_object()}}{
+  Get R object given a hash.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$get_object(hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A hash value.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A de-serialized R object.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A hash value.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A de-serialized R object.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mget_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mget_object}{}}}
-\subsection{Method \code{mget_object()}}{
-Get a list R objects given a hash vector.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mget_object(hash)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$mget_object()}}{
+  Get a list R objects given a hash vector.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mget_object(hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list with de-serialized R objects.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list with de-serialized R objects.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-set_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-set_object}{}}}
-\subsection{Method \code{set_object()}}{
-Store serialised R objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$set_object(hash, value)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$set_object()}}{
+  Store serialised R objects.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$set_object(hash, value)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+      \item{\code{value}}{A vector with serialised values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-
-\item{\code{value}}{A vector with serialised values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mset_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mset_object}{}}}
-\subsection{Method \code{mset_object()}}{
-Store serialised R objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mset_object(hash, value)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$mset_object()}}{
+  Store serialised R objects.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mset_object(hash, value)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+      \item{\code{value}}{A vector with serialised values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-
-\item{\code{value}}{A vector with serialised values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-set_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-set_keymeta}{}}}
-\subsection{Method \code{set_keymeta()}}{
-Set key-namespace metadata.
+\subsection{\code{TileDBDriver$set_keymeta()}}{
+  Set key-namespace metadata.
 
 Sets a pair of expiry date-time and notes.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$set_keymeta(key, namespace, expires_at, notes)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$set_keymeta(key, namespace, expires_at, notes)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of expiration datetimes.}
+      \item{\code{notes}}{A character vector of notes.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of expiration datetimes.}
-
-\item{\code{notes}}{A character vector of notes.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mset_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mset_keymeta}{}}}
-\subsection{Method \code{mset_keymeta()}}{
-Set multiple key-namespace metadata.
+\subsection{\code{TileDBDriver$mset_keymeta()}}{
+  Set multiple key-namespace metadata.
 
 Sets a pair of expiry date-time and notes.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mset_keymeta(key, namespace, expires_at, notes)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mset_keymeta(key, namespace, expires_at, notes)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{expires_at}}{A vector of expiration datetimes.}
+      \item{\code{notes}}{A character vector of notes.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for successful operation, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{expires_at}}{A vector of expiration datetimes.}
-
-\item{\code{notes}}{A character vector of notes.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for successful operation, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-get_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-get_keymeta}{}}}
-\subsection{Method \code{get_keymeta()}}{
-Get key-namespace metadata.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$get_keymeta(key, namespace)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A single character key.}
-
-\item{\code{namespace}}{A single character namespace.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list with key-metadata, \code{"expires_at"}
+\subsection{\code{TileDBDriver$get_keymeta()}}{
+  Get key-namespace metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$get_keymeta(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A single character key.}
+      \item{\code{namespace}}{A single character namespace.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list with key-metadata, \code{"expires_at"}
 and \verb{"notes".}
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-mget_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-mget_keymeta}{}}}
-\subsection{Method \code{mget_keymeta()}}{
-Get multiple key-namespace metadata.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$mget_keymeta(key, namespace, nomatch = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-
-\item{\code{nomatch}}{Value to fill in case of no match.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list with key metadata for each key-namespace
+\subsection{\code{TileDBDriver$mget_keymeta()}}{
+  Get multiple key-namespace metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mget_keymeta(key, namespace, nomatch = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{nomatch}}{Value to fill in case of no match.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list with key metadata for each key-namespace
 pair. For not found pairs will return the nomatch value.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-exists_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-exists_hash}{}}}
-\subsection{Method \code{exists_hash()}}{
-Check a key-namespace pair exists.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_hash(key, namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$exists_hash()}}{
+  Check a key-namespace pair exists.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$exists_hash(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-exists_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-exists_object}{}}}
-\subsection{Method \code{exists_object()}}{
-Check a serialised object exists.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$exists_object(hash)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$exists_object()}}{
+  Check a serialised object exists.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$exists_object(hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-del_hash"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-del_hash}{}}}
-\subsection{Method \code{del_hash()}}{
-Delete a key/namespace pair.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$del_hash(key, namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$del_hash()}}{
+  Delete a key/namespace pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$del_hash(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of keys.}
-
-\item{\code{namespace}}{A character vector of namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-del_object"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-del_object}{}}}
-\subsection{Method \code{del_object()}}{
-Delete serialised objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$del_object(hash)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$del_object()}}{
+  Delete serialised objects.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$del_object(hash)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{hash}}{A vector of hash values.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{hash}}{A vector of hash values.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-list_hashes"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-list_hashes}{}}}
-\subsection{Method \code{list_hashes()}}{
-List all hash values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$list_hashes()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$list_hashes()}}{
+  List all hash values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$list_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values.
+  }
 }
 
-\subsection{Returns}{
-A vector of hash values.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-list_namespaces"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-list_namespaces}{}}}
-\subsection{Method \code{list_namespaces()}}{
-List all namespace values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$list_namespaces()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$list_namespaces()}}{
+  List all namespace values.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$list_namespaces()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of namespace values.
+  }
 }
 
-\subsection{Returns}{
-A vector of namespace values.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-list_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-list_keys}{}}}
-\subsection{Method \code{list_keys()}}{
-List keys given a namespace.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$list_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$list_keys()}}{
+  List keys given a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$list_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A single character namespace.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of key values.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A single character namespace.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of key values.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-list_unused_hashes"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-list_unused_hashes}{}}}
-\subsection{Method \code{list_unused_hashes()}}{
-List unused hashes.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$list_unused_hashes()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$list_unused_hashes()}}{
+  List unused hashes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$list_unused_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of hash values.
+  }
 }
 
-\subsection{Returns}{
-A vector of hash values.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-delete_unused_hashes"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-delete_unused_hashes}{}}}
-\subsection{Method \code{delete_unused_hashes()}}{
-Delete unused hashes.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_unused_hashes()}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$delete_unused_hashes()}}{
+  Delete unused hashes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$delete_unused_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector of deleted hash values, invisibly.
+  }
 }
 
-\subsection{Returns}{
-A vector of deleted hash values, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-delete_namespaces"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-delete_namespaces}{}}}
-\subsection{Method \code{delete_namespaces()}}{
-Delete namespaces.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_namespaces(ns)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$delete_namespaces()}}{
+  Delete namespaces.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$delete_namespaces(ns)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{ns}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical vector indicating successful deletion or not.
+\code{FALSE} means the namespace was not found in database.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{ns}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical vector indicating successful deletion or not.
-\code{FALSE} means the namespace was not found in database.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-keys_with_expiration"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-keys_with_expiration}{}}}
-\subsection{Method \code{keys_with_expiration()}}{
-Get the key-namespace pairs with expiration timestamps.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_with_expiration(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBDriver$keys_with_expiration()}}{
+  Get the key-namespace pairs with expiration timestamps.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$keys_with_expiration(namespace, datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An \code{ArrowObject} object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-keys_without_expiration"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-keys_without_expiration}{}}}
-\subsection{Method \code{keys_without_expiration()}}{
-Get the key-namespace pairs without expiration timestamps.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$keys_without_expiration(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBDriver$keys_without_expiration()}}{
+  Get the key-namespace pairs without expiration timestamps.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$keys_without_expiration(namespace, datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An \code{ArrowObject} object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-expired_keys}{}}}
-\subsection{Method \code{expired_keys()}}{
-Get the expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$expired_keys(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBDriver$expired_keys()}}{
+  Get the expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$expired_keys(namespace, datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An \code{ArrowObject} object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-unexpired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-unexpired_keys}{}}}
-\subsection{Method \code{unexpired_keys()}}{
-Get the unexpired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$unexpired_keys(namespace, datetimes = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{datetimes}}{Should the \code{expires_at} column be returned?
+\subsection{\code{TileDBDriver$unexpired_keys()}}{
+  Get the unexpired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$unexpired_keys(namespace, datetimes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{datetimes}}{Should the \code{expires_at} column be returned?
 Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An \code{ArrowObject} object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-delete_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-delete_expired_keys}{}}}
-\subsection{Method \code{delete_expired_keys()}}{
-Get the expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$delete_expired_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$delete_expired_keys()}}{
+  Get the expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$delete_expired_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A boolean value \code{TRUE} indicating success, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A boolean value \code{TRUE} indicating success, invisibly.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-num_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-num_expired_keys}{}}}
-\subsection{Method \code{num_expired_keys()}}{
-Get the number of expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_expired_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$num_expired_keys()}}{
+  Get the number of expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$num_expired_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A numeric value.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A numeric value.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-num_unexpired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-num_unexpired_keys}{}}}
-\subsection{Method \code{num_unexpired_keys()}}{
-Get the number of unexpired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$num_unexpired_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$num_unexpired_keys()}}{
+  Get the number of unexpired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$num_unexpired_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A numeric value.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A numeric value.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-has_expired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-has_expired_keys}{}}}
-\subsection{Method \code{has_expired_keys()}}{
-Check for expired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_expired_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$has_expired_keys()}}{
+  Check for expired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$has_expired_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for expired keys, \code{FALSE} otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for expired keys, \code{FALSE} otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-has_unexpired_keys"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-has_unexpired_keys}{}}}
-\subsection{Method \code{has_unexpired_keys()}}{
-Check for unexpired key-namespace pairs.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$has_unexpired_keys(namespace)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$has_unexpired_keys()}}{
+  Check for unexpired key-namespace pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$has_unexpired_keys(namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for unexpired keys, \code{FALSE} otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} for unexpired keys, \code{FALSE} otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBDriver-export_tdb"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBDriver-export_tdb}{}}}
-\subsection{Method \code{export_tdb()}}{
-Export objects from storr to another TileDB storr.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TileDBDriver$export_tdb(key, namespace, dest_driver)}\if{html}{\out{</div>}}
+\subsection{\code{TileDBDriver$export_tdb()}}{
+  Export objects from storr to another TileDB storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$export_tdb(key, namespace, dest_driver)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of source keys.}
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{dest_driver}}{The destination TileDB driver, See \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical \code{TRUE} indicating successful export, invisibly.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{A character vector of source keys.}
-
-\item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
-
-\item{\code{dest_driver}}{The destination TileDB driver, See \code{\link[=driver_tiledb]{driver_tiledb()}}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A logical \code{TRUE} indicating successful export, invisibly.
-}
-}
 }
