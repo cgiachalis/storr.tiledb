@@ -638,7 +638,7 @@ requested digest (hash) of the supplied R object.
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{hash}}{A vector of hash values."}
+      \item{\code{hash}}{A vector of hash values.}
       \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
       \item{\code{missing}}{Value to use for missing elements.}
     }

@@ -1050,7 +1050,7 @@ TileDBStorr <- R6::R6Class(
     #' @description Get multiple objects given their hashes.
     #'
     #'
-    #' @param hash A vector of hash values."
+    #' @param hash A vector of hash values.
     #' @param use_cache `r sto_cache`
     #' @param missing Value to use for missing elements.
     #'
