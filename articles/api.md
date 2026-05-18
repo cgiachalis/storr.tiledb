@@ -24,7 +24,7 @@ The first approach generates a `TileDBStorr` object that represents the
 storr interface optimised for TileDB storage and provides additional
 functionality. The latter is the standard `storr` object.
 
-## API Usage
+## API Examples
 
 ### 1. get, set, del
 
@@ -113,11 +113,35 @@ Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
+# $expires_at
+# [1] "2026-05-18 10:36:50 EEST"
+# 
+# $notes
+# [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
+# [[1]]
+# [[1]]$expires_at
+# [1] "2026-05-18 10:36:50 EEST"
+# 
+# [[1]]$notes
+# [1] "{\"name\":\"John\",\"id\":12345}"
+# 
+# 
+# [[2]]
+# [[2]]$expires_at
+# [1] "2026-05-18 10:31:51 EEST"
+# 
+# [[2]]$notes
+# [1] NA
 
 # Update key metadata
 sto$set_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
+# $expires_at
+# [1] "2026-05-18 10:31:51 EEST"
+# 
+# $notes
+# [1] "Updated Note"
 ```
 
 **Expiration management**
@@ -128,8 +152,8 @@ sto$get_keymeta("bb")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     aa 2026-04-20 10:55:26
-# 2:   objects     bb 2026-04-20 10:50:27
+# 1:   objects     aa 2026-05-18 10:36:50
+# 2:   objects     bb 2026-05-18 10:31:51
 
 Sys.sleep(1)
 
@@ -137,7 +161,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-04-20 10:50:27
+# 1:   objects     bb 2026-05-18 10:31:51
 
 # Remove expired keys
 sto$clear_expired_keys()
