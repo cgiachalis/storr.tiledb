@@ -35,7 +35,7 @@ sto2 <- storr::storr(dr)
 The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality.
 The latter is the standard `storr` object.
 
-## API Usage
+## API Examples
 
 ### 1. get, set, del
 ```{r}
@@ -96,7 +96,7 @@ sto$set("bb", 1, expires_at = Sys.time() + 1)
 
 Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 
-```r
+```{r}
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
