@@ -85,8 +85,10 @@ parent class \link{CAS}.
 
 \strong{Key-Namespace Metadata}
 \itemize{
-\item \strong{\code{get_keymeta()}}, \strong{\code{set_keymeta()}}, and \strong{\code{mset_keymeta()}} - Manage metadata such as
-expiry times and notes for key-namespace pairs
+\item \strong{\code{get_keymeta()}} and \strong{\code{set_keymeta()}} - Manage metadata such as
+expiry times and notes for single key-namespace pairs
+\item \strong{\code{mget_keymeta()}} and \strong{\code{mset_keymeta()}} - Manage metadata such as
+expiry times and notes for multiple key-namespace pairs
 }
 
 \strong{Expiration Management}

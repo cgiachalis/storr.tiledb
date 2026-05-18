@@ -49,8 +49,10 @@
 #'
 #' **Key-Namespace Metadata**
 #'
-#'  - **`get_keymeta()`**, **`set_keymeta()`**, and **`mset_keymeta()`** - Manage metadata such as
-#'   expiry times and notes for key-namespace pairs
+#'  - **`get_keymeta()`** and **`set_keymeta()`** - Manage metadata such as
+#'   expiry times and notes for single key-namespace pairs
+#'  - **`mget_keymeta()`** and **`mset_keymeta()`** - Manage metadata such as
+#'   expiry times and notes for multiple key-namespace pairs
 #'
 #' **Expiration Management**
 #'
