@@ -5,7 +5,7 @@
 #'
 #' This class is intended for usage into [StorrTimeTravel].
 #'
-#' @returns A `TTDriver`, `R6` object.
+#' @returns A `TimeDriver`, `R6` object.
 #'
 #' @export
 #'
@@ -22,7 +22,7 @@ TimeDriver <- R6::R6Class(
     #'
     traits = NULL,
 
-    #' @description Instantiate a new `TTDriver` object.
+    #' @description Instantiate a new `TimeDriver` object.
     #'
     #' @param uri URI path for the `TimeBDriver` object.
     #' @param ctx Optional [tiledb::tiledb_ctx()] object.
@@ -57,7 +57,7 @@ TimeDriver <- R6::R6Class(
       "tiledb"
     },
 
-   #' @description Open `TTDriver` object for read or write.
+   #' @description Open `TimeDriver` object for read or write.
    #'
    #' Setting`instantiate` argument to `TRUE`, all members will be instantiated
    #' and cached on opening. They can be accessed via `members` active field, i.e., using

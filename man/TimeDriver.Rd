@@ -4,7 +4,7 @@
 \alias{TimeDriver}
 \title{Generate a \code{TimeDriver} Object}
 \value{
-A \code{TTDriver}, \code{R6} object.
+A \code{TimeDriver}, \code{R6} object.
 }
 \description{
 A \link{TileDBDriver} variant with read only class methods and
@@ -88,7 +88,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
 \if{html}{\out{<a id="method-TimeDriver-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-TimeDriver-initialize}{}}}
 \subsection{\code{TimeDriver$new()}}{
-  Instantiate a new \code{TTDriver} object.
+  Instantiate a new \code{TimeDriver} object.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TimeDriver$new(uri, ctx = NULL, timestamp = NULL)}
@@ -132,7 +132,7 @@ or length 2 with start, end timestamps
 \if{html}{\out{<a id="method-TimeDriver-open"></a>}}
 \if{latex}{\out{\hypertarget{method-TimeDriver-open}{}}}
 \subsection{\code{TimeDriver$open()}}{
-  Open \code{TTDriver} object for read or write.
+  Open \code{TimeDriver} object for read or write.
 
 Setting\code{instantiate} argument to \code{TRUE}, all members will be instantiated
 and cached on opening. They can be accessed via \code{members} active field, i.e., using
