@@ -9,7 +9,7 @@ template:
       google: Roboto Slab
     primary: '#090D14'
     link-color: '#1C4BC4ED'
-    code-color: '#725c30'
+    code-color: '#5D4311'
     text-decoration-color: '#151B21'
     body-color: '#1B222B'
 home:
