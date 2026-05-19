@@ -1,9 +1,9 @@
-#' @title Generate a `TTDriver` Object
+#' @title Generate a `TimeDriver` Object
 #'
 #' @description A [TileDBDriver] variant with read only class methods and
 #' time-travel support.
 #'
-#' This class is intended for usage in [StorrTimeTravel].
+#' This class is intended for usage into [StorrTimeTravel].
 #'
 #' @returns A `TTDriver`, `R6` object.
 #'
@@ -11,10 +11,10 @@
 #'
 #' @keywords internal
 #'
-TTDriver <- R6::R6Class(
+TimeDriver <- R6::R6Class(
   inherit = TileDBGroup,
   cloneable = FALSE,
-  classname = "TTDriver",
+  classname = "TimeDriver",
 
   public = list(
 
@@ -24,7 +24,7 @@ TTDriver <- R6::R6Class(
 
     #' @description Instantiate a new `TTDriver` object.
     #'
-    #' @param uri URI path for the `TTDBDriver` object.
+    #' @param uri URI path for the `TimeBDriver` object.
     #' @param ctx Optional [tiledb::tiledb_ctx()] object.
     #' @param timestamp Set a `TileDB` timestamp range that
     #'  the resource will be opened at. Effective in `"READ"` mode only.

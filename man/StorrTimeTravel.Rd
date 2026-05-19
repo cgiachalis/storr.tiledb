@@ -68,7 +68,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{driver}}{A \link{TTDriver} object.}
+      \item{\code{driver}}{A \link{TimeDriver} object.}
       \item{\code{default_namespace}}{The default namespace.}
     }
     \if{html}{\out{</div>}}
