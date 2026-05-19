@@ -70,8 +70,8 @@ StorrTimeTravel <- R6::R6Class(
     get = function(key, namespace = self$default_namespace) {
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
-      self$get_value(self$get_hash(key, namespace))
-
+      hash <- self$get_hash(key, namespace)
+      self$get_value(hash)
     },
 
     #' @description Get multiple objects.
@@ -87,7 +87,8 @@ StorrTimeTravel <- R6::R6Class(
     mget = function(key, namespace = self$default_namespace,  missing = NULL) {
 
       # NB: storr::join_key_namespace check is performed inside $query_keys0
-      self$mget_value(self$mget_hash(key, namespace), missing)
+       hash <- self$mget_hash(key, namespace)
+       self$mget_value(hash, missing)
     },
 
     #' @description Get hash value.
@@ -104,8 +105,9 @@ StorrTimeTravel <- R6::R6Class(
       private$check_input(namespace, n = 1, type = "character")
 
       if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) stop(KeyError(key,
-                                                                                         namespace)))
+        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
+          stop(KeyError(key,namespace))
+        })
       }
       else {
         if (self$exists(key, namespace)) {
@@ -419,9 +421,9 @@ StorrTimeTravel <- R6::R6Class(
     timestamp = function(value) {
 
       if (!missing(value)) {
-        private$DRIVER$tiledb_timestamp <- value
+        private$DRIVER$timestamp <- value
       } else {
-        private$DRIVER$tiledb_timestamp
+        private$DRIVER$timestamp
       }
 
     }
