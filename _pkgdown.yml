@@ -64,6 +64,7 @@ reference:
     Key functions to work with a 'storr' or creating a TileDB driver.
   contents:
   - storr_tiledb
+  - storr_timetravel
   - driver_tiledb
 - subtitle: Storr Management
   desc: |
@@ -92,5 +93,6 @@ reference:
   - CAS
   - TileDBDriver
   - TileDBStorr
+  - TimeDriver
   - StorrFragments
-
+  - StorrTimeTravel
