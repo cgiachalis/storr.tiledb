@@ -28,12 +28,12 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Initialise `StorrTimeTravel`.
     #'
-    #' @param driver A [TimeDriver] object.
+    #' @param driver A [TimeTravelDriver] object.
     #' @param default_namespace The default namespace.
     #'
     initialize = function(driver, default_namespace) {
 
-      if (!inherits(driver, "TimeDriver")) {
+      if (!inherits(driver, "TimeTravelDriver")) {
         stop("Not a valid Time-Travel 'driver'. Please use a 'TTDriver' object.",
              call. = FALSE)
       }

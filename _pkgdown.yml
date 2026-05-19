@@ -93,6 +93,6 @@ reference:
   - CAS
   - TileDBDriver
   - TileDBStorr
-  - TimeDriver
+  - TimeTravelDriver
   - StorrFragments
   - StorrTimeTravel

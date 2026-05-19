@@ -1,20 +1,20 @@
-#' @title Generate a `TimeDriver` Object
+#' @title Generate a `TimeTravelDriver` Object
 #'
 #' @description A [TileDBDriver] variant with read only class methods and
 #' time-travel support.
 #'
 #' This class is intended for usage into [StorrTimeTravel].
 #'
-#' @returns A `TimeDriver`, `R6` object.
+#' @returns A `TimeTravelDriver`, `R6` object.
 #'
 #' @export
 #'
 #' @keywords internal
 #'
-TimeDriver <- R6::R6Class(
+TimeTravelDriver <- R6::R6Class(
   inherit = TileDBGroup,
   cloneable = FALSE,
-  classname = "TimeDriver",
+  classname = "TimeTravelDriver",
 
   public = list(
 
@@ -22,7 +22,7 @@ TimeDriver <- R6::R6Class(
     #'
     traits = NULL,
 
-    #' @description Instantiate a new `TimeDriver` object.
+    #' @description Instantiate a new `TimeTravelDriver` object.
     #'
     #' @param uri URI path for the `TimeBDriver` object.
     #' @param ctx Optional [tiledb::tiledb_ctx()] object.
@@ -57,7 +57,7 @@ TimeDriver <- R6::R6Class(
       "tiledb"
     },
 
-   #' @description Open `TimeDriver` object for read or write.
+   #' @description Open `TimeTravelDriver` object for read or write.
    #'
    #' Setting`instantiate` argument to `TRUE`, all members will be instantiated
    #' and cached on opening. They can be accessed via `members` active field, i.e., using
