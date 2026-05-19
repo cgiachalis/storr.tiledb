@@ -1,6 +1,6 @@
 #' A Storr with Time-Travel
 #'
-#' A `'storr'` with read-only class methods and time-travel support.
+#' A `'storr'` variant with read-only class methods and time-travel support.
 #'
 #' @inheritParams driver_tiledb
 #' @param default_namespace The default namespace: `"objects"`.
@@ -12,7 +12,7 @@
 #'  or length 2 with start, end timestamps
 #'  - An object of class `tiledb_timestamp`. See [R6.tiledb::set_tiledb_timestamp()]
 #'
-#' Also, it can be set through active field `$timestamp`.
+#' Set a new timestamp with active field `$timestamp`, see examples.
 #'
 #' @returns An object of class [StorrTimeTravel], R6.
 #'
@@ -33,10 +33,12 @@
 #'
 #' t2 <- Sys.time()
 #'
-#' # Open storr with travel-support at t0
+#' # Open storr with time-travel support at t0
 #' stor <- storr_timetravel(uri, timestamp = t0)
 #'
 #' # Read at t0
+#' stor$list_hashes() # character(0), no hashes at t0
+#'
 #' stor$get("a") #  key 'a' ('objects') not found
 #'
 #' # Read at t1

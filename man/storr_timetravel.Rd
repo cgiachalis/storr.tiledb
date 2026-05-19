@@ -24,13 +24,13 @@ or length 2 with start, end timestamps
 \item An object of class \code{tiledb_timestamp}. See \code{\link[R6.tiledb:set_tiledb_timestamp]{R6.tiledb::set_tiledb_timestamp()}}
 }
 
-Also, it can be set through active field \verb{$timestamp}.}
+Set a new timestamp with active field \verb{$timestamp}, see examples.}
 }
 \value{
 An object of class \link{StorrTimeTravel}, R6.
 }
 \description{
-A \code{'storr'} with read-only class methods and time-travel support.
+A \code{'storr'} variant with read-only class methods and time-travel support.
 }
 \examples{
 \dontrun{
@@ -47,10 +47,12 @@ sto$set("b", 2)
 
 t2 <- Sys.time()
 
-# Open storr with travel-support at t0
+# Open storr with time-travel support at t0
 stor <- storr_timetravel(uri, timestamp = t0)
 
 # Read at t0
+stor$list_hashes() # character(0), no hashes at t0
+
 stor$get("a") #  key 'a' ('objects') not found
 
 # Read at t1
