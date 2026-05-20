@@ -1107,7 +1107,7 @@ TileDBDriver <- R6::R6Class(
         # Copy keys to destination storr
         # NB: We can not do it with arrow because of:
         #     https://github.com/TileDB-Inc/TileDB-R/issues/847
-        arr <-  dest_driver$get_member("tbl_keys")$tiledb_array()
+        arr <- dest_driver$get_member("tbl_keys")$tiledb_array()
         arr[] <- idx
 
       } else { # Diff hash algos

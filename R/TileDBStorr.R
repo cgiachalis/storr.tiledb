@@ -941,7 +941,8 @@ TileDBStorr <- R6::R6Class(
     get = function(key, namespace = self$default_namespace, use_cache = getOption("storr.tiledb.cache", TRUE)) {
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
-      self$get_value(self$get_hash(key, namespace), use_cache)
+      hash <- self$get_hash(key, namespace)
+      self$get_value(hash, use_cache)
 
     },
 
@@ -960,7 +961,8 @@ TileDBStorr <- R6::R6Class(
                     missing = NULL) {
 
       # NB: storr::join_key_namespace check is performed inside $query_keys0
-      self$mget_value(self$mget_hash(key, namespace), use_cache, missing)
+      hash <- self$mget_hash(key, namespace)
+      self$mget_value(hash, use_cache, missing)
     },
 
     #' @description Get hash value.
@@ -977,8 +979,9 @@ TileDBStorr <- R6::R6Class(
       private$check_input(namespace, n = 1, type = "character")
 
       if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) stop(KeyError(key,
-                                                                                         namespace)))
+        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
+          stop(KeyError(key, namespace))
+        })
       }
       else {
         if (self$exists(key, namespace)) {
