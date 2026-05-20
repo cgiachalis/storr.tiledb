@@ -54,12 +54,11 @@
 #'
 #'
 storr_timetravel <- function(uri,
-                         default_namespace = "objects",
-                         context = NULL,
-                         timestamp = NULL) {
-
+                             default_namespace = "objects",
+                             context = NULL,
+                             timestamp = NULL) {
   # check scalar namespace
-  dr <- TimeDriver$new(uri, ctx = context, timestamp = timestamp)
+  dr <- TimeTravelDriver$new(uri, ctx = context, timestamp = timestamp)
   StorrTimeTravel$new(dr, default_namespace = default_namespace)
 
 }
