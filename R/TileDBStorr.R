@@ -1862,6 +1862,16 @@ TileDBStorr <- R6::R6Class(
       sort(private$DRIVER$list_hashes())
     },
 
+    #' @description List unused hashes stored in the storr.
+    #'
+    #'
+    #' @return A sorted character vector with unused hashes.
+    #'
+    list_unused_hashes = function() {
+
+      sort(private$DRIVER$list_unused_hashes())
+    },
+
     #' @description List all namespaces in the storr.
     #'
     #'

@@ -51,6 +51,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-has_expired_keys}{\code{StorrTimeTravel$has_expired_keys()}}
     \item \href{#method-StorrTimeTravel-list}{\code{StorrTimeTravel$list()}}
     \item \href{#method-StorrTimeTravel-list_hashes}{\code{StorrTimeTravel$list_hashes()}}
+    \item \href{#method-StorrTimeTravel-list_unused_hashes}{\code{StorrTimeTravel$list_unused_hashes()}}
     \item \href{#method-StorrTimeTravel-list_namespaces}{\code{StorrTimeTravel$list_namespaces()}}
     \item \href{#method-StorrTimeTravel-export}{\code{StorrTimeTravel$export()}}
     \item \href{#method-StorrTimeTravel-index_export}{\code{StorrTimeTravel$index_export()}}
@@ -429,6 +430,21 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     A sorted character vector with hashes.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-list_unused_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-list_unused_hashes}{}}}
+\subsection{\code{StorrTimeTravel$list_unused_hashes()}}{
+  List unused hashes stored in the storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$list_unused_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A sorted character vector with unused hashes.
   }
 }
 

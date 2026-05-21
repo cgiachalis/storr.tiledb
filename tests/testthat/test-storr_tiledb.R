@@ -167,3 +167,23 @@ test_that("cache global option", {
   expect_equal(numhash(sto$envir_metadata), 2)
 
 })
+
+
+test_that("'list_unused_hashes'", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  sto$mset(letters[1:3], 1:3)
+
+  sto$del("a")
+
+  expect_length(sto$list_hashes(), 3)
+  expect_equal(sto$list_unused_hashes(), "9dc695ac953ca975b83c673f7144cffb")
+
+  sto$gc()
+  expect_length(sto$list_hashes(), 2)
+
+  expect_equal(sto$list_unused_hashes(), character(0))
+
+})

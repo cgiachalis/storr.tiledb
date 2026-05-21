@@ -94,6 +94,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
     \item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
     \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
+    \item \href{#method-TileDBStorr-list_unused_hashes}{\code{TileDBStorr$list_unused_hashes()}}
     \item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
     \item \href{#method-TileDBStorr-gc}{\code{TileDBStorr$gc()}}
     \item \href{#method-TileDBStorr-import}{\code{TileDBStorr$import()}}
@@ -1228,6 +1229,21 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     A sorted character vector with hashes.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_unused_hashes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_unused_hashes}{}}}
+\subsection{\code{TileDBStorr$list_unused_hashes()}}{
+  List unused hashes stored in the storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$list_unused_hashes()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A sorted character vector with unused hashes.
   }
 }
 

@@ -78,6 +78,46 @@ test_that("'get'/'mget' with time-travel", {
 
 })
 
+test_that("'list_unsed_hashes' with time-travel", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$mset(c("a", "b"), 1:2)
+  t1 <- Sys.time()
+  del_hash <- sto$get_hash("a")
+  sto$del("a")
+  sto$set("b", 3, namespace = "ns2")
+  t2 <- Sys.time()
+
+  sto$gc()
+  t3 <- Sys.time()
+
+  hashes <- sto$list_hashes()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_equal(stott$list_hashes(), character())
+
+  # Open at t1
+  stott$timestamp <- t1
+  expect_equal(stott$mget(c("a", "b")), list(1, 2))
+  expect_length(stott$list_hashes(), 2)
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_equal(stott$list_unused_hashes(),  del_hash)
+  expect_length(stott$list_hashes(), 3)
+
+  stott$timestamp <- t3
+  expect_equal(stott$list_unused_hashes(),  character(0))
+  expect_length(stott$list_hashes(), 2)
+
+})
+
 test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
@@ -245,7 +285,6 @@ test_that("'export_tdb' with time-travel", {
   # Expect nothing at t0
   expect_warning(stott$export_tdb(uri_dest = uri2), class = "warning",
                  "Nothing to export for the selected key-namespace.")
-
 
   # Open at t1
   stott$timestamp <- t1
