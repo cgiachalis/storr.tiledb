@@ -15,7 +15,7 @@ usage is through storr_timetravel()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.39</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.40</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,6 +105,7 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 <li><p><a href="#method-StorrTimeTravel-has_expired_keys"><code>StorrTimeTravel$has_expired_keys()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-list"><code>StorrTimeTravel$list()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-list_hashes"><code>StorrTimeTravel$list_hashes()</code></a></p></li>
+<li><p><a href="#method-StorrTimeTravel-list_unused_hashes"><code>StorrTimeTravel$list_unused_hashes()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-list_namespaces"><code>StorrTimeTravel$list_namespaces()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-export"><code>StorrTimeTravel$export()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-index_export"><code>StorrTimeTravel$index_export()</code></a></p></li>
@@ -458,13 +459,25 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
+<p></p><hr><a id="method-StorrTimeTravel-list_unused_hashes"></a><div class="section">
+<h3 id="storrtimetravel-list-unused-hashes-"><code>StorrTimeTravel$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-unused-hashes-"></a></h3>
+<p>List unused hashes stored in the storr.</p><div class="section">
+<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
+<p>A sorted character vector with unused hashes.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-StorrTimeTravel-list_namespaces"></a><div class="section">
 <h3 id="storrtimetravel-list-namespaces-"><code>StorrTimeTravel$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-namespaces-"></a></h3>
 <p>List all namespaces in the storr.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
+<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
 <p>A sorted character vector with namespaces.</p>
 </div>
 
@@ -474,7 +487,7 @@ Default is <code>TRUE</code>.</p></dd>
 <h3 id="storrtimetravel-export-"><code>StorrTimeTravel$export()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-export-"></a></h3>
 <p>Export objects from storr.</p>
 <p>Use list() to export to a brand new list, or use as.list(object) for a shorthand.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
+<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="va">dest</span>, list <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -499,7 +512,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
+<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
 <p><code>dest</code> object, invisibly.</p>
 </div>
 
@@ -509,7 +522,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="storrtimetravel-index-export-"><code>StorrTimeTravel$index_export()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-index-export-"></a></h3>
 <p>Generate a <code>data.table</code> with an index of objects
 present in a storr.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">index_export</span><span class="op">(</span>namespace <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
@@ -519,7 +532,7 @@ present in a storr.</p><div class="section">
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
+<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -528,7 +541,7 @@ present in a storr.</p><div class="section">
 <p></p><hr><a id="method-StorrTimeTravel-export_tdb"></a><div class="section">
 <h3 id="storrtimetravel-export-tdb-"><code>StorrTimeTravel$export_tdb()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
+<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">uri_dest</span>, context_dest <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -549,7 +562,7 @@ for destination storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
+<h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

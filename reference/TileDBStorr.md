@@ -141,6 +141,8 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$list_hashes()`](#method-TileDBStorr-list_hashes)
 
+- [`TileDBStorr$list_unused_hashes()`](#method-TileDBStorr-list_unused_hashes)
+
 - [`TileDBStorr$list_namespaces()`](#method-TileDBStorr-list_namespaces)
 
 - [`TileDBStorr$gc()`](#method-TileDBStorr-gc)
@@ -1500,6 +1502,20 @@ List all hashes stored in the storr.
 #### Returns
 
 A sorted character vector with hashes.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$list_unused_hashes()`
+
+List unused hashes stored in the storr.
+
+#### Usage
+
+    TileDBStorr$list_unused_hashes()
+
+#### Returns
+
+A sorted character vector with unused hashes.
 
 ------------------------------------------------------------------------
 

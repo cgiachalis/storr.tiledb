@@ -67,6 +67,8 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$list_hashes()`](#method-StorrTimeTravel-list_hashes)
 
+- [`StorrTimeTravel$list_unused_hashes()`](#method-StorrTimeTravel-list_unused_hashes)
+
 - [`StorrTimeTravel$list_namespaces()`](#method-StorrTimeTravel-list_namespaces)
 
 - [`StorrTimeTravel$export()`](#method-StorrTimeTravel-export)
@@ -459,6 +461,20 @@ List all hashes stored in the storr.
 #### Returns
 
 A sorted character vector with hashes.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$list_unused_hashes()`
+
+List unused hashes stored in the storr.
+
+#### Usage
+
+    StorrTimeTravel$list_unused_hashes()
+
+#### Returns
+
+A sorted character vector with unused hashes.
 
 ------------------------------------------------------------------------
 

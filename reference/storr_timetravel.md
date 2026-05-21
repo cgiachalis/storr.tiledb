@@ -115,6 +115,8 @@ For complete definitions, see **Methods** section in
 
 - **`list_hashes()`** - List all stored object hashes
 
+- **`list_unused_hashes()`** - List all stored object unused hashes
+
 - **`list_namespaces()`** - List all namespaces
 
 **Storage Management**
