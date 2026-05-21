@@ -152,9 +152,6 @@ test_that("set_by_value_async", {
               list(expires_at = as.POSIXct(NA),
                    notes = NA_character_))
 
-  h <- c(m1$hash, m2$hash)
-  expect_equal(sto$mget_keymeta(h, c("objects", "ns2")), trg)
-
   # wait mirai elements to be resolved
   m1$mirai$obj[]
   m1$mirai$key[]
@@ -162,6 +159,10 @@ test_that("set_by_value_async", {
   m2$mirai$key[]
 
   Sys.sleep(1)
+
+  h <- c(m1$hash, m2$hash)
+  expect_equal(sto$mget_keymeta(h, c("objects", "ns2")), trg)
+
   # expect_equal(sto$get("a"), 1)
   # expect_equal(sto$get("b", "ns2"), 2)
 
@@ -358,14 +359,16 @@ test_that("mset_keymeta_async", {
                                                              as.POSIXct(NA)),
                                               notes = c("😀", NA_character_)))
 
+  # wait mirai elements to be resolved
+  miall <- m1$mirai[]
+
+  Sys.sleep(1)
+
   expect_named(m1, c("mirai", "keyns"))
   expect_true( mirai::is_mirai(m1$mirai))
   expect_equal(m1$keyns, c("x:objects", "y:objects"))
 
   expect_equal(sto$mget_keymeta(c("x", "y")), trgval)
-
-  # wait mirai elements to be resolved
-  miall <- m1$mirai[]
 
   expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trgval,
                ignore_attr = TRUE)
