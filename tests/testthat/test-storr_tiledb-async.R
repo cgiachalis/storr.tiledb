@@ -131,12 +131,13 @@ test_that("mset_async", {
   #              fixed = TRUE,
   #              class = "error")
 
-  disable_mirai()
+  # disable_mirai()
 })
 
 
 test_that("set_by_value_async", {
 
+  Sys.sleep(1)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
 
