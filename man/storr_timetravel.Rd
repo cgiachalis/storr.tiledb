@@ -30,8 +30,75 @@ Set a new timestamp with active field \verb{$timestamp}, see examples.}
 An object of class \link{StorrTimeTravel}, R6.
 }
 \description{
-A \code{'storr'} variant with read-only class methods and time-travel support.
+Generate an instance of \link{StorrTimeTravel}, a variant of \link{TileDBStorr} designed
+to query key-value data at specific points in time and in read-only mode with
+no write capabilities.
 }
+\section{Class Methods Summary}{
+For complete definitions, see \strong{Methods} section in \link{StorrTimeTravel}.
+
+\strong{Active Fields}
+\itemize{
+\item \strong{\code{timestamp}} - Get or set a TileDB timestamp range that the 'storr' will be opened at.
+}
+
+\strong{Initialisation & Lifecycle}
+\itemize{
+\item \strong{\code{new()}} - Initialise a StorrTimeTravel object with a TileDB driver, default namespace, and optional timestamp
+}
+
+\strong{Single Key-Value Operations}
+\itemize{
+\item \strong{\code{get()}} - Retrieve an object by key-namespace pair
+\item \strong{\code{get_value()}} - Retrieve an object given its hash
+}
+
+\strong{Multiple Key-Value Operations}
+\itemize{
+\item \strong{\code{mget()}} - Get multiple objects by keys
+\item \strong{\code{mget_value()}} - Get multiple objects by their hashes
+}
+
+\strong{Metadata Operations}
+\itemize{
+\item \strong{\code{get_keymeta()}} - Retrieve metadata for a key
+\item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
+}
+
+\strong{Object Hash Management}
+\itemize{
+\item \strong{\code{get_hash()}} - Get hash value for a key-namespace pair
+\item \strong{\code{mget_hash()}} - Get hash values for multiple keys
+}
+
+\strong{Key Management}
+\itemize{
+\item \strong{\code{exists()}} - Check if key-namespace pair(s) exist
+\item \strong{\code{exists_object()}} - Check if object(s) with given hash(es) exist
+}
+
+\strong{Expiration Management}
+\itemize{
+\item \strong{\code{keys_with_expiration()}} - List keys that have expiration timestamps
+\item \strong{\code{expired_keys()}} - Get keys that have already expired
+\item \strong{\code{has_expired_keys()}} - Check if any keys are expired
+}
+
+\strong{Listing}
+\itemize{
+\item \strong{\code{list()}} - List all keys in a namespace
+\item \strong{\code{list_hashes()}} - List all stored object hashes
+\item \strong{\code{list_namespaces()}} - List all namespaces
+}
+
+\strong{Storage Management}
+\itemize{
+\item \strong{\code{index_export()}} - Export object index as data.table
+\item \strong{\code{export()}} - Export objects to another storr/list/environment
+\item \strong{\code{export_tdb()}} - Export objects to another TileDB storr
+}
+}
+
 \examples{
 \dontrun{
 # URI path

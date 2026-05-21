@@ -7,8 +7,9 @@
 A \code{StorrTimeTravel}, \code{R6} object.
 }
 \description{
-A \link{TileDBStorr} variant with read only class methods and
-time-travel support.
+A \link{TileDBStorr} is a time-travel variant of \code{TileDBStorr} designed
+to query data at specific points in time and in read-only mode with no write
+capabilities.
 
 This class is not intended to be used directly and the preferred
 usage is through \code{\link[=storr_timetravel]{storr_timetravel()}}.
