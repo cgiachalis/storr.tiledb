@@ -53,6 +53,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-list_namespaces}{\code{StorrTimeTravel$list_namespaces()}}
     \item \href{#method-StorrTimeTravel-export}{\code{StorrTimeTravel$export()}}
     \item \href{#method-StorrTimeTravel-index_export}{\code{StorrTimeTravel$index_export()}}
+    \item \href{#method-StorrTimeTravel-export_tdb}{\code{StorrTimeTravel$export_tdb()}}
   }
 }
 \if{html}{\out{<hr>}}
@@ -498,6 +499,33 @@ present in a storr.
   }
   \subsection{Returns}{
     An object of class \code{data.table}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-export_tdb"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-export_tdb}{}}}
+\subsection{\code{StorrTimeTravel$export_tdb()}}{
+  Export objects from storr to another TileDB storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$export_tdb(key = character(0),
+  namespace = self$default_namespace, uri_dest, context_dest = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of source keys.}
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{uri_dest}}{The URI path of destination storr.}
+      \item{\code{context_dest}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object
+for destination storr.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical \code{TRUE} indicating successful export, invisibly.
   }
 }
 

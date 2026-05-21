@@ -29,6 +29,8 @@ This class is intended for usage into \link{StorrTimeTravel}.
     \item{\code{timestamp}}{Set or retrieve a \code{TileDB} timestamp range that
 the resource will be opened at. Effective in \code{"READ"} mode only.}
 
+    \item{\code{hash_algorithm}}{Hash algorithm}
+
     \item{\code{members_instantiated}}{Have the members been instantiated?}
   }
   \if{html}{\out{</div>}}
@@ -61,6 +63,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-TimeTravelDriver-num_unexpired_keys}{\code{TimeTravelDriver$num_unexpired_keys()}}
     \item \href{#method-TimeTravelDriver-has_expired_keys}{\code{TimeTravelDriver$has_expired_keys()}}
     \item \href{#method-TimeTravelDriver-has_unexpired_keys}{\code{TimeTravelDriver$has_unexpired_keys()}}
+    \item \href{#method-TimeTravelDriver-export_tdb}{\code{TimeTravelDriver$export_tdb()}}
   }
 }
 \if{html}{\out{<details><summary>Inherited methods</summary>
@@ -630,6 +633,30 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     \code{TRUE} for unexpired keys, \code{FALSE} otherwise.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-export_tdb"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-export_tdb}{}}}
+\subsection{\code{TimeTravelDriver$export_tdb()}}{
+  Export objects from storr to another TileDB storr.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$export_tdb(key, namespace, dest_driver)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of source keys.}
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{dest_driver}}{The destination TileDB driver, See \code{\link[=driver_tiledb]{driver_tiledb()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A logical \code{TRUE} indicating successful export, invisibly.
   }
 }
 
