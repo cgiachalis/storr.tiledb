@@ -148,6 +148,7 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \itemize{
 \item \strong{\code{list()}} - List all keys in a namespace
 \item \strong{\code{list_hashes()}} - List all stored object hashes
+\item \strong{\code{list_unused_hashes()}} - List all stored object unused hashes
 \item \strong{\code{list_namespaces()}} - List all namespaces
 }
 
