@@ -825,7 +825,7 @@ Get multiple objects given their hashes.
 
 - `hash`:
 
-  A vector of hash values."
+  A vector of hash values.
 
 - `use_cache`:
 
@@ -1598,7 +1598,7 @@ shorthand.
 
 - `list`:
 
-  Names of objects to import (or `NULL` for all objects) . If given it
+  Names of objects to export (or `NULL` for all objects) . If given it
   must be a character vector. If named, the names of the character
   vector will be the names of the objects as created in the storr.
 

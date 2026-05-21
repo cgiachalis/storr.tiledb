@@ -124,6 +124,8 @@ Key functions to work with a ‘storr’ or creating a TileDB driver.
 
 - [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md)
   : A Storr using TileDB Engine
+- [`storr_timetravel()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_timetravel.md)
+  : A Storr with Time-Travel
 - [`driver_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
   [`driver_tiledb_create()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
   : TileDB Storr Driver
@@ -179,10 +181,20 @@ are internal objects and should not be used directly.
 
   Generate a `TileDBStorr` Object
 
+- [`TimeTravelDriver`](https://cgiachalis.github.io/storr.tiledb/reference/TimeTravelDriver.md)
+  :
+
+  Generate a `TimeTravelDriver` Object
+
 - [`StorrFragments`](https://cgiachalis.github.io/storr.tiledb/reference/StorrFragments.md)
   :
 
   Generate a `StorrFragments` Object
+
+- [`StorrTimeTravel`](https://cgiachalis.github.io/storr.tiledb/reference/StorrTimeTravel.md)
+  :
+
+  Generate a `StorrTimeTravel` Object
 
 # Articles
 
