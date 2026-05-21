@@ -187,3 +187,78 @@ test_that("'index_export' with time-travel", {
   expect_equal(res1$key, c("a", "b"))
 
 })
+
+
+test_that("'export' with time-travel", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1)
+  t1 <- Sys.time()
+  sto$set("a", 2)
+  sto$set("b", 3, namespace = "ns2")
+  t2 <- Sys.time()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_no_error(dest_t0 <- stott$export(list()))
+  expect_error(dest_t0$get("a"), class = "error", "key 'a' ('ns1') not found", fixed = TRUE)
+  expect_equal(dest_t0$list(namespace = "ns1"), character(0))
+
+  # Open at t1
+  stott$timestamp <- t1
+  expect_no_error(dest_t1 <- stott$export(list()))
+  expect_equal(dest_t1$get("a"), 1)
+  expect_equal(dest_t1$list(namespace = "ns1"), "a")
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_no_error(dest_t2 <- stott$export(list()))
+  expect_equal(dest_t2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
+  expect_equal(dest_t2$list_namespaces(), c("ns1", "ns2"))
+
+})
+
+
+test_that("'export_tdb' with time-travel", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  uri2 <- file.path(withr::local_tempdir(), "test-storr2")
+  sto2 <- storr_tiledb(uri2, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1)
+  t1 <- Sys.time()
+  sto$set("a", 2)
+  sto$set("b", 3, namespace = "ns2")
+  t2 <- Sys.time()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_warning(stott$export_tdb(uri_dest = uri2), class = "warning",
+                 "Nothing to export for the selected key-namespace.")
+
+
+  # Open at t1
+  stott$timestamp <- t1
+  expect_no_error(stott$export_tdb(uri_dest = uri2))
+  expect_equal(sto2$get("a"), 1)
+  expect_equal(sto2$list(namespace = "ns1"), "a")
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_no_error(stott$export_tdb(uri_dest = uri2, namespace = NULL)) # all namespaces
+  expect_equal(sto2$get("a"), 2)
+  expect_equal(sto2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
+  expect_equal(sto2$list_namespaces(), c("ns1", "ns2"))
+
+})
+
