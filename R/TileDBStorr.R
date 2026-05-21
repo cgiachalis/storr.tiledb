@@ -1932,7 +1932,7 @@ TileDBStorr <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
-    #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
+    #' @param list Names of objects to export (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
     #' then this will export namespaces from this (source) storr into the destination;
