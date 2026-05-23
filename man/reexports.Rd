@@ -4,6 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{new_context}
+\alias{set_tiledb_timestamp}
 \alias{tiledb_config}
 \alias{tiledb_ctx}
 \alias{set_allocation_size_preference}
@@ -15,7 +16,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{R6.tiledb}{\code{\link[R6.tiledb:new_context]{new_context()}}}
+  \item{R6.tiledb}{\code{\link[R6.tiledb:new_context]{new_context()}}, \code{\link[R6.tiledb:set_tiledb_timestamp]{set_tiledb_timestamp()}}}
 
   \item{tiledb}{\code{\link[tiledb:get_allocation_size_preference]{get_allocation_size_preference()}}, \code{\link[tiledb:set_allocation_size_preference]{set_allocation_size_preference()}}, \code{\link[tiledb:tiledb_config]{tiledb_config()}}, \code{\link[tiledb:tiledb_ctx]{tiledb_ctx()}}}
 }}

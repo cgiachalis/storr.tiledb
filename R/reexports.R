@@ -3,6 +3,10 @@
 R6.tiledb::new_context
 
 #' @export
+#' @importFrom R6.tiledb set_tiledb_timestamp
+R6.tiledb::set_tiledb_timestamp
+
+#' @export
 #' @importFrom tiledb tiledb_config
 tiledb::tiledb_config
 
