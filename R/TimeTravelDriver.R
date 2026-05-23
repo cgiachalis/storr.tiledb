@@ -24,15 +24,15 @@ TimeTravelDriver <- R6::R6Class(
 
     #' @description Instantiate a new `TimeTravelDriver` object.
     #'
-    #' @param uri URI path for the `TimeBDriver` object.
-    #' @param ctx Optional [tiledb::tiledb_ctx()] object.
+    #' @param uri URI path to `TileDB` driver.
+    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
     #' @param timestamp Set a `TileDB` timestamp range that
     #'  the resource will be opened at. Effective in `"READ"` mode only.
     #'  Valid options:
     #'  - A `NULL` value (default)
     #'  - An `R` object coercible to `POSIXct` with length 1 which is used for end timestamp,
     #'  or length 2 with start, end timestamps
-    #'  - An object of class `tiledb_timestamp`. See [R6.tiledb::set_tiledb_timestamp()]
+    #'  - An object of class `tiledb_timestamp`. See [set_tiledb_timestamp()]
     #'
     initialize = function(uri, ctx = NULL, timestamp = NULL) {
 

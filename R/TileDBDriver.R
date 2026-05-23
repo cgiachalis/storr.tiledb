@@ -33,8 +33,8 @@ TileDBDriver <- R6::R6Class(
 
     #' @description Create a new `TileDBDriver` object.
     #'
-    #' @param uri URI path for the `TileDBDriver` object.
-    #' @param ctx Optional [tiledb::tiledb_ctx()] object.
+    #' @param uri URI path to `TileDB` driver.
+    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
     #'
     initialize = function(uri, ctx = NULL) {
 

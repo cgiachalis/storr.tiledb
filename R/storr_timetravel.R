@@ -69,7 +69,7 @@
 #'  - A `NULL` value (default)
 #'  - An `R` object coercible to `POSIXct` with length 1 which used for end timestamp,
 #'  or length 2 with start, end timestamps
-#'  - An object of class `tiledb_timestamp`. See [R6.tiledb::set_tiledb_timestamp()]
+#'  - An object of class `tiledb_timestamp`. See [set_tiledb_timestamp()]
 #'
 #' Set a new timestamp with active field `$timestamp`, see examples.
 #'
