@@ -187,13 +187,13 @@ TileDB backend supports encryption:
 ```{r}
 # Requires a TileDB Context with encryption configuration parameters
 key <- "5b643a5e173c27d76b3f2af01fcb327b"
-config <- tiledb::tiledb_config()
+config <- tiledb_config()
 config["sm.encryption_type"] <- "AES_256_GCM";
 config["sm.encryption_key"] <- key
-ctx <- R6.tiledb::new_context(config) # tiledb::tiledb_ctx(config)
+ctx <- new_context(config) # tiledb::tiledb_ctx(config)
 ```
 
-Note that we've created a context using `R6.tiledb::new_context()` instead of `tiledb_tiledb_ctx()`, because the latter stores the context to package cache.
+Note that we've created a context using `new_context()` instead of `tiledb_ctx()`, because the latter stores the context to package cache.
 
 Now, create a storr with encryption:
 
@@ -219,12 +219,12 @@ Create a storr in cloud storage:
 ```{r, eval=FALSE}
 # Set context with AWS S3 config parameters
 # NB: store values in ENV or in credential store, i.e., via keyring package
-config <- tiledb::tiledb_config()
+config <- tiledb_config()
 
 config["vfs.s3.region"] <- Sys.getenv("AWS_DEFAULT_REGION")
 config["vfs.s3.aws_access_key_id"] <- Sys.getenv("AWS_ACCESS_KEY_ID")
 config["vfs.s3.aws_secret_access_key"] <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
-ctx <- R6.tiledb::new_context(config)
+ctx <- new_context(config)
 ```
 
 ```{r, eval=FALSE}
