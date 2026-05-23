@@ -1,8 +1,7 @@
 #' @title Generate a `StorrTimeTravel` Object
 #'
-#' @description A [TileDBStorr] is a time-travel variant of `TileDBStorr` designed
-#' to query data at specific points in time and in read-only mode with no write
-#' capabilities.
+#' @description A variant of `TileDBStorr` designed to query data at specific
+#'  points in time and in read-only mode with no write capabilities.
 #'
 #' This class is not intended to be used directly and the preferred
 #' usage is through [storr_timetravel()].
