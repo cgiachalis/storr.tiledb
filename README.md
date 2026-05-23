@@ -13,23 +13,24 @@
 
 A [storr](https://github.com/richfitz/storr) driver using [TileDB Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
 
-*What is storr?*
+***What is storr?***
 
-A key-value store with content addressable storage for R objects with optional in-memory caching layer.
+A key-value store with content-addressable storage for R objects with optional in-memory caching layer.
 
 The interface is provided by [storr](https://cloud.r-project.org/web/packages/storr/index.html)
 package and defines a set of common operations (set, get, del methods) across a range of different
-storage drivers (DBI, LMDB, Redis, RDS, environment). The `storr` package is
+storage drivers (DBI, LMDB, Redis, RDS local file, R's environment). The `storr` package is
 written by [Rich FitzJohn](https://github.com/richfitz). 
 
-*What is storr.tiledb?*
+***What is storr.tiledb?***
 
-The `storr.tiledb` contributes a new storr compliant driver using TileDB Engine for backend.
+`storr.tiledb` is an R package that extends the storr ecosystem by providing
+a TileDB-based driver with advanced features, as well as a new `storr`-like class 
+that leverages the advantages of TileDB backend with new features i.e., 
+optional adding notes and expiration time-stamps along with key-namespace pairs.
 
-It defines a new storr R6 class that leverages the advantages of TileDB and provides new features
-such as adding notes and expiration time-stamps along with key-namespace pairs. 
 
-> [!WARNING]  
+> [!NOTE]  
 > The package is in experimental status. Currently, the driver is complete and
 > fully functional in that it passes the auto test specification defined by storr
 > package. More testing is needed and additional features to be implemented before
@@ -45,13 +46,13 @@ such as adding notes and expiration time-stamps along with key-namespace pairs.
  - Asynchronous key-value operations or in parallel through [mirai](https://cran.rstudio.com/web/packages/mirai/) 
  framework 
  
- - Hash tables (hashtab)  for in memory caching layers instead of environments
+ - Hash tables (hashtab) for in memory caching layers instead of environments
 
- - Cloud storage (S3, Azure, GSC)
+ - Cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)
  
- - Data versioning (time-travelling)
+ - Data version (time-travelling functionality)
  
- - Encryption
+ - Encryption support
 
 ## Installation
 
