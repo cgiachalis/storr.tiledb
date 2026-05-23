@@ -1,0 +1,263 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "storr.tiledb" in publications use:'
+type: software
+license: MIT
+title: 'storr.tiledb: A TileDB Storage Driver for Storr'
+version: 0.0.40
+abstract: Provides a TileDB driver for 'storr' interface. A 'storr' is a content addressed
+  key value store with an optional caching layer and this package contributes a new
+  driver using TileDB Embedded storage engine as a backend. In addition, storr.tiledb
+  comes with a subclass of 'storr' in order to improve speed and efficiency but also
+  enhances the 'storr' with additional features, such as adding notes and expiration
+  timestamps as well as support for asynchronous and in parallel writes.
+authors:
+- family-names: Giachalis
+  given-names: Constantinos
+  email: 26255858+cgiachalis@users.noreply.github.com
+repository-code: https://github.com/cgiachalis/storr.tiledb
+url: https://cgiachalis.github.io/storr.tiledb/
+date-released: '2026-05-21'
+contact:
+- family-names: Giachalis
+  given-names: Constantinos
+  email: 26255858+cgiachalis@users.noreply.github.com
+keywords:
+- key-value-store
+- r
+- storr
+- tiledb
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2026'
+  version: '>= 4.4.0'
+- type: software
+  title: arrow
+  abstract: 'arrow: Integration to ''Apache'' ''Arrow'''
+  notes: Imports
+  url: https://github.com/apache/arrow/
+  repository: https://CRAN.R-project.org/package=arrow
+  authors:
+  - family-names: Richardson
+    given-names: Neal
+    email: neal.p.richardson@gmail.com
+  - family-names: Cook
+    given-names: Ian
+    email: ianmcook@gmail.com
+  - family-names: Crane
+    given-names: Nic
+    email: thisisnic@gmail.com
+  - family-names: Dunnington
+    given-names: Dewey
+    email: dewey@fishandwhistle.net
+    orcid: https://orcid.org/0000-0002-9415-4582
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Keane
+    given-names: Jonathan
+    email: jkeane@gmail.com
+  - family-names: Mecum
+    given-names: Bryce
+    email: brycemecum@gmail.com
+  - family-names: Moldovan-Grünfeld
+    given-names: Dragoș
+    email: dragos.mold@gmail.com
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+  - family-names: Wujciak-Jens
+    given-names: Jacob
+    email: jacob@wujciak.de
+  - name: Apache Arrow
+    email: dev@arrow.apache.org
+  year: '2026'
+  doi: 10.32614/CRAN.package.arrow
+- type: software
+  title: cli
+  abstract: 'cli: Helpers for Developing Command Line Interfaces'
+  notes: Imports
+  url: https://cli.r-lib.org
+  repository: https://CRAN.R-project.org/package=cli
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: gabor@posit.co
+  year: '2026'
+  doi: 10.32614/CRAN.package.cli
+- type: software
+  title: data.table
+  abstract: 'data.table: Extension of `data.frame`'
+  notes: Imports
+  url: https://r-datatable.com
+  repository: https://CRAN.R-project.org/package=data.table
+  authors:
+  - family-names: Barrett
+    given-names: Tyson
+    email: t.barrett88@gmail.com
+    orcid: https://orcid.org/0000-0002-2137-1391
+  - family-names: Dowle
+    given-names: Matt
+    email: mattjdowle@gmail.com
+  - family-names: Srinivasan
+    given-names: Arun
+    email: asrini@pm.me
+  - family-names: Gorecki
+    given-names: Jan
+    email: j.gorecki@wit.edu.pl
+  - family-names: Chirico
+    given-names: Michael
+    email: michaelchirico4@gmail.com
+    orcid: https://orcid.org/0000-0003-0787-087X
+  - family-names: Hocking
+    given-names: Toby
+    email: toby.hocking@r-project.org
+    orcid: https://orcid.org/0000-0002-3146-0865
+  - family-names: Schwendinger
+    given-names: Benjamin
+    orcid: https://orcid.org/0000-0003-3315-8114
+  - family-names: Krylov
+    given-names: Ivan
+    email: ikrylov@disroot.org
+    orcid: https://orcid.org/0000-0002-0172-3812
+  year: '2026'
+  doi: 10.32614/CRAN.package.data.table
+- type: software
+  title: digest
+  abstract: 'digest: Create Compact Hash Digests of R Objects'
+  notes: Imports
+  url: https://eddelbuettel.github.io/digest/
+  repository: https://CRAN.R-project.org/package=digest
+  authors:
+  - family-names: Eddelbuettel
+    given-names: Dirk
+    email: edd@debian.org
+    orcid: https://orcid.org/0000-0001-6419-907X
+  year: '2026'
+  doi: 10.32614/CRAN.package.digest
+- type: software
+  title: mirai
+  abstract: 'mirai: Minimalist Async Evaluation Framework for R'
+  notes: Imports
+  url: https://mirai.r-lib.org
+  repository: https://CRAN.R-project.org/package=mirai
+  authors:
+  - family-names: Gao
+    given-names: Charlie
+    email: charlie.gao@posit.co
+    orcid: https://orcid.org/0000-0002-0750-061X
+  year: '2026'
+  doi: 10.32614/CRAN.package.mirai
+  version: '>= 2.6.0'
+- type: software
+  title: R6
+  abstract: 'R6: Encapsulated Classes with Reference Semantics'
+  notes: Imports
+  url: https://r6.r-lib.org
+  repository: https://CRAN.R-project.org/package=R6
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  year: '2026'
+  doi: 10.32614/CRAN.package.R6
+  version: '>= 2.4.0'
+- type: software
+  title: R6.tiledb
+  abstract: 'R6.tiledb: R6 Classes for TileDB Arrays and Groups'
+  notes: Imports
+  url: https://cgiachalis.github.io/R6.tiledb/
+  authors:
+  - family-names: Giachalis
+    given-names: Constantinos
+    email: 26255858+cgiachalis@users.noreply.github.com
+  year: '2026'
+  version: '>= 0.3.0'
+- type: software
+  title: storr
+  abstract: 'storr: Simple Key Value Stores'
+  notes: Imports
+  url: https://richfitz.github.io/storr/
+  repository: https://CRAN.R-project.org/package=storr
+  authors:
+  - family-names: FitzJohn
+    given-names: Rich
+    email: rich.fitzjohn@gmail.com
+  year: '2026'
+  doi: 10.32614/CRAN.package.storr
+- type: software
+  title: tiledb
+  abstract: 'tiledb: Modern Database Engine for Complex Data Based on Multi-Dimensional
+    Arrays'
+  notes: Imports
+  url: https://tiledb-inc.github.io/TileDB-R/
+  repository: https://CRAN.R-project.org/package=tiledb
+  authors:
+  - name: TileDB, Inc.
+  year: '2026'
+  doi: 10.32614/CRAN.package.tiledb
+  version: '>= 0.33.0'
+- type: software
+  title: litedown
+  abstract: 'litedown: A Lightweight Version of R Markdown'
+  notes: Suggests
+  url: https://github.com/yihui/litedown
+  repository: https://CRAN.R-project.org/package=litedown
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2026'
+  doi: 10.32614/CRAN.package.litedown
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2026'
+  doi: 10.32614/CRAN.package.testthat
+  version: '>= 3.0.0'
+- type: software
+  title: withr
+  abstract: 'withr: Run Code ''With'' Temporarily Modified Global State'
+  notes: Suggests
+  url: https://withr.r-lib.org
+  repository: https://CRAN.R-project.org/package=withr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Müller
+    given-names: Kirill
+    email: krlmlr+r@mailbox.org
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevinushey@gmail.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Chang
+    given-names: Winston
+  year: '2026'
+  doi: 10.32614/CRAN.package.withr
+
