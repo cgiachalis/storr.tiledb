@@ -21,7 +21,7 @@ Valid options:
 \item A \code{NULL} value (default)
 \item An \code{R} object coercible to \code{POSIXct} with length 1 which used for end timestamp,
 or length 2 with start, end timestamps
-\item An object of class \code{tiledb_timestamp}. See \code{\link[R6.tiledb:set_tiledb_timestamp]{R6.tiledb::set_tiledb_timestamp()}}
+\item An object of class \code{tiledb_timestamp}. See \code{\link[=set_tiledb_timestamp]{set_tiledb_timestamp()}}
 }
 
 Set a new timestamp with active field \verb{$timestamp}, see examples.}

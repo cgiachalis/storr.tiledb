@@ -100,8 +100,8 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{URI path for the \code{TimeBDriver} object.}
-      \item{\code{ctx}}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
+      \item{\code{uri}}{URI path to \code{TileDB} driver.}
+      \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
       \item{\code{timestamp}}{Set a \code{TileDB} timestamp range that
 the resource will be opened at. Effective in \code{"READ"} mode only.
 Valid options:
@@ -109,7 +109,7 @@ Valid options:
 \item A \code{NULL} value (default)
 \item An \code{R} object coercible to \code{POSIXct} with length 1 which is used for end timestamp,
 or length 2 with start, end timestamps
-\item An object of class \code{tiledb_timestamp}. See \code{\link[R6.tiledb:set_tiledb_timestamp]{R6.tiledb::set_tiledb_timestamp()}}
+\item An object of class \code{tiledb_timestamp}. See \code{\link[=set_tiledb_timestamp]{set_tiledb_timestamp()}}
 }}
     }
     \if{html}{\out{</div>}}

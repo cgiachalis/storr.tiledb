@@ -58,7 +58,7 @@ can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
 \subsection{Buffer size}{
 
 The buffer allocation size is set to 3 MB per column when fetching data. Use
-\code{\link[tiledb:set_allocation_size_preference]{tiledb::set_allocation_size_preference()}} to set a different limit.
+\code{\link[=set_allocation_size_preference]{set_allocation_size_preference()}} to set a different limit.
 }
 }
 

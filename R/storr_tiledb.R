@@ -30,7 +30,7 @@
 #'  ## Buffer size
 #'
 #'  The buffer allocation size is set to 3 MB per column when fetching data. Use
-#'  [tiledb::set_allocation_size_preference()] to set a different limit.
+#'  [set_allocation_size_preference()] to set a different limit.
 #'
 #' # Class Methods Summary
 #'

@@ -104,8 +104,8 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{URI path for the \code{TileDBDriver} object.}
-      \item{\code{ctx}}{Optional \code{\link[tiledb:tiledb_ctx]{tiledb::tiledb_ctx()}} object.}
+      \item{\code{uri}}{URI path to \code{TileDB} driver.}
+      \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
     }
     \if{html}{\out{</div>}}
   }

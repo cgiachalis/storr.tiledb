@@ -18,3 +18,4 @@
 ^vignettes/src$
 ^\.positai$
 ^\.claude$
+^CITATION\.cff$
