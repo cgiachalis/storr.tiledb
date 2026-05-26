@@ -1,10 +1,10 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.0.40
-Date: 2026-05-21
+Version: 0.0.41
+Date: 2026-05-26
 Authors@R: 
-    person("Constantinos", "Giachalis", , "xx@github.com", role = c("aut", "cre"))
-Maintainer: Constantinos Giachalis <xx@github.com>
+    person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre"))
+Maintainer: Constantinos Giachalis <"26255858+cgiachalis@users.noreply.github.com">
 Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
     a content addressed key value store with an optional caching layer and
     this package contributes a new driver using TileDB Embedded storage
