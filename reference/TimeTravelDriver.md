@@ -129,12 +129,12 @@ Instantiate a new `TimeTravelDriver` object.
 
 - `uri`:
 
-  URI path for the `TimeBDriver` object.
+  URI path to `TileDB` driver.
 
 - `ctx`:
 
   Optional
-  [`tiledb::tiledb_ctx()`](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html)
+  [tiledb_ctx](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html)
   object.
 
 - `timestamp`:
@@ -148,7 +148,7 @@ Instantiate a new `TimeTravelDriver` object.
     end timestamp, or length 2 with start, end timestamps
 
   - An object of class `tiledb_timestamp`. See
-    [`R6.tiledb::set_tiledb_timestamp()`](https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html)
+    [`set_tiledb_timestamp()`](https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html)
 
 ------------------------------------------------------------------------
 

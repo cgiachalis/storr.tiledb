@@ -112,7 +112,7 @@ sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
 # Retrieve 'notes' and 'expiration'
 sto$get_keymeta("key1")
 # $expires_at
-# [1] "2026-04-19 17:14:51 EEST"
+# [1] "2026-05-23 09:46:16 EEST"
 # 
 # $notes
 # [1] "my notes"
@@ -126,8 +126,8 @@ sto$get_keymeta("key1")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-19 17:14:51
-# 2:   objects   key2 2026-04-19 17:16:30
+# 1:   objects   key1 2026-05-23 09:46:16
+# 2:   objects   key2 2026-05-23 09:47:55
 
 Sys.sleep(2)
 
@@ -137,7 +137,7 @@ sto$has_expired_keys()
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-04-19 17:14:51
+# 1:   objects   key1 2026-05-23 09:46:16
 
 sto$clear_expired_keys()
 
@@ -153,7 +153,7 @@ sto$expired_keys()
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key2 2026-04-19 17:16:30
+# 1:   objects   key2 2026-05-23 09:47:55
 
 # Reset expiration timestamp
 sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
@@ -226,16 +226,17 @@ TileDB backend supports encryption:
 
 # Requires a TileDB Context with encryption configuration parameters
 key <- "5b643a5e173c27d76b3f2af01fcb327b"
-config <- tiledb::tiledb_config()
+config <- tiledb_config()
 config["sm.encryption_type"] <- "AES_256_GCM";
 config["sm.encryption_key"] <- key
-ctx <- R6.tiledb::new_context(config) # tiledb::tiledb_ctx(config)
+ctx <- new_context(config) # tiledb::tiledb_ctx(config)
 ```
 
 Note that we’ve created a context using
-[`R6.tiledb::new_context()`](https://cgiachalis.github.io/R6.tiledb/reference/new_context.html)
-instead of `tiledb_tiledb_ctx()`, because the latter stores the context
-to package cache.
+[`new_context()`](https://cgiachalis.github.io/R6.tiledb/reference/new_context.html)
+instead of
+[`tiledb_ctx()`](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html),
+because the latter stores the context to package cache.
 
 Now, create a storr with encryption:
 
@@ -268,12 +269,12 @@ Create a storr in cloud storage:
 
 # Set context with AWS S3 config parameters
 # NB: store values in ENV or in credential store, i.e., via keyring package
-config <- tiledb::tiledb_config()
+config <- tiledb_config()
 
 config["vfs.s3.region"] <- Sys.getenv("AWS_DEFAULT_REGION")
 config["vfs.s3.aws_access_key_id"] <- Sys.getenv("AWS_ACCESS_KEY_ID")
 config["vfs.s3.aws_secret_access_key"] <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
-ctx <- R6.tiledb::new_context(config)
+ctx <- new_context(config)
 ```
 
 ``` r

@@ -47,6 +47,7 @@ Functionality to inspect and manage TileDB fragments.
 
 - [`reexports`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
   [`new_context`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
+  [`set_tiledb_timestamp`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
   [`tiledb_config`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
   [`tiledb_ctx`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)
   [`set_allocation_size_preference`](https://cgiachalis.github.io/storr.tiledb/reference/reexports.md)

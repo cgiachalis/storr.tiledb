@@ -41,7 +41,7 @@ storr_timetravel(uri, default_namespace = "objects", context = NULL,
     end timestamp, or length 2 with start, end timestamps
 
   - An object of class `tiledb_timestamp`. See
-    [`R6.tiledb::set_tiledb_timestamp()`](https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html)
+    [`set_tiledb_timestamp()`](https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html)
 
   Set a new timestamp with active field `$timestamp`, see examples.
 

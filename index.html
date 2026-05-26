@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.40</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.41</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,12 +68,11 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>A <a href="https://github.com/richfitz/storr" class="external-link">storr</a> driver using <a href="https://github.com/TileDB-Inc/TileDB" class="external-link">TileDB Embedded</a> storage engine.</p>
-<p><em>What is storr?</em></p>
-<p>A key-value store with content addressable storage for R objects with optional in-memory caching layer.</p>
-<p>The interface is provided by <a href="https://cloud.r-project.org/web/packages/storr/index.html" class="external-link">storr</a> package and defines a set of common operations (set, get, del methods) across a range of different storage drivers (DBI, LMDB, Redis, RDS, environment). The <code>storr</code> package is written by <a href="https://github.com/richfitz" class="external-link">Rich FitzJohn</a>.</p>
-<p><em>What is storr.tiledb?</em></p>
-<p>The <code>storr.tiledb</code> contributes a new storr compliant driver using TileDB Engine for backend.</p>
-<p>It defines a new storr R6 class that leverages the advantages of TileDB and provides new features such as adding notes and expiration time-stamps along with key-namespace pairs.</p>
+<p><strong><em>What is storr?</em></strong></p>
+<p>A key-value store with content-addressable storage for R objects with optional in-memory caching layer.</p>
+<p>The interface is provided by <a href="https://cloud.r-project.org/web/packages/storr/index.html" class="external-link">storr</a> package and defines a set of common operations (set, get, del methods) across a range of different storage drivers (DBI, LMDB, Redis, RDS local file, R’s environment). The <code>storr</code> package is written by <a href="https://github.com/richfitz" class="external-link">Rich FitzJohn</a>.</p>
+<p><strong><em>What is storr.tiledb?</em></strong></p>
+<p><code>storr.tiledb</code> is an R package that extends the storr ecosystem by providing a TileDB-based driver. Additionally, it includes <code>storr</code>-like classes that leverages the advantages of TileDB backend with new features: ability to add notes and expiration time-stamps next to key-namespace pairs and data snapshots support (time-travel).</p>
 <blockquote>
 <p>[!WARNING]<br>
 The package is in experimental status. Currently, the driver is complete and fully functional in that it passes the auto test specification defined by storr package. More testing is needed and additional features to be implemented before it is moved to mature state. Feedback is welcomed.</p>
@@ -87,9 +86,9 @@ The package is in experimental status. Currently, the driver is complete and ful
 <li><p>Key-value metadata such as notes and timestamps for data expiration (time-to-live, TTL)</p></li>
 <li><p>Asynchronous key-value operations or in parallel through <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a> framework</p></li>
 <li><p>Hash tables (hashtab) for in memory caching layers instead of environments</p></li>
-<li><p>Cloud storage (S3, Azure, GSC)</p></li>
-<li><p>Data versioning (time-travelling)</p></li>
-<li><p>Encryption</p></li>
+<li><p>Cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)</p></li>
+<li><p>Data version (time-travelling functionality)</p></li>
+<li><p>Encryption support</p></li>
 </ul>
 </div>
 <div class="section level2">

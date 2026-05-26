@@ -140,12 +140,12 @@ Create a new `TileDBDriver` object.
 
 - `uri`:
 
-  URI path for the `TileDBDriver` object.
+  URI path to `TileDB` driver.
 
 - `ctx`:
 
   Optional
-  [`tiledb::tiledb_ctx()`](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html)
+  [tiledb_ctx](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html)
   object.
 
 ------------------------------------------------------------------------

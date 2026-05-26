@@ -5,7 +5,8 @@ to see their documentation.
 
 - R6.tiledb:
 
-  [`new_context()`](https://cgiachalis.github.io/R6.tiledb/reference/new_context.html)
+  [`new_context()`](https://cgiachalis.github.io/R6.tiledb/reference/new_context.html),
+  [`set_tiledb_timestamp()`](https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html)
 
 - tiledb:
 

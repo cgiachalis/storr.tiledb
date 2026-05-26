@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.40</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.41</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@
 
       <h1>Quick Reference</h1>
             
-            <h4 data-toc-skip class="date">2026-04-19</h4>
+            <h4 data-toc-skip class="date">2026-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/storr-tiledb.Rmd" class="external-link"><code>vignettes/storr-tiledb.Rmd</code></a></small>
       <div class="d-none name"><code>storr-tiledb.Rmd</code></div>
@@ -176,7 +176,7 @@ timestamps to key-namespace pairs.</p>
 <span><span class="co"># Retrieve 'notes' and 'expiration'</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="st">"key1"</span><span class="op">)</span></span>
 <span><span class="co"># $expires_at</span></span>
-<span><span class="co"># [1] "2026-04-19 17:14:51 EEST"</span></span>
+<span><span class="co"># [1] "2026-05-23 09:46:16 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># $notes</span></span>
 <span><span class="co"># [1] "my notes"</span></span></code></pre></div>
@@ -188,8 +188,8 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key1 2026-04-19 17:14:51</span></span>
-<span><span class="co"># 2:   objects   key2 2026-04-19 17:16:30</span></span>
+<span><span class="co"># 1:   objects   key1 2026-05-23 09:46:16</span></span>
+<span><span class="co"># 2:   objects   key2 2026-05-23 09:47:55</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
@@ -199,7 +199,7 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key1 2026-04-19 17:14:51</span></span>
+<span><span class="co"># 1:   objects   key1 2026-05-23 09:46:16</span></span>
 <span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">clear_expired_keys</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -215,7 +215,7 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key2 2026-04-19 17:16:30</span></span>
+<span><span class="co"># 1:   objects   key2 2026-05-23 09:47:55</span></span>
 <span></span>
 <span><span class="co"># Reset expiration timestamp</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_keymeta</span><span class="op">(</span><span class="st">"key2"</span>, expires_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
@@ -281,14 +281,13 @@ in parallel via <code>mirai</code> framework.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Requires a TileDB Context with encryption configuration parameters</span></span>
 <span><span class="va">key</span> <span class="op">&lt;-</span> <span class="st">"5b643a5e173c27d76b3f2af01fcb327b"</span></span>
-<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb_config</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb_config</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">config</span><span class="op">[</span><span class="st">"sm.encryption_type"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"AES_256_GCM"</span>;</span>
 <span><span class="va">config</span><span class="op">[</span><span class="st">"sm.encryption_key"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">key</span></span>
-<span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu">R6.tiledb</span><span class="fu">::</span><span class="fu"><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">new_context</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span> <span class="co"># tiledb::tiledb_ctx(config)</span></span></code></pre></div>
-<p>Note that we’ve created a context using
-<code><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">R6.tiledb::new_context()</a></code> instead of
-<code>tiledb_tiledb_ctx()</code>, because the latter stores the context
-to package cache.</p>
+<span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">new_context</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span> <span class="co"># tiledb::tiledb_ctx(config)</span></span></code></pre></div>
+<p>Note that we’ve created a context using <code><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">new_context()</a></code>
+instead of <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html" class="external-link">tiledb_ctx()</a></code>, because the latter stores the
+context to package cache.</p>
 <p>Now, create a storr with encryption:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a storr with context that encapsulates encryption configuration</span></span>
@@ -316,12 +315,12 @@ to package cache.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set context with AWS S3 config parameters</span></span>
 <span><span class="co"># NB: store values in ENV or in credential store, i.e., via keyring package</span></span>
-<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb_config</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_config.html" class="external-link">tiledb_config</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">config</span><span class="op">[</span><span class="st">"vfs.s3.region"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_DEFAULT_REGION"</span><span class="op">)</span></span>
 <span><span class="va">config</span><span class="op">[</span><span class="st">"vfs.s3.aws_access_key_id"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_ACCESS_KEY_ID"</span><span class="op">)</span></span>
 <span><span class="va">config</span><span class="op">[</span><span class="st">"vfs.s3.aws_secret_access_key"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"AWS_SECRET_ACCESS_KEY"</span><span class="op">)</span></span>
-<span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu">R6.tiledb</span><span class="fu">::</span><span class="fu"><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">new_context</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://cgiachalis.github.io/R6.tiledb/reference/new_context.html" class="external-link">new_context</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a remote storr</span></span>
 <span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="st">'s3//bucket/my-storr'</span></span>

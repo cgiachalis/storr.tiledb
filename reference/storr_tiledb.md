@@ -87,7 +87,7 @@ By default, the in-memory caching layer is enabled. The global option
 
 The buffer allocation size is set to 3 MB per column when fetching data.
 Use
-[`tiledb::set_allocation_size_preference()`](https://tiledb-inc.github.io/TileDB-R/reference/save_allocation_size_preference.html)
+[`set_allocation_size_preference()`](https://tiledb-inc.github.io/TileDB-R/reference/save_allocation_size_preference.html)
 to set a different limit.
 
 ## Class Methods Summary

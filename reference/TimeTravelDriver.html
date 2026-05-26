@@ -11,7 +11,7 @@ This class is intended for usage into StorrTimeTravel."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.40</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.41</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,10 +142,10 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 </div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>uri</code></dt>
-<dd><p>URI path for the <code>TimeBDriver</code> object.</p></dd>
+<dd><p>URI path to <code>TileDB</code> driver.</p></dd>
 
       <dt><code>ctx</code></dt>
-<dd><p>Optional <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html" class="external-link">tiledb::tiledb_ctx()</a></code> object.</p></dd>
+<dd><p>Optional <a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html" class="external-link">tiledb_ctx</a> object.</p></dd>
 
       <dt><code>timestamp</code></dt>
 <dd><p>Set a <code>TileDB</code> timestamp range that
@@ -153,7 +153,7 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.
 Valid options:</p><ul><li><p>A <code>NULL</code> value (default)</p></li>
 <li><p>An <code>R</code> object coercible to <code>POSIXct</code> with length 1 which is used for end timestamp,
 or length 2 with start, end timestamps</p></li>
-<li><p>An object of class <code>tiledb_timestamp</code>. See <code><a href="https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html" class="external-link">R6.tiledb::set_tiledb_timestamp()</a></code></p></li>
+<li><p>An object of class <code>tiledb_timestamp</code>. See <code><a href="https://cgiachalis.github.io/R6.tiledb/reference/set_tiledb_timestamp.html" class="external-link">set_tiledb_timestamp()</a></code></p></li>
 </ul></dd>
 
 

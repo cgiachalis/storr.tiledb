@@ -20,8 +20,9 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Constantinos Giachalis <xx@github.com>
+**Maintainer**: Constantinos Giachalis
+<26255858+cgiachalis@users.noreply.github.com>
 
 Authors:
 
-- Constantinos Giachalis <xx@github.com>
+- Constantinos Giachalis <26255858+cgiachalis@users.noreply.github.com>

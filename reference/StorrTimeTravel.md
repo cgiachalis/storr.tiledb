@@ -1,10 +1,7 @@
 # Generate a `StorrTimeTravel` Object
 
-A
-[TileDBStorr](https://cgiachalis.github.io/storr.tiledb/reference/TileDBStorr.md)
-is a time-travel variant of `TileDBStorr` designed to query data at
-specific points in time and in read-only mode with no write
-capabilities.
+A variant of `TileDBStorr` designed to query data at specific points in
+time and in read-only mode with no write capabilities.
 
 This class is not intended to be used directly and the preferred usage
 is through
