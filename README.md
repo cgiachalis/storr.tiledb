@@ -25,12 +25,13 @@ written by [Rich FitzJohn](https://github.com/richfitz).
 ***What is storr.tiledb?***
 
 `storr.tiledb` is an R package that extends the storr ecosystem by providing
-a TileDB-based driver with advanced features, as well as a new `storr`-like class 
-that leverages the advantages of TileDB backend with new features i.e., 
-optional adding notes and expiration time-stamps along with key-namespace pairs.
+a TileDB-based driver. Additionally, it includes `storr`-like classes that leverages
+the advantages of TileDB backend with new features: ability to add notes
+and expiration time-stamps next to key-namespace pairs and data snapshots support 
+(time-travel).
 
 
-> [!NOTE]  
+> [!WARNING]  
 > The package is in experimental status. Currently, the driver is complete and
 > fully functional in that it passes the auto test specification defined by storr
 > package. More testing is needed and additional features to be implemented before
