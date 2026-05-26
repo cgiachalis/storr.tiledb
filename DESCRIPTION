@@ -4,7 +4,8 @@ Version: 0.0.41
 Date: 2026-05-26
 Authors@R: 
     person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre"))
-Maintainer: Constantinos Giachalis <"26255858+cgiachalis@users.noreply.github.com">
+Maintainer: Constantinos Giachalis
+    <26255858+cgiachalis@users.noreply.github.com>
 Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
     a content addressed key value store with an optional caching layer and
     this package contributes a new driver using TileDB Embedded storage
@@ -14,7 +15,8 @@ Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
     expiration timestamps as well as support for asynchronous and in
     parallel writes.
 License: MIT + file LICENSE
-URL: https://github.com/cgiachalis/storr.tiledb, https://cgiachalis.github.io/storr.tiledb/
+URL: https://github.com/cgiachalis/storr.tiledb,
+    https://cgiachalis.github.io/storr.tiledb/
 BugReports: https://github.com/cgiachalis/storr.tiledb/issues
 Depends:
     R (>= 4.4.0)
@@ -36,10 +38,10 @@ VignetteBuilder:
     litedown
 Remotes: 
     cgiachalis/R6.tiledb
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/testthat/start-first: StorrFragments,auto*
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
-Config/roxygen2/version: 8.0.0
