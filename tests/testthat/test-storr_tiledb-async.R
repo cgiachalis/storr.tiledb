@@ -137,6 +137,7 @@ test_that("mset_async", {
 
 test_that("set_by_value_async", {
 
+  Sys.sleep(2)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
 
@@ -157,8 +158,6 @@ test_that("set_by_value_async", {
   m1$mirai$key[]
   m2$mirai$obj[]
   m2$mirai$key[]
-
-  Sys.sleep(1)
 
   h <- c(m1$hash, m2$hash)
   expect_equal(sto$mget_keymeta(h, c("objects", "ns2")), trg)
