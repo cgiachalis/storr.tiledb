@@ -42,11 +42,6 @@ For complete definitions, see \strong{Methods} section in \link{StorrTimeTravel}
 \item \strong{\code{timestamp}} - Get or set a TileDB timestamp range that the 'storr' will be opened at.
 }
 
-\strong{Initialisation & Lifecycle}
-\itemize{
-\item \strong{\code{new()}} - Initialise a StorrTimeTravel object with a TileDB driver, default namespace, and optional timestamp
-}
-
 \strong{Single Key-Value Operations}
 \itemize{
 \item \strong{\code{get()}} - Retrieve an object by key-namespace pair

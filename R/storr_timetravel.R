@@ -12,11 +12,6 @@
 #'
 #' - **`timestamp`** - Get or set a TileDB timestamp range that the 'storr' will be opened at.
 #'
-#' **Initialisation & Lifecycle**
-#'
-#' - **`new()`** - Initialise a StorrTimeTravel object with a TileDB driver, default namespace, and optional timestamp
-#'
-#'
 #' **Single Key-Value Operations**
 #'
 #' - **`get()`** - Retrieve an object by key-namespace pair
