@@ -61,11 +61,6 @@ For complete definitions, see **Methods** section in
 - **`timestamp`** - Get or set a TileDB timestamp range that the 'storr'
   will be opened at.
 
-**Initialisation & Lifecycle**
-
-- **`new()`** - Initialise a StorrTimeTravel object with a TileDB
-  driver, default namespace, and optional timestamp
-
 **Single Key-Value Operations**
 
 - **[`get()`](https://rdrr.io/r/base/get.html)** - Retrieve an object by
