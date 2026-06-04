@@ -10,9 +10,7 @@ A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [stor
 
 ## Overview
 
-`storr.tiledb` is an R package that extends the storr ecosystem by providing
-a TileDB-based driver and  custom `storr`-like classes that leverage the advantages of TileDB.
-
+`storr.tiledb` is an R package that extends the storr ecosystem by providing a TileDB-based driver and custom `storr`-like classes that leverage the advantages of TileDB.
 
 > [!WARNING]\
 > **Experimental status.** The package is fully functional and passes storr's test specification. Additional testing and features needed before stable release.
@@ -20,7 +18,7 @@ a TileDB-based driver and  custom `storr`-like classes that leverage the advanta
 ## Key features
 
 - Fast key-value operations via driver methods
-- Metadata support: notes and TTL expiration timestamps
+- Metadata support: notes and TTL expiration timestamps next to key-value pairs
 - Async/parallel operations with [mirai](https://cran.rstudio.com/web/packages/mirai/)
 - In-memory caching layers with hash tables
 - Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)
@@ -74,7 +72,7 @@ For more detailed information, visit the [full documentation](https://cgiachalis
 |------------------------------|------------------------------------------|
 | [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) | Quick reference to basic operations |
 | [API Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) | Learn about `storr.tiledb` operations through examples |
-| [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Storr's TileDB data model |
+| [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Reference to TileDB driver data model |
 
 ## Alternative storr drivers
 
