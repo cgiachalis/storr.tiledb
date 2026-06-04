@@ -64,31 +64,28 @@
 </h1></div>
 <!-- badges: start -->
 
+<!-- badges: end -->
+<p>A <a href="https://github.com/TileDB-Inc/TileDB" class="external-link">TileDB Embedded</a>-based driver for <a href="https://github.com/richfitz/storr" class="external-link">storr</a>, a key-value store with content-addressable storage for R objects.</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>A <a href="https://github.com/richfitz/storr" class="external-link">storr</a> driver using <a href="https://github.com/TileDB-Inc/TileDB" class="external-link">TileDB Embedded</a> storage engine.</p>
-<p><strong><em>What is storr?</em></strong></p>
-<p>A key-value store with content-addressable storage for R objects with optional in-memory caching layer.</p>
-<p>The interface is provided by <a href="https://cloud.r-project.org/web/packages/storr/index.html" class="external-link">storr</a> package and defines a set of common operations (set, get, del methods) across a range of different storage drivers (DBI, LMDB, Redis, RDS local file, R’s environment). The <code>storr</code> package is written by <a href="https://github.com/richfitz" class="external-link">Rich FitzJohn</a>.</p>
-<p><strong><em>What is storr.tiledb?</em></strong></p>
-<p><code>storr.tiledb</code> is an R package that extends the storr ecosystem by providing a TileDB-based driver. Additionally, it includes <code>storr</code>-like classes that leverages the advantages of TileDB backend with new features: ability to add notes and expiration time-stamps next to key-namespace pairs and data snapshots support (time-travel).</p>
+<p><code>storr.tiledb</code> is an R package that extends the storr ecosystem by providing a TileDB-based driver and custom <code>storr</code>-like classes that leverage the advantages of the underlying backend.</p>
 <blockquote>
-<p>[!WARNING]<br>
-The package is in experimental status. Currently, the driver is complete and fully functional in that it passes the auto test specification defined by storr package. More testing is needed and additional features to be implemented before it is moved to mature state. Feedback is welcomed.</p>
+<p>[!WARNING]<br><strong>Experimental status.</strong> The package is fully functional and passes storr’s test specification. Additional testing and features needed before stable release.</p>
 </blockquote>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key features<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
 <ul>
-<li><p>Key-value operations use driver’s methods for speed and efficiency</p></li>
-<li><p>Key-value metadata such as notes and timestamps for data expiration (time-to-live, TTL)</p></li>
-<li><p>Asynchronous key-value operations or in parallel through <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a> framework</p></li>
-<li><p>Hash tables (hashtab) for in memory caching layers instead of environments</p></li>
-<li><p>Cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)</p></li>
-<li><p>Data version (time-travelling functionality)</p></li>
-<li><p>Encryption support</p></li>
+<li>Fast key-value operations via driver methods</li>
+<li>Metadata support: notes and TTL expiration timestamps next to key-value pairs</li>
+<li>Async/parallel operations with <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a>
+</li>
+<li>In-memory caching layers with hash tables</li>
+<li>Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)</li>
+<li>Data version (time-travel)</li>
+<li>Encryption support</li>
 </ul>
 </div>
 <div class="section level2">
@@ -129,20 +126,49 @@ The package is in experimental status. Currently, the driver is complete and ful
 <span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>sto<span class="sc">$</span><span class="fu">del</span>(<span class="st">"mykey1"</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="other-storr-drivers">Other storr drivers<a class="anchor" aria-label="anchor" href="#other-storr-drivers"></a>
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p>For more detailed information, visit the <a href="https://cgiachalis.github.io/storr.tiledb/">full documentation</a> on GitHub Pages.</p>
+<table class="table">
+<colgroup>
+<col width="41%">
+<col width="58%">
+</colgroup>
+<thead><tr>
+<th>Article</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html">Get Started</a></td>
+<td>Quick reference to basic operations</td>
+</tr>
+<tr>
+<td><a href="https://cgiachalis.github.io/storr.tiledb/articles/api.html">API Usage</a></td>
+<td>Learn about <code>storr.tiledb</code> operations through examples</td>
+</tr>
+<tr>
+<td><a href="https://cgiachalis.github.io/storr.tiledb/articles/data-model.html">Data Model</a></td>
+<td>Overview of TileDB driver data model</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="alternative-storr-drivers">Alternative storr drivers<a class="anchor" aria-label="anchor" href="#alternative-storr-drivers"></a>
 </h2>
 <ul>
 <li>
-<a href="https://richfitz.github.io/storr/reference/storr_environment.html" class="external-link">storr_enviroment()</a> in memory storage using R enviroment</li>
+<a href="https://richfitz.github.io/storr/reference/storr_environment.html" class="external-link">storr_enviroment()</a> - In-memory with R environments</li>
 <li>
-<a href="https://richfitz.github.io/storr/reference/storr_rds.html" class="external-link">storr_rds()</a> on disk storage using RDS file format</li>
+<a href="https://richfitz.github.io/storr/reference/storr_rds.html" class="external-link">storr_rds()</a> - RDS file format</li>
 <li>
-<a href="https://richfitz.github.io/storr/reference/storr_dbi.html" class="external-link">storr_dbi()</a> using <a href="https://cran.r-project.org/web/packages/DBI/index.html" class="external-link">DBI</a> interface</li>
+<a href="https://richfitz.github.io/storr/reference/storr_dbi.html" class="external-link">storr_dbi()</a> - DBI interface</li>
 <li>
-<a href="https://richfitz.github.io/redux/reference/storr_redis_api.html" class="external-link">storr_redis_api()</a> using Redis through <a href="https://github.com/richfitz/redux" class="external-link">redux</a>
+<a href="https://richfitz.github.io/redux/reference/storr_redis_api.html" class="external-link">storr_redis_api()</a> - Redis through <a href="https://github.com/richfitz/redux" class="external-link">redux</a>
 </li>
 <li>
-<a href="https://richfitz.github.io/thor/reference/storr_thor.html" class="external-link">storr_thor()</a> - using <a href="https://github.com/LMDB/lmdb" class="external-link">LMDB</a> Lightning Memory-Mapped Database through <a href="https://github.com/richfitz/thor" class="external-link">thor</a>
+<a href="https://richfitz.github.io/thor/reference/storr_thor.html" class="external-link">storr_thor()</a> - <a href="https://github.com/LMDB/lmdb" class="external-link">LMDB</a> Lightning Memory-Mapped Database via <a href="https://github.com/richfitz/thor" class="external-link">thor</a>
 </li>
 </ul>
 </div>

@@ -1,54 +1,30 @@
 # storr.tiledb
 
+A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver
+for [storr](https://github.com/richfitz/storr), a key-value store with
+content-addressable storage for R objects.
+
 ## Overview
 
-A [storr](https://github.com/richfitz/storr) driver using [TileDB
-Embedded](https://github.com/TileDB-Inc/TileDB) storage engine.
-
-***What is storr?***
-
-A key-value store with content-addressable storage for R objects with
-optional in-memory caching layer.
-
-The interface is provided by
-[storr](https://cloud.r-project.org/web/packages/storr/index.html)
-package and defines a set of common operations (set, get, del methods)
-across a range of different storage drivers (DBI, LMDB, Redis, RDS local
-file, R’s environment). The `storr` package is written by [Rich
-FitzJohn](https://github.com/richfitz).
-
-***What is storr.tiledb?***
-
 `storr.tiledb` is an R package that extends the storr ecosystem by
-providing a TileDB-based driver. Additionally, it includes `storr`-like
-classes that leverages the advantages of TileDB backend with new
-features: ability to add notes and expiration time-stamps next to
-key-namespace pairs and data snapshots support (time-travel).
+providing a TileDB-based driver and custom `storr`-like classes that
+leverage the advantages of the underlying backend.
 
 > \[!WARNING\]  
-> The package is in experimental status. Currently, the driver is
-> complete and fully functional in that it passes the auto test
-> specification defined by storr package. More testing is needed and
-> additional features to be implemented before it is moved to mature
-> state. Feedback is welcomed.
+> **Experimental status.** The package is fully functional and passes
+> storr’s test specification. Additional testing and features needed
+> before stable release.
 
 ## Key features
 
-- Key-value operations use driver’s methods for speed and efficiency
-
-- Key-value metadata such as notes and timestamps for data expiration
-  (time-to-live, TTL)
-
-- Asynchronous key-value operations or in parallel through
-  [mirai](https://cran.rstudio.com/web/packages/mirai/) framework
-
-- Hash tables (hashtab) for in memory caching layers instead of
-  environments
-
-- Cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)
-
-- Data version (time-travelling functionality)
-
+- Fast key-value operations via driver methods
+- Metadata support: notes and TTL expiration timestamps next to
+  key-value pairs
+- Async/parallel operations with
+  [mirai](https://cran.rstudio.com/web/packages/mirai/)
+- In-memory caching layers with hash tables
+- Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)
+- Data version (time-travel)
 - Encryption support
 
 ## Installation
@@ -91,17 +67,28 @@ sto$list()
 sto$del("mykey1")
 ```
 
-## Other storr drivers
+## Documentation
 
-- [storr_enviroment()](https://richfitz.github.io/storr/reference/storr_environment.html)
-  in memory storage using R enviroment
-- [storr_rds()](https://richfitz.github.io/storr/reference/storr_rds.html)
-  on disk storage using RDS file format
-- [storr_dbi()](https://richfitz.github.io/storr/reference/storr_dbi.html)
-  using [DBI](https://cran.r-project.org/web/packages/DBI/index.html)
-  interface
-- [storr_redis_api()](https://richfitz.github.io/redux/reference/storr_redis_api.html)
-  using Redis through [redux](https://github.com/richfitz/redux)
+For more detailed information, visit the [full
+documentation](https://cgiachalis.github.io/storr.tiledb/) on GitHub
+Pages.
+
+| Article | Description |
+|----|----|
+| [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) | Quick reference to basic operations |
+| [API Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) | Learn about `storr.tiledb` operations through examples |
+| [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Overview of TileDB driver data model |
+
+## Alternative storr drivers
+
+- [storr_enviroment()](https://richfitz.github.io/storr/reference/storr_environment.html) -
+  In-memory with R environments
+- [storr_rds()](https://richfitz.github.io/storr/reference/storr_rds.html) -
+  RDS file format
+- [storr_dbi()](https://richfitz.github.io/storr/reference/storr_dbi.html) -
+  DBI interface
+- [storr_redis_api()](https://richfitz.github.io/redux/reference/storr_redis_api.html) -
+  Redis through [redux](https://github.com/richfitz/redux)
 - [storr_thor()](https://richfitz.github.io/thor/reference/storr_thor.html) -
-  using [LMDB](https://github.com/LMDB/lmdb) Lightning Memory-Mapped
-  Database through [thor](https://github.com/richfitz/thor)
+  [LMDB](https://github.com/LMDB/lmdb) Lightning Memory-Mapped Database
+  via [thor](https://github.com/richfitz/thor)
