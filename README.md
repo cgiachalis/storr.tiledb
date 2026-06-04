@@ -6,9 +6,13 @@
 
 <!-- badges: end -->
 
+A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [storr](https://github.com/richfitz/storr), a key-value store with content-addressable storage for R objects.
+
 ## Overview
 
-`storr.tiledb` is an R package providing a [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [storr](https://github.com/richfitz/storr), a key-value store with content-addressable storage for R objects.
+`storr.tiledb` is an R package that extends the storr ecosystem by providing
+a TileDB-based driver and  custom `storr`-like classes that leverage the advantages of TileDB.
+
 
 > [!WARNING]\
 > **Experimental status.** The package is fully functional and passes storr's test specification. Additional testing and features needed before stable release.
@@ -68,7 +72,7 @@ For more detailed information, visit the [full documentation](https://cgiachalis
 
 | Article | Description |
 |------------------------------|------------------------------------------|
-| [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/get-started.html) | Quick reference to basic operations |
+| [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) | Quick reference to basic operations |
 | [API Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) | Learn about `storr.tiledb` operations through examples |
 | [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Storr's TileDB data model |
 
