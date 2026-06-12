@@ -447,12 +447,29 @@ TileDBDriver <- R6::R6Class(
 
       p <- storr::join_key_namespace(key, namespace)
 
+      if (p$n == 0) {
+        return(logical(0))
+      }
+
       arrobj <- private$keys_array()
 
-      sp <- list(namespace = namespace, key = key)
+
+      qc1 <- tiledb::tiledb_query_condition_create(name = "namespace",
+                                                   values = namespace,
+                                                   op = "IN")
+
+      qc2 <- tiledb::tiledb_query_condition_create(name = "key",
+                                                   values = key,
+                                                   op = "IN")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc1, qc2, "AND")
+
+
+
       arr <- arrobj$tiledb_array(attrs = "hash",
-                                 selected_points = sp,
+                                 query_condition = qc,
                                  return_as = "arrow")
+
 
       DT <- data.table::as.data.table(arr[])
 
@@ -475,10 +492,18 @@ TileDBDriver <- R6::R6Class(
     #'
     exists_object = function(hash) {
 
+      if (length(hash) == 0) {
+        return(logical(0))
+      }
+
       arrobj <- private$data_array()
 
+      qc <- tiledb::tiledb_query_condition_create(name = "hash",
+                                                  values = hash,
+                                                  op = "IN")
+
       arr <- arrobj$tiledb_array(attrs = NA_character_,
-                                 selected_points = list(hash = hash),
+                                 query_condition = qc,
                                  return_as = "arrow")
 
       hashes <- arr[]$GetColumnByName("hash")$as_vector()
