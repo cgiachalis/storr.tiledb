@@ -10,6 +10,9 @@ content-addressable storage for R objects.
 providing a TileDB-based driver and custom `storr`-like classes that
 leverage the advantages of the underlying backend.
 
+[![Ask
+DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr.tiledb)
+
 > \[!WARNING\]  
 > **Experimental status.** The package is fully functional and passes
 > storr’s test specification. Additional testing and features needed
