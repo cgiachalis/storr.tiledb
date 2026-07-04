@@ -60,6 +60,17 @@ can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
 The buffer allocation size is set to 3 MB per column when fetching data. Use
 \code{\link[=set_allocation_size_preference]{set_allocation_size_preference()}} to set a different limit.
 }
+
+\subsection{Compression}{
+
+The chosen compression filter is \code{"ZSTD"} applied to dimensions, attributes,
+coords and offsets. The compression level is configurable through \code{compression_level}
+argument with default level \code{-7} that balances compression ratio and speed.
+Note that a \code{"RLE"} filter is specifically used for validity bitmaps and not
+configurable.
+
+To create a driver without compression filters, set \code{compression_level = NULL}.
+}
 }
 
 \section{Class Methods Summary}{
@@ -208,6 +219,14 @@ stoe$get("a") # 1
 # Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
 stoe_new$get("a") # 1
+
+#-----------------------------------------------------------------
+#   Storr without compression
+#-----------------------------------------------------------------
+
+uri_nocomp <- tempfile()
+
+sto_nocomp <- storr_tiledb(uri_nocomp, init = TRUE, compression_level = NULL)
 }
 
 
