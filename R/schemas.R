@@ -9,8 +9,17 @@
 
 .tiledb_flist <- function(level = -1, name = "ZSTD", ctx) {
 
-  tiledb::tiledb_filter_list(c(.tiledb_filter(level = level, name = name, ctx = ctx)))
+  if (name == "NONE") {
+    tiledb::tiledb_filter_list(c(tiledb::tiledb_filter("NONE", ctx = ctx)))
+  } else {
+    tiledb::tiledb_filter_list(c(.tiledb_filter(level = level, name = name, ctx = ctx)))
+  }
+
 }
+
+# .tiledb_flist_none <- function(ctx) {
+#   tiledb::tiledb_filter_list(c(tiledb::tiledb_filter("NONE", ctx = ctx)))
+# }
 
 # Set up shared Dimensions
 .dim_ascii <- function(name, level = -1L, fname = "ZSTD", ctx) {
@@ -31,12 +40,19 @@
 # Attrs: hash, expires_at
 schema_keys <- function(compression_level = -7, ctx) {
 
-  .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD", ctx = ctx)
-  .filter_rle <- .tiledb_flist(level = -1, name = "RLE", ctx = ctx)
+  if (is.null(compression_level)) {
+    .filter_zstd <- .filter_rle  <- .tiledb_flist(name = "NONE", ctx = ctx)
+    fname <- "NONE"
+  } else {
+    .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD", ctx = ctx)
+    .filter_rle <- .tiledb_flist(level = -1, name = "RLE", ctx = ctx)
+    fname <- "ZSTD"
+
+  }
 
   # domain
-  dom <- tiledb::tiledb_domain(c(.dim_ascii("namespace", level = compression_level, ctx = ctx),
-                                 .dim_ascii("key", level = compression_level, ctx = ctx)))
+  dom <- tiledb::tiledb_domain(c(.dim_ascii("namespace", level = compression_level, fname = fname, ctx = ctx),
+                                 .dim_ascii("key", level = compression_level, fname = fname, ctx = ctx)))
 
   # attributes
   attrs <-  c(
@@ -87,11 +103,17 @@ schema_keys <- function(compression_level = -7, ctx) {
 # Attrs: value
 schema_data <- function(compression_level = -7, ctx) {
 
-  .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD", ctx = ctx)
-  .filter_rle <- .tiledb_flist(level = -1, name = "RLE", ctx = ctx)
+  if (is.null(compression_level)) {
+    .filter_zstd <- .filter_rle  <- .tiledb_flist(name = "NONE", ctx = ctx)
+    fname <- "NONE"
+  } else {
+    .filter_zstd <- .tiledb_flist(level = compression_level, name = "ZSTD", ctx = ctx)
+    .filter_rle <- .tiledb_flist(level = -1, name = "RLE", ctx = ctx)
+    fname <- "ZSTD"
+  }
 
   # domain
-  dom <- tiledb::tiledb_domain(.dim_ascii("hash", level = compression_level, ctx = ctx))
+  dom <- tiledb::tiledb_domain(.dim_ascii("hash", level = compression_level, fname = fname, ctx = ctx))
 
   # attributes
   attrs <-  c(
