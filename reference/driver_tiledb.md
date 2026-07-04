@@ -43,7 +43,8 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 
 - compression_level:
 
-  Set an integer value for ZSTD compression level.
+  Set an integer value for ZSTD compression level. If `NULL` value is
+  given, the schema will not have compression filters.
 
 ## Value
 

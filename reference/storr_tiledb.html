@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.45</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.46</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +122,18 @@ can be used to disable it, like so: <code>options(storr.tiledb.cache = FALSE)</c
 <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/save_allocation_size_preference.html" class="external-link">set_allocation_size_preference()</a></code> to set a different limit.</p>
 </div>
 
+<div class="section">
+<h3 id="compression">Compression<a class="anchor" aria-label="anchor" href="#compression"></a></h3>
+
+
+<p>The chosen compression filter is <code>"ZSTD"</code> applied to dimensions, attributes,
+coords and offsets. The compression level is configurable through <code>compression_level</code>
+argument with default level <code>-7</code> that balances compression ratio and speed.
+Note that a <code>"RLE"</code> filter is specifically used for validity bitmaps and not
+configurable.</p>
+<p>To create a driver without compression filters, set <code>compression_level = NULL</code>.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="class-methods-summary">Class Methods Summary<a class="anchor" aria-label="anchor" href="#class-methods-summary"></a></h2>
@@ -227,6 +239,14 @@ can be used to disable it, like so: <code>options(storr.tiledb.cache = FALSE)</c
 <span class="r-in"><span><span class="co"># Pass the context with encryption parameters</span></span></span>
 <span class="r-in"><span><span class="va">stoe_new</span> <span class="op">&lt;-</span> <span class="fu">storr_tiledb</span><span class="op">(</span><span class="va">uri_enc</span>, context <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">stoe_new</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="co"># 1</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">#   Storr without compression</span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">uri_nocomp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sto_nocomp</span> <span class="op">&lt;-</span> <span class="fu">storr_tiledb</span><span class="op">(</span><span class="va">uri_nocomp</span>, init <span class="op">=</span> <span class="cn">TRUE</span>, compression_level <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>

@@ -90,6 +90,17 @@ Use
 [`set_allocation_size_preference()`](https://tiledb-inc.github.io/TileDB-R/reference/save_allocation_size_preference.html)
 to set a different limit.
 
+### Compression
+
+The chosen compression filter is `"ZSTD"` applied to dimensions,
+attributes, coords and offsets. The compression level is configurable
+through `compression_level` argument with default level `-7` that
+balances compression ratio and speed. Note that a `"RLE"` filter is
+specifically used for validity bitmaps and not configurable.
+
+To create a driver without compression filters, set
+`compression_level = NULL`.
+
 ## Class Methods Summary
 
 For complete definitions, see **Methods** section in
@@ -283,6 +294,14 @@ stoe$get("a") # 1
 # Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
 stoe_new$get("a") # 1
+
+#-----------------------------------------------------------------
+#   Storr without compression
+#-----------------------------------------------------------------
+
+uri_nocomp <- tempfile()
+
+sto_nocomp <- storr_tiledb(uri_nocomp, init = TRUE, compression_level = NULL)
 } # }
 
 ```
