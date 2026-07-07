@@ -17,9 +17,6 @@
 
 }
 
-# .tiledb_flist_none <- function(ctx) {
-#   tiledb::tiledb_filter_list(c(tiledb::tiledb_filter("NONE", ctx = ctx)))
-# }
 
 # Set up shared Dimensions
 .dim_ascii <- function(name, level = -1L, fname = "ZSTD", ctx) {
@@ -55,7 +52,7 @@ schema_keys <- function(compression_level = -7, ctx) {
                                  .dim_ascii("key", level = compression_level, fname = fname, ctx = ctx)))
 
   # attributes
-  attrs <-  c(
+  attrs <- c(
     tiledb::tiledb_attr(
       name = "hash",
       type = "ASCII",
