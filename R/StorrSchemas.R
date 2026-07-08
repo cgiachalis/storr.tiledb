@@ -435,19 +435,19 @@ SchemaData <- R6::R6Class(
 )
 
 
-#' @title Generate a `SchemaCAS` Object
+#' @title Generate a `StorrSchemas` Object
 #'
-#' @description An R6 class that represents the CAS storage schemas.
+#' @description An R6 class that represents the storr's CAS schemas.
 #'
 #'
-#' @returns A `SchemaCAS`, `R6` object.
+#' @returns A `StorrSchemas`, `R6` object.
 #'
 #' @export
 #'
 #' @keywords internal
 #'
-SchemaCAS <- R6::R6Class(
-  classname = "SchemaCAS",
+StorrSchemas <- R6::R6Class(
+  classname = "StorrSchemas",
   active = list(
 
     #' @field SchemaKeys Get [SchemaKeys()] object.
@@ -489,7 +489,7 @@ SchemaCAS <- R6::R6Class(
 
   public = list(
 
-    #' @description Create a new `SchemaCAS` object.
+    #' @description Create a new `StorrSchemas` object.
     #'
     #' @param uri Optional URI path to `TileDB` driver.
     #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.

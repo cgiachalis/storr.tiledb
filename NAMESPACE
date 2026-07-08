@@ -2,10 +2,10 @@
 
 export(CAS)
 export(SchemaBase)
-export(SchemaCAS)
 export(SchemaData)
 export(SchemaKeys)
 export(StorrFragments)
+export(StorrSchemas)
 export(StorrTimeTravel)
 export(TileDBDriver)
 export(TileDBStorr)
