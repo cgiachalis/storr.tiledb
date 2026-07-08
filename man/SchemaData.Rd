@@ -33,6 +33,7 @@ This class should not be used directly.
 }
 \if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
+  <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="SchemaBase" data-id="print"><a href='../../storr.tiledb/html/SchemaBase.html#method-SchemaBase-print'><code>SchemaBase$print()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="storr.tiledb" data-topic="SchemaBase" data-id="schema"><a href='../../storr.tiledb/html/SchemaBase.html#method-SchemaBase-schema'><code>SchemaBase$schema()</code></a></span></li>
 </ul>
 </details>}}
@@ -49,10 +50,11 @@ This class should not be used directly.
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{Optional URI path to \code{TileDB} driver.}
+      \item{\code{uri}}{Optional URI path to array for extracting its schema from. If
+not given, the default schema will be loaded.}
       \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
       \item{\code{none_filter}}{\code{TRUE} for no filters, \code{FALSE} for default filters.
-Applied on default schemas and not on schemas extracted from uri path.}
+Applied on default schemas and not on schemas extracted from a URI path.}
     }
     \if{html}{\out{</div>}}
   }

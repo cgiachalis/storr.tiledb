@@ -23,6 +23,7 @@ An R6 class that represents the storr's CAS schemas.
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-StorrSchemas-initialize}{\code{StorrSchemas$new()}}
+    \item \href{#method-StorrSchemas-print}{\code{StorrSchemas$print()}}
     \item \href{#method-StorrSchemas-clone}{\code{StorrSchemas$clone()}}
   }
 }
@@ -44,6 +45,18 @@ An R6 class that represents the storr's CAS schemas.
       \item{\code{none_filter}}{\code{TRUE} for no filters, \code{FALSE} for default filters.
 Applied on default schemas and not on schemas extracted from uri path.}
     }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrSchemas-print"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrSchemas-print}{}}}
+\subsection{\code{StorrSchemas$print()}}{
+  Print class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrSchemas$print()}
     \if{html}{\out{</div>}}
   }
 }

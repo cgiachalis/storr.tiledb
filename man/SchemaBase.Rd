@@ -21,11 +21,11 @@ This class should not be used directly.
 
     \item{\code{validity_flist}}{Get or set a filter list.}
 
-    \item{\code{capacity}}{Get or set capacity of each tile.}
+    \item{\code{capacity}}{Get or set the capacity of each tile.}
 
-    \item{\code{cell_order}}{Get or set cell order layout.}
+    \item{\code{cell_order}}{Get or set the cell order layout.}
 
-    \item{\code{tile_order}}{Get or set tile order layout.}
+    \item{\code{tile_order}}{Get or set the tile order layout.}
   }
   \if{html}{\out{</div>}}
 }
@@ -34,6 +34,7 @@ This class should not be used directly.
   \itemize{
     \item \href{#method-SchemaBase-initialize}{\code{SchemaBase$new()}}
     \item \href{#method-SchemaBase-schema}{\code{SchemaBase$schema()}}
+    \item \href{#method-SchemaBase-print}{\code{SchemaBase$print()}}
     \item \href{#method-SchemaBase-clone}{\code{SchemaBase$clone()}}
   }
 }
@@ -50,10 +51,11 @@ This class should not be used directly.
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{Optional URI path to \code{TileDB} driver.}
+      \item{\code{uri}}{Optional URI path to array for extracting its schema from. If
+not given, the default schema will be loaded.}
       \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
       \item{\code{none_filter}}{\code{TRUE} for no filters, \code{FALSE} for default filters.
-Applied on default schemas and not on schemas extracted from uri path.}
+Applied on default schemas and not on schemas extracted from a URI path.}
     }
     \if{html}{\out{</div>}}
   }
@@ -63,10 +65,22 @@ Applied on default schemas and not on schemas extracted from uri path.}
 \if{html}{\out{<a id="method-SchemaBase-schema"></a>}}
 \if{latex}{\out{\hypertarget{method-SchemaBase-schema}{}}}
 \subsection{\code{SchemaBase$schema()}}{
-  Return TileDB schema.
+  Get TileDB Schema.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{SchemaBase$schema()}
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-SchemaBase-print"></a>}}
+\if{latex}{\out{\hypertarget{method-SchemaBase-print}{}}}
+\subsection{\code{SchemaBase$print()}}{
+  Print Schema class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{SchemaBase$print()}
     \if{html}{\out{</div>}}
   }
 }

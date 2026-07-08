@@ -1,6 +1,6 @@
 
 #  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-#   R6 Classes - CAS Schemas
+#   R6 Classes - Storr Schemas
 #  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 #' @title Generate a `SchemaBase` Object
@@ -49,7 +49,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field capacity Get or set capacity of each tile.
+    #' @field capacity Get or set the capacity of each tile.
     #'
     capacity = function(value) {
       if (!missing(value)) {
@@ -60,7 +60,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field cell_order Get or set cell order layout.
+    #' @field cell_order Get or set the cell order layout.
     #'
     cell_order = function(value) {
       if (!missing(value)) {
@@ -71,7 +71,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field tile_order Get or set tile order layout.
+    #' @field tile_order Get or set the tile order layout.
     #'
     tile_order = function(value) {
       if (!missing(value)) {
@@ -87,10 +87,11 @@ SchemaBase <- R6::R6Class(
 
     #' @description Create a new `SchemaBase` object.
     #'
-    #' @param uri Optional URI path to `TileDB` driver.
+    #' @param uri Optional URI path to array for extracting its schema from. If
+    #' not given, the default schema will be loaded.
     #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
     #' @param none_filter  `TRUE` for no filters, `FALSE` for default filters.
-    #' Applied on default schemas and not on schemas extracted from uri path.
+    #' Applied on default schemas and not on schemas extracted from a URI path.
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -131,16 +132,20 @@ SchemaBase <- R6::R6Class(
 
     },
 
-    #' @description Return TileDB schema.
+
+    #' @description Get TileDB Schema.
     #'
     schema = function() {
-      private$SCHEMA
-    }
 
-    # print = function() {
-    #   # tiledb::tiledb_schema_get_names(sch)
-    #   # tiledb::tiledb_schema_get_types(sch)
-    # }
+      private$SCHEMA
+    },
+
+    #' @description Print Schema class.
+    #'
+    print = function() {
+      cat(paste0("R6Class: <", class(self)[1], ">"))
+      invisible(self)
+    }
 
   ),
 
@@ -264,11 +269,6 @@ SchemaKeys <- R6::R6Class(
 
     #' @description Create a new `SchemaKeys` object.
     #'
-    #' @param uri Optional URI path to `TileDB` driver.
-    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-    #' @param none_filter  `TRUE` for no filters, `FALSE` for default filters.
-    #' Applied on default schemas and not on schemas extracted from uri path.
-    #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
       super$initialize(uri = uri, ctx = ctx, none_filter = none_filter)
@@ -375,11 +375,6 @@ SchemaData <- R6::R6Class(
   public = list(
 
     #' @description Create a new `SchemaData` object.
-    #'
-    #' @param uri Optional URI path to `TileDB` driver.
-    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-    #' @param none_filter  `TRUE` for no filters, `FALSE` for default filters.
-    #' Applied on default schemas and not on schemas extracted from uri path.
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -498,7 +493,6 @@ StorrSchemas <- R6::R6Class(
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
-
       private$CTX <- ctx
 
       if (!is.null(uri)) {
@@ -509,6 +503,13 @@ StorrSchemas <- R6::R6Class(
       }
 
       private$NONE_FILTER <- none_filter
+    },
+
+    #' @description Print class.
+    #'
+    print = function() {
+      cat(paste0("R6Class: <", class(self)[1], ">"))
+      invisible(self)
     }
   ),
 
@@ -523,3 +524,40 @@ StorrSchemas <- R6::R6Class(
     CTX = NULL
   )
 )
+
+
+
+#' Storr Schemas
+#'
+#' @param uri Optional URI path to `TileDB` driver.
+#' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
+#' @param none_filter `TRUE` for no filters, `FALSE` for default filters.
+#' Applied on default schemas and not on schemas extracted from uri path.
+#'
+#' @returns An object of class `StorrSchemas`.
+#'
+#' @export
+#'
+#' @examples
+#' ctx <- new_context()
+#' sto_sch <- storr_schemas(ctx = ctx, none_filter = TRUE)
+#'
+#' # 'data' schema
+#' data_sch <- sto_sch$SchemaData
+#'
+#' # Set up ZSTD filter with high compression
+#' flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+#' flt <- tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
+#' fl_list <- tiledb::tiledb_filter_list(flt)
+#'
+#' # Apply filter list to 'value' attribute (CAS storage data)
+#' data_sch$attr_value <- fl_list
+#'
+#' # Now, 'sto_sch' has been modified
+#' sto_sch$SchemaData$schema()
+#'
+storr_schemas <- function(uri = NULL, ctx = NULL, none_filter = FALSE) {
+
+  StorrSchemas$new(uri = uri, ctx = ctx, none_filter = none_filter)
+
+}
