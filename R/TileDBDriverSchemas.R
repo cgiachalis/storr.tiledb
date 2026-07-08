@@ -430,19 +430,19 @@ SchemaData <- R6::R6Class(
 )
 
 
-#' @title Generate a `StorrSchemas` Object
+#' @title Generate a `TileDBDriverSchemas` Object
 #'
 #' @description An R6 class that represents the storr's CAS schemas.
 #'
 #'
-#' @returns A `StorrSchemas`, `R6` object.
+#' @returns A `TileDBDriverSchemas`, `R6` object.
 #'
 #' @export
 #'
 #' @keywords internal
 #'
-StorrSchemas <- R6::R6Class(
-  classname = "StorrSchemas",
+TileDBDriverSchemas <- R6::R6Class(
+  classname = "TileDBDriverSchemas",
   active = list(
 
     #' @field SchemaKeys Get [SchemaKeys()] object.
@@ -484,7 +484,7 @@ StorrSchemas <- R6::R6Class(
 
   public = list(
 
-    #' @description Create a new `StorrSchemas` object.
+    #' @description Create a new `TileDBDriverSchemas` object.
     #'
     #' @param uri Optional URI path to `TileDB` driver.
     #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
@@ -527,27 +527,27 @@ StorrSchemas <- R6::R6Class(
 
 
 
-#' Storr Schemas
+#' TileDB Storr Driver Schemas
 #'
 #' @param uri Optional URI path to `TileDB` driver.
 #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
 #' @param none_filter `TRUE` for no filters, `FALSE` for default filters.
 #' Applied on default schemas and not on schemas extracted from uri path.
 #'
-#' @returns An object of class `StorrSchemas`.
+#' @returns An object of class `TileDBDriverSchemas`.
 #'
 #' @export
 #'
 #' @examples
 #' ctx <- new_context()
-#' sto_sch <- storr_schemas(ctx = ctx, none_filter = TRUE)
+#' sto_sch <- driver_schemas(ctx = ctx, none_filter = TRUE)
 #'
 #' # 'data' schema
 #' data_sch <- sto_sch$SchemaData
 #'
 #' # Set up ZSTD filter with high compression
 #' flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
-#' flt <- tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
+#' flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 #' fl_list <- tiledb::tiledb_filter_list(flt)
 #'
 #' # Apply filter list to 'value' attribute (CAS storage data)
@@ -556,8 +556,8 @@ StorrSchemas <- R6::R6Class(
 #' # Now, 'sto_sch' has been modified
 #' sto_sch$SchemaData$schema()
 #'
-storr_schemas <- function(uri = NULL, ctx = NULL, none_filter = FALSE) {
+driver_schemas <- function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
-  StorrSchemas$new(uri = uri, ctx = ctx, none_filter = none_filter)
+  TileDBDriverSchemas$new(uri = uri, ctx = ctx, none_filter = none_filter)
 
 }
