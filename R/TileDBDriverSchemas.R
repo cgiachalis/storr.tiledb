@@ -199,6 +199,43 @@ SchemaBase <- R6::R6Class(
       }
 
       return(NULL)
+    },
+
+    # NB: Technically, we're re-creating the schema
+    .update_schema = function() {
+
+
+      if (inherits(self, "SchemaData")) {
+        dom <- tiledb::tiledb_domain(private$DIM_HASH)
+        attrs <-  private$ATTR_VALUE
+      } else if (inherits(self, "SchemaKeys")) {
+        dom <- tiledb::tiledb_domain(c(private$DIM_NS, private$DIM_KEY))
+        attrs <-  c(private$ATTR_HASH, private$ATTR_EXP, private$ATTR_NOTE)
+      } else{
+        stop("Invalid schema class.",call. = FALSE)
+      }
+
+      sch <- tiledb::tiledb_array_schema(
+        domain = dom,
+        attrs = attrs,
+        cell_order = private$CELL_ORDER,
+        tile_order = private$TILE_ORDER,
+        capacity = private$CAPACITY,
+        sparse = TRUE,
+        allows_dups = FALSE,
+        coords_filter_list = private$COORDS_FLIST,
+        offsets_filter_list = private$OFFSETS_FLIST,
+        validity_filter_list = private$VALIDITY_FLIST,
+        ctx = private$CTX
+      )
+
+      if (!tiledb::schema_check(sch)) {
+        stop('Failed to update schema', call. = FALSE)
+      }
+
+      private$SCHEMA <- sch
+
+      return(NULL)
     }
 
   )
@@ -307,36 +344,7 @@ SchemaKeys <- R6::R6Class(
     DIM_KEY = NULL,
     ATTR_HASH = NULL,
     ATTR_EXP = NULL,
-    ATTR_NOTE = NULL,
-
-    # NB: Technically, we're re-creating the schema
-    .update_schema = function() {
-      dom <- tiledb::tiledb_domain(c(private$DIM_NS, private$DIM_KEY))
-
-      attrs <-  c(private$ATTR_HASH, private$ATTR_EXP, private$ATTR_NOTE)
-
-      sch <- tiledb::tiledb_array_schema(
-        domain = dom,
-        attrs = attrs,
-        cell_order = private$CELL_ORDER,
-        tile_order = private$TILE_ORDER,
-        capacity = private$CAPACITY,
-        sparse = TRUE,
-        allows_dups = FALSE,
-        coords_filter_list = private$COORDS_FLIST,
-        offsets_filter_list = private$OFFSETS_FLIST,
-        validity_filter_list = private$VALIDITY_FLIST,
-        ctx = private$CTX
-      )
-
-      if (!tiledb::schema_check(sch)) {
-        stop('Failed to update schema', call. = FALSE)
-      }
-
-      private$SCHEMA <- sch
-
-      return(NULL)
-    }
+    ATTR_NOTE = NULL
 
   )
 )
@@ -404,37 +412,7 @@ SchemaData <- R6::R6Class(
   private = list(
 
     DIM_HASH = NULL,
-    ATTR_VALUE = NULL,
-
-    # NB: Technically, we're re-creating the schema
-    .update_schema = function() {
-
-      dom <- tiledb::tiledb_domain(private$DIM_HASH)
-      attrs <-  private$ATTR_VALUE
-
-      sch <- tiledb::tiledb_array_schema(
-        domain = dom,
-        attrs = attrs,
-        cell_order = private$CELL_ORDER,
-        tile_order = private$TILE_ORDER,
-        capacity = private$CAPACITY,
-        sparse = TRUE,
-        allows_dups = FALSE,
-        coords_filter_list = private$COORDS_FLIST,
-        offsets_filter_list = private$OFFSETS_FLIST,
-        validity_filter_list = private$VALIDITY_FLIST,
-        ctx = private$CTX
-      )
-
-      if (!tiledb::schema_check(sch)) {
-        stop('Failed to update schema', call. = FALSE)
-      }
-
-      private$SCHEMA <- sch
-
-      return(NULL)
-    }
-
+    ATTR_VALUE = NULL
   )
 )
 
