@@ -51,8 +51,7 @@ This class should not be used directly.
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{Optional URI path to array for extracting its schema from. If
-not given, the default schema will be loaded.}
+      \item{\code{uri}}{Optional URI path to array for extracting its schema from. If not given, the default schema will be loaded.}
       \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
       \item{\code{none_filter}}{\code{TRUE} for no filters, \code{FALSE} for default filters.
 Applied on default schemas and not on schemas extracted from a URI path.}

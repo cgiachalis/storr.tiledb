@@ -2,23 +2,24 @@
 % Please edit documentation in R/TileDBDriverSchemas.R
 \name{driver_schemas}
 \alias{driver_schemas}
-\title{TileDB Driver Schemas}
+\title{TileDB Storr Driver Schemas}
 \usage{
 driver_schemas(uri = NULL, ctx = NULL, none_filter = FALSE)
 }
 \arguments{
-\item{uri}{Optional URI path to \code{TileDB} driver.}
+\item{uri}{Optional URI path to \code{TileDB} driver. If not given,  the default
+schemas array will be used.}
 
 \item{ctx}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
 
 \item{none_filter}{\code{TRUE} for no filters, \code{FALSE} for default filters.
-Applied on default schemas and not on schemas extracted from uri path.}
+Applied on default schemas and not on schemas extracted from a URI path.}
 }
 \value{
 An object of class \code{TileDBDriverSchemas}.
 }
 \description{
-TileDB Driver Schemas
+TileDB Storr Driver Schemas
 }
 \examples{
 ctx <- new_context()

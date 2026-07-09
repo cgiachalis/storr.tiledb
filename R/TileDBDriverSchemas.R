@@ -87,11 +87,9 @@ SchemaBase <- R6::R6Class(
 
     #' @description Create a new `SchemaBase` object.
     #'
-    #' @param uri Optional URI path to array for extracting its schema from. If
-    #' not given, the default schema will be loaded.
-    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-    #' @param none_filter  `TRUE` for no filters, `FALSE` for default filters.
-    #' Applied on default schemas and not on schemas extracted from a URI path.
+    #' @param uri `r  sch_uri`
+    #' @param ctx `r sch_ctx`
+    #' @param none_filter  `r sch_none_filter`
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -486,10 +484,10 @@ TileDBDriverSchemas <- R6::R6Class(
 
     #' @description Create a new `TileDBDriverSchemas` object.
     #'
-    #' @param uri Optional URI path to `TileDB` driver.
-    #' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-    #' @param none_filter `TRUE` for no filters, `FALSE` for default filters.
-    #' Applied on default schemas and not on schemas extracted from uri path.
+    #' @param uri Optional URI path to `TileDB` driver. If not given,  the default
+    #' schemas array will be used.
+    #' @param ctx `r sch_ctx`
+    #' @param none_filter  `r sch_none_filter`
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -529,10 +527,10 @@ TileDBDriverSchemas <- R6::R6Class(
 
 #' TileDB Storr Driver Schemas
 #'
-#' @param uri Optional URI path to `TileDB` driver.
-#' @param ctx Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
-#' @param none_filter `TRUE` for no filters, `FALSE` for default filters.
-#' Applied on default schemas and not on schemas extracted from uri path.
+#' @param uri Optional URI path to `TileDB` driver. If not given,  the default
+#' schemas array will be used.
+#' @param ctx `r sch_ctx`
+#' @param none_filter  `r sch_none_filter`
 #'
 #' @returns An object of class `TileDBDriverSchemas`.
 #'
