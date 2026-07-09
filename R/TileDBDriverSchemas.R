@@ -160,6 +160,12 @@ SchemaBase <- R6::R6Class(
 
   private = list(
 
+    # Schema-level filters (COORDS, OFFSETS, VALIDITY) are stored here and intended
+    # for getters/setters (cant't modify in-place as for Dims/Attrs).
+    #
+    # NB: Dimension/attribute filters are stored on the dimension/attribute objects themselves.
+    # So, child classes will store dims/attr in private fields and their filters will be retrieved
+    # or modified in-place from.
     COORDS_FLIST = NULL,
     OFFSETS_FLIST = NULL,
     VALIDITY_FLIST = NULL,
@@ -172,9 +178,11 @@ SchemaBase <- R6::R6Class(
     SCHEMA = NULL,
 
     .set_filter_list = function(key, value, update_schema = TRUE) {
+
       is_sch_flist <- key %in% c("COORDS_FLIST", "OFFSETS_FLIST", "VALIDITY_FLIST")
 
       if (inherits(value, "tiledb_filter_list")) {
+
         if (!is_sch_flist) {
           tiledb::filter_list(private[[key]]) <- value
         } else {
@@ -191,7 +199,7 @@ SchemaBase <- R6::R6Class(
         }
 
       } else {
-        stop("Not a filter list", call. = FALSE)
+        stop("Not a filter list.", call. = FALSE)
       }
 
       if (update_schema) {
