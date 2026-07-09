@@ -53,6 +53,11 @@ SchemaBase <- R6::R6Class(
     #'
     capacity = function(value) {
       if (!missing(value)) {
+
+        if (!.is_scalar_numeric(value)) {
+          stop("'capacity' should be a scalar numeric value.", call. = FALSE)
+        }
+
         private$CAPACITY <- value
         private$.update_schema()
       } else {
@@ -64,6 +69,9 @@ SchemaBase <- R6::R6Class(
     #'
     cell_order = function(value) {
       if (!missing(value)) {
+       if (!value %in% c("ROW_MAJOR", "COL_MAJOR")) {
+         stop("'cell_order' should be a either 'ROW_MAJOR' or 'COL_MAJOR'.", call. = FALSE)
+       }
         private$CELL_ORDER <- value
         private$.update_schema()
       } else {
@@ -75,6 +83,9 @@ SchemaBase <- R6::R6Class(
     #'
     tile_order = function(value) {
       if (!missing(value)) {
+        if (!value %in% c("ROW_MAJOR", "COL_MAJOR")) {
+          stop("'tile_order' should be a either 'ROW_MAJOR' or 'COL_MAJOR'.", call. = FALSE)
+        }
         private$TILE_ORDER <- value
         private$.update_schema()
       } else {
