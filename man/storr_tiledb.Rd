@@ -66,8 +66,8 @@ The buffer allocation size is set to 3 MB per column when fetching data. Use
 The chosen compression filter is \code{"ZSTD"} applied to dimensions, attributes,
 coords and offsets. The compression level is configurable through \code{compression_level}
 argument with default level \code{-7} that balances compression ratio and speed.
-Note that a \code{"RLE"} filter is specifically used for validity bitmaps and not
-configurable.
+Note that a \code{"RLE"} filter is specifically used for validity bitmaps and is
+not configurable.
 
 To create a driver without compression filters, set \code{compression_level = NULL}.
 }

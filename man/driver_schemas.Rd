@@ -31,7 +31,7 @@ data_sch <- sto_sch$SchemaData
 # Set up ZSTD filter with high compression
 flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
-fl_list <- tiledb::tiledb_filter_list(flt)
+fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
 # Apply filter list to 'value' attribute (CAS storage data)
 data_sch$attr_value <- fl_list
