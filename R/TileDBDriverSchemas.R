@@ -98,9 +98,9 @@ SchemaBase <- R6::R6Class(
 
     #' @description Create a new `SchemaBase` object.
     #'
-    #' @param uri `r  sch_uri`
+    #' @param uri `r sch_uri`
     #' @param ctx `r sch_ctx`
-    #' @param none_filter  `r sch_none_filter`
+    #' @param none_filter `r sch_none_filter`
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -161,10 +161,10 @@ SchemaBase <- R6::R6Class(
   private = list(
 
     # Schema-level filters (COORDS, OFFSETS, VALIDITY) are stored here and intended
-    # for getters/setters (cant't modify in-place as for Dims/Attrs).
+    # for getters/setters (can't modify in-place as for Dims/Attrs).
     #
     # NB: Dimension/attribute filters are stored on the dimension/attribute objects themselves.
-    # So, child classes will store dims/attr in private fields and their filters will be retrieved
+    # So, child classes will store dims/attrs in private fields and their filters will be retrieved
     # or modified in-place from.
     COORDS_FLIST = NULL,
     OFFSETS_FLIST = NULL,
@@ -484,7 +484,7 @@ TileDBDriverSchemas <- R6::R6Class(
     #' @param uri Optional URI path to `TileDB` driver. If not given,  the default
     #' schemas array will be used.
     #' @param ctx `r sch_ctx`
-    #' @param none_filter  `r sch_none_filter`
+    #' @param none_filter `r sch_none_filter`
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
@@ -527,7 +527,7 @@ TileDBDriverSchemas <- R6::R6Class(
 #' @param uri Optional URI path to `TileDB` driver. If not given,  the default
 #' schemas array will be used.
 #' @param ctx `r sch_ctx`
-#' @param none_filter  `r sch_none_filter`
+#' @param none_filter `r sch_none_filter`
 #'
 #' @returns An object of class `TileDBDriverSchemas`.
 #'

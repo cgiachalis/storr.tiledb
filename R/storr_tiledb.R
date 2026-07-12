@@ -37,8 +37,8 @@
 #'  The chosen compression filter is `"ZSTD"` applied to dimensions, attributes,
 #'  coords and offsets. The compression level is configurable through `compression_level`
 #'  argument with default level `-7` that balances compression ratio and speed.
-#'  Note that a `"RLE"` filter is specifically used for validity bitmaps and not
-#'  configurable.
+#'  Note that a `"RLE"` filter is specifically used for validity bitmaps and is
+#'  not configurable.
 #'
 #'  To create a driver without compression filters, set `compression_level = NULL`.
 #'
