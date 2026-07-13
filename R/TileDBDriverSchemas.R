@@ -255,7 +255,7 @@ SchemaBase <- R6::R6Class(
 #'
 #' @description An R6 class that represents the 'keys' schema of CAS storage.
 #'
-#' This class should not be used directly.
+#' This class should not be used directly, but it can be accessed via [driver_schemas()].
 #'
 #' @returns A `SchemaKeys`, `R6` object.
 #'
@@ -363,7 +363,7 @@ SchemaKeys <- R6::R6Class(
 #'
 #' @description An R6 class that represents the 'data' schema of CAS storage.
 #'
-#' This class should not be used directly.
+#' This class should not be used directly, but it can be accessed via [driver_schemas()].
 #'
 #' @returns A `SchemaData`, `R6` object.
 #'

@@ -9,7 +9,7 @@ A \code{SchemaData}, \code{R6} object.
 \description{
 An R6 class that represents the 'data' schema of CAS storage.
 
-This class should not be used directly.
+This class should not be used directly, but it can be accessed via \code{\link[=driver_schemas]{driver_schemas()}}.
 }
 \keyword{internal}
 \section{Super class}{
