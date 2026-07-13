@@ -7,7 +7,8 @@
 A \code{SchemaKeys}, \code{R6} object.
 }
 \description{
-An R6 class that represents the 'keys' schema of CAS storage.
+An R6 class that represents the 'keys' schema for CAS storage
+and provides active fields to get/set filter lists for each dimension/attribute.
 
 This class should not be used directly, but it can be accessed via \code{\link[=driver_schemas]{driver_schemas()}}.
 }

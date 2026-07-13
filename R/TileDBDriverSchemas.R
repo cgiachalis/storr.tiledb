@@ -5,7 +5,14 @@
 
 #' @title Generate a `SchemaBase` Object
 #'
-#' @description A virtual class to be inherited by specialised R6 schema classes.
+#' @description A virtual base class to be inherited by specialised R6 schema classes.
+#'
+#' Provides common schema functionality for 'keys' and 'data' schemas for CAS
+#' storage. This class manages filter lists for coordinates, offsets, and validity
+#' data and controls tile capacity, cell order, and tile order settings.
+#'
+#' The schema creation comes either from existing CAS storage URI path or the
+#' default templates.
 #'
 #' This class should not be used directly.
 #'
@@ -253,7 +260,8 @@ SchemaBase <- R6::R6Class(
 
 #' @title Generate a `SchemaKeys` Object
 #'
-#' @description An R6 class that represents the 'keys' schema of CAS storage.
+#' @description An R6 class that represents the 'keys' schema for CAS storage
+#' and provides active fields to get/set filter lists for each dimension/attribute.
 #'
 #' This class should not be used directly, but it can be accessed via [driver_schemas()].
 #'
@@ -361,7 +369,8 @@ SchemaKeys <- R6::R6Class(
 
 #' @title Generate a `SchemaData` Object
 #'
-#' @description An R6 class that represents the 'data' schema of CAS storage.
+#' @description An R6 class that represents the 'data' schema for CAS storage
+#' and provides active fields to get/set filter lists for each dimension/attribute.
 #'
 #' This class should not be used directly, but it can be accessed via [driver_schemas()].
 #'
@@ -428,8 +437,14 @@ SchemaData <- R6::R6Class(
 
 #' @title Generate a `TileDBDriverSchemas` Object
 #'
-#' @description An R6 class that represents the storr's CAS schemas.
+#' @description An R6 class that represents the storr's CAS schemas and provides
+#' access to both [SchemaKeys] and [SchemaData] objects.
 #'
+#' Users can use the schema objects to access and modify individual schemas' filter
+#' lists and configuration via active fields.
+#'
+#' For creating a `TileDBDriverSchemas` object, use the convenient wrapper
+#' [driver_schemas()].
 #'
 #' @returns A `TileDBDriverSchemas`, `R6` object.
 #'
@@ -523,7 +538,20 @@ TileDBDriverSchemas <- R6::R6Class(
 
 
 
-#' TileDB Storr Driver Schemas
+#' TileDB Driver Schemas
+#'
+#' Access CAS storage schemas to tune TileDB's performance and storage
+#' characteristics: compression algorithms, compression levels, tile capacity,
+#' cell order, and tile order settings.
+#'
+#' For example, use `driver_schemas()`  to:
+#'
+#' - Create schemas with optional filters
+#' - Dynamically apply compression to individual attributes
+#' - Persist those customizations into the underlying TileDB arrays
+#'
+#' This is useful for creating a storage driver for use cases that need
+#' different trade-offs (speed vs. compression, memory vs. disk).
 #'
 #' @param uri Optional URI path to `TileDB` driver. If not given,  the default
 #' schemas array will be used.

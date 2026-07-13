@@ -7,7 +7,14 @@
 A \code{TileDBDriverSchemas}, \code{R6} object.
 }
 \description{
-An R6 class that represents the storr's CAS schemas.
+An R6 class that represents the storr's CAS schemas and provides
+access to both \link{SchemaKeys} and \link{SchemaData} objects.
+
+Users can use the schema objects to access and modify individual schemas' filter
+lists and configuration via active fields.
+
+For creating a \code{TileDBDriverSchemas} object, use the convenient wrapper
+\code{\link[=driver_schemas]{driver_schemas()}}.
 }
 \keyword{internal}
 \section{Active bindings}{

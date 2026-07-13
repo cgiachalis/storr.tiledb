@@ -2,7 +2,7 @@
 % Please edit documentation in R/TileDBDriverSchemas.R
 \name{driver_schemas}
 \alias{driver_schemas}
-\title{TileDB Storr Driver Schemas}
+\title{TileDB Driver Schemas}
 \usage{
 driver_schemas(uri = NULL, ctx = NULL, none_filter = FALSE)
 }
@@ -19,7 +19,20 @@ Applied on default schemas and not on schemas extracted from a URI path.}
 An object of class \code{TileDBDriverSchemas}.
 }
 \description{
-TileDB Storr Driver Schemas
+Access CAS storage schemas to tune TileDB's performance and storage
+characteristics: compression algorithms, compression levels, tile capacity,
+cell order, and tile order settings.
+}
+\details{
+For example, use \code{driver_schemas()}  to:
+\itemize{
+\item Create schemas with optional filters
+\item Dynamically apply compression to individual attributes
+\item Persist those customizations into the underlying TileDB arrays
+}
+
+This is useful for creating a storage driver for use cases that need
+different trade-offs (speed vs. compression, memory vs. disk).
 }
 \examples{
 ctx <- new_context()

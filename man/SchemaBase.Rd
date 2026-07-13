@@ -7,7 +7,14 @@
 A \code{SchemaBase}, \code{R6} object.
 }
 \description{
-A virtual class to be inherited by specialised R6 schema classes.
+A virtual base class to be inherited by specialised R6 schema classes.
+
+Provides common schema functionality for 'keys' and 'data' schemas for CAS
+storage. This class manages filter lists for coordinates, offsets, and validity
+data and controls tile capacity, cell order, and tile order settings.
+
+The schema creation comes either from existing CAS storage URI path or the
+default templates.
 
 This class should not be used directly.
 }
