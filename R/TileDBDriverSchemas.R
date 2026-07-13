@@ -19,7 +19,7 @@ SchemaBase <- R6::R6Class(
   classname = "SchemaBase",
   active = list(
 
-    #' @field coords_flist Get or set a filter list.
+    #' @field coords_flist Get or set the filter list for the array's coordinates.
     #'
     coords_flist = function(value) {
       if (!missing(value)) {
@@ -29,7 +29,8 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field offsets_flist Get or set a filter list.
+    #' @field offsets_flist Get or set the filter list for the array's variable-
+    #' length attribute offsets.
     #'
     offsets_flist = function(value) {
       if (!missing(value)) {
@@ -39,7 +40,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field validity_flist Get or set a filter list.
+    #' @field validity_flist Get or set the filter list for the array's validity.
     #'
     validity_flist = function(value) {
       if (!missing(value)) {
@@ -49,7 +50,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field capacity Get or set the capacity of each tile.
+    #' @field capacity Get or set the array capacity of each tile.
     #'
     capacity = function(value) {
       if (!missing(value)) {
@@ -65,7 +66,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field cell_order Get or set the cell order layout.
+    #' @field cell_order Get or set the cell order layout of the array.
     #'
     cell_order = function(value) {
       if (!missing(value)) {
@@ -79,7 +80,7 @@ SchemaBase <- R6::R6Class(
       }
     },
 
-    #' @field tile_order Get or set the tile order layout.
+    #' @field tile_order Get or set the tile order layout of the array.
     #'
     tile_order = function(value) {
       if (!missing(value)) {

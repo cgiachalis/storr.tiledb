@@ -15,17 +15,18 @@ This class should not be used directly.
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{coords_flist}}{Get or set a filter list.}
+    \item{\code{coords_flist}}{Get or set the filter list for the array's coordinates.}
 
-    \item{\code{offsets_flist}}{Get or set a filter list.}
+    \item{\code{offsets_flist}}{Get or set the filter list for the array's variable-
+length attribute offsets.}
 
-    \item{\code{validity_flist}}{Get or set a filter list.}
+    \item{\code{validity_flist}}{Get or set the filter list for the array's validity.}
 
-    \item{\code{capacity}}{Get or set the capacity of each tile.}
+    \item{\code{capacity}}{Get or set the array capacity of each tile.}
 
-    \item{\code{cell_order}}{Get or set the cell order layout.}
+    \item{\code{cell_order}}{Get or set the cell order layout of the array.}
 
-    \item{\code{tile_order}}{Get or set the tile order layout.}
+    \item{\code{tile_order}}{Get or set the tile order layout of the array.}
   }
   \if{html}{\out{</div>}}
 }
