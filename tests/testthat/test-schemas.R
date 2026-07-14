@@ -784,7 +784,19 @@ test_that("TileDBDriverSchemas", {
 
   expect_no_error(sch <- TileDBDriverSchemas$new())
   expect_r6_class(sch, "TileDBDriverSchemas")
+  expect_r6_class(sch$SchemaKeys, "SchemaKeys")
+  expect_r6_class(sch$SchemaData, "SchemaData")
 
+  # Assigning values to active fields have no effect
+  expect_no_error(sch$SchemaKeys <- "a")
+  expect_no_error(sch$SchemaData <- "a")
+  expect_r6_class(sch$SchemaKeys, "SchemaKeys")
+  expect_r6_class(sch$SchemaData, "SchemaData")
+
+
+  # Just a check
+  expect_no_error(sch$SchemaKeys$capacity <- 10)
+  expect_equal(sch$SchemaKeys$capacity, 10)
 
   # No filter
   expect_no_error(sch <- TileDBDriverSchemas$new(none_filter = TRUE))
