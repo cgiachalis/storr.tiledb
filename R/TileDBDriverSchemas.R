@@ -477,10 +477,6 @@ TileDBDriverSchemas <- R6::R6Class(
     #'
     SchemaKeys = function(value) {
 
-      if (!missing(value)) {
-        check_read_only("SchemaKeys")
-      }
-
       if (is.null(private$SCH_KEYS)) {
         private$SCH_KEYS <- SchemaKeys$new(private$URI_KEYS,
                                            ctx = private$CTX,
@@ -494,10 +490,6 @@ TileDBDriverSchemas <- R6::R6Class(
     #' @field SchemaData Get [SchemaData()] object.
     #'
     SchemaData = function(value) {
-
-      if (!missing(value)) {
-        check_read_only("SchemaData")
-      }
 
       if (is.null(private$SCH_DATA)) {
         private$SCH_DATA <- SchemaData$new(private$URI_DATA,
@@ -606,21 +598,19 @@ TileDBDriverSchemas <- R6::R6Class(
 #'
 #' @examples
 #' ctx <- new_context()
-#' sto_sch <- driver_schemas(ctx = ctx, none_filter = TRUE)
+#' sto_schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 #'
-#' # 'data' schema
-#' data_sch <- sto_sch$SchemaData
 #'
-#' # Set up ZSTD filter with high compression
+#' # Set up a ZSTD filter with high compression
 #' flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 #' flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 #' fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 #'
 #' # Apply filter list to 'value' attribute (CAS storage data)
-#' data_sch$attr_value <- fl_list
+#' sto_schemas$SchemaData$attr_value <- fl_list
 #'
-#' # Now, 'sto_sch' has been modified
-#' sto_sch$SchemaData$schema()
+#' # 'data' schema is modified now
+#' sto_schemas$SchemaData$schema()
 #'
 driver_schemas <- function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
