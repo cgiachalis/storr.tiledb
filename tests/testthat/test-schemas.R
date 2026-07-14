@@ -402,8 +402,8 @@ test_that("Schemakeys dimensions/attributes' getter and setter", {
   active_fields <- c("dim_namespace",
                      "dim_key",
                      "attr_hash",
-                     "attr_expiry_at",
-                     "attr_note")
+                     "attr_expires_at",
+                     "attr_notes")
   expect_identical(names(SchemaKeys$active), active_fields)
 
   ctx <- R6.tiledb::new_context()
@@ -527,3 +527,253 @@ test_that("SchemaData dimensions/attributes' getter and setter", {
 
 
 # Schema updates when properties change; test it SchemaKeys
+
+test_that("Schemakeys' schema is updated when properties/filters change", {
+
+  ctx <- R6.tiledb::new_context()
+  sch <- SchemaKeys$new(ctx = ctx, none_filter = FALSE)
+
+  ##  cell_order, tile_order, capacity
+
+  # capacity
+  original_value <- sch$capacity
+  expect_equal(tiledb::capacity(sch$schema()), original_value )
+  sch$capacity <- 100
+  expect_true(!identical(original_value, sch$capacity))
+  expect_equal(tiledb::capacity(sch$schema()), 100)
+
+  # cell_order
+  original_value <- sch$cell_order
+  expect_equal(tiledb::cell_order(sch$schema()), original_value)
+  new_value <-  if (original_value == "ROW_MAJOR") "COL_MAJOR" else "ROW_MAJOR"
+  sch$cell_order <- new_value
+  expect_true(!identical(original_value, sch$cell_order))
+  expect_equal(tiledb::cell_order(sch$schema()), new_value)
+
+  # tile_order
+  original_value <- sch$tile_order
+  expect_equal(tiledb::tile_order(sch$schema()), original_value)
+  new_value <-  if (original_value == "ROW_MAJOR") "COL_MAJOR" else "ROW_MAJOR"
+  sch$tile_order <- new_value
+  expect_true(!identical(original_value, sch$tile_order))
+  expect_equal(tiledb::tile_order(sch$schema()), new_value)
+
+  ## offsets, coords, validity filters
+
+  schema_flists <- tiledb::filter_list(sch$schema())
+
+  # offsets
+  original_value <- sch$offsets_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "ZSTD")
+
+  flt <- tiledb::tiledb_filter("NONE", ctx = ctx)
+  new_flist <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+  sch$offsets_flist <- new_flist
+
+  offsets <- tiledb::filter_list(sch$schema())$offsets
+  expect_equal(tiledb::nfilters(offsets), 1)
+  expect_equal(tiledb::tiledb_filter_type(offsets[0]), "NONE")
+
+  # coords
+  original_value <- sch$coords_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "ZSTD")
+
+  sch$coords_flist <- new_flist
+
+  coords <- tiledb::filter_list(sch$schema())$coords
+  expect_equal(tiledb::nfilters(coords), 1)
+  expect_equal(tiledb::tiledb_filter_type(coords[0]), "NONE")
+
+  # validity
+  original_value <- sch$validity_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "RLE")
+
+  sch$validity_flist <- new_flist
+
+  validity <- tiledb::filter_list(sch$schema())$validity
+  expect_equal(tiledb::nfilters(validity), 1)
+  expect_equal(tiledb::tiledb_filter_type(validity[0]), "NONE")
+
+  ## Dimensions and attributes
+
+  active_fields <- c("dim_namespace",
+                     "dim_key",
+                     "attr_hash",
+                     "attr_expires_at",
+                     "attr_notes")
+
+  flt <- tiledb::tiledb_filter("RLE", ctx = ctx)
+  flist <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+
+  dv <- sapply(active_fields, function(.a) {
+
+    # original filter list
+    original_flist <- sch[[.a]]
+    expect_equal(tiledb::nfilters(original_flist), 1)
+    expect_equal(tiledb::tiledb_filter_type(original_flist[0]), "ZSTD")
+
+    # Set new filter list
+    sch[[.a]] <- flist
+
+    updated_schema <- sch$schema()
+
+    if (.a == "dim_namespace" || .a == "dim_key") {
+
+      dims <- tiledb::dimensions(updated_schema)
+
+      if (tiledb::name(dims[[1]]) == "namespace" && .a == "dim_namespace") {
+
+        new_flist <- tiledb::filter_list(dims[[1]])
+        expect_equal(tiledb::nfilters(new_flist), 1)
+        expect_equal(tiledb::tiledb_filter_type(new_flist[0]), "RLE")
+
+      }else if (tiledb::name(dims[[2]]) == "key" && .a == "dim_key") {
+
+        new_flist <- tiledb::filter_list(dims[[2]])
+        expect_equal(tiledb::nfilters(new_flist), 1)
+        expect_equal(tiledb::tiledb_filter_type(new_flist[0]), "RLE")
+
+      } else {
+        stop('Dims are not in order')
+      }
+
+
+    } else {
+
+      attrs <- tiledb::attrs(updated_schema)
+
+      if (.a == "attr_hash" ) {
+        attr_val <- attrs$hash
+      } else if (.a == "attr_expires_at") {
+        attr_val <- attrs$expires_at
+      } else if (.a == "attr_notes") {
+        attr_val <- attrs$notes
+      } else {
+        stop('attribute not found')
+      }
+
+      new_flist <- tiledb::filter_list(attr_val)
+      expect_equal(tiledb::nfilters(new_flist), 1)
+      expect_equal(tiledb::tiledb_filter_type(new_flist[0]), "RLE")
+
+    }
+
+    NULL
+  })
+
+
+})
+
+
+test_that("SchemaData's schema is updated when properties/filters change", {
+
+  ctx <- R6.tiledb::new_context()
+  sch <- SchemaData$new(ctx = ctx, none_filter = FALSE)
+
+  ##  cell_order, tile_order, capacity
+
+  # capacity
+  original_value <- sch$capacity
+  expect_equal(tiledb::capacity(sch$schema()), original_value )
+  sch$capacity <- 100
+  expect_true(!identical(original_value, sch$capacity))
+  expect_equal(tiledb::capacity(sch$schema()), 100)
+
+  # cell_order
+  original_value <- sch$cell_order
+  expect_equal(tiledb::cell_order(sch$schema()), original_value)
+  new_value <-  if (original_value == "ROW_MAJOR") "COL_MAJOR" else "ROW_MAJOR"
+  sch$cell_order <- new_value
+  expect_true(!identical(original_value, sch$cell_order))
+  expect_equal(tiledb::cell_order(sch$schema()), new_value)
+
+  # tile_order
+  original_value <- sch$tile_order
+  expect_equal(tiledb::tile_order(sch$schema()), original_value)
+  new_value <-  if (original_value == "ROW_MAJOR") "COL_MAJOR" else "ROW_MAJOR"
+  sch$tile_order <- new_value
+  expect_true(!identical(original_value, sch$tile_order))
+  expect_equal(tiledb::tile_order(sch$schema()), new_value)
+
+  ## offsets, coords, validity filters
+
+  schema_flists <- tiledb::filter_list(sch$schema())
+
+  # offsets
+  original_value <- sch$offsets_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "ZSTD")
+
+  flt <- tiledb::tiledb_filter("NONE", ctx = ctx)
+  new_flist <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+  sch$offsets_flist <- new_flist
+
+  offsets <- tiledb::filter_list(sch$schema())$offsets
+  expect_equal(tiledb::nfilters(offsets), 1)
+  expect_equal(tiledb::tiledb_filter_type(offsets[0]), "NONE")
+
+  # coords
+  original_value <- sch$coords_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "ZSTD")
+
+  sch$coords_flist <- new_flist
+
+  coords <- tiledb::filter_list(sch$schema())$coords
+  expect_equal(tiledb::nfilters(coords), 1)
+  expect_equal(tiledb::tiledb_filter_type(coords[0]), "NONE")
+
+  # validity
+  original_value <- sch$validity_flist
+  expect_equal(tiledb::tiledb_filter_type(original_value[0]), "RLE")
+
+  sch$validity_flist <- new_flist
+
+  validity <- tiledb::filter_list(sch$schema())$validity
+  expect_equal(tiledb::nfilters(validity), 1)
+  expect_equal(tiledb::tiledb_filter_type(validity[0]), "NONE")
+
+  ## Dimensions and attributes
+
+  active_fields <- c("dim_hash",
+                     "attr_value")
+
+  flt <- tiledb::tiledb_filter("RLE", ctx = ctx)
+  flist <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+
+  dv <- sapply(active_fields, function(.a) {
+
+    # original filter list
+    original_flist <- sch[[.a]]
+    expect_equal(tiledb::nfilters(original_flist), 1)
+    expect_equal(tiledb::tiledb_filter_type(original_flist[0]), "ZSTD")
+
+    # Set new filter list
+    sch[[.a]] <- flist
+
+    updated_schema <- sch$schema()
+
+    if (.a == "dim_hash") {
+
+      dims <- tiledb::dimensions(updated_schema)
+
+      new_flist <- tiledb::filter_list(dims[[1]])
+      expect_equal(tiledb::nfilters(new_flist), 1)
+      expect_equal(tiledb::tiledb_filter_type(new_flist[0]), "RLE")
+
+    } else {
+
+      attr_val <- tiledb::attrs(updated_schema)$value
+
+      new_flist <- tiledb::filter_list(attr_val)
+      expect_equal(tiledb::nfilters(new_flist), 1)
+      expect_equal(tiledb::tiledb_filter_type(new_flist[0]), "RLE")
+
+    }
+
+    NULL
+  })
+
+
+})
+
