@@ -113,8 +113,10 @@ SchemaBase <- R6::R6Class(
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
       if (is.null(ctx)) {
-        ctx <- R6.tiledb::new_context()
+        ctx <- new_context()
       }
+
+      check_tiledb_ctx(ctx)
 
       private$CTX <- ctx
 
@@ -519,13 +521,39 @@ TileDBDriverSchemas <- R6::R6Class(
     #'
     initialize = function(uri = NULL, ctx = NULL, none_filter = FALSE) {
 
+      if (is.null(ctx)) {
+        ctx <- new_context()
+      }
+
+      check_tiledb_ctx(ctx)
+
       private$CTX <- ctx
 
       if (!is.null(uri)) {
         check_uri(uri)
 
-        private$URI_KEYS <- file_path(uri, "tbl_keys")
-        private$URI_DATA <- file_path(uri, "tbl_data")
+        if (tiledb::tiledb_object_type(uri, ctx = private$CTX) != "GROUP") {
+          cli::cli_abort(
+            "Not TileDB Group found at the given {.arg uri} path.",
+            call = NULL
+          )
+        }
+
+        grp <- R6.tiledb::TileDBGroup$new(uri, ctx = private$CTX)
+
+        if (!grp$exists()) {
+          cli::cli_abort("R6Class: {.cls {self$class()}} object does not exist.", call = NULL)
+        }
+
+        storr_key <- grp$get_metadata("type")
+        if(is.null(storr_key) || storr_key != "storr") {
+          cli::cli_abort("Not a 'storr' driver at the given {.arg uri}.", call = NULL)
+        }
+
+        private$URI_KEYS <- grp$members$tbl_keys$uri
+        private$URI_DATA <-  grp$members$tbl_data$uri
+
+        grp$close()
       }
 
       private$NONE_FILTER <- none_filter

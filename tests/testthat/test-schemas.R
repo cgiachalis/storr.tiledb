@@ -225,7 +225,7 @@ test_that("SchemaBase initialization", {
 
 
   # With filters and custom context
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_data <- SchemaData$new(ctx = ctx, none_filter = FALSE)
   sch_keys <- SchemaKeys$new(ctx = ctx, none_filter = FALSE)
 
@@ -301,7 +301,7 @@ test_that("SchemaBase tile_order getter and setter", {
 
 test_that("SchemaBase coords_flist getter and setter", {
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_data <- SchemaData$new(ctx = ctx, none_filter = FALSE)
 
   expect_s4_class(sch_data$coords_flist, "tiledb_filter_list")
@@ -333,7 +333,7 @@ test_that("SchemaBase coords_flist getter and setter", {
 
 test_that("SchemaBase offsets_flist getter and setter", {
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_data <- SchemaData$new(ctx = ctx, none_filter = FALSE)
 
   expect_s4_class(sch_data$offsets_flist, "tiledb_filter_list")
@@ -366,7 +366,7 @@ test_that("SchemaBase offsets_flist getter and setter", {
 
 test_that("SchemaBase validity_flist getter and setter", {
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_data <- SchemaData$new(ctx = ctx, none_filter = FALSE)
 
   expect_s4_class(sch_data$validity_flist, "tiledb_filter_list")
@@ -406,7 +406,7 @@ test_that("Schemakeys dimensions/attributes' getter and setter", {
                      "attr_notes")
   expect_identical(names(SchemaKeys$active), active_fields)
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_keys <- SchemaKeys$new(ctx = ctx, none_filter = FALSE)
 
   dv <- sapply(active_fields, function(.a) {
@@ -468,7 +468,7 @@ test_that("SchemaData dimensions/attributes' getter and setter", {
   active_fields <- c("dim_hash", "attr_value")
   expect_identical(names(SchemaData$active), active_fields)
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch_data <- SchemaData$new(ctx = ctx, none_filter = FALSE)
 
   dv <- sapply(active_fields, function(.a) {
@@ -530,7 +530,7 @@ test_that("SchemaData dimensions/attributes' getter and setter", {
 
 test_that("Schemakeys' schema is updated when properties/filters change", {
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch <- SchemaKeys$new(ctx = ctx, none_filter = FALSE)
 
   ##  cell_order, tile_order, capacity
@@ -668,7 +668,7 @@ test_that("Schemakeys' schema is updated when properties/filters change", {
 
 test_that("SchemaData's schema is updated when properties/filters change", {
 
-  ctx <- R6.tiledb::new_context()
+  ctx <- new_context()
   sch <- SchemaData$new(ctx = ctx, none_filter = FALSE)
 
   ##  cell_order, tile_order, capacity
@@ -777,3 +777,67 @@ test_that("SchemaData's schema is updated when properties/filters change", {
 
 })
 
+
+test_that("TileDBDriverSchemas", {
+
+  expect_equal(names(TileDBDriverSchemas$active), c("SchemaKeys", "SchemaData"))
+
+  expect_no_error(sch <- TileDBDriverSchemas$new())
+  expect_r6_class(sch, "TileDBDriverSchemas")
+
+
+  # No filter
+  expect_no_error(sch <- TileDBDriverSchemas$new(none_filter = TRUE))
+  flist <- sch$SchemaKeys$coords_flist[0]
+  expect_equal(tiledb::tiledb_filter_type(flist), "NONE")
+
+  # From existing driver
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  ctx <- new_context()
+  driver_tiledb_create(uri, compression_level = NULL, context = ctx)
+
+  expect_no_error(sch <- TileDBDriverSchemas$new(uri, ctx = ctx))
+  flist <- sch$SchemaKeys$coords_flist[0]
+  expect_equal(tiledb::tiledb_filter_type(flist), "NONE")
+
+  ##  Errors are raised ---
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  expect_error(TileDBDriverSchemas$new(uri))
+
+  # Not TileDB Group found at the given `uri` path.
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  grp <- R6.tiledb::tdb_group_create(uri, ctx = ctx)
+
+  # Not a 'storr' driver at the  given `uri`.
+  expect_error(TileDBDriverSchemas$new(grp$uri, ctx = ctx))
+
+  # Invalid ctx.
+  expect_error(TileDBDriverSchemas$new(ctx = "invalid"))
+
+  })
+
+
+test_that("driver_schemas()", {
+
+  expect_no_error(sch <- driver_schemas())
+  expect_r6_class(sch, "TileDBDriverSchemas")
+
+  # No filter
+  expect_no_error(sch <- driver_schemas(none_filter = TRUE))
+  flist <- sch$SchemaKeys$coords_flist[0]
+  expect_equal(tiledb::tiledb_filter_type(flist), "NONE")
+
+  # From existing driver
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  ctx <- new_context()
+  driver_tiledb_create(uri, compression_level = NULL, context = ctx)
+
+  expect_no_error(sch <- driver_schemas(uri, ctx = ctx))
+  flist <- sch$SchemaKeys$coords_flist[0]
+  expect_equal(tiledb::tiledb_filter_type(flist), "NONE")
+
+  # Invalid ctx.
+  expect_error(driver_schemas(ctx = "invalid"))
+
+})
