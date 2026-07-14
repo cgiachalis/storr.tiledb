@@ -25,9 +25,9 @@ This class should not be used directly, but it can be accessed via \code{\link[=
 
     \item{\code{attr_hash}}{Get or set a filter list.}
 
-    \item{\code{attr_expiry_at}}{Get or set a filter list.}
+    \item{\code{attr_expires_at}}{Get or set a filter list.}
 
-    \item{\code{attr_note}}{Get or set a filter list.}
+    \item{\code{attr_notes}}{Get or set a filter list.}
   }
   \if{html}{\out{</div>}}
 }

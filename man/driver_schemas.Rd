@@ -7,8 +7,8 @@
 driver_schemas(uri = NULL, ctx = NULL, none_filter = FALSE)
 }
 \arguments{
-\item{uri}{Optional URI path to \code{TileDB} driver. If not given,  the default
-schemas array will be used.}
+\item{uri}{Optional URI path to \code{TileDB} driver. If not given, the default
+template array schemas will be used.}
 
 \item{ctx}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
 
@@ -16,15 +16,14 @@ schemas array will be used.}
 Applied on default schemas and not on schemas extracted from a URI path.}
 }
 \value{
-An object of class \code{TileDBDriverSchemas}.
+An object of class \link{TileDBDriverSchemas}.
 }
 \description{
-Access CAS storage schemas to tune TileDB's performance and storage
-characteristics: compression algorithms, compression levels, tile capacity,
-cell order, and tile order settings.
+Tune TileDB's performance and storage characteristics: compression algorithms,
+compression levels, tile capacity, cell order, and tile order settings.
 }
 \details{
-For example, use \code{driver_schemas()}  to:
+For example, use \code{driver_schemas()} to:
 \itemize{
 \item Create schemas with optional filters
 \item Dynamically apply compression to individual attributes

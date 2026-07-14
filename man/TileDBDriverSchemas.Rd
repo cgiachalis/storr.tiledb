@@ -15,6 +15,20 @@ lists and configuration via active fields.
 
 For creating a \code{TileDBDriverSchemas} object, use the convenient wrapper
 \code{\link[=driver_schemas]{driver_schemas()}}.
+\subsection{Structure}{
+
+\code{TileDBDriverSchemas} holds \code{SchemaKeys} and \code{SchemaData} as active bindings
+that can be accessed and modifiled in-place. Then, the modified \code{TileDBDriverSchemas}
+can be passed to driver creation method.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{SchemaBase (abstract foundation)
+├── SchemaKeys (keys/index schema)
+└── SchemaData (data/payload schema)
+
+TileDBDriverSchemas (factory/container)
+
+}\if{html}{\out{</div>}}
+}
 }
 \keyword{internal}
 \section{Active bindings}{

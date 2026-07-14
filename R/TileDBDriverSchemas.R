@@ -306,9 +306,9 @@ SchemaKeys <- R6::R6Class(
       }
     },
 
-    #' @field attr_expiry_at Get or set a filter list.
+    #' @field attr_expires_at Get or set a filter list.
     #'
-    attr_expiry_at = function(value) {
+    attr_expires_at = function(value) {
       if (!missing(value)) {
         private$.set_filter_list("ATTR_EXP", value)
       } else {
@@ -316,9 +316,9 @@ SchemaKeys <- R6::R6Class(
       }
     },
 
-    #' @field attr_note Get or set a filter list.
+    #' @field attr_notes Get or set a filter list.
     #'
-    attr_note = function(value) {
+    attr_notes = function(value) {
       if (!missing(value)) {
         private$.set_filter_list("ATTR_NOTE", value)
       } else {
@@ -446,6 +446,21 @@ SchemaData <- R6::R6Class(
 #' For creating a `TileDBDriverSchemas` object, use the convenient wrapper
 #' [driver_schemas()].
 #'
+#' ## Structure
+#'
+#' `TileDBDriverSchemas` holds `SchemaKeys` and `SchemaData` as active bindings
+#' that can be accessed and modifiled in-place. Then, the modified `TileDBDriverSchemas`
+#' can be passed to driver creation method.
+#'
+#' ```
+#' SchemaBase (abstract foundation)
+#' ├── SchemaKeys (keys/index schema)
+#' └── SchemaData (data/payload schema)
+#'
+#' TileDBDriverSchemas (factory/container)
+#'
+#' ```
+#'
 #' @returns A `TileDBDriverSchemas`, `R6` object.
 #'
 #' @export
@@ -540,11 +555,10 @@ TileDBDriverSchemas <- R6::R6Class(
 
 #' TileDB Driver Schemas
 #'
-#' Access CAS storage schemas to tune TileDB's performance and storage
-#' characteristics: compression algorithms, compression levels, tile capacity,
-#' cell order, and tile order settings.
+#' Tune TileDB's performance and storage characteristics: compression algorithms,
+#' compression levels, tile capacity, cell order, and tile order settings.
 #'
-#' For example, use `driver_schemas()`  to:
+#' For example, use `driver_schemas()` to:
 #'
 #' - Create schemas with optional filters
 #' - Dynamically apply compression to individual attributes
@@ -553,12 +567,12 @@ TileDBDriverSchemas <- R6::R6Class(
 #' This is useful for creating a storage driver for use cases that need
 #' different trade-offs (speed vs. compression, memory vs. disk).
 #'
-#' @param uri Optional URI path to `TileDB` driver. If not given,  the default
-#' schemas array will be used.
+#' @param uri Optional URI path to `TileDB` driver. If not given, the default
+#' template array schemas will be used.
 #' @param ctx `r sch_ctx`
 #' @param none_filter `r sch_none_filter`
 #'
-#' @returns An object of class `TileDBDriverSchemas`.
+#' @returns An object of class [TileDBDriverSchemas].
 #'
 #' @export
 #'
