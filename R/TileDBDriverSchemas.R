@@ -575,17 +575,17 @@ TileDBDriverSchemas <- R6::R6Class(
 
 #' TileDB Driver Schemas
 #'
-#' Tune TileDB's performance and storage characteristics: compression algorithms,
+#' Tune driver performance and storage characteristics: compression algorithms,
 #' compression levels, tile capacity, cell order, and tile order settings.
+#' This is useful for creating storage drivers for use cases that need
+#' different trade-offs (speed vs. compression, memory vs. disk).
 #'
-#' For example, use `driver_schemas()` to:
+#' Use `driver_schemas()` to:
 #'
 #' - Create schemas with optional filters
 #' - Dynamically apply compression to individual attributes
 #' - Persist those customizations into the underlying TileDB arrays
 #'
-#' This is useful for creating a storage driver for use cases that need
-#' different trade-offs (speed vs. compression, memory vs. disk).
 #'
 #' @param uri Optional URI path to `TileDB` driver. If not given, the default
 #' template array schemas will be used.

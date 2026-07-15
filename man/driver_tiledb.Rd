@@ -8,7 +8,7 @@
 driver_tiledb(uri, context = NULL, init = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
-  context = NULL)
+  custom_driver = NULL, context = NULL)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -18,13 +18,19 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 \item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
 \item{...}{Other arguments passed to driver's create method when \code{init = TRUE}.
-Valid arguments: \code{hash_algorithm}, \code{compression_level} and \code{keep_open}.}
+Valid arguments: \code{hash_algorithm}, \code{compression_level}, \code{keep_open} and
+\code{custom_driver}. If \code{custom_driver} argument is given, the \code{compression_level}
+argument will be ignored.}
 
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
 \item{compression_level}{Set an integer value for ZSTD compression level.
 If \code{NULL} value is given, no compression filters will be applied to data tiles.}
+
+\item{custom_driver}{An object of class \link{TileDBDriverSchemas} with user
+defined storage schemas; See \code{\link[=driver_schemas]{driver_schemas()}}. If given, the \code{compression_level}
+argument will be ignored.}
 }
 \value{
 \itemize{

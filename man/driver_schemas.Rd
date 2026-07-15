@@ -19,19 +19,18 @@ Applied on default schemas and not on schemas extracted from a URI path.}
 An object of class \link{TileDBDriverSchemas}.
 }
 \description{
-Tune TileDB's performance and storage characteristics: compression algorithms,
+Tune driver performance and storage characteristics: compression algorithms,
 compression levels, tile capacity, cell order, and tile order settings.
+This is useful for creating storage drivers for use cases that need
+different trade-offs (speed vs. compression, memory vs. disk).
 }
 \details{
-For example, use \code{driver_schemas()} to:
+Use \code{driver_schemas()} to:
 \itemize{
 \item Create schemas with optional filters
 \item Dynamically apply compression to individual attributes
 \item Persist those customizations into the underlying TileDB arrays
 }
-
-This is useful for creating a storage driver for use cases that need
-different trade-offs (speed vs. compression, memory vs. disk).
 }
 \examples{
 ctx <- new_context()

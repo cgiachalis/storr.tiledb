@@ -23,7 +23,9 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 functions? Default is  \code{FALSE}.}
 
 \item{...}{Other arguments passed to driver when \code{init = TRUE}.
-Valid arguments: \code{compression_level} and \code{keep_open}.}
+Valid arguments: \code{compression_level} and \code{custom_driver}. If \code{custom_driver}
+argument is given, the \code{compression_level} argument will be ignored. For
+more details, see \code{\link[=driver_tiledb_create]{driver_tiledb_create()}}.}
 }
 \value{
 An object of class \link{TileDBStorr}, R6.
