@@ -64,7 +64,8 @@ An R6 class for creating a content addressable storage.
   Create CAS.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE)}
+    \preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE,
+  custom_driver = NULL)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -74,6 +75,9 @@ An R6 class for creating a content addressable storage.
       \item{\code{algo}}{Select a hash algorithm to be used.}
       \item{\code{keep_open}}{Should \code{CAS} be kept opened after creation? Default is
 \code{TRUE}; the mode will be \code{"WRITE"}.}
+      \item{\code{custom_driver}}{An object of class \link{TileDBDriverSchemas} using
+\code{\link[=driver_schemas]{driver_schemas()}}. If given, the \code{compression_level} argument will be
+ignored.}
     }
     \if{html}{\out{</div>}}
   }
