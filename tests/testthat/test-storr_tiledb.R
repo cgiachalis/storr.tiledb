@@ -27,6 +27,44 @@ test_that("storr_tiledb", {
 
 })
 
+
+test_that("storr_tiledb with custom schemas", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+
+  ctx <- new_context()
+  cdr <- driver_schemas(none_filter = TRUE, ctx = ctx)
+
+  # Set up a ZSTD filter with high compression
+  flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+  flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
+  fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+  cdr$SchemaData$attr_value <- fl_list
+
+  expect_no_error(st <- storr_tiledb(uri,
+                                     init = TRUE,
+                                     keep_open = FALSE,
+                                     driver_schemas = cdr))
+
+  # Check created driver
+  dr <- driver_schemas(uri, ctx = ctx)
+
+  trg_filters <- data.frame(
+    list(
+      hash = c("NONE", "NONE"),
+      value = c("ZSTD", "22"),
+      coords = c("NONE", "NONE"),
+      offsets = c("NONE", "NONE"),
+      validity = c("NONE", "NONE")
+    )
+  )
+  res_filters <- .schema_filters(dr$SchemaData$schema())
+
+  expect_equal(res_filters, trg_filters)
+
+})
+
 # NB: methods for key expiration management is tested with TileDBDriver;
 # Here, we test again those we expose to storr.
 

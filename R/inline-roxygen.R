@@ -67,3 +67,11 @@ sto_cfg <- "Pass a [tiledb::config()] object to override context's configuration
 
 sto_recycle_note <- "The arguments `key` and `namespace` can be recycled if any of them is a
     scalar character and the other is a vector. No other recycling rule is permitted."
+
+
+# SchemaBase
+
+sch_uri <- "Optional URI path to array for extracting its schema from. If not given, the default schema will be loaded."
+sch_ctx <- "Optional \\link[tiledb:tiledb_ctx]{tiledb_ctx} object."
+sch_none_filter <- "`TRUE` for no filters, `FALSE` for default filters.
+Applied on default schemas and not on schemas extracted from a URI path."

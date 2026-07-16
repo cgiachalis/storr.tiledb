@@ -55,6 +55,10 @@ validate_hash_algo <- function(x) {
   .is_scalar(x, "logical")
 }
 
+.is_scalar_numeric <- function(x) {
+  (typeof(x) %in% c("double", "integer")) && is.atomic(x) && length(x) == 1L
+}
+
 
 vcapply <- function(X, FUN, ...) {
   vapply(X, FUN, character(1), ...)

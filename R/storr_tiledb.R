@@ -34,14 +34,24 @@
 #'
 #'  ## Compression
 #'
-#'  The chosen compression filter is `"ZSTD"` applied to dimensions, attributes,
+#'  The storage compression filter is `"ZSTD"` and is applied to dimensions, attributes,
 #'  coords and offsets. The compression level is configurable through `compression_level`
 #'  argument with default level `-7` that balances compression ratio and speed.
-#'  Note that a `"RLE"` filter is specifically used for validity bitmaps and not
-#'  configurable.
 #'
 #'  To create a driver without compression filters, set `compression_level = NULL`.
 #'
+#'  Note that a `"RLE"` filter is specifically used for validity bitmaps and is
+#'  not configurable. For more flexibility, see next section `Schemas Configuration`.
+#'
+#' ## Schemas Configuration
+#'
+#' To support different use cases with respect to speed and compression, a user
+#' can create a custom driver schemas using the entry point functional wrapper
+#' [driver_schemas()]; this gives access to TileDB array schemas in the
+#' content-addressable storage (CAS) system that can be modified in order to
+#' tune TileDB's engine performance and storage characteristics: compression
+#' algorithms, compression levels, tile and cell order. For details, see
+#'`Examples` section.
 #'
 #'
 #' # Class Methods Summary
@@ -140,7 +150,9 @@
 #' @param async Should the [mirai] daemons be enabled for async
 #'  functions? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver when `init = TRUE`.
-#'  Valid arguments: `compression_level` and `keep_open`.
+#'  Valid arguments: `compression_level` and `driver_schemas`. If `driver_schemas`
+#'  argument is given, the `compression_level` argument will be ignored. For
+#'  more details, see [driver_tiledb_create()].
 #'
 #' @returns An object of class [TileDBStorr], R6.
 #'
@@ -200,6 +212,36 @@
 #' uri_nocomp <- tempfile()
 #'
 #' sto_nocomp <- storr_tiledb(uri_nocomp, init = TRUE, compression_level = NULL)
+#'
+#'
+#' #-----------------------------------------------------------------
+#' #   Storr with custom driver schemas
+#' #-----------------------------------------------------------------
+#'
+#' ## Step 1: Modify schemas ---
+#'
+#' ctx <- new_context()
+#'
+#' # 'TileDBDriverSchemas' instance to modify 'SchemaKeys' and 'SchemaData'
+#' cds <- driver_schemas(ctx = ctx)
+#'
+#' # Set "NONE" filters to 'keys' and 'namespace' dimensions in 'keys' schema
+#' cds$SchemaKeys$dim_key <- NA
+#' cds$SchemaKeys$dim_namespace <- NA
+#'
+#' # Set ZSTD filter with high compression to 'value' attribute in 'data' schema
+#' flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+#' flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
+#' fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+#'
+#' cds$SchemaData$attr_value <- fl_list
+#'
+#' ## Step 2: Pass modified schemas to storr  ---
+#'
+#' # Create a 'storr' with custom schemas using 'driver_schemas' argument
+#' uric <- tempfile()
+#'
+#' stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
 #'}
 #'
 #'

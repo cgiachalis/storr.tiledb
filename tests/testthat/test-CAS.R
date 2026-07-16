@@ -13,7 +13,7 @@ test_that("Test 'CAS' object", {
 })
 
 
-test_that("Test 'CAS' basic methods", {
+test_that("'CAS' basic methods", {
 
   # NOTE: The following methods:
   # 'query_keys', 'filter_keys', 'update_keys'
@@ -79,6 +79,50 @@ test_that("Test 'CAS' basic methods", {
   expect_false(cas$exists())
 
   })
+
+test_that("'CAS' with custom schemas", {
+
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+  ctx <- new_context()
+  cas <- CAS$new(uri,ctx = ctx)
+
+  dr_custom <- driver_schemas(none_filter = TRUE, ctx = ctx)
+
+  # Set up a ZSTD filter with high compression
+  flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+  flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
+  fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+  dr_custom$SchemaData$attr_value <- fl_list
+
+  # Invalid hash algo
+  expect_no_error(cas$create(driver_schemas = dr_custom))
+
+  # Check created driver
+  dr <- driver_schemas(uri, ctx = ctx)
+
+  trg_filters <- data.frame(
+    list(
+      hash = c("NONE", "NONE"),
+      value = c("ZSTD", "22"),
+      coords = c("NONE", "NONE"),
+      offsets = c("NONE", "NONE"),
+      validity = c("NONE", "NONE")
+    )
+  )
+  res_filters <- .schema_filters(dr$SchemaData$schema())
+
+  expect_equal(res_filters, trg_filters)
+
+  # Errors are raised
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+  ctx <- new_context()
+  cas <- CAS$new(uri,ctx = ctx)
+  # `custom_driver` should be <TileDBDriverSchemas> class.
+  expect_error(cas$create(driver_schemas = "invalid"))
+
+
+})
 
 test_that("$open() checks type is 'storr'", {
   uri <- file.path(withr::local_tempdir(), "test-group")

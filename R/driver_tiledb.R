@@ -115,7 +115,9 @@
 #' @param context Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
 #' @param init Should the driver be created if not exist? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver's create method when `init = TRUE`.
-#'  Valid arguments: `hash_algorithm`, `compression_level` and `keep_open`.
+#'  Valid arguments: `hash_algorithm`, `compression_level`, `keep_open` and
+#'  `driver_schemas`. If `driver_schemas` argument is given, the `compression_level`
+#'  argument will be ignored.
 #'
 #' @returns
 #'  - *driver_tiledb()* returns a [TileDBDriver] object.
@@ -162,7 +164,9 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
     }
     force(l)
     dr$create(compression_level = l$compression_level,
-              algo =  l$hash_algorithm, keep_open =  l$keep_open)
+              algo = l$hash_algorithm,
+              keep_open = l$keep_open,
+              driver_schemas = l$driver_schemas)
 
   } else {
     if (!dr$exists()) {
@@ -176,19 +180,24 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 #' @param hash_algorithm Select a hash algorithm supported by \link[digest:digest]{digest}:
 #'  `r sQuote(.hash_choices())`. If not given, the  default is 'md5'.
 #' @param compression_level Set an integer value for ZSTD compression level.
-#' If `NULL` value is given, the schema will not have compression filters.
+#' If `NULL` value is given, no compression filters will be applied to data tiles.
+#' @param driver_schemas An object of class [TileDBDriverSchemas] with user
+#' defined storage schemas; See [driver_schemas()]. If given, the `compression_level`
+#'  argument will be ignored.
 #'
 #' @export
 #' @rdname driver_tiledb
 driver_tiledb_create <- function(uri,
                                  hash_algorithm = NULL,
                                  compression_level = -7,
+                                 driver_schemas = NULL,
                                  context = NULL) {
 
   dr <- TileDBDriver$new(uri, ctx = context)
   dr$create(compression_level = compression_level,
             algo = hash_algorithm,
-            keep_open = FALSE)
+            keep_open = FALSE,
+            driver_schemas = driver_schemas)
 
   dr$close()
 

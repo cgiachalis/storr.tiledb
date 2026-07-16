@@ -12,14 +12,11 @@
   if (name == "NONE") {
     tiledb::tiledb_filter_list(c(tiledb::tiledb_filter("NONE", ctx = ctx)))
   } else {
-    tiledb::tiledb_filter_list(c(.tiledb_filter(level = level, name = name, ctx = ctx)))
+    tiledb::tiledb_filter_list(c(.tiledb_filter(level = level, name = name, ctx = ctx)), ctx = ctx)
   }
 
 }
 
-# .tiledb_flist_none <- function(ctx) {
-#   tiledb::tiledb_filter_list(c(tiledb::tiledb_filter("NONE", ctx = ctx)))
-# }
 
 # Set up shared Dimensions
 .dim_ascii <- function(name, level = -1L, fname = "ZSTD", ctx) {
@@ -55,27 +52,30 @@ schema_keys <- function(compression_level = -7, ctx) {
                                  .dim_ascii("key", level = compression_level, fname = fname, ctx = ctx)))
 
   # attributes
-  attrs <-  c(
+  attrs <- c(
     tiledb::tiledb_attr(
       name = "hash",
       type = "ASCII",
       ncells = NA,
       nullable = FALSE,
-      filter_list = .filter_zstd
+      filter_list = .filter_zstd,
+      ctx = ctx
     ),
     tiledb::tiledb_attr(
       name = "expires_at",
       type = "DATETIME_MS",
       ncells = 1,
       nullable = FALSE,
-      filter_list = .filter_zstd
+      filter_list = .filter_zstd,
+      ctx = ctx
     ),
     tiledb::tiledb_attr(
       name = "notes",
       type = "UTF8",
       ncells = NA,
       nullable = TRUE,
-      filter_list = .filter_zstd
+      filter_list = .filter_zstd,
+      ctx = ctx
     )
   )
 
@@ -122,7 +122,8 @@ schema_data <- function(compression_level = -7, ctx) {
       type = "ASCII",
       ncells = NA,
       nullable = FALSE,
-      filter_list = .filter_zstd
+      filter_list = .filter_zstd,
+      ctx = ctx
     )
   )
 

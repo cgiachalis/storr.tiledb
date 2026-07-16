@@ -22,10 +22,16 @@ CAS <- R6::R6Class(
    #' @param algo Select a hash algorithm to be used.
    #' @param keep_open Should `CAS` be kept opened after creation? Default is
    #' `TRUE`; the mode will be `"WRITE"`.
+   #' @param driver_schemas An object of class [TileDBDriverSchemas] with user
+   #' defined storage schemas; See [driver_schemas()]. If given, the `compression_level`
+   #'  argument will be ignored.
    #'
    #' @return The object, invisibly
    #'
-   create = function(compression_level = -7, algo = NULL, keep_open = TRUE) {
+   create = function(compression_level = -7,
+                     algo = NULL,
+                     keep_open = TRUE,
+                     driver_schemas = NULL) {
 
      if (self$exists()) {
        cli::cli_abort("R6Class: {.cls {self$class()}} object already exists.", call = NULL)
@@ -42,12 +48,24 @@ CAS <- R6::R6Class(
 
      algo <- validate_hash_algo(algo)
 
+     if (is.null(driver_schemas)) {
+       .schema_keys <- schema_keys(compression_level, ctx = self$ctx)
+       .schema_data <- schema_data(compression_level, ctx = self$ctx)
+     } else {
+
+       if (!inherits(driver_schemas, "TileDBDriverSchemas")) {
+         cli::cli_abort("{.arg driver_schemas} should be {.cls TileDBDriverSchemas} class.", call = NULL)
+       }
+
+       .schema_keys <- driver_schemas$SchemaKeys$schema()
+       .schema_data <- driver_schemas$SchemaData$schema()
+
+     }
+
      super$create(mode = "WRITE")
 
-     ok1 <- tiledb::tiledb_array_create(uri_keys,
-                                        schema = schema_keys(compression_level, ctx = self$ctx))
-     ok2 <- tiledb::tiledb_array_create(uri_data,
-                                        schema = schema_data(compression_level, ctx = self$ctx))
+     ok1 <- tiledb::tiledb_array_create(uri_keys, schema = .schema_keys)
+     ok2 <- tiledb::tiledb_array_create(uri_data, schema = .schema_data)
 
      arr1 <- TileDBArray$new(uri_keys, ctx = self$ctx)
      arr2 <- TileDBArray$new(uri_data, ctx = self$ctx)

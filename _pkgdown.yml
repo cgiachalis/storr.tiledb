@@ -66,6 +66,7 @@ reference:
   - storr_tiledb
   - storr_timetravel
   - driver_tiledb
+  - driver_schemas
 - subtitle: Storr Management
   desc: |
     Utilities for Storr management.
@@ -92,6 +93,7 @@ reference:
   contents:
   - CAS
   - TileDBDriver
+  - TileDBDriverSchemas
   - TileDBStorr
   - TimeTravelDriver
   - StorrFragments
