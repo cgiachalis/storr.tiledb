@@ -20,6 +20,8 @@ Key functions to work with a ‘storr’ or creating a TileDB driver.
 - [`driver_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
   [`driver_tiledb_create()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
   : TileDB Storr Driver
+- [`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md)
+  : TileDB Driver Schemas
 
 ### Storr Management
 
@@ -67,6 +69,11 @@ are internal objects and should not be used directly.
   :
 
   Generate a `TileDBDriver` Object
+
+- [`TileDBDriverSchemas`](https://cgiachalis.github.io/storr.tiledb/reference/TileDBDriverSchemas.md)
+  :
+
+  Generate a `TileDBDriverSchemas` Object
 
 - [`TileDBStorr`](https://cgiachalis.github.io/storr.tiledb/reference/TileDBStorr.md)
   :

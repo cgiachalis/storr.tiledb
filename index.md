@@ -29,6 +29,8 @@ DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr
 - Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)
 - Data version (time-travel)
 - Encryption support
+- Schemas configuration for tuning TileDB’s performance and storage
+  characteristics
 
 ## Installation
 
@@ -76,11 +78,15 @@ For more detailed information, visit the [full
 documentation](https://cgiachalis.github.io/storr.tiledb/) on GitHub
 Pages.
 
-| Article | Description |
-|----|----|
-| [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) | Quick reference to basic operations |
-| [API Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) | Learn about `storr.tiledb` operations through examples |
-| [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Overview of TileDB driver data model |
+- [Get
+  Started()](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) -
+  Quick reference to basic operations
+- [API
+  Usage()](https://cgiachalis.github.io/storr.tiledb/articles/api.html) -
+  Learn about `storr.tiledb` operations through examples
+- [Data
+  Model()](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) -
+  Overview of TileDB driver data model
 
 ## Alternative storr drivers
 

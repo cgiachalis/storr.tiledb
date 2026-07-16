@@ -8,7 +8,7 @@ Storr driver using TileDB storage engine.
 driver_tiledb(uri, context = NULL, init = FALSE, ...)
 
 driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
-  context = NULL)
+  driver_schemas = NULL, context = NULL)
 ```
 
 ## Arguments
@@ -30,8 +30,9 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 - ...:
 
   Other arguments passed to driver's create method when `init = TRUE`.
-  Valid arguments: `hash_algorithm`, `compression_level` and
-  `keep_open`.
+  Valid arguments: `hash_algorithm`, `compression_level`, `keep_open`
+  and `driver_schemas`. If `driver_schemas` argument is given, the
+  `compression_level` argument will be ignored.
 
 - hash_algorithm:
 
@@ -44,7 +45,15 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 - compression_level:
 
   Set an integer value for ZSTD compression level. If `NULL` value is
-  given, the schema will not have compression filters.
+  given, no compression filters will be applied to data tiles.
+
+- driver_schemas:
+
+  An object of class
+  [TileDBDriverSchemas](https://cgiachalis.github.io/storr.tiledb/reference/TileDBDriverSchemas.md)
+  with user defined storage schemas; See
+  [`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md).
+  If given, the `compression_level` argument will be ignored.
 
 ## Value
 

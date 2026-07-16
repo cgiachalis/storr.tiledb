@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.46</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.47</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">driver_tiledb</span><span class="op">(</span><span class="va">uri</span>, context <span class="op">=</span> <span class="cn">NULL</span>, init <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">driver_tiledb_create</span><span class="op">(</span><span class="va">uri</span>, hash_algorithm <span class="op">=</span> <span class="cn">NULL</span>, compression_level <span class="op">=</span> <span class="op">-</span><span class="fl">7</span>,</span>
-<span>  context <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span>  driver_schemas <span class="op">=</span> <span class="cn">NULL</span>, context <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,7 +72,9 @@
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments passed to driver's create method when <code>init = TRUE</code>.
-Valid arguments: <code>hash_algorithm</code>, <code>compression_level</code> and <code>keep_open</code>.</p></dd>
+Valid arguments: <code>hash_algorithm</code>, <code>compression_level</code>, <code>keep_open</code> and
+<code>driver_schemas</code>. If <code>driver_schemas</code> argument is given, the <code>compression_level</code>
+argument will be ignored.</p></dd>
 
 
 <dt id="arg-hash-algorithm">hash_algorithm<a class="anchor" aria-label="anchor" href="#arg-hash-algorithm"></a></dt>
@@ -82,7 +84,13 @@ Valid arguments: <code>hash_algorithm</code>, <code>compression_level</code> and
 
 <dt id="arg-compression-level">compression_level<a class="anchor" aria-label="anchor" href="#arg-compression-level"></a></dt>
 <dd><p>Set an integer value for ZSTD compression level.
-If <code>NULL</code> value is given, the schema will not have compression filters.</p></dd>
+If <code>NULL</code> value is given, no compression filters will be applied to data tiles.</p></dd>
+
+
+<dt id="arg-driver-schemas">driver_schemas<a class="anchor" aria-label="anchor" href="#arg-driver-schemas"></a></dt>
+<dd><p>An object of class <a href="TileDBDriverSchemas.html">TileDBDriverSchemas</a> with user
+defined storage schemas; See <code><a href="driver_schemas.html">driver_schemas()</a></code>. If given, the <code>compression_level</code>
+argument will be ignored.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -194,7 +202,7 @@ notes, optional)</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

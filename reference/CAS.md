@@ -74,7 +74,8 @@ Create CAS.
 
 #### Usage
 
-    CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE)
+    CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE,
+      driver_schemas = NULL)
 
 #### Arguments
 
@@ -90,6 +91,14 @@ Create CAS.
 
   Should `CAS` be kept opened after creation? Default is `TRUE`; the
   mode will be `"WRITE"`.
+
+- `driver_schemas`:
+
+  An object of class
+  [TileDBDriverSchemas](https://cgiachalis.github.io/storr.tiledb/reference/TileDBDriverSchemas.md)
+  with user defined storage schemas; See
+  [`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md).
+  If given, the `compression_level` argument will be ignored.
 
 #### Returns
 
