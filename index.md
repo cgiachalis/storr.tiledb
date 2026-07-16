@@ -79,13 +79,13 @@ documentation](https://cgiachalis.github.io/storr.tiledb/) on GitHub
 Pages.
 
 - [Get
-  Started()](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) -
+  Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) -
   Quick reference to basic operations
 - [API
-  Usage()](https://cgiachalis.github.io/storr.tiledb/articles/api.html) -
+  Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) -
   Learn about `storr.tiledb` operations through examples
 - [Data
-  Model()](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) -
+  Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) -
   Overview of TileDB driver data model
 
 ## Alternative storr drivers
