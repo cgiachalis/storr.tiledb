@@ -31,6 +31,7 @@ A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [stor
 - Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)
 - Data version (time-travel)
 - Encryption support
+- Schemas configuration for tuning TileDB's performance and storage characteristics
 
 ## Installation
 
@@ -75,11 +76,9 @@ sto$del("mykey1")
 
 For more detailed information, visit the [full documentation](https://cgiachalis.github.io/storr.tiledb/) on GitHub Pages.
 
-| Article | Description |
-|------------------------------|------------------------------------------|
-| [Get Started](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) | Quick reference to basic operations |
-| [API Usage](https://cgiachalis.github.io/storr.tiledb/articles/api.html) | Learn about `storr.tiledb` operations through examples |
-| [Data Model](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) | Overview of TileDB driver data model |
+- [Get Started()](https://cgiachalis.github.io/storr.tiledb/articles/storr-tiledb.html) - Quick reference to basic operations
+- [API Usage()](https://cgiachalis.github.io/storr.tiledb/articles/api.html) - Learn about `storr.tiledb` operations through examples
+- [Data Model()](https://cgiachalis.github.io/storr.tiledb/articles/data-model.html) - Overview of TileDB driver data model
 
 ## Alternative storr drivers
 
