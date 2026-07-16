@@ -44,6 +44,8 @@
 #'
 #'
 #'
+#'
+#'
 #' # Class Methods Summary
 #'
 #' For complete definitions, see **Methods** section in [TileDBStorr].
@@ -140,7 +142,7 @@
 #' @param async Should the [mirai] daemons be enabled for async
 #'  functions? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver when `init = TRUE`.
-#'  Valid arguments: `compression_level` and `custom_driver`. If `custom_driver`
+#'  Valid arguments: `compression_level` and `driver_schemas`. If `driver_schemas`
 #'  argument is given, the `compression_level` argument will be ignored. For
 #'  more details, see [driver_tiledb_create()].
 #'

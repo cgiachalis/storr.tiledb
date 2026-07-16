@@ -34,7 +34,7 @@ test_that("driver_tiledb with custom schemas", {
   expect_no_error(dr <- driver_tiledb(uri,
                                       init = TRUE,
                                       context = ctx,
-                                      custom_driver = cdr))
+                                      driver_schemas = cdr))
 
   # Check created driver
   dr <- driver_schemas(uri, ctx = ctx)
@@ -81,7 +81,7 @@ test_that("driver_tiledb_create with custom schemas", {
 
   cdr$SchemaData$attr_value <- fl_list
 
-  expect_true(driver_tiledb_create(uri, custom_driver = cdr, context = ctx))
+  expect_true(driver_tiledb_create(uri, driver_schemas = cdr, context = ctx))
 
   # Check created driver
   dr <- driver_schemas(uri, ctx = ctx)

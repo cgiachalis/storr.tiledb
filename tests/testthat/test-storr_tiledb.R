@@ -45,7 +45,7 @@ test_that("storr_tiledb with custom schemas", {
   expect_no_error(st <- storr_tiledb(uri,
                                      init = TRUE,
                                      keep_open = FALSE,
-                                     custom_driver = cdr))
+                                     driver_schemas = cdr))
 
   # Check created driver
   dr <- driver_schemas(uri, ctx = ctx)

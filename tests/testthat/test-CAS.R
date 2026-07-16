@@ -96,7 +96,7 @@ test_that("'CAS' with custom schemas", {
   dr_custom$SchemaData$attr_value <- fl_list
 
   # Invalid hash algo
-  expect_no_error(cas$create(custom_driver = dr_custom))
+  expect_no_error(cas$create(driver_schemas = dr_custom))
 
   # Check created driver
   dr <- driver_schemas(uri, ctx = ctx)
@@ -119,7 +119,7 @@ test_that("'CAS' with custom schemas", {
   ctx <- new_context()
   cas <- CAS$new(uri,ctx = ctx)
   # `custom_driver` should be <TileDBDriverSchemas> class.
-  expect_error(cas$create(custom_driver = "invalid"))
+  expect_error(cas$create(driver_schemas = "invalid"))
 
 
 })

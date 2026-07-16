@@ -116,7 +116,7 @@
 #' @param init Should the driver be created if not exist? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver's create method when `init = TRUE`.
 #'  Valid arguments: `hash_algorithm`, `compression_level`, `keep_open` and
-#'  `custom_driver`. If `custom_driver` argument is given, the `compression_level`
+#'  `driver_schemas`. If `driver_schemas` argument is given, the `compression_level`
 #'  argument will be ignored.
 #'
 #' @returns
@@ -166,7 +166,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
     dr$create(compression_level = l$compression_level,
               algo = l$hash_algorithm,
               keep_open = l$keep_open,
-              custom_driver = l$custom_driver)
+              driver_schemas = l$driver_schemas)
 
   } else {
     if (!dr$exists()) {
@@ -181,7 +181,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 #'  `r sQuote(.hash_choices())`. If not given, the  default is 'md5'.
 #' @param compression_level Set an integer value for ZSTD compression level.
 #' If `NULL` value is given, no compression filters will be applied to data tiles.
-#' @param custom_driver An object of class [TileDBDriverSchemas] with user
+#' @param driver_schemas An object of class [TileDBDriverSchemas] with user
 #' defined storage schemas; See [driver_schemas()]. If given, the `compression_level`
 #'  argument will be ignored.
 #'
@@ -190,14 +190,14 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 driver_tiledb_create <- function(uri,
                                  hash_algorithm = NULL,
                                  compression_level = -7,
-                                 custom_driver = NULL,
+                                 driver_schemas = NULL,
                                  context = NULL) {
 
   dr <- TileDBDriver$new(uri, ctx = context)
   dr$create(compression_level = compression_level,
             algo = hash_algorithm,
             keep_open = FALSE,
-            custom_driver = custom_driver)
+            driver_schemas = driver_schemas)
 
   dr$close()
 

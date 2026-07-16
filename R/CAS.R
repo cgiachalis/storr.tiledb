@@ -22,7 +22,7 @@ CAS <- R6::R6Class(
    #' @param algo Select a hash algorithm to be used.
    #' @param keep_open Should `CAS` be kept opened after creation? Default is
    #' `TRUE`; the mode will be `"WRITE"`.
-   #' @param custom_driver An object of class [TileDBDriverSchemas] with user
+   #' @param driver_schemas An object of class [TileDBDriverSchemas] with user
    #' defined storage schemas; See [driver_schemas()]. If given, the `compression_level`
    #'  argument will be ignored.
    #'
@@ -31,7 +31,7 @@ CAS <- R6::R6Class(
    create = function(compression_level = -7,
                      algo = NULL,
                      keep_open = TRUE,
-                     custom_driver = NULL) {
+                     driver_schemas = NULL) {
 
      if (self$exists()) {
        cli::cli_abort("R6Class: {.cls {self$class()}} object already exists.", call = NULL)
@@ -48,17 +48,17 @@ CAS <- R6::R6Class(
 
      algo <- validate_hash_algo(algo)
 
-     if (is.null(custom_driver)) {
+     if (is.null(driver_schemas)) {
        .schema_keys <- schema_keys(compression_level, ctx = self$ctx)
        .schema_data <- schema_data(compression_level, ctx = self$ctx)
      } else {
 
-       if (!inherits(custom_driver, "TileDBDriverSchemas")) {
-         cli::cli_abort("{.arg custom_driver} should be {.cls TileDBDriverSchemas} class.", call = NULL)
+       if (!inherits(driver_schemas, "TileDBDriverSchemas")) {
+         cli::cli_abort("{.arg driver_schemas} should be {.cls TileDBDriverSchemas} class.", call = NULL)
        }
 
-       .schema_keys <- custom_driver$SchemaKeys$schema()
-       .schema_data <- custom_driver$SchemaData$schema()
+       .schema_keys <- driver_schemas$SchemaKeys$schema()
+       .schema_data <- driver_schemas$SchemaData$schema()
 
      }
 
