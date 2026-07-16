@@ -77,8 +77,8 @@ not configurable. For more flexibility, see next section \verb{Schemas Configura
 
 \subsection{Schemas Configuration}{
 
-To support different use cases with respect speed and compression, a user
-can  create a custom driver schemas using the entry point functional wrapper
+To support different use cases with respect to speed and compression, a user
+can create a custom driver schemas using the entry point functional wrapper
 \code{\link[=driver_schemas]{driver_schemas()}}; this gives access to TileDB array schemas in the
 content-addressable storage (CAS) system that can be modified in order to
 tune TileDB's engine performance and storage characteristics: compression
@@ -265,7 +265,7 @@ fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
 cds$SchemaData$attr_value <- fl_list
 
-#' ## Step 2: Pass modified schemas to storr  ---
+## Step 2: Pass modified schemas to storr  ---
 
 # Create a 'storr' with custom schemas using 'driver_schemas' argument
 uric <- tempfile()

@@ -45,8 +45,8 @@
 #'
 #' ## Schemas Configuration
 #'
-#' To support different use cases with respect speed and compression, a user
-#' can  create a custom driver schemas using the entry point functional wrapper
+#' To support different use cases with respect to speed and compression, a user
+#' can create a custom driver schemas using the entry point functional wrapper
 #' [driver_schemas()]; this gives access to TileDB array schemas in the
 #' content-addressable storage (CAS) system that can be modified in order to
 #' tune TileDB's engine performance and storage characteristics: compression
