@@ -598,6 +598,8 @@ TileDBDriverSchemas <- R6::R6Class(
 #'
 #' @examples
 #' ctx <- new_context()
+#'
+#' # Create schemas without compression filters
 #' sto_schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 #'
 #'
@@ -609,7 +611,7 @@ TileDBDriverSchemas <- R6::R6Class(
 #' # Apply filter list to 'value' attribute (CAS storage data)
 #' sto_schemas$SchemaData$attr_value <- fl_list
 #'
-#' # 'data' schema is modified now
+#' # Check 'data' schema; notice 'attr_value' has a new filter list
 #' sto_schemas$SchemaData$schema()
 #'
 driver_schemas <- function(uri = NULL, ctx = NULL, none_filter = FALSE) {
