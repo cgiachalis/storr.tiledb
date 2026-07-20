@@ -49,6 +49,8 @@ Use `driver_schemas()` to:
 
 ``` r
 ctx <- new_context()
+
+# Create schemas without compression filters
 sto_schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 
 
@@ -60,7 +62,7 @@ fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 # Apply filter list to 'value' attribute (CAS storage data)
 sto_schemas$SchemaData$attr_value <- fl_list
 
-# 'data' schema is modified now
+# Check 'data' schema; notice 'attr_value' has a new filter list
 sto_schemas$SchemaData$schema()
 #> tiledb_array_schema(
 #>     domain=tiledb_domain(c(
