@@ -68,8 +68,6 @@ test_that("set_async", {
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
-
-  disable_mirai()
 })
 
 
@@ -131,7 +129,6 @@ test_that("mset_async", {
   #              fixed = TRUE,
   #              class = "error")
 
-  disable_mirai()
 })
 
 
@@ -267,8 +264,6 @@ test_that("mset_by_value_async", {
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
-
-  disable_mirai()
 })
 
 
@@ -335,7 +330,6 @@ test_that("set_keymeta_async", {
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
-  disable_mirai()
   })
 
 
@@ -411,6 +405,5 @@ test_that("mset_keymeta_async", {
                "'expires_at' must have 1 elements (recieved 3)",
                fixed = TRUE,
                class = "error")
-  disable_mirai()
 
 })
