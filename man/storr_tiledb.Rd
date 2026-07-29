@@ -285,6 +285,7 @@ flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
+# Apply filter to 'value' attribute
 cds$SchemaData$attr_value <- fl_list
 
 ## Step 2: Pass modified schemas to storr  ---
