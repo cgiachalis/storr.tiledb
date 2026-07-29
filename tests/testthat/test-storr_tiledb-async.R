@@ -1,4 +1,4 @@
-test_that("storr daimons", {
+test_that("storr daemons", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver1")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)

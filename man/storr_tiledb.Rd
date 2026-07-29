@@ -20,7 +20,8 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
 \item{async}{Should the \link[mirai:mirai]{mirai} daemons be enabled for async
-functions? Default is  \code{FALSE}.}
+functions? Default is  \code{FALSE}. Each storr instance has its own
+independent set of daemons. See Details.}
 
 \item{...}{Other arguments passed to driver when \code{init = TRUE}.
 Valid arguments: \code{compression_level} and \code{driver_schemas}. If \code{driver_schemas}
@@ -84,6 +85,27 @@ content-addressable storage (CAS) system that can be modified in order to
 tune TileDB's engine performance and storage characteristics: compression
 algorithms, compression levels, tile and cell order. For details, see
 \code{Examples} section.
+}
+
+\subsection{Async Evaluation}{
+
+\code{storr_tiledb} uses \link[mirai:mirai]{mirai} package to set keys asynchronously.
+
+Each storr instantiation comes with it own independent set of daemons using
+a unique compute profile (namespace). By default it launches two daemons if
+async is enabled. The daemons associated with the specific compute profile are
+reset to zero when the storr object is deleted.
+
+Async is enabled either at initialisation or automatically when using one of
+the async methods.
+
+To access the specific compute profile, i.e., to launch more daemons via
+\code{mirai::launch_local()} use the active field \verb{$async_info} :
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Retrieve mirai's compute profile
+sto$async_info["profile"]
+
+}\if{html}{\out{</div>}}
 }
 }
 
