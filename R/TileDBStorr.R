@@ -285,7 +285,7 @@ TileDBStorr <- R6::R6Class(
 
       check_tiledb_config(cfg)
 
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -399,7 +399,7 @@ TileDBStorr <- R6::R6Class(
       check_tiledb_config(cfg)
 
       # mirai namespace compute profile
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -639,7 +639,7 @@ TileDBStorr <- R6::R6Class(
 
       check_tiledb_config(cfg)
 
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -752,7 +752,7 @@ TileDBStorr <- R6::R6Class(
       check_tiledb_config(cfg)
 
       # mirai namespace compute profile
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -1295,7 +1295,7 @@ TileDBStorr <- R6::R6Class(
 
       check_tiledb_config(cfg)
 
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -1410,7 +1410,7 @@ TileDBStorr <- R6::R6Class(
 
       check_tiledb_config(cfg)
 
-      ns <- .storr_profile
+      ns <- private$MIRAI_PROFILE
 
       # Export TileDB context on all connected daemons for 'storr.tiledb' profile
       #
@@ -2070,7 +2070,7 @@ TileDBStorr <- R6::R6Class(
         check_read_only("async_info")
       }
 
-      mirai::info(.storr_profile)
+      c(mirai::info(private$MIRAI_PROFILE), profile = private$MIRAI_PROFILE)
     },
 
     #' @field size Return Storr size
@@ -2090,6 +2090,10 @@ TileDBStorr <- R6::R6Class(
     # @field driver The TileDB driver.
     #
     DRIVER = NULL,
+
+    # @field mirai_profile Dedicated compute profile for mirai.
+    #
+    MIRAI_PROFILE = NULL,
 
   # NOTE: extracted from storr:::check_length
   check_length = function(key, namespace) {
@@ -2130,15 +2134,16 @@ TileDBStorr <- R6::R6Class(
 
   # Set up persistent daemons for storr compute profile
   set_daemons = function() {
-    if (!mirai::daemons_set(.storr_profile)) {
-      enable_mirai()
+    if (!mirai::daemons_set(private$MIRAI_PROFILE)) {
+      private$MIRAI_PROFILE <- paste("storr", digest::digest(Sys.time(), algo = "xxhash64"), sep = "_")
+      mirai::daemons(2L, .compute = private$MIRAI_PROFILE)
     }
   },
 
   # Reset daemons for storr compute profile
   finalize = function() {
-    if (mirai::daemons_set(.storr_profile)) {
-      disable_mirai()
+    if (mirai::daemons_set(private$MIRAI_PROFILE)) {
+      mirai::daemons(0L, .compute = private$MIRAI_PROFILE)
     }
   }
 

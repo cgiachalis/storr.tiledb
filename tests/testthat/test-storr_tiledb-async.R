@@ -1,3 +1,24 @@
+test_that("storr daemons", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver1")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+  expect_named(sto$async_info, c("connections", "cumulative", "awaiting", "executing", "completed",
+                                 "profile"))
+  ns0 <- sto$async_info["profile"]
+  expect_true(mirai::daemons_set(ns0))
+
+
+  # New storr with its own compute profile
+  uri2 <- file.path(withr::local_tempdir(), "test-driver2")
+  sto2 <- storr_tiledb(uri2, init = TRUE, async = TRUE)
+  expect_true(ns0 != sto2$async_info["profile"])
+
+  # Check compute profile is cleared (finalise method)
+  rm(sto); gc()
+
+  expect_false(mirai::daemons_set(ns0))
+
+})
 
 test_that("set_async", {
 
@@ -68,8 +89,6 @@ test_that("set_async", {
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
-
-  disable_mirai()
 })
 
 
@@ -131,7 +150,6 @@ test_that("mset_async", {
   #              fixed = TRUE,
   #              class = "error")
 
-  disable_mirai()
 })
 
 
@@ -267,8 +285,6 @@ test_that("mset_by_value_async", {
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
-
-  disable_mirai()
 })
 
 
@@ -335,7 +351,6 @@ test_that("set_keymeta_async", {
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
-  disable_mirai()
   })
 
 
@@ -411,6 +426,5 @@ test_that("mset_keymeta_async", {
                "'expires_at' must have 1 elements (recieved 3)",
                fixed = TRUE,
                class = "error")
-  disable_mirai()
 
 })
