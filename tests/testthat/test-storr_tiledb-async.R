@@ -1,3 +1,24 @@
+test_that("storr daimons", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver1")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+  expect_named(sto$async_info, c("connections", "cumulative", "awaiting", "executing", "completed",
+                                 "profile"))
+  ns0 <- sto$async_info["profile"]
+  expect_true(mirai::daemons_set(ns0))
+
+
+  # New storr with its own compute profile
+  uri2 <- file.path(withr::local_tempdir(), "test-driver2")
+  sto2 <- storr_tiledb(uri2, init = TRUE, async = TRUE)
+  expect_true(ns0 != sto2$async_info["profile"])
+
+  # Check compute profile is cleared (finalise method)
+  rm(sto); gc()
+
+  expect_false(mirai::daemons_set(ns0))
+
+})
 
 test_that("set_async", {
 
