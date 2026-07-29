@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.48</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.49</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,8 @@
 
 <dt id="arg-async">async<a class="anchor" aria-label="anchor" href="#arg-async"></a></dt>
 <dd><p>Should the <a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai</a> daemons be enabled for async
-functions? Default is  <code>FALSE</code>.</p></dd>
+functions? Default is  <code>FALSE</code>. Each storr instance has its own
+independent set of daemons. See Details.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -147,6 +148,24 @@ content-addressable storage (CAS) system that can be modified in order to
 tune TileDB's engine performance and storage characteristics: compression
 algorithms, compression levels, tile and cell order. For details, see
 <code>Examples</code> section.</p>
+</div>
+
+<div class="section">
+<h3 id="async-evaluation">Async Evaluation<a class="anchor" aria-label="anchor" href="#async-evaluation"></a></h3>
+
+
+<p><code>storr_tiledb</code> uses <a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai</a> package to set keys asynchronously.</p>
+<p>Each storr instantiation comes with it own independent set of daemons using
+a unique compute profile (namespace). By default it launches two daemons if
+async is enabled. The daemons associated with the specific compute profile are
+reset to zero when the storr object is deleted.</p>
+<p>Async is enabled either at initialisation or automatically when using one of
+the async methods.</p>
+<p>To access the specific compute profile, i.e., to launch more daemons via
+<code><a href="https://mirai.r-lib.org/reference/launch_local.html" class="external-link">mirai::launch_local()</a></code> use the active field <code>$async_info</code> :</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="co"># Retrieve mirai's compute profile</span></span>
+<span><span class="va">sto</span><span class="op">$</span><span class="va">async_info</span><span class="op">[</span><span class="st">"profile"</span><span class="op">]</span></span>
+<span></span></code></pre><p></p></div>
 </div>
 
     </div>
@@ -284,6 +303,7 @@ algorithms, compression levels, tile and cell order. For details, see
 <span class="r-in"><span><span class="va">flt</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter_set_option.html" class="external-link">tiledb_filter_set_option</a></span><span class="op">(</span><span class="va">flt</span>,<span class="st">"COMPRESSION_LEVEL"</span>, <span class="fl">22</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fl_list</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter_list.html" class="external-link">tiledb_filter_list</a></span><span class="op">(</span><span class="va">flt</span>, ctx <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply filter to 'value' attribute</span></span></span>
 <span class="r-in"><span><span class="va">cds</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">fl_list</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Step 2: Pass modified schemas to storr  ---</span></span></span>

@@ -40,7 +40,8 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 - async:
 
   Should the [mirai](https://mirai.r-lib.org/reference/mirai.html)
-  daemons be enabled for async functions? Default is `FALSE`.
+  daemons be enabled for async functions? Default is `FALSE`. Each storr
+  instance has its own independent set of daemons. See Details.
 
 - ...:
 
@@ -118,6 +119,27 @@ storage (CAS) system that can be modified in order to tune TileDB's
 engine performance and storage characteristics: compression algorithms,
 compression levels, tile and cell order. For details, see `Examples`
 section.
+
+### Async Evaluation
+
+`storr_tiledb` uses
+[mirai](https://mirai.r-lib.org/reference/mirai.html) package to set
+keys asynchronously.
+
+Each storr instantiation comes with it own independent set of daemons
+using a unique compute profile (namespace). By default it launches two
+daemons if async is enabled. The daemons associated with the specific
+compute profile are reset to zero when the storr object is deleted.
+
+Async is enabled either at initialisation or automatically when using
+one of the async methods.
+
+To access the specific compute profile, i.e., to launch more daemons via
+[`mirai::launch_local()`](https://mirai.r-lib.org/reference/launch_local.html)
+use the active field `$async_info` :
+
+    # Retrieve mirai's compute profile
+    sto$async_info["profile"]
 
 ## Class Methods Summary
 
@@ -342,6 +364,7 @@ flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
+# Apply filter to 'value' attribute
 cds$SchemaData$attr_value <- fl_list
 
 ## Step 2: Pass modified schemas to storr  ---
