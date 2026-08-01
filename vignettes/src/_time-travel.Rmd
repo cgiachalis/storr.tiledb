@@ -1,8 +1,8 @@
 ---
-title: Time Travel
+title: Time Travelling
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{Time Travel}
+  %\VignetteIndexEntry{Time Travelling}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,7 +21,7 @@ This vignette demonstrates the time-travel capabilities provided by storr.tiledb
 to open a storr at a specific TileDB timestamp range (read-only) and inspect the state
 of keys and objects at that time.
 
-### Create a storr and write values at successive times
+### 1. Create a storr and write values at successive times
 
 ```{r}
 # Create a storr
@@ -43,7 +43,7 @@ sto$get("a")
 sto$get("b", namespace = "ns2")
 ```
 
-### Open a time-travel storr at t0 (before any writes)
+### 2. Open a time-travel storr at t0 (before any writes)
 
 ```{r}
 stor <- storr_timetravel(uri, default_namespace = "ns1", timestamp = t0)
@@ -56,7 +56,7 @@ stor$get("a")
 
 ```
 
-### Move forward to t1 and inspect the state
+### 3. Move forward to t1 and inspect the state
 
 ```{r}
 # Set the timestamp to t1 (this uses the active binding)
@@ -69,7 +69,7 @@ stor$mget(c("a", "b"), namespace = c("ns1", "ns2"))
 stor$exists(c("a", "b"), namespace = c("ns1", "ns2"))
 ```
 
-### Move forward to t2 and inspect the later state
+### 4. Move forward to t2 and inspect the later state
 
 ```{r}
 stor$timestamp <- t2
@@ -82,7 +82,7 @@ stor$list_namespaces()
 stor$list_hashes()
 ```
 
-### Read-only behaviour
+### 5. Read-only behaviour
 
 `StorrTimeTravel` is designed for read-only access. Attempts to modify the store via
 the time-travel object should fail:
@@ -92,7 +92,7 @@ the time-travel object should fail:
 stor$set("z", 10)
 ```
 
-### Using timestamp ranges
+### 6. Using timestamp ranges
 
 You can also open a time-travel storr with an explicit start/end timestamp pair to
 see the state as of the end timestamp (and the tileDB timestamp object can be created
@@ -108,7 +108,7 @@ stor$get("a")                # retrieves version at or before t1
 # stor$timestamp <- tt
 ```
 
-### Reset timestamp to present
+### 7. Reset timestamp to present
 
 Set timestamp field to `NULL` to reset storr state to present. 
 
@@ -124,3 +124,8 @@ stor$mget(c("a", "b"), namespace = c("ns1", "ns2"))
   binding controls the time-range used when opening/reading the arrays.
 - Because time-travel is read-only, consider using a regular `storr_tiledb()` for
   writes and `storr_timetravel()` for inspections of historical states.
+  
+## References
+
+- [`storr_timetravel()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_timetravel.html)
+- [R6.tiledb - Time Travelling](https://cgiachalis.github.io/R6.tiledb/articles/timetravel.html)
