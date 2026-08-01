@@ -45,6 +45,10 @@ navbar:
     - text: storr.tiledb
     - text: API Usage
       href: articles/api.html
+    - text: Custom Schemas
+      href: articles/custom_schemas.html
+    - text: Time Travel
+      href: articles/time-travel.html
     - text: Data Model
       href: articles/data-model.html
     - text: ' FAQ'
