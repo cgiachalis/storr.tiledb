@@ -1,0 +1,292 @@
+# Custom Driver Schemas
+
+## Overview
+
+The
+[`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md)
+function allows you to tune your storr’s performance and storage
+characteristics by customizing the TileDB schema configuration. This is
+useful for creating storage drivers optimized for different use cases:
+
+- **Storage-bound workloads**: Maximize compression to minimize disk
+  space
+- **Latency-sensitive workloads**: Disable compression and tune tile
+  capacity for speed
+- **Balanced scenarios**: Apply selective compression strategies to
+  different attributes
+
+You can customize compression algorithms, compression levels, tile
+capacity, cell order, and tile order settings for both the keys and data
+arrays.
+
+## Creating Custom Schemas
+
+### Step 1: Initialize Schema Objects
+
+Create a `TileDBDriverSchemas` object using
+[`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md):
+
+``` r
+
+library(storr.tiledb)
+
+ctx <- new_context()
+schemas <- driver_schemas(ctx = ctx)
+```
+
+The `schemas` object provides access to:
+
+- `schemas$SchemaKeys`: Configuration for the keys/index array
+- `schemas$SchemaData`: Configuration for the data/payload array
+
+Each schema has active fields for modifying filter lists and
+configuration:
+
+- `dim_namespace`, `dim_key`, `attr_hash`, `attr_expires_at`,
+  `attr_notes` (SchemaKeys)
+- `dim_hash`, `attr_value` (SchemaData)
+
+### Step 2: Customize Schemas
+
+#### Example 1: High Compression for Storage
+
+``` r
+
+# Create a ZSTD filter with high compression level
+flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 22)
+flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+# Create schemas and apply high compression to data
+schemas <- driver_schemas(ctx = ctx)
+schemas$SchemaData$attr_value <- flt_list
+```
+
+#### Example 2: No Compression for Speed
+
+``` r
+
+# Create schemas without any compression filters
+schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
+```
+
+#### Example 3: Mixed Strategy - Fast Keys, Compressed Data
+
+``` r
+
+# Start with no compression
+schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
+
+# Apply selective compression to data values only
+flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 18)
+flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+schemas$SchemaData$attr_value <- flt_list
+
+# SchemaKeys remains uncompressed for fast lookups
+```
+
+#### Example 4: Adjust Tile Capacity
+
+Optimize memory usage by adjusting how many cells are stored per tile:
+
+``` r
+
+schemas <- driver_schemas(ctx = ctx)
+
+# Lower capacity for memory-constrained environments
+schemas$SchemaKeys$capacity <- 5000
+schemas$SchemaData$capacity <- 5000
+```
+
+#### Example 5: Configure Cell and Tile Order
+
+Tune for specific access patterns:
+
+``` r
+
+schemas <- driver_schemas(ctx = ctx)
+
+# Configure for row-major access patterns
+schemas$SchemaKeys$cell_order <- "ROW_MAJOR"
+schemas$SchemaKeys$tile_order <- "ROW_MAJOR"
+
+schemas$SchemaData$cell_order <- "ROW_MAJOR"
+schemas$SchemaData$tile_order <- "ROW_MAJOR"
+```
+
+### Step 3: Create Storr with Custom Schemas
+
+Pass the configured schemas to
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md):
+
+``` r
+
+uri <- tempfile()
+
+# Create a storr with custom schemas
+sto <- storr_tiledb(uri, init = TRUE, driver_schemas = schemas, context = ctx)
+
+# Use it normally
+sto$set("mykey", list(a = 1, b = 2))
+sto$get("mykey")
+# $a
+# [1] 1
+# 
+# $b
+# [1] 2
+```
+
+Alternatively, create a driver first then wrap it with storr:
+
+``` r
+
+uri <- tempfile()
+
+# Create driver with custom schemas
+dr <- driver_tiledb(uri, init = TRUE, driver_schemas = schemas, context = ctx)
+
+# Create storr from driver
+sto <- storr::storr(dr)
+
+# Use it
+sto$set("key1", 123)
+sto$get("key1")
+# [1] 123
+```
+
+## Complete Example: Storage-Optimized Storr
+
+Here’s a complete workflow for a storage-bound use case:
+
+``` r
+
+# Set up for maximum compression
+ctx <- new_context()
+schemas <- driver_schemas(ctx = ctx)
+
+# Create aggressive ZSTD filter (level 22 = high compression)
+flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 22)
+flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+# Apply to both keys and data for maximum compression
+schemas$SchemaKeys$dim_key <- flt_list
+schemas$SchemaKeys$dim_namespace <- flt_list
+schemas$SchemaKeys$attr_hash <- flt_list
+schemas$SchemaData$attr_value <- flt_list
+
+# Create storage-optimized storr
+uri_storage <- tempfile()
+sto_storage <- storr_tiledb(uri_storage, init = TRUE, 
+                            driver_schemas = schemas, context = ctx)
+
+# Store data
+sto_storage$set("data1", rep(1:1000, 100))
+sto_storage$set("config", list(settings = list(nested = TRUE)))
+
+# Retrieve and verify
+sto_storage$list()
+# [1] "config" "data1"
+sto_storage$get("config")
+# $settings
+# $settings$nested
+# [1] TRUE
+```
+
+## Complete Example: Speed-Optimized Storr
+
+Here’s a complete workflow for a latency-sensitive use case:
+
+``` r
+
+# Set up for maximum speed (no compression)
+ctx <- new_context()
+schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
+
+# Increase tile capacity for fewer I/O operations
+schemas$SchemaKeys$capacity <- 20000
+schemas$SchemaData$capacity <- 20000
+
+# Create speed-optimized storr
+uri_speed <- tempfile()
+sto_speed <- storr_tiledb(uri_speed, init = TRUE, 
+                          driver_schemas = schemas, context = ctx)
+
+# Store and retrieve rapidly
+sto_speed$mset(paste0("key", 1:100), lapply(1:100, function(i) list(id = i)))
+keys_to_fetch <- sto_speed$mget(paste0("key", 1:10))
+```
+
+## Inspecting Schema Configuration
+
+View the underlying TileDB schema to verify your settings:
+
+``` r
+
+# Get TileDB schema object
+tdb_schema_keys <- schemas$SchemaKeys$schema()
+tdb_schema_data <- schemas$SchemaData$schema()
+
+# Check properties
+tiledb::cell_order(tdb_schema_keys)
+# [1] "COL_MAJOR"
+tiledb::tile_order(tdb_schema_keys)
+# [1] "COL_MAJOR"
+tiledb::capacity(tdb_schema_keys)
+# [1] 20000
+```
+
+## Common Configuration Patterns
+
+**Pattern 1: Default with Data Compression**
+
+``` r
+
+schemas <- driver_schemas(ctx = ctx)
+
+# Create ZSTD filter
+flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 12)
+flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+# Apply filter on data
+schemas$SchemaData$attr_value <- flt_list
+```
+
+**Pattern 2: All Compression Disabled**
+
+``` r
+
+schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
+```
+
+**Pattern 3: Asymmetric Optimization (no compression on keys, heavy on
+data)**
+
+``` r
+
+# No compression
+schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
+
+# Create ZSTD filter
+flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
+flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 20)
+flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
+
+# Apply filter on data
+schemas$SchemaData$attr_value <- flt_list
+```
+
+## References
+
+For more information about schemas and compression filter consult the
+following resources:
+
+- [TileDB Schema
+  Documentation](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/array-schema/)
+- [TileDB
+  Compression](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/compression/index.html)
+- [`driver_schemas()`
+  Reference](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html)
