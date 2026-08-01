@@ -7,6 +7,26 @@
 #' provides access to [TileDBFragments] instances for `keys` and `data` arrays
 #' where you can further inspect and manage the fragments for the specify arrays.
 #'
+#' # Class Methods Summary
+#'
+#' For full definitions see the **Methods** section in [StorrFragments].
+#'
+#' **Active Fields**
+#'
+#' - **fob_keys** - [TileDBFragments] instance for the `keys` array.
+#' - **fob_data** - [TileDBFragments] instance for the `data` array.
+#' - **size** - VFS directory size for the TileDB store.
+#'
+#' **Fragment Management**
+#'
+#' - **consolidate()** - Consolidate fragments (options: `all`, `keys`, `data`); supports `vacuum` and sync/async modes.
+#' - **vacuum()** - Remove old consolidated fragments (options: `all`, `keys`, `data`); supports sync/async.
+#' - **reload_finfo()** - Refresh fragment-info caches for both arrays.
+#'
+#' **Inspection**
+#'
+#' - **frag_num()** - Total number of fragments (keys + data).
+#' - **to_vacuum_num()** - Number of fragments pending vacuum.
 #'
 #' @inheritParams driver_tiledb
 #'

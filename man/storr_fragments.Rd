@@ -23,6 +23,30 @@ The class includes fragment consolidation and vacuuming methods but also
 provides access to \link[R6.tiledb:TileDBFragments]{TileDBFragments} instances for \code{keys} and \code{data} arrays
 where you can further inspect and manage the fragments for the specify arrays.
 }
+\section{Class Methods Summary}{
+For full definitions see the \strong{Methods} section in \link{StorrFragments}.
+
+\strong{Active Fields}
+\itemize{
+\item \strong{fob_keys} - \link[R6.tiledb:TileDBFragments]{TileDBFragments} instance for the \code{keys} array.
+\item \strong{fob_data} - \link[R6.tiledb:TileDBFragments]{TileDBFragments} instance for the \code{data} array.
+\item \strong{size} - VFS directory size for the TileDB store.
+}
+
+\strong{Fragment Management}
+\itemize{
+\item \strong{consolidate()} - Consolidate fragments (options: \code{all}, \code{keys}, \code{data}); supports \code{vacuum} and sync/async modes.
+\item \strong{vacuum()} - Remove old consolidated fragments (options: \code{all}, \code{keys}, \code{data}); supports sync/async.
+\item \strong{reload_finfo()} - Refresh fragment-info caches for both arrays.
+}
+
+\strong{Inspection}
+\itemize{
+\item \strong{frag_num()} - Total number of fragments (keys + data).
+\item \strong{to_vacuum_num()} - Number of fragments pending vacuum.
+}
+}
+
 \examples{
 # URI path
 uri <- tempfile()
