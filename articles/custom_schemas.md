@@ -1,4 +1,4 @@
-# Custom Driver Schemas
+# Schema Configuration
 
 ## Overview
 
@@ -156,7 +156,7 @@ sto$get("key1")
 # [1] 123
 ```
 
-## Complete Example: Storage-Optimized Storr
+## Example: Storage-Optimized Storr
 
 Here’s a complete workflow for a storage-bound use case:
 
@@ -195,7 +195,7 @@ sto_storage$get("config")
 # [1] TRUE
 ```
 
-## Complete Example: Speed-Optimized Storr
+## Example: Speed-Optimized Storr
 
 Here’s a complete workflow for a latency-sensitive use case:
 
@@ -288,5 +288,4 @@ following resources:
   Documentation](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/array-schema/)
 - [TileDB
   Compression](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/compression/index.html)
-- [`driver_schemas()`
-  Reference](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html)
+- [`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html)

@@ -1,4 +1,4 @@
-# Time Travel
+# Time Travelling
 
 ## Overview
 
@@ -9,7 +9,7 @@ and the `TimeTravelDriver`/`StorrTimeTravel` classes. Use time-travel to
 open a storr at a specific TileDB timestamp range (read-only) and
 inspect the state of keys and objects at that time.
 
-### Create a storr and write values at successive times
+### 1. Create a storr and write values at successive times
 
 ``` r
 
@@ -38,7 +38,7 @@ sto$get("b", namespace = "ns2")
 # [1] 3
 ```
 
-### Open a time-travel storr at t0 (before any writes)
+### 2. Open a time-travel storr at t0 (before any writes)
 
 ``` r
 
@@ -55,7 +55,7 @@ stor$get("a")
 # ! key 'a' ('ns1') not found
 ```
 
-### Move forward to t1 and inspect the state
+### 3. Move forward to t1 and inspect the state
 
 ``` r
 
@@ -80,7 +80,7 @@ stor$exists(c("a", "b"), namespace = c("ns1", "ns2"))
 # [1]  TRUE FALSE
 ```
 
-### Move forward to t2 and inspect the later state
+### 4. Move forward to t2 and inspect the later state
 
 ``` r
 
@@ -104,7 +104,7 @@ stor$list_hashes()
 # [3] "87494137ffd66807c0c5c877856799cc"
 ```
 
-### Read-only behaviour
+### 5. Read-only behaviour
 
 `StorrTimeTravel` is designed for read-only access. Attempts to modify
 the store via the time-travel object should fail:
@@ -117,7 +117,7 @@ stor$set("z", 10)
 # ! attempt to apply non-function
 ```
 
-### Using timestamp ranges
+### 6. Using timestamp ranges
 
 You can also open a time-travel storr with an explicit start/end
 timestamp pair to see the state as of the end timestamp (and the tileDB
@@ -137,7 +137,7 @@ stor$get("a")                # retrieves version at or before t1
 # stor$timestamp <- tt
 ```
 
-### Reset timestamp to present
+### 7. Reset timestamp to present
 
 Set timestamp field to `NULL` to reset storr state to present.
 
@@ -163,3 +163,9 @@ stor$mget(c("a", "b"), namespace = c("ns1", "ns2"))
   for writes and
   [`storr_timetravel()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_timetravel.md)
   for inspections of historical states.
+
+## References
+
+- [`storr_timetravel()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_timetravel.html)
+- [R6.tiledb - Time
+  Travelling](https://cgiachalis.github.io/R6.tiledb/articles/timetravel.html)

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Custom Driver Schemas • storr.tiledb</title>
+<title>Schema Configuration • storr.tiledb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Rubik-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Custom Driver Schemas">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Schema Configuration">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.50</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.51</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,10 +39,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><h6 class="dropdown-header" data-toc-skip>storr.tiledb</h6></li>
     <li><a class="dropdown-item" href="../articles/api.html">API Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Custom Schemas</a></li>
-    <li><a class="dropdown-item" href="../articles/time-travel.html">Time Travel</a></li>
-    <li><a class="dropdown-item" href="../articles/data-model.html">Data Model</a></li>
-    <li><a class="dropdown-item" href="../articles/faq.html"> FAQ</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Schema Configuration</a></li>
+    <li><a class="dropdown-item" href="../articles/time-travel.html">Time - Travelling</a></li>
+    <li><a class="dropdown-item" href="../articles/data-model.html">Storr Data Models</a></li>
+    <li><a class="dropdown-item" href="../articles/faq.html">Frequently Asked Questions</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -65,7 +65,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Custom Driver Schemas</h1>
+      <h1>Schema Configuration</h1>
             
             <h4 data-toc-skip class="date">2026-08-01</h4>
       
@@ -231,7 +231,7 @@ tile:</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="complete-example-storage-optimized-storr">Complete Example: Storage-Optimized Storr<a class="anchor" aria-label="anchor" href="#complete-example-storage-optimized-storr"></a>
+<h2 id="example-storage-optimized-storr">Example: Storage-Optimized Storr<a class="anchor" aria-label="anchor" href="#example-storage-optimized-storr"></a>
 </h2>
 <p>Here’s a complete workflow for a storage-bound use case:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -268,7 +268,7 @@ tile:</p>
 <span><span class="co"># [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="complete-example-speed-optimized-storr">Complete Example: Speed-Optimized Storr<a class="anchor" aria-label="anchor" href="#complete-example-speed-optimized-storr"></a>
+<h2 id="example-speed-optimized-storr">Example: Speed-Optimized Storr<a class="anchor" aria-label="anchor" href="#example-speed-optimized-storr"></a>
 </h2>
 <p>Here’s a complete workflow for a latency-sensitive use case:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -347,8 +347,7 @@ following resources:</p>
 Schema Documentation</a></li>
 <li><a href="https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/compression/index.html" class="external-link">TileDB
 Compression</a></li>
-<li><a href="https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html"><code>driver_schemas()</code>
-Reference</a></li>
+<li><a href="https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html"><code>driver_schemas()</code></a></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Data Model • storr.tiledb</title>
+<title>Storr Data Models • storr.tiledb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Rubik-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Data Model">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Storr Data Models">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.50</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.51</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,10 +39,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><h6 class="dropdown-header" data-toc-skip>storr.tiledb</h6></li>
     <li><a class="dropdown-item" href="../articles/api.html">API Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Custom Schemas</a></li>
-    <li><a class="dropdown-item" href="../articles/time-travel.html">Time Travel</a></li>
-    <li><a class="dropdown-item" href="../articles/data-model.html">Data Model</a></li>
-    <li><a class="dropdown-item" href="../articles/faq.html"> FAQ</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Schema Configuration</a></li>
+    <li><a class="dropdown-item" href="../articles/time-travel.html">Time - Travelling</a></li>
+    <li><a class="dropdown-item" href="../articles/data-model.html">Storr Data Models</a></li>
+    <li><a class="dropdown-item" href="../articles/faq.html">Frequently Asked Questions</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -65,9 +65,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Data Model</h1>
+      <h1>Storr Data Models</h1>
             
-            <h4 data-toc-skip class="date">2026-04-20</h4>
+            <h4 data-toc-skip class="date">2026-08-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/data-model.Rmd" class="external-link"><code>vignettes/data-model.Rmd</code></a></small>
       <div class="d-none name"><code>data-model.Rmd</code></div>
@@ -146,7 +146,7 @@ hashes to object values.</p>
 <p>CAS Structure:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dr</span><span class="op">$</span><span class="fu">dir_tree</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpG8aZLG/file1e204dba69e5</span></span>
+<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpIV06wB/file94c457086b3</span></span>
 <span><span class="co"># ├── tbl_data</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
 <span><span class="co"># │   ├── __fragments</span></span>
@@ -154,7 +154,7 @@ hashes to object values.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1776672633305_1776672633305_722b26a5560e3fb2055d0ff6f641d211</span></span>
+<span><span class="co"># │       ├── __1785580886312_1785580886312_6e1c593b059254f5934a5a6a2d6be9a2</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── tbl_keys</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
@@ -163,12 +163,12 @@ hashes to object values.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1776672633291_1776672633291_352383d242e46903cf97dd6aec82b64e</span></span>
+<span><span class="co"># │       ├── __1785580886310_1785580886310_5971e8efd915ba42ccd52498694e1f1e</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── __group</span></span>
-<span><span class="co"># │   └── __1776672633377_1776672633377_027b74659ad493e493793be261abb635_2</span></span>
+<span><span class="co"># │   └── __1785580886373_1785580886373_624f949cbf9498982f953fe4cb5dc0d1_2</span></span>
 <span><span class="co"># ├── __meta</span></span>
-<span><span class="co"># │   └── __1776672633289_1776672633289_3673909d253dfd136bbec9a0e4616d8c</span></span>
+<span><span class="co"># │   └── __1785580886318_1785580886318_5971e8ee81f51a500417aa72204ebfbc</span></span>
 <span><span class="co"># └── __tiledb_group.tdb</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># ❯ directories (7) • total size (647 B)</span></span></code></pre>

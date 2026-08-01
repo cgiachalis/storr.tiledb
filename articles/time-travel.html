@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Time Travel • storr.tiledb</title>
+<title>Time Travelling • storr.tiledb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Rubik-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Time Travel">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Time Travelling">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.50</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.51</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,10 +39,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><h6 class="dropdown-header" data-toc-skip>storr.tiledb</h6></li>
     <li><a class="dropdown-item" href="../articles/api.html">API Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Custom Schemas</a></li>
-    <li><a class="dropdown-item" href="../articles/time-travel.html">Time Travel</a></li>
-    <li><a class="dropdown-item" href="../articles/data-model.html">Data Model</a></li>
-    <li><a class="dropdown-item" href="../articles/faq.html"> FAQ</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_schemas.html">Schema Configuration</a></li>
+    <li><a class="dropdown-item" href="../articles/time-travel.html">Time - Travelling</a></li>
+    <li><a class="dropdown-item" href="../articles/data-model.html">Storr Data Models</a></li>
+    <li><a class="dropdown-item" href="../articles/faq.html">Frequently Asked Questions</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -65,7 +65,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Time Travel</h1>
+      <h1>Time Travelling</h1>
             
             <h4 data-toc-skip class="date">2026-08-01</h4>
       
@@ -84,7 +84,7 @@ storr.tiledb via <code><a href="../reference/storr_timetravel.html">storr_timetr
 time-travel to open a storr at a specific TileDB timestamp range
 (read-only) and inspect the state of keys and objects at that time.</p>
 <div class="section level3">
-<h3 id="create-a-storr-and-write-values-at-successive-times">Create a storr and write values at successive times<a class="anchor" aria-label="anchor" href="#create-a-storr-and-write-values-at-successive-times"></a>
+<h3 id="create-a-storr-and-write-values-at-successive-times">1. Create a storr and write values at successive times<a class="anchor" aria-label="anchor" href="#create-a-storr-and-write-values-at-successive-times"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a storr</span></span>
@@ -112,7 +112,7 @@ time-travel to open a storr at a specific TileDB timestamp range
 <span><span class="co"># [1] 3</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="open-a-time-travel-storr-at-t0-before-any-writes">Open a time-travel storr at t0 (before any writes)<a class="anchor" aria-label="anchor" href="#open-a-time-travel-storr-at-t0-before-any-writes"></a>
+<h3 id="open-a-time-travel-storr-at-t0-before-any-writes">2. Open a time-travel storr at t0 (before any writes)<a class="anchor" aria-label="anchor" href="#open-a-time-travel-storr-at-t0-before-any-writes"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/storr_timetravel.html">storr_timetravel</a></span><span class="op">(</span><span class="va">uri</span>, default_namespace <span class="op">=</span> <span class="st">"ns1"</span>, timestamp <span class="op">=</span> <span class="va">t0</span><span class="op">)</span></span>
@@ -128,7 +128,7 @@ time-travel to open a storr at a specific TileDB timestamp range
 <span><span class="co"># ! key 'a' ('ns1') not found</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="move-forward-to-t1-and-inspect-the-state">Move forward to t1 and inspect the state<a class="anchor" aria-label="anchor" href="#move-forward-to-t1-and-inspect-the-state"></a>
+<h3 id="move-forward-to-t1-and-inspect-the-state">3. Move forward to t1 and inspect the state<a class="anchor" aria-label="anchor" href="#move-forward-to-t1-and-inspect-the-state"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set the timestamp to t1 (this uses the active binding)</span></span>
@@ -152,7 +152,7 @@ time-travel to open a storr at a specific TileDB timestamp range
 <span><span class="co"># [1]  TRUE FALSE</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="move-forward-to-t2-and-inspect-the-later-state">Move forward to t2 and inspect the later state<a class="anchor" aria-label="anchor" href="#move-forward-to-t2-and-inspect-the-later-state"></a>
+<h3 id="move-forward-to-t2-and-inspect-the-later-state">4. Move forward to t2 and inspect the later state<a class="anchor" aria-label="anchor" href="#move-forward-to-t2-and-inspect-the-later-state"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stor</span><span class="op">$</span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="va">t2</span></span>
@@ -175,7 +175,7 @@ time-travel to open a storr at a specific TileDB timestamp range
 <span><span class="co"># [3] "87494137ffd66807c0c5c877856799cc"</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="read-only-behaviour">Read-only behaviour<a class="anchor" aria-label="anchor" href="#read-only-behaviour"></a>
+<h3 id="read-only-behaviour">5. Read-only behaviour<a class="anchor" aria-label="anchor" href="#read-only-behaviour"></a>
 </h3>
 <p><code>StorrTimeTravel</code> is designed for read-only access.
 Attempts to modify the store via the time-travel object should fail:</p>
@@ -186,7 +186,7 @@ Attempts to modify the store via the time-travel object should fail:</p>
 <span><span class="co"># ! attempt to apply non-function</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="using-timestamp-ranges">Using timestamp ranges<a class="anchor" aria-label="anchor" href="#using-timestamp-ranges"></a>
+<h3 id="using-timestamp-ranges">6. Using timestamp ranges<a class="anchor" aria-label="anchor" href="#using-timestamp-ranges"></a>
 </h3>
 <p>You can also open a time-travel storr with an explicit start/end
 timestamp pair to see the state as of the end timestamp (and the tileDB
@@ -203,7 +203,7 @@ when needed). Example below demonstrates the idea:</p>
 <span><span class="co"># stor$timestamp &lt;- tt</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="reset-timestamp-to-present">Reset timestamp to present<a class="anchor" aria-label="anchor" href="#reset-timestamp-to-present"></a>
+<h3 id="reset-timestamp-to-present">7. Reset timestamp to present<a class="anchor" aria-label="anchor" href="#reset-timestamp-to-present"></a>
 </h3>
 <p>Set timestamp field to <code>NULL</code> to reset storr state to
 present.</p>
@@ -229,6 +229,15 @@ opening/reading the arrays.</li>
 <code><a href="../reference/storr_tiledb.html">storr_tiledb()</a></code> for writes and
 <code><a href="../reference/storr_timetravel.html">storr_timetravel()</a></code> for inspections of historical
 states.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li><a href="https://cgiachalis.github.io/storr.tiledb/reference/storr_timetravel.html"><code>storr_timetravel()</code></a></li>
+<li><a href="https://cgiachalis.github.io/R6.tiledb/articles/timetravel.html" class="external-link">R6.tiledb
+- Time Travelling</a></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
