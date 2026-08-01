@@ -1,8 +1,8 @@
 ---
-title: Custom Driver Schemas
+title: Schema Configuration
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{Custom Driver Schemas}
+  %\VignetteIndexEntry{Schema Configuration}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---
@@ -144,7 +144,7 @@ sto$set("key1", 123)
 sto$get("key1")
 ```
 
-## Complete Example: Storage-Optimized Storr
+## Example: Storage-Optimized Storr
 
 Here's a complete workflow for a storage-bound use case:
 
@@ -178,7 +178,7 @@ sto_storage$list()
 sto_storage$get("config")
 ```
 
-## Complete Example: Speed-Optimized Storr
+## Example: Speed-Optimized Storr
 
 Here's a complete workflow for a latency-sensitive use case:
 
@@ -259,5 +259,5 @@ For more information about schemas and compression filter consult the following 
 
 - [TileDB Schema Documentation](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/array-schema/)
 - [TileDB Compression](https://cloud.tiledb.com/academy/structure/arrays/foundation/key-concepts/storage/compression/index.html)
-- [`driver_schemas()` Reference](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html)
+- [`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.html)
 

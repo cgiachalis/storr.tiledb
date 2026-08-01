@@ -1,8 +1,8 @@
 ---
-title: FAQ
+title: Frequently Asked Questions
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{FAQ}
+  %\VignetteIndexEntry{Frequently Asked Questions}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---

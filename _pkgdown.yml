@@ -42,16 +42,16 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
-    - text: storr.tiledb
-    - text: API Usage
+    - text: "storr.tiledb"
+    - text: "API Usage"
       href: articles/api.html
-    - text: Custom Schemas
+    - text: "Schema Configuration"
       href: articles/custom_schemas.html
-    - text: Time Travel
+    - text: "Time - Travelling"
       href: articles/time-travel.html
-    - text: Data Model
+    - text: "Storr Data Models"
       href: articles/data-model.html
-    - text: ' FAQ'
+    - text: "Frequently Asked Questions"
       href: articles/faq.html
   - text: News
     href: news/index.html

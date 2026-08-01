@@ -1,8 +1,8 @@
 ---
-title: FAQ
-date: "2026-04-20"
+title: Frequently Asked Questions
+date: "2026-08-01"
 vignette: >
-  %\VignetteIndexEntry{FAQ}
+  %\VignetteIndexEntry{Frequently Asked Questions}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---

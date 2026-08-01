@@ -1,8 +1,8 @@
 ---
-title: Data Model
+title: Storr Data Models
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{Data Model}
+  %\VignetteIndexEntry{Storr Data Models}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
 ---
