@@ -176,6 +176,22 @@ test_that("clear_expired_keys", {
 
 })
 
+test_that("is_key_expired", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "b", "c", "d")
+  t0 <- Sys.time()
+  expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
+  sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
+
+  expect_true(sto$is_key_expired("a", "ns1"))
+  expect_true(sto$is_key_expired("b", "ns2"))
+  expect_false(sto$is_key_expired("c", "ns3"))
+  expect_false(sto$is_key_expired("d", "ns4"))
+})
+
 test_that("cache global option", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
