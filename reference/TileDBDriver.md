@@ -99,6 +99,8 @@ A `TileDBDriver`, `R6` object.
 
 - [`TileDBDriver$has_unexpired_keys()`](#method-TileDBDriver-has_unexpired_keys)
 
+- [`TileDBDriver$is_key_expired()`](#method-TileDBDriver-is_key_expired)
+
 - [`TileDBDriver$export_tdb()`](#method-TileDBDriver-export_tdb)
 
 Inherited methods
@@ -871,6 +873,31 @@ Check for unexpired key-namespace pairs.
 #### Returns
 
 `TRUE` for unexpired keys, `FALSE` otherwise.
+
+------------------------------------------------------------------------
+
+### `TileDBDriver$is_key_expired()`
+
+Check a key-namespace for expiration.
+
+#### Usage
+
+    TileDBDriver$is_key_expired(key, namespace)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of keys.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+#### Returns
+
+`TRUE` for expired key-namespace pair, `FALSE` if key has not expired
+yet or has not expiration timestamp.
 
 ------------------------------------------------------------------------
 

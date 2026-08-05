@@ -135,6 +135,8 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$has_expired_keys()`](#method-TileDBStorr-has_expired_keys)
 
+- [`TileDBStorr$is_key_expired()`](#method-TileDBStorr-is_key_expired)
+
 - [`TileDBStorr$clear_expired_keys()`](#method-TileDBStorr-clear_expired_keys)
 
 - [`TileDBStorr$list()`](#method-TileDBStorr-list)
@@ -1448,6 +1450,31 @@ Check for expired key-namespace pairs.
 #### Returns
 
 `TRUE` for expired keys, `FALSE` otherwise.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$is_key_expired()`
+
+Check a key-namespace for expiration.
+
+#### Usage
+
+    TileDBStorr$is_key_expired(key, namespace = self$default_namespace)
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+#### Returns
+
+`TRUE` for expired key-namespace pair, `FALSE` if key has not expired
+yet or has not expiration time-stamp.
 
 ------------------------------------------------------------------------
 

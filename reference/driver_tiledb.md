@@ -167,6 +167,8 @@ and its parent class
 - **`has_expired_keys()`** and **`has_unexpired_keys()`** - Verify the
   existence of (un)expired keys or for specific namespaces
 
+- **`is_key_expired()`** - Check if a key is expired
+
 **Export Utilities**
 
 - **`export_tdb()`** - Export objects to another TileDB storr

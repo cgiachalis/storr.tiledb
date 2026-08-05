@@ -31,7 +31,7 @@ usage is through storr_tiledb()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.51</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.52</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,6 +168,7 @@ usage is through <code><a href="storr_tiledb.html">storr_tiledb()</a></code>.</p
 <li><p><a href="#method-TileDBStorr-keys_with_expiration"><code>TileDBStorr$keys_with_expiration()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-expired_keys"><code>TileDBStorr$expired_keys()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-has_expired_keys"><code>TileDBStorr$has_expired_keys()</code></a></p></li>
+<li><p><a href="#method-TileDBStorr-is_key_expired"><code>TileDBStorr$is_key_expired()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-clear_expired_keys"><code>TileDBStorr$clear_expired_keys()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-list"><code>TileDBStorr$list()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-list_hashes"><code>TileDBStorr$list_hashes()</code></a></p></li>
@@ -1287,20 +1288,43 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
+<p></p><hr><a id="method-TileDBStorr-is_key_expired"></a><div class="section">
+<h3 id="tiledbstorr-is-key-expired-"><code>TileDBStorr$is_key_expired()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-is-key-expired-"></a></h3>
+<p>Check a key-namespace for expiration.</p><div class="section">
+<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">is_key_expired</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-35">Arguments<a class="anchor" aria-label="anchor" href="#arguments-35"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A scalar character of key name.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A scalar character of namespace name.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
+<p><code>TRUE</code> for expired key-namespace pair, <code>FALSE</code> if key has not
+expired yet or has not expiration time-stamp.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-TileDBStorr-clear_expired_keys"></a><div class="section">
 <h3 id="tiledbstorr-clear-expired-keys-"><code>TileDBStorr$clear_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-expired-keys-"></a></h3>
 <p>Remove the expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
+<h4 id="usage-38">Usage<a class="anchor" aria-label="anchor" href="#usage-38"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-35">Arguments<a class="anchor" aria-label="anchor" href="#arguments-35"></a></h4>
+<h4 id="arguments-36">Arguments<a class="anchor" aria-label="anchor" href="#arguments-36"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
+<h4 id="returns-37">Returns<a class="anchor" aria-label="anchor" href="#returns-37"></a></h4>
 <p>A boolean value <code>TRUE</code> indicating success, invisibly.</p>
 </div>
 
@@ -1309,17 +1333,17 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-list"></a><div class="section">
 <h3 id="tiledbstorr-list-"><code>TileDBStorr$list()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-"></a></h3>
 <p>List all keys stored in a namespace.</p><div class="section">
-<h4 id="usage-38">Usage<a class="anchor" aria-label="anchor" href="#usage-38"></a></h4>
+<h4 id="usage-39">Usage<a class="anchor" aria-label="anchor" href="#usage-39"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-36">Arguments<a class="anchor" aria-label="anchor" href="#arguments-36"></a></h4>
+<h4 id="arguments-37">Arguments<a class="anchor" aria-label="anchor" href="#arguments-37"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A scalar character of namespace name.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-37">Returns<a class="anchor" aria-label="anchor" href="#returns-37"></a></h4>
+<h4 id="returns-38">Returns<a class="anchor" aria-label="anchor" href="#returns-38"></a></h4>
 <p>A sorted character vector with keys.</p>
 </div>
 
@@ -1328,10 +1352,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-list_hashes"></a><div class="section">
 <h3 id="tiledbstorr-list-hashes-"><code>TileDBStorr$list_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-hashes-"></a></h3>
 <p>List all hashes stored in the storr.</p><div class="section">
-<h4 id="usage-39">Usage<a class="anchor" aria-label="anchor" href="#usage-39"></a></h4>
+<h4 id="usage-40">Usage<a class="anchor" aria-label="anchor" href="#usage-40"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-38">Returns<a class="anchor" aria-label="anchor" href="#returns-38"></a></h4>
+<h4 id="returns-39">Returns<a class="anchor" aria-label="anchor" href="#returns-39"></a></h4>
 <p>A sorted character vector with hashes.</p>
 </div>
 
@@ -1340,10 +1364,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-list_unused_hashes"></a><div class="section">
 <h3 id="tiledbstorr-list-unused-hashes-"><code>TileDBStorr$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-unused-hashes-"></a></h3>
 <p>List unused hashes stored in the storr.</p><div class="section">
-<h4 id="usage-40">Usage<a class="anchor" aria-label="anchor" href="#usage-40"></a></h4>
+<h4 id="usage-41">Usage<a class="anchor" aria-label="anchor" href="#usage-41"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-39">Returns<a class="anchor" aria-label="anchor" href="#returns-39"></a></h4>
+<h4 id="returns-40">Returns<a class="anchor" aria-label="anchor" href="#returns-40"></a></h4>
 <p>A sorted character vector with unused hashes.</p>
 </div>
 
@@ -1352,10 +1376,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-list_namespaces"></a><div class="section">
 <h3 id="tiledbstorr-list-namespaces-"><code>TileDBStorr$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-namespaces-"></a></h3>
 <p>List all namespaces in the storr.</p><div class="section">
-<h4 id="usage-41">Usage<a class="anchor" aria-label="anchor" href="#usage-41"></a></h4>
+<h4 id="usage-42">Usage<a class="anchor" aria-label="anchor" href="#usage-42"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-40">Returns<a class="anchor" aria-label="anchor" href="#returns-40"></a></h4>
+<h4 id="returns-41">Returns<a class="anchor" aria-label="anchor" href="#returns-41"></a></h4>
 <p>A sorted character vector with namespaces.</p>
 </div>
 
@@ -1364,10 +1388,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-gc"></a><div class="section">
 <h3 id="tiledbstorr-gc-"><code>TileDBStorr$gc()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-gc-"></a></h3>
 <p>Garbage collect the storr.</p><div class="section">
-<h4 id="usage-42">Usage<a class="anchor" aria-label="anchor" href="#usage-42"></a></h4>
+<h4 id="usage-43">Usage<a class="anchor" aria-label="anchor" href="#usage-43"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">gc</span><span class="op">(</span>clear_expired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-37">Arguments<a class="anchor" aria-label="anchor" href="#arguments-37"></a></h4>
+<h4 id="arguments-38">Arguments<a class="anchor" aria-label="anchor" href="#arguments-38"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>clear_expired</code></dt>
 <dd><p>Should the expired keys be deleted?
 Default is <code>FALSE</code>.</p></dd>
@@ -1375,7 +1399,7 @@ Default is <code>FALSE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-41">Returns<a class="anchor" aria-label="anchor" href="#returns-41"></a></h4>
+<h4 id="returns-42">Returns<a class="anchor" aria-label="anchor" href="#returns-42"></a></h4>
 <p>A vector of unused hashes, invisibly.</p>
 </div>
 
@@ -1384,11 +1408,11 @@ Default is <code>FALSE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-import"></a><div class="section">
 <h3 id="tiledbstorr-import-"><code>TileDBStorr$import()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-import-"></a></h3>
 <p>Import objects to storr.</p><div class="section">
-<h4 id="usage-43">Usage<a class="anchor" aria-label="anchor" href="#usage-43"></a></h4>
+<h4 id="usage-44">Usage<a class="anchor" aria-label="anchor" href="#usage-44"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">import</span><span class="op">(</span><span class="va">src</span>, list <span class="op">=</span> <span class="cn">NULL</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-38">Arguments<a class="anchor" aria-label="anchor" href="#arguments-38"></a></h4>
+<h4 id="arguments-39">Arguments<a class="anchor" aria-label="anchor" href="#arguments-39"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>src</code></dt>
 <dd><p>A source to import objects from. It can be a storr, list, or environment.</p></dd>
 
@@ -1409,7 +1433,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-42">Returns<a class="anchor" aria-label="anchor" href="#returns-42"></a></h4>
+<h4 id="returns-43">Returns<a class="anchor" aria-label="anchor" href="#returns-43"></a></h4>
 <p>A vector with destination namespaces, invisibly.</p>
 </div>
 
@@ -1419,11 +1443,11 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="tiledbstorr-export-"><code>TileDBStorr$export()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-export-"></a></h3>
 <p>Export objects from storr.</p>
 <p>Use list() to export to a brand new list, or use as.list(object) for a shorthand.</p><div class="section">
-<h4 id="usage-44">Usage<a class="anchor" aria-label="anchor" href="#usage-44"></a></h4>
+<h4 id="usage-45">Usage<a class="anchor" aria-label="anchor" href="#usage-45"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="va">dest</span>, list <span class="op">=</span> <span class="cn">NULL</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-39">Arguments<a class="anchor" aria-label="anchor" href="#arguments-39"></a></h4>
+<h4 id="arguments-40">Arguments<a class="anchor" aria-label="anchor" href="#arguments-40"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>dest</code></dt>
 <dd><p>A destination to export objects to. It can be a storr, list, or environment.</p></dd>
 
@@ -1444,7 +1468,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-43">Returns<a class="anchor" aria-label="anchor" href="#returns-43"></a></h4>
+<h4 id="returns-44">Returns<a class="anchor" aria-label="anchor" href="#returns-44"></a></h4>
 <p><code>dest</code> object, invisibly.</p>
 </div>
 
@@ -1454,17 +1478,17 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="tiledbstorr-index-export-"><code>TileDBStorr$index_export()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-index-export-"></a></h3>
 <p>Generate a <code>data.table</code> with an index of objects
 present in a storr.</p><div class="section">
-<h4 id="usage-45">Usage<a class="anchor" aria-label="anchor" href="#usage-45"></a></h4>
+<h4 id="usage-46">Usage<a class="anchor" aria-label="anchor" href="#usage-46"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">index_export</span><span class="op">(</span>namespace <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-40">Arguments<a class="anchor" aria-label="anchor" href="#arguments-40"></a></h4>
+<h4 id="arguments-41">Arguments<a class="anchor" aria-label="anchor" href="#arguments-41"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-44">Returns<a class="anchor" aria-label="anchor" href="#returns-44"></a></h4>
+<h4 id="returns-45">Returns<a class="anchor" aria-label="anchor" href="#returns-45"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -1473,10 +1497,10 @@ present in a storr.</p><div class="section">
 <p></p><hr><a id="method-TileDBStorr-index_import"></a><div class="section">
 <h3 id="tiledbstorr-index-import-"><code>TileDBStorr$index_import()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-index-import-"></a></h3>
 <p>Import an index of objects from a storr.</p><div class="section">
-<h4 id="usage-46">Usage<a class="anchor" aria-label="anchor" href="#usage-46"></a></h4>
+<h4 id="usage-47">Usage<a class="anchor" aria-label="anchor" href="#usage-47"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">index_import</span><span class="op">(</span><span class="va">index</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-41">Arguments<a class="anchor" aria-label="anchor" href="#arguments-41"></a></h4>
+<h4 id="arguments-42">Arguments<a class="anchor" aria-label="anchor" href="#arguments-42"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>index</code></dt>
 <dd><p>A <code>data.frame</code> with minimum required columns 'namespace', 'key'
 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
@@ -1485,7 +1509,7 @@ hashes are present in the storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-45">Returns<a class="anchor" aria-label="anchor" href="#returns-45"></a></h4>
+<h4 id="returns-46">Returns<a class="anchor" aria-label="anchor" href="#returns-46"></a></h4>
 <p><code>TRUE</code>, invisibly.</p>
 </div>
 
@@ -1494,11 +1518,11 @@ hashes are present in the storr.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-export_tdb"></a><div class="section">
 <h3 id="tiledbstorr-export-tdb-"><code>TileDBStorr$export_tdb()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-47">Usage<a class="anchor" aria-label="anchor" href="#usage-47"></a></h4>
+<h4 id="usage-48">Usage<a class="anchor" aria-label="anchor" href="#usage-48"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">uri_dest</span>, context_dest <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-42">Arguments<a class="anchor" aria-label="anchor" href="#arguments-42"></a></h4>
+<h4 id="arguments-43">Arguments<a class="anchor" aria-label="anchor" href="#arguments-43"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -1515,7 +1539,7 @@ for destination storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-46">Returns<a class="anchor" aria-label="anchor" href="#returns-46"></a></h4>
+<h4 id="returns-47">Returns<a class="anchor" aria-label="anchor" href="#returns-47"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

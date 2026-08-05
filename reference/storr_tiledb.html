@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.51</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.52</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -170,6 +170,17 @@ the async methods.</p>
 <span></span></code></pre><p></p></div>
 </div>
 
+<div class="section">
+<h3 id="key-expiration">Key Expiration<a class="anchor" aria-label="anchor" href="#key-expiration"></a></h3>
+
+
+<p>Keys with expiration time-stamps are not automatically cleared; they can be
+fetched post expiration datetime unless they are removed by using one of
+<code>$clear_expired_keys()</code> or <code>gc(clear_expired = TRUE)</code> method.</p>
+<p>Alternatively, use <code>$is_expired_key()</code> before a getter method for more refined
+control.</p>
+</div>
+
     </div>
     <div class="section level2">
     <h2 id="class-methods-summary">Class Methods Summary<a class="anchor" aria-label="anchor" href="#class-methods-summary"></a></h2>
@@ -212,6 +223,7 @@ the async methods.</p>
 </ul><p><strong>Expiration Management</strong></p><ul><li><p><strong><code>keys_with_expiration()</code></strong> - List keys that have expiration timestamps</p></li>
 <li><p><strong><code>expired_keys()</code></strong> - Get keys that have already expired</p></li>
 <li><p><strong><code>has_expired_keys()</code></strong> - Check if any keys are expired</p></li>
+<li><p><strong><code>is_key_expired()</code></strong> - Check if a key is expired</p></li>
 <li><p><strong><code>clear_expired_keys()</code></strong> - Remove expired key-namespace pairs</p></li>
 </ul><p><strong>Listing</strong></p><ul><li><p><strong><code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code></strong> - List all keys in a namespace</p></li>
 <li><p><strong><code>list_hashes()</code></strong> - List all stored object hashes</p></li>

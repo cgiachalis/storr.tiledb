@@ -141,6 +141,15 @@ use the active field `$async_info` :
     # Retrieve mirai's compute profile
     sto$async_info["profile"]
 
+### Key Expiration
+
+Keys with expiration time-stamps are not automatically cleared; they can
+be fetched post expiration datetime unless they are removed by using one
+of `$clear_expired_keys()` or `gc(clear_expired = TRUE)` method.
+
+Alternatively, use `$is_expired_key()` before a getter method for more
+refined control.
+
 ## Class Methods Summary
 
 For complete definitions, see **Methods** section in
@@ -253,6 +262,8 @@ For complete definitions, see **Methods** section in
 - **`expired_keys()`** - Get keys that have already expired
 
 - **`has_expired_keys()`** - Check if any keys are expired
+
+- **`is_key_expired()`** - Check if a key is expired
 
 - **`clear_expired_keys()`** - Remove expired key-namespace pairs
 
