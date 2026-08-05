@@ -107,6 +107,16 @@ sto$async_info["profile"]
 
 }\if{html}{\out{</div>}}
 }
+
+\subsection{Key Expiration}{
+
+Keys with expiration time-stamps are not automatically cleared; they can be
+fetched post expiration datetime unless they are removed by using one of
+\verb{$clear_expired_keys()} or \code{gc(clear_expired = TRUE)} method.
+
+Alternatively, use \verb{$is_expired_key()} before a getter method for more refined
+control.
+}
 }
 
 \section{Class Methods Summary}{

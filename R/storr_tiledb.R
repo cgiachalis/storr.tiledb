@@ -73,7 +73,14 @@
 #' sto$async_info["profile"]
 #'
 #' ````
+#' ## Key Expiration
 #'
+#' Keys with expiration time-stamps are not automatically cleared; they can be
+#' fetched post expiration datetime unless they are removed by using one of
+#' `$clear_expired_keys()` or `gc(clear_expired = TRUE)` method.
+#'
+#' Alternatively, use `$is_expired_key()` before a getter method for more refined
+#' control.
 #'
 #' # Class Methods Summary
 #'
