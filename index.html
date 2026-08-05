@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.52</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,23 +73,20 @@
 </h2>
 <p><code>storr.tiledb</code> is an R package that extends the storr ecosystem by providing a TileDB-based driver and custom <code>storr</code>-like classes that leverage the advantages of the underlying backend.</p>
 <p><a href="https://deepwiki.com/cgiachalis/storr.tiledb" class="external-link"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a></p>
-<blockquote>
-<p>[!WARNING]<br><strong>Experimental status.</strong> The package is fully functional and passes storr’s test specification. Additional testing and features needed before stable release.</p>
-</blockquote>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key features<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
 <ul>
 <li>Fast key-value operations via driver methods</li>
-<li>Metadata support: notes and TTL expiration timestamps next to key-value pairs</li>
+<li>Metadata support: notes and Time-To-Live (TTL) expiration timestamps next to key-value pairs</li>
 <li>Async/parallel operations with <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a>
 </li>
 <li>In-memory caching layers with hash tables</li>
-<li>Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)</li>
+<li>Native cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)</li>
 <li>Data version (time-travel)</li>
 <li>Encryption support</li>
-<li>Schemas configuration for tuning TileDB’s performance and storage characteristics</li>
+<li>Schema configuration for tuning performance and storage characteristics</li>
 </ul>
 </div>
 <div class="section level2">
@@ -203,7 +200,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=storr.tiledb" class="external-link"><img src="https://img.shields.io/badge/CRAN-not%20published-orange" alt="CRAN status"></a></li>
-<li><a href="#"><img src="https://img.shields.io/badge/repo%20status-experimental-orange.svg" alt="repo-status"></a></li>
+<li><a href="#"><img src="https://img.shields.io/badge/repo%20status-stable-brightgreen.svg" alt="repo-status"></a></li>
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-003366.svg" alt="License"></a></li>
 <li><a href="https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml/badge.svg?branch=master" alt="R CMD Check"></a></li>
 <li><a href="https://github.com/cgiachalis/storr.tiledb" class="external-link"><img src="https://img.shields.io/github/last-commit/cgiachalis/storr.tiledb" alt="Last Commit"></a></li>

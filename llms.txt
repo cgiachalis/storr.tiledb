@@ -13,23 +13,19 @@ leverage the advantages of the underlying backend.
 [![Ask
 DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr.tiledb)
 
-> \[!WARNING\]  
-> **Experimental status.** The package is fully functional and passes
-> storr’s test specification. Additional testing and features needed
-> before stable release.
-
 ## Key features
 
 - Fast key-value operations via driver methods
-- Metadata support: notes and TTL expiration timestamps next to
-  key-value pairs
+- Metadata support: notes and Time-To-Live (TTL) expiration timestamps
+  next to key-value pairs
 - Async/parallel operations with
   [mirai](https://cran.rstudio.com/web/packages/mirai/)
 - In-memory caching layers with hash tables
-- Cloud storage (AWS S3, Azure Blob, Google Cloud Storage)
+- Native cloud storage support (AWS S3, Azure Blob, Google Cloud
+  Storage)
 - Data version (time-travel)
 - Encryption support
-- Schemas configuration for tuning TileDB’s performance and storage
+- Schema configuration for tuning performance and storage
   characteristics
 
 ## Installation
