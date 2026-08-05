@@ -28,16 +28,20 @@ export(storr_vacuum)
 export(tiledb_config)
 export(tiledb_ctx)
 importFrom(R6,R6Class)
-importFrom(R6.tiledb,TileDBArray)
-importFrom(R6.tiledb,TileDBGroup)
-importFrom(R6.tiledb,new_context)
-importFrom(R6.tiledb,set_tiledb_timestamp)
+importFrom(R6.tiledb,
+  TileDBArray,
+  TileDBGroup,
+  new_context,
+  set_tiledb_timestamp
+)
 importFrom(arrow,call_function)
 importFrom(data.table,`:=`)
 importFrom(mirai,daemons)
 importFrom(stats,na.omit)
 importFrom(storr,join_key_namespace)
-importFrom(tiledb,get_allocation_size_preference)
-importFrom(tiledb,set_allocation_size_preference)
-importFrom(tiledb,tiledb_config)
-importFrom(tiledb,tiledb_ctx)
+importFrom(tiledb,
+  get_allocation_size_preference,
+  set_allocation_size_preference,
+  tiledb_config,
+  tiledb_ctx
+)

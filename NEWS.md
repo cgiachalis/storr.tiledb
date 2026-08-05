@@ -1,3 +1,3 @@
-# storr.tiledb 0.0.52
+# storr.tiledb 0.1.0
 
 * Initial GitHub release.
