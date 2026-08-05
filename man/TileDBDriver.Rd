@@ -62,6 +62,7 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \item \href{#method-TileDBDriver-num_unexpired_keys}{\code{TileDBDriver$num_unexpired_keys()}}
     \item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
     \item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
+    \item \href{#method-TileDBDriver-is_key_expired}{\code{TileDBDriver$is_key_expired()}}
     \item \href{#method-TileDBDriver-export_tdb}{\code{TileDBDriver$export_tdb()}}
   }
 }
@@ -815,6 +816,30 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     \code{TRUE} for unexpired keys, \code{FALSE} otherwise.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-is_key_expired"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-is_key_expired}{}}}
+\subsection{\code{TileDBDriver$is_key_expired()}}{
+  Check a key-namespace for expiration.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$is_key_expired(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
+expired yet or has not expiration timestamp.
   }
 }
 

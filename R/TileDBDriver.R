@@ -881,7 +881,7 @@ TileDBDriver <- R6::R6Class(
                                               value = as.POSIXct(NA),
                                               dtype = "DATETIME_MS",
                                               op = "NE")
-      # Expired datetimes (now > index)
+      # Expired datetimes (dbts < now)
       qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                               value = Sys.time(),
                                               dtype = "DATETIME_MS",
@@ -926,7 +926,7 @@ TileDBDriver <- R6::R6Class(
                                                       value = as.POSIXct(NA),
                                                       dtype = "DATETIME_MS",
                                                       op = "NE")
-      # Expired datetimes (now > index)
+      # Un-expired datetimes (dbts > now)
       qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                       value = Sys.time(),
                                                       dtype = "DATETIME_MS",
@@ -971,7 +971,7 @@ TileDBDriver <- R6::R6Class(
                                               value = as.POSIXct(NA),
                                               dtype = "DATETIME_MS",
                                               op = "NE")
-      # Expired datetimes (now > index)
+      # Expired datetimes (dbts < now)
       qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                               value = Sys.time(),
                                               dtype = "DATETIME_MS",
@@ -1060,6 +1060,40 @@ TileDBDriver <- R6::R6Class(
 
       arr <- self$unexpired_keys(namespace, datetimes = FALSE)
       arr[]$num_rows != 0
+    },
+
+    #' @description Check a key-namespace for expiration.
+    #'
+    #' @param key `r roxy_key`
+    #' @param namespace `r roxy_namespace`
+    #'
+    #' @return `TRUE` for expired key-namespace pair, `FALSE` if key has not
+    #' expired yet or has not expiration timestamp.
+    #'
+    is_key_expired = function(key, namespace) {
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = as.POSIXct(NA),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "NE")
+      # Expired datetimes (dbts < now)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = Sys.time(),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "LT")
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+
+      sp <- list(namespace = namespace, key = key)
+      out <- arrobj$tiledb_array(attrs = "expires_at",
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")
+      out[]$num_rows != 0
     },
 
     #' @description Export objects from storr to another TileDB storr.

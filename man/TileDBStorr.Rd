@@ -91,6 +91,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-keys_with_expiration}{\code{TileDBStorr$keys_with_expiration()}}
     \item \href{#method-TileDBStorr-expired_keys}{\code{TileDBStorr$expired_keys()}}
     \item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
+    \item \href{#method-TileDBStorr-is_key_expired}{\code{TileDBStorr$is_key_expired()}}
     \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
     \item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
     \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
@@ -1170,6 +1171,30 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     \code{TRUE} for expired keys, \code{FALSE} otherwise.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-is_key_expired"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-is_key_expired}{}}}
+\subsection{\code{TileDBStorr$is_key_expired()}}{
+  Check a key-namespace for expiration.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$is_key_expired(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
+expired yet or has not expiration time-stamp.
   }
 }
 

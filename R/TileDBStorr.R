@@ -1831,6 +1831,22 @@ TileDBStorr <- R6::R6Class(
 
     },
 
+    #' @description Check a key-namespace for expiration.
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return `TRUE` for expired key-namespace pair, `FALSE` if key has not
+    #' expired yet or has not expiration time-stamp.
+    #'
+    is_key_expired = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      private$DRIVER$is_key_expired(key, namespace)
+    },
+
     #' @description Remove the expired key-namespace pairs.
     #'
     #' @param namespace `r sto_namespaces_or_null`
