@@ -108,6 +108,7 @@ or without expiration timestamps
 for specific namespaces
 \item \strong{\code{has_expired_keys()}} and \strong{\code{has_unexpired_keys()}} - Verify the existence of (un)expired keys or
 for specific namespaces
+\item \strong{\code{is_key_expired()}} - Check if a key is expired
 }
 
 \strong{Export Utilities}

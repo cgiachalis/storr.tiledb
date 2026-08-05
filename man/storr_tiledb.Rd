@@ -107,6 +107,16 @@ sto$async_info["profile"]
 
 }\if{html}{\out{</div>}}
 }
+
+\subsection{Key Expiration}{
+
+Keys with expiration time-stamps are not automatically cleared; they can be
+fetched post expiration datetime unless they are removed by using one of
+\verb{$clear_expired_keys()} or \code{gc(clear_expired = TRUE)} method.
+
+Alternatively, use \verb{$is_expired_key()} before a getter method for more refined
+control.
+}
 }
 
 \section{Class Methods Summary}{
@@ -188,6 +198,7 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{keys_with_expiration()}} - List keys that have expiration timestamps
 \item \strong{\code{expired_keys()}} - Get keys that have already expired
 \item \strong{\code{has_expired_keys()}} - Check if any keys are expired
+\item \strong{\code{is_key_expired()}} - Check if a key is expired
 \item \strong{\code{clear_expired_keys()}} - Remove expired key-namespace pairs
 }
 
