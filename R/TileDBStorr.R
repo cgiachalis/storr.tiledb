@@ -300,7 +300,7 @@ TileDBStorr <- R6::R6Class(
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         uri <- private$DRIVER$uri
 
@@ -654,7 +654,7 @@ TileDBStorr <- R6::R6Class(
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         uri <- private$DRIVER$uri
 
@@ -873,7 +873,7 @@ TileDBStorr <- R6::R6Class(
       value_ser <- self$serialize_object(value)
       hash <- self$hash_raw(value_ser)
 
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         if (!private$DRIVER$exists_object(hash)) {
           private$DRIVER$set_object(hash, value_ser)
@@ -1030,7 +1030,7 @@ TileDBStorr <- R6::R6Class(
 
       envir <- self$envir
 
-      if (use_cache && exists0(hash, envir)) {
+      if (use_cache && exists1(hash, envir)) {
         value <- gethash(envir, hash)
       } else {
         # TODO: no need for traits
@@ -1491,7 +1491,7 @@ TileDBStorr <- R6::R6Class(
       keyns <- paste(key, namespace, sep = ":")
       envir <- self$envir_metadata
 
-      if (use_cache && exists0(keyns, envir)) {
+      if (use_cache && exists1(keyns, envir)) {
         value <- gethash(envir, keyns)
       } else {
         value <- private$DRIVER$get_keymeta(key, namespace)
