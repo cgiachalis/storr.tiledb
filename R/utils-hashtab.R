@@ -17,7 +17,7 @@ exists0 <- function(keys, h){
 
 exists1 <- function(key, h){
 
- v <- gethash(h, key, nomatch = FALSE)
+ v <- utils::gethash(h, key, nomatch = FALSE)
 
  if (isFALSE(v)) {
    return(v)
