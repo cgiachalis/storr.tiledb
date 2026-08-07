@@ -25,6 +25,13 @@ StorrFragments <- R6::R6Class(
         cli::cli_abort("{.arg uri} argument is missing.", call = NULL)
       }
 
+      # Set context
+      if (is.null(ctx)) {
+        ctx <- R6.tiledb::new_context()
+      }
+
+      check_tiledb_ctx(ctx)
+
       dr <- driver_tiledb(uri, context = ctx)
 
       private$.tiledb_uri <- dr$uri
@@ -32,12 +39,6 @@ StorrFragments <- R6::R6Class(
       uri_data <- dr$members$tbl_data$uri
       dr$close()
 
-      # Set context
-      if (is.null(ctx)) {
-        ctx <- R6.tiledb::new_context()
-      }
-
-      check_tiledb_ctx(ctx)
 
       private$.tiledb_ctx <- ctx
       private$.storr_uris <- list(uri_keys = uri_keys,
