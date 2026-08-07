@@ -1888,7 +1888,9 @@ TileDBStorr <- R6::R6Class(
     #' @return A boolean value `TRUE` indicating success, invisibly.
     #'
     clear_expired_keys = function(namespace = self$default_namespace) {
-      private$DRIVER$delete_expired_keys(namespace)
+      out <- private$DRIVER$delete_expired_keys(namespace)
+      clr_cache_expired_keys(namespace, self$envir_metadata)
+      out
     },
 
     #' @description List all keys stored in a namespace.
@@ -1942,7 +1944,7 @@ TileDBStorr <- R6::R6Class(
     gc = function(clear_expired = FALSE) {
 
       if (clear_expired) {
-        private$DRIVER$delete_expired_keys(NULL)
+        self$clear_expired_keys(NULL)
       }
 
       # Deletes the objects in 'tbl_data'

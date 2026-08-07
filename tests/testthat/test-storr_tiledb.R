@@ -144,6 +144,7 @@ test_that("clear_expired_keys", {
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
 
+  expect_equal(numhash(sto$envir_metadata), 4)
 
   # Clear all expired keys
   expect_invisible(bool <- sto$clear_expired_keys(NULL))
@@ -151,6 +152,9 @@ test_that("clear_expired_keys", {
 
   # Test for expired keys
   expect_false(sto$has_expired_keys(NULL))
+
+  # Check cache - expect minus two keys
+  expect_equal(numhash(sto$envir_metadata), 2)
 
   # ----------------------------------------------------------------------------
   # Lets redo it again..
@@ -174,6 +178,50 @@ test_that("clear_expired_keys", {
   # Test for expired keys
   expect_false(sto$has_expired_keys(NULL))
 
+  # ----------------------------------------------------------------------------
+  # Check that the expired key is correctly removed from cache
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "a2", "b", "c", "d")
+  t0 <- Sys.time()
+  expires_at <- c(t0, t0, t0,  as.POSIXct("2250-05-28"), as.POSIXct(NA))
+  sto$mset(keys, 1:5, namespace = c("ns1", "ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
+
+  expect_equal(numhash(sto$envir_metadata), 5)
+
+  # Clear expired keys from "ns1"
+  expect_invisible(bool <- sto$clear_expired_keys("ns1"))
+  expect_true(bool)
+
+  expect_error(sto$get_keymeta("a", "ns1"),
+               "key 'a' ('ns1') not found",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$get_keymeta("aa", "ns1"),
+               "key 'aa' ('ns1') not found",
+               fixed = TRUE,
+               class = "error")
+
+  # Test for expired keys
+  expect_true(sto$has_expired_keys(NULL))
+
+  # Check cache - expect minus one key
+  expect_equal(numhash(sto$envir_metadata), 3)
+
+  # Clear expired keys from "ns2"
+  expect_true(sto$clear_expired_keys("ns2"))
+
+  expect_error(sto$get_keymeta("b", "ns2"),
+               "key 'b' ('ns2') not found",
+               fixed = TRUE,
+               class = "error")
+
+  expect_false(sto$has_expired_keys(NULL))
+
+  expect_equal(numhash(sto$envir_metadata), 2)
 })
 
 test_that("is_key_expired", {
