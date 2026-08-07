@@ -1181,7 +1181,8 @@ Default is \code{TRUE}.}
   Check a key-namespace for expiration.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$is_key_expired(key, namespace = self$default_namespace)}
+    \preformatted{TileDBStorr$is_key_expired(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), check = TRUE)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -1189,12 +1190,20 @@ Default is \code{TRUE}.}
     \describe{
       \item{\code{key}}{A scalar character of key name.}
       \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{check}}{Check key-namespace pair exists before query about
+expiration (default). Set \code{FALSE} to skip check; on this occasion when
+a key-namespace not found, it returns \code{FALSE} - useful when \code{TRUE}value
+only matters to user.}
     }
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
-expired yet or has not expiration time-stamp.
+    \itemize{
+\item \code{TRUE} - key-namespace pair has expired
+\item \code{FALSE} - (a) key has not expired, (b) has not expiration time-stamp
+or (c) \code{check = FALSE} and no key is found
+}
   }
 }
 

@@ -14,3 +14,14 @@ hashkeys = function(h) {
 exists0 <- function(keys, h){
   keys %in% hashkeys(h)
 }
+
+exists1 <- function(key, h){
+
+ v <- gethash(h, key, nomatch = FALSE)
+
+ if (isFALSE(v)) {
+   return(v)
+ } else {
+   return(TRUE)
+ }
+}

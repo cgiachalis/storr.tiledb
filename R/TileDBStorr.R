@@ -300,7 +300,7 @@ TileDBStorr <- R6::R6Class(
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         uri <- private$DRIVER$uri
 
@@ -654,7 +654,7 @@ TileDBStorr <- R6::R6Class(
 
       # Step 1: store and cache object if needed
       m1 <- TRUE
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         uri <- private$DRIVER$uri
 
@@ -873,7 +873,7 @@ TileDBStorr <- R6::R6Class(
       value_ser <- self$serialize_object(value)
       hash <- self$hash_raw(value_ser)
 
-      if (!(use_cache && exists0(hash, self$envir))) {
+      if (!(use_cache && exists1(hash, self$envir))) {
 
         if (!private$DRIVER$exists_object(hash)) {
           private$DRIVER$set_object(hash, value_ser)
@@ -1030,7 +1030,7 @@ TileDBStorr <- R6::R6Class(
 
       envir <- self$envir
 
-      if (use_cache && exists0(hash, envir)) {
+      if (use_cache && exists1(hash, envir)) {
         value <- gethash(envir, hash)
       } else {
         # TODO: no need for traits
@@ -1491,7 +1491,7 @@ TileDBStorr <- R6::R6Class(
       keyns <- paste(key, namespace, sep = ":")
       envir <- self$envir_metadata
 
-      if (use_cache && exists0(keyns, envir)) {
+      if (use_cache && exists1(keyns, envir)) {
         value <- gethash(envir, keyns)
       } else {
         value <- private$DRIVER$get_keymeta(key, namespace)
@@ -1835,16 +1835,50 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
+    #' @param use_cache `r sto_cache`
+    #' @param check Check key-namespace pair exists before query about
+    #' expiration (default). Set `FALSE` to skip check; on this occasion when
+    #' a key-namespace not found, it returns `FALSE` - useful when `TRUE`value
+    #' only matters to user.
     #'
-    #' @return `TRUE` for expired key-namespace pair, `FALSE` if key has not
-    #' expired yet or has not expiration time-stamp.
+    #' @return
     #'
-    is_key_expired = function(key, namespace = self$default_namespace) {
+    #'  - `TRUE` - key-namespace pair has expired
+    #'  - `FALSE` - (a) key has not expired, (b) has not expiration time-stamp
+    #'   or (c) `check = FALSE` and no key is found
+    #'
+    is_key_expired = function(key, namespace = self$default_namespace,
+                              use_cache = getOption("storr.tiledb.cache", TRUE),
+                              check = TRUE) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      private$DRIVER$is_key_expired(key, namespace)
+      if (check) {
+        if (isFALSE(private$DRIVER$exists_hash(key, namespace))) {
+          stop(KeyError(key, namespace))
+        }
+      }
+
+      envir <- self$envir_metadata
+      km <- paste(key, namespace, sep = ":")
+
+      if (use_cache && exists1(km, envir)) {
+
+        value <- gethash(envir, km)
+
+        if (is.null(value$expires_at) || is.na(value$expires_at)) {
+          is_expired <- FALSE
+        } else {
+          is_expired <- value$expires_at < Sys.time()
+        }
+
+      } else {
+        is_expired <- private$DRIVER$is_key_expired(key, namespace)
+
+      }
+
+      is_expired
     },
 
     #' @description Remove the expired key-namespace pairs.

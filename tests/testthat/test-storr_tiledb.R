@@ -177,7 +177,7 @@ test_that("clear_expired_keys", {
 })
 
 test_that("is_key_expired", {
-
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
 
@@ -186,10 +186,29 @@ test_that("is_key_expired", {
   expires_at <- c(t0, t0, as.POSIXct("2250-05-28"), as.POSIXct(NA))
   sto$mset(keys, 1:4, namespace = c("ns1", "ns2", "ns3", "ns4"), expires_at = expires_at)
 
-  expect_true(sto$is_key_expired("a", "ns1"))
-  expect_true(sto$is_key_expired("b", "ns2"))
-  expect_false(sto$is_key_expired("c", "ns3"))
-  expect_false(sto$is_key_expired("d", "ns4"))
+  expect_true(sto$is_key_expired("a", "ns1", use_cache = FALSE))
+  expect_true(sto$is_key_expired("b", "ns2", use_cache = FALSE))
+  expect_false(sto$is_key_expired("c", "ns3", use_cache = FALSE))
+  expect_false(sto$is_key_expired("d", "ns4", use_cache = FALSE))
+
+  expect_true(sto$is_key_expired("a", "ns1", use_cache = TRUE))
+  expect_true(sto$is_key_expired("b", "ns2", use_cache = TRUE))
+  expect_false(sto$is_key_expired("c", "ns3", use_cache = TRUE))
+  expect_false(sto$is_key_expired("d", "ns4", use_cache = TRUE))
+
+  # check for not existent key
+  expect_false(sto$is_key_expired("e", "ns4", use_cache = FALSE, check = FALSE))
+  expect_false(sto$is_key_expired("e", "ns4", use_cache = TRUE, check = FALSE))
+
+  expect_error(sto$is_key_expired("e", "ns4", use_cache = FALSE, check = TRUE),
+               "key 'e' ('ns4') not found",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$is_key_expired("ee", "ns4", use_cache = TRUE, check = TRUE),
+                                  "key 'ee' ('ns4') not found",
+                                  fixed = TRUE,
+                                  class = "error")
 })
 
 test_that("cache global option", {
