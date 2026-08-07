@@ -1459,7 +1459,8 @@ Check a key-namespace for expiration.
 
 #### Usage
 
-    TileDBStorr$is_key_expired(key, namespace = self$default_namespace)
+    TileDBStorr$is_key_expired(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE), check = TRUE)
 
 #### Arguments
 
@@ -1471,10 +1472,23 @@ Check a key-namespace for expiration.
 
   A scalar character of namespace name.
 
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `check`:
+
+  Check key-namespace pair exists before query about expiration
+  (default). Set `FALSE` to skip check; on this occasion when a
+  key-namespace not found, it returns `FALSE` - useful when `TRUE`value
+  only matters to user.
+
 #### Returns
 
-`TRUE` for expired key-namespace pair, `FALSE` if key has not expired
-yet or has not expiration time-stamp.
+- `TRUE` - key-namespace pair has expired
+
+- `FALSE` - (a) key has not expired, (b) has not expiration time-stamp
+  or (c) `check = FALSE` and no key is found
 
 ------------------------------------------------------------------------
 
