@@ -25,3 +25,29 @@ exists1 <- function(key, h){
    return(TRUE)
  }
 }
+
+clr_cache_expired_keys <- function(namespace, h) {
+  if (is.null(namespace)) {
+    utils::maphash(h, function(k, v) {
+      if (!(is.null(v$expires_at) || is.na(v$expires_at))) {
+        if (v$expires_at < Sys.time()) {
+          utils::remhash(h, k)
+        }
+      }
+    })
+
+  } else {
+    utils::maphash(h, function(k, v) {
+      # Isolate namespace
+      ns <- strsplit(k, ":")[[1]][2]
+
+      if (ns %in% namespace) {
+        if (!(is.null(v$expires_at) || is.na(v$expires_at))) {
+          if (v$expires_at < Sys.time()) {
+            utils::remhash(h, k)
+          }
+        }
+      }
+    })
+  }
+}
