@@ -103,6 +103,8 @@ For complete definitions, see **Methods** section in
 
 - **`has_expired_keys()`** - Check if any keys are expired
 
+- **`is_key_expired()`** - Check if a key is expired
+
 **Listing**
 
 - **[`list()`](https://rdrr.io/r/base/list.html)** - List all keys in a

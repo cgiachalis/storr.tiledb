@@ -60,6 +60,8 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$has_expired_keys()`](#method-StorrTimeTravel-has_expired_keys)
 
+- [`StorrTimeTravel$is_key_expired()`](#method-StorrTimeTravel-is_key_expired)
+
 - [`StorrTimeTravel$list()`](#method-StorrTimeTravel-list)
 
 - [`StorrTimeTravel$list_hashes()`](#method-StorrTimeTravel-list_hashes)
@@ -424,6 +426,41 @@ Check for expired key-namespace pairs.
 #### Returns
 
 `TRUE` for expired keys, `FALSE` otherwise.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$is_key_expired()`
+
+Check a key-namespace for expiration.
+
+#### Usage
+
+    StorrTimeTravel$is_key_expired(key, namespace = self$default_namespace,
+      check = TRUE)
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `check`:
+
+  Check key-namespace pair exists before query about expiration
+  (default). Set `FALSE` to skip check; on this occasion when a
+  key-namespace not found, it returns `FALSE` - useful when `TRUE`value
+  only matters to user.
+
+#### Returns
+
+- `TRUE` - key-namespace pair has expired
+
+- `FALSE` - (a) key has not expired, (b) has not expiration time-stamp
+  or (c) `check = FALSE` and no key is found
 
 ------------------------------------------------------------------------
 

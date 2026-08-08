@@ -93,6 +93,8 @@ A `TimeTravelDriver`, `R6` object.
 
 - [`TimeTravelDriver$has_unexpired_keys()`](#method-TimeTravelDriver-has_unexpired_keys)
 
+- [`TimeTravelDriver$is_key_expired()`](#method-TimeTravelDriver-is_key_expired)
+
 - [`TimeTravelDriver$export_tdb()`](#method-TimeTravelDriver-export_tdb)
 
 Inherited methods
@@ -659,6 +661,31 @@ Check for unexpired key-namespace pairs.
 #### Returns
 
 `TRUE` for unexpired keys, `FALSE` otherwise.
+
+------------------------------------------------------------------------
+
+### `TimeTravelDriver$is_key_expired()`
+
+Check a key-namespace for expiration.
+
+#### Usage
+
+    TimeTravelDriver$is_key_expired(key, namespace)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of keys.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+#### Returns
+
+`TRUE` for expired key-namespace pair, `FALSE` if key has not expired
+yet or has not expiration timestamp.
 
 ------------------------------------------------------------------------
 

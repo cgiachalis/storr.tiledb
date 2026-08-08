@@ -462,7 +462,7 @@ Get key-namespace metadata.
 
 #### Returns
 
-A named list with key-metadata, `"expires_at"` and `"notes".`
+A named list with key-metadata, `"expires_at"` and `"notes"`.
 
 ------------------------------------------------------------------------
 
