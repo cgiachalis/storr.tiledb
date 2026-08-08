@@ -779,6 +779,7 @@ TimeTravelDriver <- R6::R6Class(
    is_key_expired = function(key, namespace) {
 
      arrobj <- private$keys_array()
+     arr <- arrobj$object
 
      # Ignore NA datetimes
      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
@@ -792,14 +793,14 @@ TimeTravelDriver <- R6::R6Class(
                                                      op = "LT")
 
      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
-
-
      sp <- list(namespace = namespace, key = key)
-     out <- arrobj$tiledb_array(attrs = "expires_at",
-                                selected_points = sp,
-                                query_condition = qc,
-                                return_as = "arrow")
-     out[]$num_rows != 0
+
+     tiledb::attrs(arr) <- "expires_at"
+     tiledb::selected_points(arr) <- sp
+     tiledb::query_condition(arr) <- qc
+     tiledb::return_as(arr) <- "arrow"
+
+     arr[]$num_rows != 0
    },
 
    #' @description Export objects from storr to another TileDB storr.
