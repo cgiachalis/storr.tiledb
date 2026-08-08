@@ -129,8 +129,8 @@
 #' - **`mget_keymeta()`** - Retrieve metadata for multiple keys
 #' - **`set_keymeta_async()`** - Set metadata asynchronously
 #' - **`mset_keymeta_async()`** - Set multiple metadata asynchronously
-#' - **`clr_keymeta()`** - Clear metadata (set to NA) for key(s)
-#' - **`clr_keymeta_async()`** - Clear metadata asynchronously
+#' - **`clear_keymeta()`** - Clear metadata (set to NA) for key(s)
+#' - **`clear_keymeta_async()`** - Clear metadata asynchronously
 #'
 #' **Object Hash Management**
 #'

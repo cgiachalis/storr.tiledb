@@ -1600,7 +1600,7 @@ TileDBStorr <- R6::R6Class(
     #' @return The `key:namespace` character vector of the recycled length,
     #' invisibly.
     #'
-    clr_keymeta = function(key,
+    clear_keymeta = function(key,
                            namespace = self$default_namespace,
                            use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
@@ -1643,7 +1643,7 @@ TileDBStorr <- R6::R6Class(
     #'  - `mirai`: a mirai object
     #'  - `keyns`: The `key:namespace` character vector of the recycled length
     #'
-    clr_keymeta_async = function(key,
+    clear_keymeta_async = function(key,
                            namespace = self$default_namespace,
                            use_cache = getOption("storr.tiledb.cache", TRUE),
                            cfg = NULL) {

@@ -42,7 +42,7 @@ test_that("'StorrFragments' with actual data", {
   expect_equal(fosto$frag_num(), 6)
   expect_equal(fosto$to_vacuum_num(), 0)
 
-  sto$clr_keymeta("a")
+  sto$clear_keymeta("a")
 
   # Fragment object is out of sync
   expect_equal(fosto$frag_num(), 6)

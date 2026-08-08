@@ -171,8 +171,8 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
 \item \strong{\code{set_keymeta_async()}} - Set metadata asynchronously
 \item \strong{\code{mset_keymeta_async()}} - Set multiple metadata asynchronously
-\item \strong{\code{clr_keymeta()}} - Clear metadata (set to NA) for key(s)
-\item \strong{\code{clr_keymeta_async()}} - Clear metadata asynchronously
+\item \strong{\code{clear_keymeta()}} - Clear metadata (set to NA) for key(s)
+\item \strong{\code{clear_keymeta_async()}} - Clear metadata asynchronously
 }
 
 \strong{Object Hash Management}
