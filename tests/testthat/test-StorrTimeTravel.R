@@ -32,6 +32,7 @@ test_that("'storr_timetravel()' and 'StorrTimeTravel'", {
 
 test_that("'get'/'mget' with time-travel", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
 
@@ -80,6 +81,7 @@ test_that("'get'/'mget' with time-travel", {
 
 test_that("'list_unsed_hashes' with time-travel", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
 
@@ -120,6 +122,7 @@ test_that("'list_unsed_hashes' with time-travel", {
 
 test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
 
@@ -148,6 +151,12 @@ test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
   expect_equal(stott$keys_with_expiration(), df_trg)
   expect_equal(stott$expired_keys(), df_trg)
   expect_false(stott$has_expired_keys())
+  expect_error(stott$is_key_expired("a", "ns1"),
+               "key 'a' ('ns1') not found",
+               fixed = TRUE,
+               class = "error"
+               )
+  expect_false(stott$is_key_expired("a", "ns1", check = FALSE))
 
   # Open at t1
   stott$timestamp <- t1
@@ -168,7 +177,7 @@ test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
   expect_equal(stott$keys_with_expiration(), df_trg)
   expect_equal(stott$expired_keys(), df_trg)
   expect_false(stott$has_expired_keys())
-
+  expect_false(stott$is_key_expired("a", "ns1"))
 
   # Open at t2
   stott$timestamp <- t2
@@ -185,6 +194,7 @@ test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
   expect_equal(stott$keys_with_expiration(), df_trg)
   expect_equal(stott$expired_keys(), df_trg)
   expect_true(stott$has_expired_keys())
+  expect_true(stott$is_key_expired("a", "ns1"))
 })
 
 test_that("'index_export' with time-travel", {
@@ -231,6 +241,7 @@ test_that("'index_export' with time-travel", {
 
 test_that("'export' with time-travel", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
 

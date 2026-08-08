@@ -1569,8 +1569,9 @@ TileDBStorr <- R6::R6Class(
           is_missing <- keyns_not_cached %in% keyns_missing
           idx <- which(!is_missing)
           keyns_to_cache <- keyns_not_cached[idx]
+          value_not_cached <- value[not_cached]
           for (i in idx) {
-            sethash(envir, keyns_to_cache[i], value[not_cached][[i]])
+            sethash(envir, keyns_to_cache[i], value_not_cached[[i]])
           }
         }
         # Truly missing key-namespace pairs

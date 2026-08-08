@@ -77,6 +77,7 @@ For complete definitions, see \strong{Methods} section in \link{StorrTimeTravel}
 \item \strong{\code{keys_with_expiration()}} - List keys that have expiration timestamps
 \item \strong{\code{expired_keys()}} - Get keys that have already expired
 \item \strong{\code{has_expired_keys()}} - Check if any keys are expired
+\item \strong{\code{is_key_expired()}} - Check if a key is expired
 }
 
 \strong{Listing}
