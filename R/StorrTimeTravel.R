@@ -325,6 +325,38 @@ StorrTimeTravel <- R6::R6Class(
 
     },
 
+    #' @description Check a key-namespace for expiration.
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #' @param check Check key-namespace pair exists before query about
+    #' expiration (default). Set `FALSE` to skip check; on this occasion when
+    #' a key-namespace not found, it returns `FALSE` - useful when `TRUE`value
+    #' only matters to user.
+    #'
+    #' @return
+    #'
+    #'  - `TRUE` - key-namespace pair has expired
+    #'  - `FALSE` - (a) key has not expired, (b) has not expiration time-stamp
+    #'   or (c) `check = FALSE` and no key is found
+    #'
+    is_key_expired = function(key, namespace = self$default_namespace,
+                              check = TRUE) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      if (check) {
+        if (isFALSE(private$DRIVER$exists_hash(key, namespace))) {
+          stop(KeyError(key, namespace))
+        }
+      }
+
+      private$DRIVER$is_key_expired(key, namespace)
+
+
+    },
+
     #' @description List all keys stored in a namespace.
     #'
     #' @param namespace `r sto_namespace()`

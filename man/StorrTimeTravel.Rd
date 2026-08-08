@@ -48,6 +48,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-keys_with_expiration}{\code{StorrTimeTravel$keys_with_expiration()}}
     \item \href{#method-StorrTimeTravel-expired_keys}{\code{StorrTimeTravel$expired_keys()}}
     \item \href{#method-StorrTimeTravel-has_expired_keys}{\code{StorrTimeTravel$has_expired_keys()}}
+    \item \href{#method-StorrTimeTravel-is_key_expired}{\code{StorrTimeTravel$is_key_expired()}}
     \item \href{#method-StorrTimeTravel-list}{\code{StorrTimeTravel$list()}}
     \item \href{#method-StorrTimeTravel-list_hashes}{\code{StorrTimeTravel$list_hashes()}}
     \item \href{#method-StorrTimeTravel-list_unused_hashes}{\code{StorrTimeTravel$list_unused_hashes()}}
@@ -392,6 +393,38 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     \code{TRUE} for expired keys, \code{FALSE} otherwise.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-is_key_expired"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-is_key_expired}{}}}
+\subsection{\code{StorrTimeTravel$is_key_expired()}}{
+  Check a key-namespace for expiration.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$is_key_expired(key, namespace = self$default_namespace,
+  check = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{check}}{Check key-namespace pair exists before query about
+expiration (default). Set \code{FALSE} to skip check; on this occasion when
+a key-namespace not found, it returns \code{FALSE} - useful when \code{TRUE}value
+only matters to user.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \itemize{
+\item \code{TRUE} - key-namespace pair has expired
+\item \code{FALSE} - (a) key has not expired, (b) has not expiration time-stamp
+or (c) \code{check = FALSE} and no key is found
+}
   }
 }
 

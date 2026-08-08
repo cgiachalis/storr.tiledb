@@ -42,6 +42,7 @@
 #' - **`keys_with_expiration()`** - List keys that have expiration timestamps
 #' - **`expired_keys()`** - Get keys that have already expired
 #' - **`has_expired_keys()`** - Check if any keys are expired
+#' - **`is_key_expired()`** - Check if a key is expired
 #'
 #' **Listing**
 #'

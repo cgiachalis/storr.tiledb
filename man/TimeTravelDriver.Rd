@@ -63,6 +63,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-TimeTravelDriver-num_unexpired_keys}{\code{TimeTravelDriver$num_unexpired_keys()}}
     \item \href{#method-TimeTravelDriver-has_expired_keys}{\code{TimeTravelDriver$has_expired_keys()}}
     \item \href{#method-TimeTravelDriver-has_unexpired_keys}{\code{TimeTravelDriver$has_unexpired_keys()}}
+    \item \href{#method-TimeTravelDriver-is_key_expired}{\code{TimeTravelDriver$is_key_expired()}}
     \item \href{#method-TimeTravelDriver-export_tdb}{\code{TimeTravelDriver$export_tdb()}}
   }
 }
@@ -633,6 +634,30 @@ Default is \code{TRUE}.}
   }
   \subsection{Returns}{
     \code{TRUE} for unexpired keys, \code{FALSE} otherwise.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-is_key_expired"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-is_key_expired}{}}}
+\subsection{\code{TimeTravelDriver$is_key_expired()}}{
+  Check a key-namespace for expiration.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$is_key_expired(key, namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
+expired yet or has not expiration timestamp.
   }
 }
 
