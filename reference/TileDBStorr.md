@@ -113,9 +113,9 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mget_keymeta()`](#method-TileDBStorr-mget_keymeta)
 
-- [`TileDBStorr$clr_keymeta()`](#method-TileDBStorr-clr_keymeta)
+- [`TileDBStorr$clear_keymeta()`](#method-TileDBStorr-clear_keymeta)
 
-- [`TileDBStorr$clr_keymeta_async()`](#method-TileDBStorr-clr_keymeta_async)
+- [`TileDBStorr$clear_keymeta_async()`](#method-TileDBStorr-clear_keymeta_async)
 
 - [`TileDBStorr$fill()`](#method-TileDBStorr-fill)
 
@@ -1116,7 +1116,7 @@ pairs will return the `missing` value.
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$clr_keymeta()`
+### `TileDBStorr$clear_keymeta()`
 
 Remove key metadata.
 
@@ -1130,7 +1130,7 @@ permitted.
 
 #### Usage
 
-    TileDBStorr$clr_keymeta(key, namespace = self$default_namespace,
+    TileDBStorr$clear_keymeta(key, namespace = self$default_namespace,
       use_cache = getOption("storr.tiledb.cache", TRUE))
 
 #### Arguments
@@ -1157,7 +1157,7 @@ The `key:namespace` character vector of the recycled length, invisibly.
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$clr_keymeta_async()`
+### `TileDBStorr$clear_keymeta_async()`
 
 Remove key metadata asynchronously.
 
@@ -1171,7 +1171,7 @@ permitted.
 
 #### Usage
 
-    TileDBStorr$clr_keymeta_async(key, namespace = self$default_namespace,
+    TileDBStorr$clear_keymeta_async(key, namespace = self$default_namespace,
       use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)
 
 #### Arguments

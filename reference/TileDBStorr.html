@@ -31,7 +31,7 @@ usage is through storr_tiledb()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -157,8 +157,8 @@ usage is through <code><a href="storr_tiledb.html">storr_tiledb()</a></code>.</p
 <li><p><a href="#method-TileDBStorr-mset_keymeta_async"><code>TileDBStorr$mset_keymeta_async()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-get_keymeta"><code>TileDBStorr$get_keymeta()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-mget_keymeta"><code>TileDBStorr$mget_keymeta()</code></a></p></li>
-<li><p><a href="#method-TileDBStorr-clr_keymeta"><code>TileDBStorr$clr_keymeta()</code></a></p></li>
-<li><p><a href="#method-TileDBStorr-clr_keymeta_async"><code>TileDBStorr$clr_keymeta_async()</code></a></p></li>
+<li><p><a href="#method-TileDBStorr-clear_keymeta"><code>TileDBStorr$clear_keymeta()</code></a></p></li>
+<li><p><a href="#method-TileDBStorr-clear_keymeta_async"><code>TileDBStorr$clear_keymeta_async()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-fill"><code>TileDBStorr$fill()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-duplicate"><code>TileDBStorr$duplicate()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-clear"><code>TileDBStorr$clear()</code></a></p></li>
@@ -989,8 +989,8 @@ pair. For not found pairs will return the <code>missing</code> value.</p>
 
 </div>
 
-<p></p><hr><a id="method-TileDBStorr-clr_keymeta"></a><div class="section">
-<h3 id="tiledbstorr-clr-keymeta-"><code>TileDBStorr$clr_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clr-keymeta-"></a></h3>
+<p></p><hr><a id="method-TileDBStorr-clear_keymeta"></a><div class="section">
+<h3 id="tiledbstorr-clear-keymeta-"><code>TileDBStorr$clear_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-keymeta-"></a></h3>
 <p>Remove key metadata.</p>
 <p>This method is a convenient  wrapper around <code>set_keymeta()</code> and <code>mset_keymeta()</code>
 and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
@@ -998,7 +998,7 @@ and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIX
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
 <h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clr_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
@@ -1026,8 +1026,8 @@ invisibly.</p>
 
 </div>
 
-<p></p><hr><a id="method-TileDBStorr-clr_keymeta_async"></a><div class="section">
-<h3 id="tiledbstorr-clr-keymeta-async-"><code>TileDBStorr$clr_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clr-keymeta-async-"></a></h3>
+<p></p><hr><a id="method-TileDBStorr-clear_keymeta_async"></a><div class="section">
+<h3 id="tiledbstorr-clear-keymeta-async-"><code>TileDBStorr$clear_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-keymeta-async-"></a></h3>
 <p>Remove key metadata asynchronously.</p>
 <p>This method is a convenient  wrapper around <code>set_keymeta_async()</code> and <code>mset_keymeta_async()</code>
 and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
@@ -1035,7 +1035,7 @@ and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIX
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
 <h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clr_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, cfg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-25">Arguments<a class="anchor" aria-label="anchor" href="#arguments-25"></a></h4>

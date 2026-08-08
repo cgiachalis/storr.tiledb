@@ -224,9 +224,9 @@ For complete definitions, see **Methods** section in
 
 - **`mset_keymeta_async()`** - Set multiple metadata asynchronously
 
-- **`clr_keymeta()`** - Clear metadata (set to NA) for key(s)
+- **`clear_keymeta()`** - Clear metadata (set to NA) for key(s)
 
-- **`clr_keymeta_async()`** - Clear metadata asynchronously
+- **`clear_keymeta_async()`** - Clear metadata asynchronously
 
 **Object Hash Management**
 
