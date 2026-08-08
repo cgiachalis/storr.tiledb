@@ -321,7 +321,7 @@ test_that("mset_keymeta", {
   })
 
 
-test_that("clr_keymeta", {
+test_that("clear_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE)
@@ -334,7 +334,7 @@ test_that("clr_keymeta", {
 
 
   # Clear single value ---
-  expect_no_error(xres <-sto$clr_keymeta("x", "ns1"))
+  expect_no_error(xres <-sto$clear_keymeta("x", "ns1"))
   expect_equal(xres, "x:ns1")
 
   trg <- list(expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
@@ -343,7 +343,7 @@ test_that("clr_keymeta", {
   expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
 
   # Clear in bulk ---
-  expect_no_error(xres <-sto$clr_keymeta(c("y", "z"), c("ns2", "ns2")))
+  expect_no_error(xres <-sto$clear_keymeta(c("y", "z"), c("ns2", "ns2")))
   expect_equal(xres, c("y:ns2", "z:ns2"))
 
 
@@ -353,7 +353,7 @@ test_that("clr_keymeta", {
 })
 
 
-test_that("clr_keymeta_async", {
+test_that("clear_keymeta_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
@@ -366,7 +366,7 @@ test_that("clr_keymeta_async", {
 
 
   # Clear single value ---
-  expect_no_error(xres <-sto$clr_keymeta_async("x", "ns1"))
+  expect_no_error(xres <-sto$clear_keymeta_async("x", "ns1"))
   expect_equal(xres$keyns, "x:ns1")
 
   trg <- list(expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
@@ -376,7 +376,7 @@ test_that("clr_keymeta_async", {
   expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
 
   # Clear in bulk ---
-  expect_no_error(xres <-sto$clr_keymeta_async(c("y", "z"), c("ns2", "ns2")))
+  expect_no_error(xres <-sto$clear_keymeta_async(c("y", "z"), c("ns2", "ns2")))
   expect_equal(xres$keyns, c("y:ns2", "z:ns2"))
 
   xres$mirai[] # block until resolves

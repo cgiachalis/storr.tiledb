@@ -80,8 +80,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
     \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
     \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
-    \item \href{#method-TileDBStorr-clr_keymeta}{\code{TileDBStorr$clr_keymeta()}}
-    \item \href{#method-TileDBStorr-clr_keymeta_async}{\code{TileDBStorr$clr_keymeta_async()}}
+    \item \href{#method-TileDBStorr-clear_keymeta}{\code{TileDBStorr$clear_keymeta()}}
+    \item \href{#method-TileDBStorr-clear_keymeta_async}{\code{TileDBStorr$clear_keymeta_async()}}
     \item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
     \item \href{#method-TileDBStorr-duplicate}{\code{TileDBStorr$duplicate()}}
     \item \href{#method-TileDBStorr-clear}{\code{TileDBStorr$clear()}}
@@ -866,9 +866,9 @@ pair. For not found pairs will return the \code{missing} value.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-clr_keymeta"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta}{}}}
-\subsection{\code{TileDBStorr$clr_keymeta()}}{
+\if{html}{\out{<a id="method-TileDBStorr-clear_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-clear_keymeta}{}}}
+\subsection{\code{TileDBStorr$clear_keymeta()}}{
   Remove key metadata.
 
 This method is a convenient  wrapper around \code{set_keymeta()} and \code{mset_keymeta()}
@@ -879,7 +879,7 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$clr_keymeta(key, namespace = self$default_namespace,
+    \preformatted{TileDBStorr$clear_keymeta(key, namespace = self$default_namespace,
   use_cache = getOption("storr.tiledb.cache", TRUE))}
     \if{html}{\out{</div>}}
   }
@@ -904,9 +904,9 @@ invisibly.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-clr_keymeta_async"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-clr_keymeta_async}{}}}
-\subsection{\code{TileDBStorr$clr_keymeta_async()}}{
+\if{html}{\out{<a id="method-TileDBStorr-clear_keymeta_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-clear_keymeta_async}{}}}
+\subsection{\code{TileDBStorr$clear_keymeta_async()}}{
   Remove key metadata asynchronously.
 
 This method is a convenient  wrapper around \code{set_keymeta_async()} and \code{mset_keymeta_async()}
@@ -917,7 +917,7 @@ The arguments \code{key} and \code{namespace} can be recycled if any of them is 
 scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$clr_keymeta_async(key, namespace = self$default_namespace,
+    \preformatted{TileDBStorr$clear_keymeta_async(key, namespace = self$default_namespace,
   use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)}
     \if{html}{\out{</div>}}
   }
