@@ -361,7 +361,7 @@ TileDBDriver <- R6::R6Class(
     #' @param namespace A single character namespace.
     #'
     #' @return A named list with key-metadata, `"expires_at"`
-    #' and `"notes".`
+    #' and `"notes"`.
     #'
     get_keymeta = function(key, namespace) {
 

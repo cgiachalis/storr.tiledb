@@ -389,7 +389,7 @@ Sets a pair of expiry date-time and notes.
   }
   \subsection{Returns}{
     A named list with key-metadata, \code{"expires_at"}
-and \verb{"notes".}
+and \code{"notes"}.
   }
 }
 
