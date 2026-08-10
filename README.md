@@ -35,30 +35,24 @@ A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [stor
 
 Development version from GitHub:
 
-``` r
+```r
 # pak
 pak::pkg_install("cgiachalis/storr.tiledb")
 
 # remotes
 remotes::install_github("cgiachalis/storr.tiledb")
 ```
+
 From r-universe:
 
-``` r
+```r
 # Install 'storr.tiledb' in R:
 install.packages('storr.tiledb', repos = c('https://cgiachalis.r-universe.dev'))
-
 ```
 
 ## Quick start
 
 ``` r
-# pak
-pak::pkg_install("cgiachalis/storr.tiledb")
-
-# remotes
-remotes::install_github("cgiachalis/storr.tiledb")
-`````` r
 library(storr.tiledb)
 
 # Temp URI path
