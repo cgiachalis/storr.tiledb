@@ -4,6 +4,7 @@
 
 ![R Language](https://img.shields.io/badge/R_Language-blue?logo=r&logoSize=auto)
 [![CRAN status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=storr.tiledb)
+[![storr.tiledb status badge](https://cgiachalis.r-universe.dev/storr.tiledb/badges/version)](https://cgiachalis.r-universe.dev/storr.tiledb)
 [![repo-status](https://img.shields.io/badge/repo%20status-stable-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT) 
 [![R CMD Check](https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml/badge.svg?branch=master)](https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml) 
@@ -41,10 +42,23 @@ pak::pkg_install("cgiachalis/storr.tiledb")
 # remotes
 remotes::install_github("cgiachalis/storr.tiledb")
 ```
+From r-universe:
+
+``` r
+# Install 'storr.tiledb' in R:
+install.packages('storr.tiledb', repos = c('https://cgiachalis.r-universe.dev'))
+
+```
 
 ## Quick start
 
 ``` r
+# pak
+pak::pkg_install("cgiachalis/storr.tiledb")
+
+# remotes
+remotes::install_github("cgiachalis/storr.tiledb")
+`````` r
 library(storr.tiledb)
 
 # Temp URI path
