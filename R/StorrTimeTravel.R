@@ -91,6 +91,63 @@ StorrTimeTravel <- R6::R6Class(
        self$mget_value(hash, missing)
     },
 
+    #' @description Get an object and its metadata given a key-namespace pair.
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return The `R` object and its key-metadata, if available.
+    #'
+    get_all = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      out <- list(keyval = NULL, keymeta = NULL)
+
+      # TODO: Explore better approach w/ not touching tbl_key twice
+
+      # get
+      hash <- self$get_hash(key, namespace)
+      out$keyval <- self$get_value(hash)
+
+      # get_keymeta
+      out$keymeta <- private$DRIVER$get_keymeta(key, namespace)
+
+      out
+    },
+
+    #' @description Get multiple objects and their metadata.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param missing Value to use for missing elements.
+    #'
+    #' @return A list of `R` objects with their metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    mget_all = function(key, namespace = self$default_namespace, missing = NULL) {
+
+      # NB: storr::join_key_namespace check is performed inside $query_keys0
+      hash <- self$mget_hash(key, namespace)
+      kv <- self$mget_value(hash, missing)
+
+      km <- self$mget_keymeta(key, namespace, missing = missing)
+
+      mapply(kv, km,
+             FUN = function(.k, .m) {
+               if (is.null(.k)) {
+                 NULL
+               } else {
+                 list(keyval = .k, keymeta = .m)
+               }
+             },
+             SIMPLIFY = FALSE
+      )
+    },
+
     #' @description Get hash value.
     #'
     #'
@@ -200,8 +257,6 @@ StorrTimeTravel <- R6::R6Class(
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
-
-      keyns <- paste(key, namespace, sep = ":")
 
       value <- private$DRIVER$get_keymeta(key, namespace)
 

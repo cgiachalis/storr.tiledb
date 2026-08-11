@@ -37,6 +37,8 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-initialize}{\code{StorrTimeTravel$new()}}
     \item \href{#method-StorrTimeTravel-get}{\code{StorrTimeTravel$get()}}
     \item \href{#method-StorrTimeTravel-mget}{\code{StorrTimeTravel$mget()}}
+    \item \href{#method-StorrTimeTravel-get_all}{\code{StorrTimeTravel$get_all()}}
+    \item \href{#method-StorrTimeTravel-mget_all}{\code{StorrTimeTravel$mget_all()}}
     \item \href{#method-StorrTimeTravel-get_hash}{\code{StorrTimeTravel$get_hash()}}
     \item \href{#method-StorrTimeTravel-mget_hash}{\code{StorrTimeTravel$mget_hash()}}
     \item \href{#method-StorrTimeTravel-get_value}{\code{StorrTimeTravel$get_value()}}
@@ -126,6 +128,58 @@ scalar character and the other is a vector. No other recycling rule is permitted
   }
   \subsection{Returns}{
     A list of \code{R} objects.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-get_all"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-get_all}{}}}
+\subsection{\code{StorrTimeTravel$get_all()}}{
+  Get an object and its metadata given a key-namespace pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$get_all(key, namespace = self$default_namespace)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{R} object and its key-metadata, if available.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-mget_all"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-mget_all}{}}}
+\subsection{\code{StorrTimeTravel$mget_all()}}{
+  Get multiple objects and their metadata.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$mget_all(key, namespace = self$default_namespace,
+  missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{missing}}{Value to use for missing elements.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of \code{R} objects with their metadata for each key-namespace
+pair. For not found pairs will return the \code{missing} value.
   }
 }
 

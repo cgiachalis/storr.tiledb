@@ -16,11 +16,13 @@
 #'
 #' - **`get()`** - Retrieve an object by key-namespace pair
 #' - **`get_value()`** - Retrieve an object given its hash
+#' - **`get_all()`** - Retrieve an object and its metadata by key-namespace pair
 #'
 #' **Multiple Key-Value Operations**
 #'
-#' - **`mget()`** - Get multiple objects by keys
+#' - **`mget()`** - Get multiple objects by key-namespace pairs
 #' - **`mget_value()`** - Get multiple objects by their hashes
+#' - **`mget_all()`** - Retrieve multiple objects and its metadata by key-namespace pairs
 #'
 #' **Metadata Operations**
 #'
