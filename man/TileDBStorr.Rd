@@ -74,6 +74,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-hash_object}{\code{TileDBStorr$hash_object()}}
     \item \href{#method-TileDBStorr-get_value}{\code{TileDBStorr$get_value()}}
     \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
+    \item \href{#method-TileDBStorr-get_all}{\code{TileDBStorr$get_all()}}
+    \item \href{#method-TileDBStorr-mget_all}{\code{TileDBStorr$mget_all()}}
     \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
     \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
     \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
@@ -652,6 +654,61 @@ requested digest (hash) of the supplied R object.
 }
 
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-get_all"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-get_all}{}}}
+\subsection{\code{TileDBStorr$get_all()}}{
+  Get an object and its metadata given a key-namespace pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_all(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The \code{R} object and its key-metadata, if available.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mget_all"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mget_all}{}}}
+\subsection{\code{TileDBStorr$mget_all()}}{
+  Get multiple objects and their metadata.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_all(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of key names.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{missing}}{Value to use for missing elements.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of \code{R} objects with their metadata for each key-namespace
+pair. For not found pairs will return the \code{missing} value.
+  }
+}
+
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta}{}}}
 \subsection{\code{TileDBStorr$set_keymeta()}}{
@@ -853,8 +910,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
     \describe{
       \item{\code{key}}{A character vector with keys to get metadata values from.}
       \item{\code{namespace}}{A character vector of namespaces to look the keys within.}
-      \item{\code{use_cache}}{Should it be retrieved from cache? Default is
-\code{TRUE}.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
       \item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
     }
     \if{html}{\out{</div>}}

@@ -1090,6 +1090,79 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
+    #' @description Get an object and its metadata given a key-namespace pair.
+    #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The `R` object and its key-metadata, if available.
+    #'
+    get_all = function(key, namespace = self$default_namespace, use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      out <- list(keyval = NULL, keymeta = NULL)
+
+      # TODO: Explore better approach w/ not touching tbl_key twice
+
+      # get
+      hash <- self$get_hash(key, namespace)
+      out$keyval <- self$get_value(hash, use_cache)
+
+      # get_keymeta
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      if (use_cache && exists1(keyns, envir)) {
+        value <- gethash(envir, keyns)
+      } else {
+        value <- private$DRIVER$get_keymeta(key, namespace)
+
+        if (use_cache) {
+          sethash(envir, keyns, value)
+        }
+      }
+
+      out$keymeta <- value
+
+      out
+    },
+
+    #' @description Get multiple objects and their metadata.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param use_cache `r sto_cache`
+    #' @param missing Value to use for missing elements.
+    #'
+    #' @return A list of `R` objects with their metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    mget_all = function(key, namespace = self$default_namespace, use_cache = getOption("storr.tiledb.cache", TRUE),
+                        missing = NULL) {
+
+      # NB: storr::join_key_namespace check is performed inside $query_keys0
+      hash <- self$mget_hash(key, namespace)
+      kv <- self$mget_value(hash, use_cache, missing)
+
+      km <- self$mget_keymeta(key, namespace, use_cache = use_cache, missing = missing)
+
+      mapply(kv, km,
+        FUN = function(.k, .m) {
+          if (is.null(.k)) {
+            NULL
+          } else {
+            list(keyval = .k, keymeta = .m)
+          }
+        },
+        SIMPLIFY = FALSE
+      )
+    },
+
     #' @description Set key metadata.
     #'
     #' @param key `r sto_key()`
@@ -1509,8 +1582,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @param key A character vector with keys to get metadata values from.
     #' @param namespace A character vector of namespaces to look the keys within.
-    #' @param use_cache Should it be retrieved from cache? Default is
-    #'  `TRUE`.
+    #' @param use_cache `r sto_cache`
     #' @param missing Fill value for missing keys. Default is `NULL`.
     #'
     #' @return A list with key metadata for each key-namespace
