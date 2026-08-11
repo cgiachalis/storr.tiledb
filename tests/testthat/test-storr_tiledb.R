@@ -315,9 +315,10 @@ test_that("'get_all' and 'mget_all'", {
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
 
+  dt <- as.POSIXct("2026-02-25")
   sto$set("a",
           value = 1,
-          expires_at = as.POSIXct("2026-02-25"),
+          expires_at = dt,
           notes = "Yeah")
 
   sto$set("b", value = 2)
@@ -330,10 +331,23 @@ test_that("'get_all' and 'mget_all'", {
   expect_equal(sto$get_all("b", use_cache = FALSE), trg1)
 
 
-  trg2 <- list(list(keyval = 1, keymeta = list(expires_at = structure(1771970400, class = c("POSIXct",
-                                                                                            "POSIXt"), tzone = ""), notes = "Yeah")), list(keyval = 2, keymeta = list(
-                                                                                              expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
-                                                                                              ), tzone = ""), notes = NA_character_)), NULL)
+  trg2 <- list(list(
+    keyval = 1,
+    keymeta = list(expires_at = dt, notes = "Yeah")
+  ),
+  list(
+    keyval = 2,
+    keymeta = list(
+      expires_at = structure(
+        NA_real_,
+        class = c("POSIXct", "POSIXt"),
+        tzone = ""
+      ),
+      notes = NA_character_
+    )
+  ),
+  NULL)
+
   expect_equal(sto$mget_all(c("a", "b", "c")), trg2)
   expect_equal(sto$mget_all(c("a", "b", "c"), use_cache = FALSE), trg2, ignore_attr = TRUE)
 
