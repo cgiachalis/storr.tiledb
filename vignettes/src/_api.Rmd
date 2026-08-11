@@ -81,7 +81,9 @@ sto$list("ns1")
 
 ### 2. get_keymeta, set_keymeta
 
-With a key-namespace pair, you can attached notes and expiration metadata.
+With a key-namespace pair, you can attached notes and expiration metadata. Worth
+noting that setting key-metadata will update/replace only the chosen metadata and
+will not overwrite the other.
 
 Set key metadata when creating a key:
 
@@ -107,6 +109,17 @@ sto$get_keymeta("bb")
 
 ```
 
+Updating 'expires_at' metadata for key 'aa' will not overwrite 'notes'
+
+```{r}
+# Update 'expires_at'  
+sto$set_keymeta("aa", expires_at = as.POSIXct(NA))
+
+# Retains 'notes' value
+sto$get_keymeta("aa")
+
+```
+
 **Expiration management**
 ```{r}
 # Retrieve keys with expiration
@@ -129,7 +142,7 @@ sto$gc(clear_expired = TRUE)
 
 **Clear metadata**
 ```{r}
-sto$clr_keymeta("aa")
+sto$clear_keymeta("aa")
 sto$get_keymeta("aa")
 ```
 
