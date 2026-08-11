@@ -285,36 +285,20 @@ StorrTimeTravel <- R6::R6Class(
       namespace <- p$namespace
       keyns <- paste(key, namespace, sep = ":")
 
-      value <- vector("list", n)
-      cached <- logical(n)
-
       # Everything is TRUE, so go to find them in DB
-      not_cached <- !cached
-      status_not_cached <- TRUE
-      num_cached <- 0L
-
       is_missing <- FALSE
 
-      if (status_not_cached) {
+      # From not_cached find also which are truly missing
+      value <- private$DRIVER$mget_keymeta(key, namespace, nomatch = missing)
 
-        # From not_cached find also which are truly missing
-        cc <- private$DRIVER$mget_keymeta(key[not_cached],
-                                       namespace[not_cached],
-                                       nomatch = missing)
+      # not_cached and not found
+      keyns_missing <- keyns[attr(value, "missing")]
 
-        value[not_cached] <- cc
-        keyns_not_cached <- keyns[not_cached]
-
-        # not_cached and not found
-        keyns_missing <- keyns_not_cached[attr(cc, "missing")]
-
-        # Truly missing key-namespace pairs
-        is_missing <- keyns %in% keyns_missing
-      }
-
+      # Truly missing key-namespace pairs
+      is_missing <- keyns %in% keyns_missing
 
       if (any(is_missing)) {
-        attr(value, "missing") <- which(is_missing) #+ num_cached
+        attr(value, "missing") <- which(is_missing)
       }
       value
     },
