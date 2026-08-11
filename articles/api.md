@@ -93,7 +93,8 @@ sto$list("ns1")
 ### 2. get_keymeta, set_keymeta
 
 With a key-namespace pair, you can attached notes and expiration
-metadata.
+metadata. Worth noting that setting key-metadata will update/replace
+only the chosen metadata and will not overwrite the other.
 
 Set key metadata when creating a key:
 
@@ -114,14 +115,14 @@ Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 # $expires_at
-# [1] "2026-05-18 10:36:50 EEST"
+# [1] "2026-08-11 10:26:01 EEST"
 # 
 # $notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # [[1]]
 # [[1]]$expires_at
-# [1] "2026-05-18 10:36:50 EEST"
+# [1] "2026-08-11 10:26:01 EEST"
 # 
 # [[1]]$notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
@@ -129,7 +130,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # 
 # [[2]]
 # [[2]]$expires_at
-# [1] "2026-05-18 10:31:51 EEST"
+# [1] "2026-08-11 10:21:03 EEST"
 # 
 # [[2]]$notes
 # [1] NA
@@ -138,10 +139,26 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 sto$set_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
 # $expires_at
-# [1] "2026-05-18 10:31:51 EEST"
+# [1] "2026-08-11 10:21:03 EEST"
 # 
 # $notes
 # [1] "Updated Note"
+```
+
+Updating ‘expires_at’ metadata for key ‘aa’ will not overwrite ‘notes’
+
+``` r
+
+# Update 'expires_at'  
+sto$set_keymeta("aa", expires_at = as.POSIXct(NA))
+
+# Retains 'notes' value
+sto$get_keymeta("aa")
+# $expires_at
+# [1] NA
+# 
+# $notes
+# [1] "{\"name\":\"John\",\"id\":12345}"
 ```
 
 **Expiration management**
@@ -152,8 +169,7 @@ sto$get_keymeta("bb")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     aa 2026-05-18 10:36:50
-# 2:   objects     bb 2026-05-18 10:31:51
+# 1:   objects     bb 2026-08-11 10:21:03
 
 Sys.sleep(1)
 
@@ -161,10 +177,11 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-05-18 10:31:51
+# 1:   objects     bb 2026-08-11 10:21:03
 
 # Remove expired keys
 sto$clear_expired_keys()
+# [1] TRUE
 
 # Check for expired keys
 sto$has_expired_keys()
@@ -178,7 +195,7 @@ sto$gc(clear_expired = TRUE)
 
 ``` r
 
-sto$clr_keymeta("aa")
+sto$clear_keymeta("aa")
 sto$get_keymeta("aa")
 # $expires_at
 # [1] NA

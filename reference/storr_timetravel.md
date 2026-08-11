@@ -68,12 +68,18 @@ For complete definitions, see **Methods** section in
 
 - **`get_value()`** - Retrieve an object given its hash
 
+- **`get_all()`** - Retrieve an object and its metadata by key-namespace
+  pair
+
 **Multiple Key-Value Operations**
 
 - **[`mget()`](https://rdrr.io/r/base/get.html)** - Get multiple objects
-  by keys
+  by key-namespace pairs
 
 - **`mget_value()`** - Get multiple objects by their hashes
+
+- **`mget_all()`** - Retrieve multiple objects and its metadata by
+  key-namespace pairs
 
 **Metadata Operations**
 

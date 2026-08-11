@@ -31,7 +31,7 @@ usage is through storr_tiledb()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,6 +151,8 @@ usage is through <code><a href="storr_tiledb.html">storr_tiledb()</a></code>.</p
 <li><p><a href="#method-TileDBStorr-hash_object"><code>TileDBStorr$hash_object()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-get_value"><code>TileDBStorr$get_value()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-mget_value"><code>TileDBStorr$mget_value()</code></a></p></li>
+<li><p><a href="#method-TileDBStorr-get_all"><code>TileDBStorr$get_all()</code></a></p></li>
+<li><p><a href="#method-TileDBStorr-mget_all"><code>TileDBStorr$mget_all()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-set_keymeta"><code>TileDBStorr$set_keymeta()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-mset_keymeta"><code>TileDBStorr$mset_keymeta()</code></a></p></li>
 <li><p><a href="#method-TileDBStorr-set_keymeta_async"><code>TileDBStorr$set_keymeta_async()</code></a></p></li>
@@ -217,11 +219,13 @@ functions? Default is  <code>FALSE</code>.</p></dd>
 
 <p></p><hr><a id="method-TileDBStorr-flush_cache"></a><div class="section">
 <h3 id="tiledbstorr-flush-cache-"><code>TileDBStorr$flush_cache()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-flush-cache-"></a></h3>
-<p>Flush the cache of <code>R</code> objects.</p>
-<p>It removes all items from the hash tables (R objects and
-their metadata).</p><div class="section">
+<p>Flush the cache of <code>R</code> objects.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">flush_cache</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
+<p>It removes all items from the hash tables (R objects and
+their metadata).</p>
 </div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>The object, invisibly.</p>
@@ -266,9 +270,7 @@ their metadata).</p><div class="section">
 
 <p></p><hr><a id="method-TileDBStorr-mset"></a><div class="section">
 <h3 id="tiledbstorr-mset-"><code>TileDBStorr$mset()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-"></a></h3>
-<p>Set multiple key value pairs.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Set multiple key value pairs.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">expires_at</span>,</span>
 <span>  <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -294,6 +296,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>A vector of hash values, invisibly.</p>
@@ -346,9 +352,7 @@ logical <code>TRUE</code> if an evaluation is successful.</p></li>
 
 <p></p><hr><a id="method-TileDBStorr-mset_async"></a><div class="section">
 <h3 id="tiledbstorr-mset-async-"><code>TileDBStorr$mset_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-async-"></a></h3>
-<p>Set multiple key value pairs asynchronously.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Set multiple key value pairs asynchronously.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset_async</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  <span class="va">expires_at</span>, <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -378,6 +382,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
 <p>Invisibly, a named list with two elements:</p><ul><li><p><code>mirai</code>: a named list of two <code><a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai()</a></code> objects, <code>obj</code> and <code>key</code>;
@@ -498,9 +506,7 @@ logical <code>TRUE</code> if an evaluation is successful.</p></li>
 <p></p><hr><a id="method-TileDBStorr-mset_by_value_async"></a><div class="section">
 <h3 id="tiledbstorr-mset-by-value-async-"><code>TileDBStorr$mset_by_value_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-by-value-async-"></a></h3>
 <p>Set multiple key value pairs using their
-hashes as keys, asynchronously.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+hashes as keys, asynchronously.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset_by_value_async</span><span class="op">(</span><span class="va">value</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  <span class="va">expires_at</span>, <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -527,6 +533,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-9">Returns<a class="anchor" aria-label="anchor" href="#returns-9"></a></h4>
 <p>Invisibly, a named list with two elements:</p><ul><li><p><code>mirai</code>: a named list of two <code><a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai()</a></code> objects, <code>obj</code> and <code>key</code>;
@@ -614,9 +624,7 @@ logical <code>TRUE</code> if an evaluation is successful.</p></li>
 
 <p></p><hr><a id="method-TileDBStorr-mget"></a><div class="section">
 <h3 id="tiledbstorr-mget-"><code>TileDBStorr$mget()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mget-"></a></h3>
-<p>Get multiple objects.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Get multiple objects.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -636,6 +644,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-4">Details<a class="anchor" aria-label="anchor" href="#details-4"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
 <p>A list of <code>R</code> objects.</p>
@@ -667,9 +679,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 <p></p><hr><a id="method-TileDBStorr-mget_hash"></a><div class="section">
 <h3 id="tiledbstorr-mget-hash-"><code>TileDBStorr$mget_hash()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mget-hash-"></a></h3>
-<p>Get hash values.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Get hash values.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mget_hash</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -682,6 +692,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-5">Details<a class="anchor" aria-label="anchor" href="#details-5"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
 <p>A vector of hashes.</p>
@@ -758,12 +772,12 @@ requested digest (hash) of the supplied R object.</p>
 
 </div>
 
-<p></p><hr><a id="method-TileDBStorr-set_keymeta"></a><div class="section">
-<h3 id="tiledbstorr-set-keymeta-"><code>TileDBStorr$set_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-set-keymeta-"></a></h3>
-<p>Set key metadata.</p><div class="section">
+<p></p><hr><a id="method-TileDBStorr-get_all"></a><div class="section">
+<h3 id="tiledbstorr-get-all-"><code>TileDBStorr$get_all()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-get-all-"></a></h3>
+<p>Get an object and its metadata given a key-namespace pair.</p><div class="section">
 <h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">set_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">expires_at</span>,</span>
-<span>  <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">get_all</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -772,39 +786,24 @@ requested digest (hash) of the supplied R object.</p>
       <dt><code>namespace</code></dt>
 <dd><p>A scalar character of namespace name.</p></dd>
 
-      <dt><code>expires_at</code></dt>
-<dd><p>A date-time object of class <code>POSIXct</code> (optional).</p></dd>
-
-      <dt><code>notes</code></dt>
-<dd><p>A scalar string of notes (optional).</p></dd>
-
       <dt><code>use_cache</code></dt>
-<dd><p>Should the cache be used to retrieve the metadata?
-Default is <code>TRUE</code>. If a key:namespace not found in the cache, it will
-be fetched from database. Note that when setting <code>FALSE</code>, the cache
-will always be cleared for this key-namespace; this is to avoid mismatch
-between cache and database when reading back  with
-<code>use_cache = TRUE</code>.</p></dd>
+<dd><p>Should the cache be used? Default is <code>TRUE</code>.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
-<p>The <code>key:namespace</code> string, invisibly. If both arguments
-<code>"expires_at"</code> and <code>"notes"</code> are missing, then nothing is set and
-a zero length character vector is returned.</p>
+<p>The <code>R</code> object and its key-metadata, if available.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBStorr-mset_keymeta"></a><div class="section">
-<h3 id="tiledbstorr-mset-keymeta-"><code>TileDBStorr$mset_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-keymeta-"></a></h3>
-<p>Set multiple key metadata.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p></p><hr><a id="method-TileDBStorr-mget_all"></a><div class="section">
+<h3 id="tiledbstorr-mget-all-"><code>TileDBStorr$mget_all()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mget-all-"></a></h3>
+<p>Get multiple objects and their metadata.</p><div class="section">
 <h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">expires_at</span>,</span>
-<span>  <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mget_all</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -813,38 +812,32 @@ scalar character and the other is a vector. No other recycling rule is permitted
       <dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces.</p></dd>
 
-      <dt><code>expires_at</code></dt>
-<dd><p>A vector of date-times of class <code>POSIXct</code> (optional).</p></dd>
-
-      <dt><code>notes</code></dt>
-<dd><p>A character vector of notes (optional).</p></dd>
-
       <dt><code>use_cache</code></dt>
-<dd><p>Should the cache be used to retrieve the metadata?
-Default is <code>TRUE</code>. If a key:namespace not found in the cache, it will
-be fetched from database. Note that when setting <code>FALSE</code>, the cache
-will always be cleared for this key-namespace; this is to avoid mismatch
-between cache and database when reading back  with
-<code>use_cache = TRUE</code>.</p></dd>
+<dd><p>Should the cache be used? Default is <code>TRUE</code>.</p></dd>
+
+      <dt><code>missing</code></dt>
+<dd><p>Value to use for missing elements.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
+<h4 id="details-6">Details<a class="anchor" aria-label="anchor" href="#details-6"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
 <h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
-<p>The <code>key:namespace</code> character vector of the recycled length,
-invisibly. If both arguments <code>"expires_at"</code> and <code>"notes"</code> are missing,
-then nothing is set and a zero length character vector is returned.</p>
+<p>A list of <code>R</code> objects with their metadata for each key-namespace
+pair. For not found pairs will return the <code>missing</code> value.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBStorr-set_keymeta_async"></a><div class="section">
-<h3 id="tiledbstorr-set-keymeta-async-"><code>TileDBStorr$set_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-set-keymeta-async-"></a></h3>
-<p>Set key metadata asynchronously.</p><div class="section">
+<p></p><hr><a id="method-TileDBStorr-set_keymeta"></a><div class="section">
+<h3 id="tiledbstorr-set-keymeta-"><code>TileDBStorr$set_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-set-keymeta-"></a></h3>
+<p>Set key metadata.</p><div class="section">
 <h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">set_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
-<span>  <span class="va">expires_at</span>, <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  cfg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">set_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">expires_at</span>,</span>
+<span>  <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -867,13 +860,106 @@ will always be cleared for this key-namespace; this is to avoid mismatch
 between cache and database when reading back  with
 <code>use_cache = TRUE</code>.</p></dd>
 
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-7">Details<a class="anchor" aria-label="anchor" href="#details-7"></a></h4>
+<p>Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.</p>
+</div><p></p><div class="section">
+<h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
+<p>The <code>key:namespace</code> string, invisibly. If both arguments
+<code>"expires_at"</code> and <code>"notes"</code> are missing, then nothing is set and
+a zero length character vector is returned.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBStorr-mset_keymeta"></a><div class="section">
+<h3 id="tiledbstorr-mset-keymeta-"><code>TileDBStorr$mset_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-keymeta-"></a></h3>
+<p>Set multiple key metadata.</p><div class="section">
+<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">expires_at</span>,</span>
+<span>  <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-21">Arguments<a class="anchor" aria-label="anchor" href="#arguments-21"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A character vector of key names.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces.</p></dd>
+
+      <dt><code>expires_at</code></dt>
+<dd><p>A vector of date-times of class <code>POSIXct</code> (optional).</p></dd>
+
+      <dt><code>notes</code></dt>
+<dd><p>A character vector of notes (optional).</p></dd>
+
+      <dt><code>use_cache</code></dt>
+<dd><p>Should the cache be used to retrieve the metadata?
+Default is <code>TRUE</code>. If a key:namespace not found in the cache, it will
+be fetched from database. Note that when setting <code>FALSE</code>, the cache
+will always be cleared for this key-namespace; this is to avoid mismatch
+between cache and database when reading back  with
+<code>use_cache = TRUE</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-8">Details<a class="anchor" aria-label="anchor" href="#details-8"></a></h4>
+<p>Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
+<p>The <code>key:namespace</code> character vector of the recycled length,
+invisibly. If both arguments <code>"expires_at"</code> and <code>"notes"</code> are missing,
+then nothing is set and a zero length character vector is returned.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBStorr-set_keymeta_async"></a><div class="section">
+<h3 id="tiledbstorr-set-keymeta-async-"><code>TileDBStorr$set_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-set-keymeta-async-"></a></h3>
+<p>Set key metadata asynchronously.</p><div class="section">
+<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">set_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<span>  <span class="va">expires_at</span>, <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  cfg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-22">Arguments<a class="anchor" aria-label="anchor" href="#arguments-22"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A scalar character of key name.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A scalar character of namespace name.</p></dd>
+
+      <dt><code>expires_at</code></dt>
+<dd><p>A date-time object of class <code>POSIXct</code> (optional).</p></dd>
+
+      <dt><code>notes</code></dt>
+<dd><p>A scalar string of notes (optional).</p></dd>
+
+      <dt><code>use_cache</code></dt>
+<dd><p>Should the cache be used to retrieve the metadata?
+Default is <code>TRUE</code>. If a key:namespace not found in the cache, it will
+be fetched from database. Note that when setting <code>FALSE</code>, the cache
+will always be cleared for this key-namespace; this is to avoid mismatch
+between cache and database when reading back  with
+<code>use_cache = TRUE</code>.</p></dd>
+
       <dt><code>cfg</code></dt>
 <dd><p>Pass a <code><a href="https://tiledb-inc.github.io/TileDB-R/reference/generics.html" class="external-link">tiledb::config()</a></code> object to override context's configuration.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
+<h4 id="details-9">Details<a class="anchor" aria-label="anchor" href="#details-9"></a></h4>
+<p>Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.</p>
+</div><p></p><div class="section">
+<h4 id="returns-23">Returns<a class="anchor" aria-label="anchor" href="#returns-23"></a></h4>
 <p>A named list with two elements (invisibly):</p><ul><li><p><code>mirai</code>: a mirai object</p></li>
 <li><p><code>keyns</code>: The <code>key:namespace</code> string</p></li>
 </ul><p>If both arguments <code>"expires_at"</code> and <code>"notes"</code> are missing,
@@ -884,15 +970,13 @@ then nothing is set and a zero length character vector is returned.</p>
 
 <p></p><hr><a id="method-TileDBStorr-mset_keymeta_async"></a><div class="section">
 <h3 id="tiledbstorr-mset-keymeta-async-"><code>TileDBStorr$mset_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mset-keymeta-async-"></a></h3>
-<p>Set multiple key metadata.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
+<p>Set multiple key metadata.</p><div class="section">
+<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mset_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  <span class="va">expires_at</span>, <span class="va">notes</span>, use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  cfg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-21">Arguments<a class="anchor" aria-label="anchor" href="#arguments-21"></a></h4>
+<h4 id="arguments-23">Arguments<a class="anchor" aria-label="anchor" href="#arguments-23"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -919,7 +1003,13 @@ between cache and database when reading back  with
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
+<h4 id="details-10">Details<a class="anchor" aria-label="anchor" href="#details-10"></a></h4>
+<p>Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
 <p>A named list with two elements (invisibly):</p><ul><li><p><code>mirai</code>: a mirai object</p></li>
 <li><p><code>keyns</code>: The <code>key:namespace</code> character vector of the recycled length</p></li>
 </ul><p>If both arguments <code>"expires_at"</code> and <code>"notes"</code> are missing,
@@ -931,11 +1021,11 @@ then nothing is set and a zero length character vector is returned.</p>
 <p></p><hr><a id="method-TileDBStorr-get_keymeta"></a><div class="section">
 <h3 id="tiledbstorr-get-keymeta-"><code>TileDBStorr$get_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-get-keymeta-"></a></h3>
 <p>Get key's metadata.</p><div class="section">
-<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
+<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-22">Arguments<a class="anchor" aria-label="anchor" href="#arguments-22"></a></h4>
+<h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>The key name to get metadata values from.</p></dd>
 
@@ -949,7 +1039,7 @@ then nothing is set and a zero length character vector is returned.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-23">Returns<a class="anchor" aria-label="anchor" href="#returns-23"></a></h4>
+<h4 id="returns-25">Returns<a class="anchor" aria-label="anchor" href="#returns-25"></a></h4>
 <p>A named list with the key-metadata: <code>"expires_at"</code>
 and <code>"notes".</code></p>
 </div>
@@ -961,11 +1051,11 @@ and <code>"notes".</code></p>
 <p>Get multiple key metadata.</p>
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
+<h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mget_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-23">Arguments<a class="anchor" aria-label="anchor" href="#arguments-23"></a></h4>
+<h4 id="arguments-25">Arguments<a class="anchor" aria-label="anchor" href="#arguments-25"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector with keys to get metadata values from.</p></dd>
 
@@ -973,8 +1063,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <dd><p>A character vector of namespaces to look the keys within.</p></dd>
 
       <dt><code>use_cache</code></dt>
-<dd><p>Should it be retrieved from cache? Default is
-<code>TRUE</code>.</p></dd>
+<dd><p>Should the cache be used? Default is <code>TRUE</code>.</p></dd>
 
       <dt><code>missing</code></dt>
 <dd><p>Fill value for missing keys. Default is <code>NULL</code>.</p></dd>
@@ -982,7 +1071,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
+<h4 id="returns-26">Returns<a class="anchor" aria-label="anchor" href="#returns-26"></a></h4>
 <p>A list with key metadata for each key-namespace
 pair. For not found pairs will return the <code>missing</code> value.</p>
 </div>
@@ -991,17 +1080,12 @@ pair. For not found pairs will return the <code>missing</code> value.</p>
 
 <p></p><hr><a id="method-TileDBStorr-clear_keymeta"></a><div class="section">
 <h3 id="tiledbstorr-clear-keymeta-"><code>TileDBStorr$clear_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-keymeta-"></a></h3>
-<p>Remove key metadata.</p>
-<p>This method is a convenient  wrapper around <code>set_keymeta()</code> and <code>mset_keymeta()</code>
-and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
-<code>NA_character</code>.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
+<p>Remove key metadata.</p><div class="section">
+<h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
+<h4 id="arguments-26">Arguments<a class="anchor" aria-label="anchor" href="#arguments-26"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -1019,7 +1103,14 @@ between cache and database when reading back  with
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-25">Returns<a class="anchor" aria-label="anchor" href="#returns-25"></a></h4>
+<h4 id="details-11">Details<a class="anchor" aria-label="anchor" href="#details-11"></a></h4>
+<p>This method is a convenient  wrapper around <code>set_keymeta()</code> and <code>mset_keymeta()</code>
+and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
+<code>NA_character</code>.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-27">Returns<a class="anchor" aria-label="anchor" href="#returns-27"></a></h4>
 <p>The <code>key:namespace</code> character vector of the recycled length,
 invisibly.</p>
 </div>
@@ -1028,17 +1119,12 @@ invisibly.</p>
 
 <p></p><hr><a id="method-TileDBStorr-clear_keymeta_async"></a><div class="section">
 <h3 id="tiledbstorr-clear-keymeta-async-"><code>TileDBStorr$clear_keymeta_async()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-keymeta-async-"></a></h3>
-<p>Remove key metadata asynchronously.</p>
-<p>This method is a convenient  wrapper around <code>set_keymeta_async()</code> and <code>mset_keymeta_async()</code>
-and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
-<code>NA_character</code>.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
+<p>Remove key metadata asynchronously.</p><div class="section">
+<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_keymeta_async</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, cfg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-25">Arguments<a class="anchor" aria-label="anchor" href="#arguments-25"></a></h4>
+<h4 id="arguments-27">Arguments<a class="anchor" aria-label="anchor" href="#arguments-27"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -1059,7 +1145,14 @@ between cache and database when reading back  with
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-26">Returns<a class="anchor" aria-label="anchor" href="#returns-26"></a></h4>
+<h4 id="details-12">Details<a class="anchor" aria-label="anchor" href="#details-12"></a></h4>
+<p>This method is a convenient  wrapper around <code>set_keymeta_async()</code> and <code>mset_keymeta_async()</code>
+and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
+<code>NA_character</code>.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-28">Returns<a class="anchor" aria-label="anchor" href="#returns-28"></a></h4>
 <p>A named list with two elements (invisibly):</p><ul><li><p><code>mirai</code>: a mirai object</p></li>
 <li><p><code>keyns</code>: The <code>key:namespace</code> character vector of the recycled length</p></li>
 </ul><p></p>
@@ -1069,14 +1162,12 @@ between cache and database when reading back  with
 
 <p></p><hr><a id="method-TileDBStorr-fill"></a><div class="section">
 <h3 id="tiledbstorr-fill-"><code>TileDBStorr$fill()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-fill-"></a></h3>
-<p>Set one or more keys to the same value.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
+<p>Set one or more keys to the same value.</p><div class="section">
+<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">fill</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-26">Arguments<a class="anchor" aria-label="anchor" href="#arguments-26"></a></h4>
+<h4 id="arguments-28">Arguments<a class="anchor" aria-label="anchor" href="#arguments-28"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -1092,7 +1183,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-27">Returns<a class="anchor" aria-label="anchor" href="#returns-27"></a></h4>
+<h4 id="details-13">Details<a class="anchor" aria-label="anchor" href="#details-13"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-29">Returns<a class="anchor" aria-label="anchor" href="#returns-29"></a></h4>
 <p>A vector of hash values, invisibly.</p>
 </div>
 
@@ -1101,11 +1196,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-TileDBStorr-duplicate"></a><div class="section">
 <h3 id="tiledbstorr-duplicate-"><code>TileDBStorr$duplicate()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-duplicate-"></a></h3>
 <p>Duplicate a set of keys.</p><div class="section">
-<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<h4 id="usage-31">Usage<a class="anchor" aria-label="anchor" href="#usage-31"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">duplicate</span><span class="op">(</span><span class="va">key_src</span>, <span class="va">key_dest</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  namespace_src <span class="op">=</span> <span class="va">namespace</span>, namespace_dest <span class="op">=</span> <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-27">Arguments<a class="anchor" aria-label="anchor" href="#arguments-27"></a></h4>
+<h4 id="arguments-29">Arguments<a class="anchor" aria-label="anchor" href="#arguments-29"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key_src</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -1127,7 +1222,7 @@ across namespaces.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-28">Returns<a class="anchor" aria-label="anchor" href="#returns-28"></a></h4>
+<h4 id="returns-30">Returns<a class="anchor" aria-label="anchor" href="#returns-30"></a></h4>
 <p><code>NULL</code>, invisibly.</p>
 </div>
 
@@ -1136,10 +1231,10 @@ across namespaces.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-clear"></a><div class="section">
 <h3 id="tiledbstorr-clear-"><code>TileDBStorr$clear()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-"></a></h3>
 <p>Clear a storr.</p><div class="section">
-<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
+<h4 id="usage-32">Usage<a class="anchor" aria-label="anchor" href="#usage-32"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-28">Arguments<a class="anchor" aria-label="anchor" href="#arguments-28"></a></h4>
+<h4 id="arguments-30">Arguments<a class="anchor" aria-label="anchor" href="#arguments-30"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A scalar character of namespace name or <code>NULL</code> to
 clear all namespaces.</p></dd>
@@ -1147,7 +1242,7 @@ clear all namespaces.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-29">Returns<a class="anchor" aria-label="anchor" href="#returns-29"></a></h4>
+<h4 id="returns-31">Returns<a class="anchor" aria-label="anchor" href="#returns-31"></a></h4>
 <p>The number of deleted namespaces.</p>
 </div>
 
@@ -1155,54 +1250,9 @@ clear all namespaces.</p></dd>
 
 <p></p><hr><a id="method-TileDBStorr-exists"></a><div class="section">
 <h3 id="tiledbstorr-exists-"><code>TileDBStorr$exists()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-exists-"></a></h3>
-<p>Check a key-namespace pair exists.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-31">Usage<a class="anchor" aria-label="anchor" href="#usage-31"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-29">Arguments<a class="anchor" aria-label="anchor" href="#arguments-29"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>key</code></dt>
-<dd><p>A character vector of key names.</p></dd>
-
-      <dt><code>namespace</code></dt>
-<dd><p>A character vector of namespaces.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-30">Returns<a class="anchor" aria-label="anchor" href="#returns-30"></a></h4>
-<p>A logical vector indicating which key-namespace pair exists.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TileDBStorr-exists_object"></a><div class="section">
-<h3 id="tiledbstorr-exists-object-"><code>TileDBStorr$exists_object()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-exists-object-"></a></h3>
-<p>Check a serialised object exists given a hash.</p><div class="section">
-<h4 id="usage-32">Usage<a class="anchor" aria-label="anchor" href="#usage-32"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-30">Arguments<a class="anchor" aria-label="anchor" href="#arguments-30"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>hash</code></dt>
-<dd><p>A vector of hash values.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-31">Returns<a class="anchor" aria-label="anchor" href="#returns-31"></a></h4>
-<p>A logical vector indicating which object exists.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TileDBStorr-del"></a><div class="section">
-<h3 id="tiledbstorr-del-"><code>TileDBStorr$del()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-del-"></a></h3>
-<p>Delete an object from the storr.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Check a key-namespace pair exists.</p><div class="section">
 <h4 id="usage-33">Usage<a class="anchor" aria-label="anchor" href="#usage-33"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-31">Arguments<a class="anchor" aria-label="anchor" href="#arguments-31"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -1214,7 +1264,54 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
+<h4 id="details-14">Details<a class="anchor" aria-label="anchor" href="#details-14"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
 <h4 id="returns-32">Returns<a class="anchor" aria-label="anchor" href="#returns-32"></a></h4>
+<p>A logical vector indicating which key-namespace pair exists.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBStorr-exists_object"></a><div class="section">
+<h3 id="tiledbstorr-exists-object-"><code>TileDBStorr$exists_object()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-exists-object-"></a></h3>
+<p>Check a serialised object exists given a hash.</p><div class="section">
+<h4 id="usage-34">Usage<a class="anchor" aria-label="anchor" href="#usage-34"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-32">Arguments<a class="anchor" aria-label="anchor" href="#arguments-32"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>hash</code></dt>
+<dd><p>A vector of hash values.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-33">Returns<a class="anchor" aria-label="anchor" href="#returns-33"></a></h4>
+<p>A logical vector indicating which object exists.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBStorr-del"></a><div class="section">
+<h3 id="tiledbstorr-del-"><code>TileDBStorr$del()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-del-"></a></h3>
+<p>Delete an object from the storr.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<h4 id="usage-35">Usage<a class="anchor" aria-label="anchor" href="#usage-35"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-33">Arguments<a class="anchor" aria-label="anchor" href="#arguments-33"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A character vector of key names.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-34">Returns<a class="anchor" aria-label="anchor" href="#returns-34"></a></h4>
 <p>A logical vector indicating which key-namespace pair was
 deleted, invisibly.</p>
 </div>
@@ -1224,11 +1321,11 @@ deleted, invisibly.</p>
 <p></p><hr><a id="method-TileDBStorr-keys_with_expiration"></a><div class="section">
 <h3 id="tiledbstorr-keys-with-expiration-"><code>TileDBStorr$keys_with_expiration()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-keys-with-expiration-"></a></h3>
 <p>Get the key-namespace pairs with expiration timestamps.</p><div class="section">
-<h4 id="usage-34">Usage<a class="anchor" aria-label="anchor" href="#usage-34"></a></h4>
+<h4 id="usage-36">Usage<a class="anchor" aria-label="anchor" href="#usage-36"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-32">Arguments<a class="anchor" aria-label="anchor" href="#arguments-32"></a></h4>
+<h4 id="arguments-34">Arguments<a class="anchor" aria-label="anchor" href="#arguments-34"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
@@ -1239,7 +1336,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-33">Returns<a class="anchor" aria-label="anchor" href="#returns-33"></a></h4>
+<h4 id="returns-35">Returns<a class="anchor" aria-label="anchor" href="#returns-35"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -1248,11 +1345,11 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-expired_keys"></a><div class="section">
 <h3 id="tiledbstorr-expired-keys-"><code>TileDBStorr$expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-expired-keys-"></a></h3>
 <p>Get the expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-35">Usage<a class="anchor" aria-label="anchor" href="#usage-35"></a></h4>
+<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-33">Arguments<a class="anchor" aria-label="anchor" href="#arguments-33"></a></h4>
+<h4 id="arguments-35">Arguments<a class="anchor" aria-label="anchor" href="#arguments-35"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
@@ -1263,7 +1360,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-34">Returns<a class="anchor" aria-label="anchor" href="#returns-34"></a></h4>
+<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -1272,17 +1369,17 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-has_expired_keys"></a><div class="section">
 <h3 id="tiledbstorr-has-expired-keys-"><code>TileDBStorr$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-has-expired-keys-"></a></h3>
 <p>Check for expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-36">Usage<a class="anchor" aria-label="anchor" href="#usage-36"></a></h4>
+<h4 id="usage-38">Usage<a class="anchor" aria-label="anchor" href="#usage-38"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-34">Arguments<a class="anchor" aria-label="anchor" href="#arguments-34"></a></h4>
+<h4 id="arguments-36">Arguments<a class="anchor" aria-label="anchor" href="#arguments-36"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-35">Returns<a class="anchor" aria-label="anchor" href="#returns-35"></a></h4>
+<h4 id="returns-37">Returns<a class="anchor" aria-label="anchor" href="#returns-37"></a></h4>
 <p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
 </div>
 
@@ -1291,11 +1388,11 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-is_key_expired"></a><div class="section">
 <h3 id="tiledbstorr-is-key-expired-"><code>TileDBStorr$is_key_expired()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-is-key-expired-"></a></h3>
 <p>Check a key-namespace for expiration.</p><div class="section">
-<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
+<h4 id="usage-39">Usage<a class="anchor" aria-label="anchor" href="#usage-39"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">is_key_expired</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-35">Arguments<a class="anchor" aria-label="anchor" href="#arguments-35"></a></h4>
+<h4 id="arguments-37">Arguments<a class="anchor" aria-label="anchor" href="#arguments-37"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A scalar character of key name.</p></dd>
 
@@ -1314,7 +1411,7 @@ only matters to user.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
+<h4 id="returns-38">Returns<a class="anchor" aria-label="anchor" href="#returns-38"></a></h4>
 <p></p><ul><li><p><code>TRUE</code> - key-namespace pair has expired</p></li>
 <li><p><code>FALSE</code> - (a) key has not expired, (b) has not expiration time-stamp
 or (c) <code>check = FALSE</code> and no key is found</p></li>
@@ -1326,17 +1423,17 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-clear_expired_keys"></a><div class="section">
 <h3 id="tiledbstorr-clear-expired-keys-"><code>TileDBStorr$clear_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-clear-expired-keys-"></a></h3>
 <p>Remove the expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-38">Usage<a class="anchor" aria-label="anchor" href="#usage-38"></a></h4>
+<h4 id="usage-40">Usage<a class="anchor" aria-label="anchor" href="#usage-40"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">clear_expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-36">Arguments<a class="anchor" aria-label="anchor" href="#arguments-36"></a></h4>
+<h4 id="arguments-38">Arguments<a class="anchor" aria-label="anchor" href="#arguments-38"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-37">Returns<a class="anchor" aria-label="anchor" href="#returns-37"></a></h4>
+<h4 id="returns-39">Returns<a class="anchor" aria-label="anchor" href="#returns-39"></a></h4>
 <p>A boolean value <code>TRUE</code> indicating success, invisibly.</p>
 </div>
 
@@ -1345,17 +1442,17 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-list"></a><div class="section">
 <h3 id="tiledbstorr-list-"><code>TileDBStorr$list()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-"></a></h3>
 <p>List all keys stored in a namespace.</p><div class="section">
-<h4 id="usage-39">Usage<a class="anchor" aria-label="anchor" href="#usage-39"></a></h4>
+<h4 id="usage-41">Usage<a class="anchor" aria-label="anchor" href="#usage-41"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-37">Arguments<a class="anchor" aria-label="anchor" href="#arguments-37"></a></h4>
+<h4 id="arguments-39">Arguments<a class="anchor" aria-label="anchor" href="#arguments-39"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A scalar character of namespace name.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-38">Returns<a class="anchor" aria-label="anchor" href="#returns-38"></a></h4>
+<h4 id="returns-40">Returns<a class="anchor" aria-label="anchor" href="#returns-40"></a></h4>
 <p>A sorted character vector with keys.</p>
 </div>
 
@@ -1364,10 +1461,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-list_hashes"></a><div class="section">
 <h3 id="tiledbstorr-list-hashes-"><code>TileDBStorr$list_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-hashes-"></a></h3>
 <p>List all hashes stored in the storr.</p><div class="section">
-<h4 id="usage-40">Usage<a class="anchor" aria-label="anchor" href="#usage-40"></a></h4>
+<h4 id="usage-42">Usage<a class="anchor" aria-label="anchor" href="#usage-42"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-39">Returns<a class="anchor" aria-label="anchor" href="#returns-39"></a></h4>
+<h4 id="returns-41">Returns<a class="anchor" aria-label="anchor" href="#returns-41"></a></h4>
 <p>A sorted character vector with hashes.</p>
 </div>
 
@@ -1376,10 +1473,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-list_unused_hashes"></a><div class="section">
 <h3 id="tiledbstorr-list-unused-hashes-"><code>TileDBStorr$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-unused-hashes-"></a></h3>
 <p>List unused hashes stored in the storr.</p><div class="section">
-<h4 id="usage-41">Usage<a class="anchor" aria-label="anchor" href="#usage-41"></a></h4>
+<h4 id="usage-43">Usage<a class="anchor" aria-label="anchor" href="#usage-43"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-40">Returns<a class="anchor" aria-label="anchor" href="#returns-40"></a></h4>
+<h4 id="returns-42">Returns<a class="anchor" aria-label="anchor" href="#returns-42"></a></h4>
 <p>A sorted character vector with unused hashes.</p>
 </div>
 
@@ -1388,10 +1485,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-list_namespaces"></a><div class="section">
 <h3 id="tiledbstorr-list-namespaces-"><code>TileDBStorr$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-list-namespaces-"></a></h3>
 <p>List all namespaces in the storr.</p><div class="section">
-<h4 id="usage-42">Usage<a class="anchor" aria-label="anchor" href="#usage-42"></a></h4>
+<h4 id="usage-44">Usage<a class="anchor" aria-label="anchor" href="#usage-44"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-41">Returns<a class="anchor" aria-label="anchor" href="#returns-41"></a></h4>
+<h4 id="returns-43">Returns<a class="anchor" aria-label="anchor" href="#returns-43"></a></h4>
 <p>A sorted character vector with namespaces.</p>
 </div>
 
@@ -1400,10 +1497,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-TileDBStorr-gc"></a><div class="section">
 <h3 id="tiledbstorr-gc-"><code>TileDBStorr$gc()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-gc-"></a></h3>
 <p>Garbage collect the storr.</p><div class="section">
-<h4 id="usage-43">Usage<a class="anchor" aria-label="anchor" href="#usage-43"></a></h4>
+<h4 id="usage-45">Usage<a class="anchor" aria-label="anchor" href="#usage-45"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">gc</span><span class="op">(</span>clear_expired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-38">Arguments<a class="anchor" aria-label="anchor" href="#arguments-38"></a></h4>
+<h4 id="arguments-40">Arguments<a class="anchor" aria-label="anchor" href="#arguments-40"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>clear_expired</code></dt>
 <dd><p>Should the expired keys be deleted?
 Default is <code>FALSE</code>.</p></dd>
@@ -1411,7 +1508,7 @@ Default is <code>FALSE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-42">Returns<a class="anchor" aria-label="anchor" href="#returns-42"></a></h4>
+<h4 id="returns-44">Returns<a class="anchor" aria-label="anchor" href="#returns-44"></a></h4>
 <p>A vector of unused hashes, invisibly.</p>
 </div>
 
@@ -1420,11 +1517,11 @@ Default is <code>FALSE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-import"></a><div class="section">
 <h3 id="tiledbstorr-import-"><code>TileDBStorr$import()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-import-"></a></h3>
 <p>Import objects to storr.</p><div class="section">
-<h4 id="usage-44">Usage<a class="anchor" aria-label="anchor" href="#usage-44"></a></h4>
+<h4 id="usage-46">Usage<a class="anchor" aria-label="anchor" href="#usage-46"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">import</span><span class="op">(</span><span class="va">src</span>, list <span class="op">=</span> <span class="cn">NULL</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-39">Arguments<a class="anchor" aria-label="anchor" href="#arguments-39"></a></h4>
+<h4 id="arguments-41">Arguments<a class="anchor" aria-label="anchor" href="#arguments-41"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>src</code></dt>
 <dd><p>A source to import objects from. It can be a storr, list, or environment.</p></dd>
 
@@ -1445,7 +1542,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-43">Returns<a class="anchor" aria-label="anchor" href="#returns-43"></a></h4>
+<h4 id="returns-45">Returns<a class="anchor" aria-label="anchor" href="#returns-45"></a></h4>
 <p>A vector with destination namespaces, invisibly.</p>
 </div>
 
@@ -1455,11 +1552,11 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="tiledbstorr-export-"><code>TileDBStorr$export()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-export-"></a></h3>
 <p>Export objects from storr.</p>
 <p>Use list() to export to a brand new list, or use as.list(object) for a shorthand.</p><div class="section">
-<h4 id="usage-45">Usage<a class="anchor" aria-label="anchor" href="#usage-45"></a></h4>
+<h4 id="usage-47">Usage<a class="anchor" aria-label="anchor" href="#usage-47"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="va">dest</span>, list <span class="op">=</span> <span class="cn">NULL</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-40">Arguments<a class="anchor" aria-label="anchor" href="#arguments-40"></a></h4>
+<h4 id="arguments-42">Arguments<a class="anchor" aria-label="anchor" href="#arguments-42"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>dest</code></dt>
 <dd><p>A destination to export objects to. It can be a storr, list, or environment.</p></dd>
 
@@ -1480,7 +1577,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-44">Returns<a class="anchor" aria-label="anchor" href="#returns-44"></a></h4>
+<h4 id="returns-46">Returns<a class="anchor" aria-label="anchor" href="#returns-46"></a></h4>
 <p><code>dest</code> object, invisibly.</p>
 </div>
 
@@ -1490,17 +1587,17 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="tiledbstorr-index-export-"><code>TileDBStorr$index_export()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-index-export-"></a></h3>
 <p>Generate a <code>data.table</code> with an index of objects
 present in a storr.</p><div class="section">
-<h4 id="usage-46">Usage<a class="anchor" aria-label="anchor" href="#usage-46"></a></h4>
+<h4 id="usage-48">Usage<a class="anchor" aria-label="anchor" href="#usage-48"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">index_export</span><span class="op">(</span>namespace <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-41">Arguments<a class="anchor" aria-label="anchor" href="#arguments-41"></a></h4>
+<h4 id="arguments-43">Arguments<a class="anchor" aria-label="anchor" href="#arguments-43"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-45">Returns<a class="anchor" aria-label="anchor" href="#returns-45"></a></h4>
+<h4 id="returns-47">Returns<a class="anchor" aria-label="anchor" href="#returns-47"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -1509,10 +1606,10 @@ present in a storr.</p><div class="section">
 <p></p><hr><a id="method-TileDBStorr-index_import"></a><div class="section">
 <h3 id="tiledbstorr-index-import-"><code>TileDBStorr$index_import()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-index-import-"></a></h3>
 <p>Import an index of objects from a storr.</p><div class="section">
-<h4 id="usage-47">Usage<a class="anchor" aria-label="anchor" href="#usage-47"></a></h4>
+<h4 id="usage-49">Usage<a class="anchor" aria-label="anchor" href="#usage-49"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">index_import</span><span class="op">(</span><span class="va">index</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-42">Arguments<a class="anchor" aria-label="anchor" href="#arguments-42"></a></h4>
+<h4 id="arguments-44">Arguments<a class="anchor" aria-label="anchor" href="#arguments-44"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>index</code></dt>
 <dd><p>A <code>data.frame</code> with minimum required columns 'namespace', 'key'
 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all
@@ -1521,7 +1618,7 @@ hashes are present in the storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-46">Returns<a class="anchor" aria-label="anchor" href="#returns-46"></a></h4>
+<h4 id="returns-48">Returns<a class="anchor" aria-label="anchor" href="#returns-48"></a></h4>
 <p><code>TRUE</code>, invisibly.</p>
 </div>
 
@@ -1530,11 +1627,11 @@ hashes are present in the storr.</p></dd>
 <p></p><hr><a id="method-TileDBStorr-export_tdb"></a><div class="section">
 <h3 id="tiledbstorr-export-tdb-"><code>TileDBStorr$export_tdb()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-48">Usage<a class="anchor" aria-label="anchor" href="#usage-48"></a></h4>
+<h4 id="usage-50">Usage<a class="anchor" aria-label="anchor" href="#usage-50"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">uri_dest</span>, context_dest <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-43">Arguments<a class="anchor" aria-label="anchor" href="#arguments-43"></a></h4>
+<h4 id="arguments-45">Arguments<a class="anchor" aria-label="anchor" href="#arguments-45"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -1551,7 +1648,7 @@ for destination storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-47">Returns<a class="anchor" aria-label="anchor" href="#returns-47"></a></h4>
+<h4 id="returns-49">Returns<a class="anchor" aria-label="anchor" href="#returns-49"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

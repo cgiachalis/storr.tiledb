@@ -11,7 +11,7 @@ no write capabilities."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,8 +96,10 @@ or length 2 with start, end timestamps</p></li>
 <p><strong>Active Fields</strong></p><ul><li><p><strong><code>timestamp</code></strong> - Get or set a TileDB timestamp range that the 'storr' will be opened at.</p></li>
 </ul><p><strong>Single Key-Value Operations</strong></p><ul><li><p><strong><code><a href="https://rdrr.io/r/base/get.html" class="external-link">get()</a></code></strong> - Retrieve an object by key-namespace pair</p></li>
 <li><p><strong><code>get_value()</code></strong> - Retrieve an object given its hash</p></li>
-</ul><p><strong>Multiple Key-Value Operations</strong></p><ul><li><p><strong><code><a href="https://rdrr.io/r/base/get.html" class="external-link">mget()</a></code></strong> - Get multiple objects by keys</p></li>
+<li><p><strong><code>get_all()</code></strong> - Retrieve an object and its metadata by key-namespace pair</p></li>
+</ul><p><strong>Multiple Key-Value Operations</strong></p><ul><li><p><strong><code><a href="https://rdrr.io/r/base/get.html" class="external-link">mget()</a></code></strong> - Get multiple objects by key-namespace pairs</p></li>
 <li><p><strong><code>mget_value()</code></strong> - Get multiple objects by their hashes</p></li>
+<li><p><strong><code>mget_all()</code></strong> - Retrieve multiple objects and its metadata by key-namespace pairs</p></li>
 </ul><p><strong>Metadata Operations</strong></p><ul><li><p><strong><code>get_keymeta()</code></strong> - Retrieve metadata for a key</p></li>
 <li><p><strong><code>mget_keymeta()</code></strong> - Retrieve metadata for multiple keys</p></li>
 </ul><p><strong>Object Hash Management</strong></p><ul><li><p><strong><code>get_hash()</code></strong> - Get hash value for a key-namespace pair</p></li>

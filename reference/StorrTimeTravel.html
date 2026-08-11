@@ -13,7 +13,7 @@ usage is through storr_timetravel()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +91,8 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 <p></p><ul><li><p><a href="#method-StorrTimeTravel-initialize"><code>StorrTimeTravel$new()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-get"><code>StorrTimeTravel$get()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-mget"><code>StorrTimeTravel$mget()</code></a></p></li>
+<li><p><a href="#method-StorrTimeTravel-get_all"><code>StorrTimeTravel$get_all()</code></a></p></li>
+<li><p><a href="#method-StorrTimeTravel-mget_all"><code>StorrTimeTravel$mget_all()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-get_hash"><code>StorrTimeTravel$get_hash()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-mget_hash"><code>StorrTimeTravel$mget_hash()</code></a></p></li>
 <li><p><a href="#method-StorrTimeTravel-get_value"><code>StorrTimeTravel$get_value()</code></a></p></li>
@@ -153,9 +155,7 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 
 <p></p><hr><a id="method-StorrTimeTravel-mget"></a><div class="section">
 <h3 id="storrtimetravel-mget-"><code>StorrTimeTravel$mget()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-mget-"></a></h3>
-<p>Get multiple objects.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Get multiple objects.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -173,17 +173,21 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
+<h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>A list of <code>R</code> objects.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-StorrTimeTravel-get_hash"></a><div class="section">
-<h3 id="storrtimetravel-get-hash-"><code>StorrTimeTravel$get_hash()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-get-hash-"></a></h3>
-<p>Get hash value.</p><div class="section">
+<p></p><hr><a id="method-StorrTimeTravel-get_all"></a><div class="section">
+<h3 id="storrtimetravel-get-all-"><code>StorrTimeTravel$get_all()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-get-all-"></a></h3>
+<p>Get an object and its metadata given a key-namespace pair.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">get_hash</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">get_all</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -196,6 +200,59 @@ scalar character and the other is a vector. No other recycling rule is permitted
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
+<p>The <code>R</code> object and its key-metadata, if available.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-StorrTimeTravel-mget_all"></a><div class="section">
+<h3 id="storrtimetravel-mget-all-"><code>StorrTimeTravel$mget_all()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-mget-all-"></a></h3>
+<p>Get multiple objects and their metadata.</p><div class="section">
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">mget_all</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
+<span>  missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A character vector of key names.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces.</p></dd>
+
+      <dt><code>missing</code></dt>
+<dd><p>Value to use for missing elements.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
+<p>A list of <code>R</code> objects with their metadata for each key-namespace
+pair. For not found pairs will return the <code>missing</code> value.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-StorrTimeTravel-get_hash"></a><div class="section">
+<h3 id="storrtimetravel-get-hash-"><code>StorrTimeTravel$get_hash()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-get-hash-"></a></h3>
+<p>Get hash value.</p><div class="section">
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">get_hash</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A scalar character of key name.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A scalar character of namespace name.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>The hash value.</p>
 </div>
 
@@ -203,13 +260,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 <p></p><hr><a id="method-StorrTimeTravel-mget_hash"></a><div class="section">
 <h3 id="storrtimetravel-mget-hash-"><code>StorrTimeTravel$mget_hash()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-mget-hash-"></a></h3>
-<p>Get hash values.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<p>Get hash values.</p><div class="section">
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">mget_hash</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
+<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -219,7 +274,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
+<h4 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
 <p>A vector of hashes.</p>
 </div>
 
@@ -228,17 +287,17 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-StorrTimeTravel-get_value"></a><div class="section">
 <h3 id="storrtimetravel-get-value-"><code>StorrTimeTravel$get_value()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-get-value-"></a></h3>
 <p>Get an object given its hash.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">get_value</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
+<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>hash</code></dt>
 <dd><p>The hash value of the object.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
+<h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
 <p>The <code>R</code> object if available.</p>
 </div>
 
@@ -247,10 +306,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-StorrTimeTravel-mget_value"></a><div class="section">
 <h3 id="storrtimetravel-mget-value-"><code>StorrTimeTravel$mget_value()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-mget-value-"></a></h3>
 <p>Get multiple objects given their hashes.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">mget_value</span><span class="op">(</span><span class="va">hash</span>, missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>hash</code></dt>
 <dd><p>A vector of hash values."</p></dd>
 
@@ -260,7 +319,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
+<h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
 <p>A list of <code>R</code> objects.</p>
 </div>
 
@@ -269,10 +328,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-StorrTimeTravel-get_keymeta"></a><div class="section">
 <h3 id="storrtimetravel-get-keymeta-"><code>StorrTimeTravel$get_keymeta()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-get-keymeta-"></a></h3>
 <p>Get key's metadata.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>The key name to get metadata values from.</p></dd>
 
@@ -282,7 +341,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
+<h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
 <p>A named list with the key-metadata: <code>"expires_at"</code>
 and <code>"notes".</code></p>
 </div>
@@ -291,14 +350,12 @@ and <code>"notes".</code></p>
 
 <p></p><hr><a id="method-StorrTimeTravel-mget_keymeta"></a><div class="section">
 <h3 id="storrtimetravel-mget-keymeta-"><code>StorrTimeTravel$mget_keymeta()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-mget-keymeta-"></a></h3>
-<p>Get multiple key metadata.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<p>Get multiple key metadata.</p><div class="section">
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">mget_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector with keys to get metadata values from.</p></dd>
 
@@ -311,7 +368,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
+<h4 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-9">Returns<a class="anchor" aria-label="anchor" href="#returns-9"></a></h4>
 <p>A list with key metadata for each key-namespace
 pair. For not found pairs will return the <code>missing</code> value.</p>
 </div>
@@ -320,13 +381,11 @@ pair. For not found pairs will return the <code>missing</code> value.</p>
 
 <p></p><hr><a id="method-StorrTimeTravel-exists"></a><div class="section">
 <h3 id="storrtimetravel-exists-"><code>StorrTimeTravel$exists()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-exists-"></a></h3>
-<p>Check a key-namespace pair exists.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<p>Check a key-namespace pair exists.</p><div class="section">
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of key names.</p></dd>
 
@@ -336,7 +395,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
+<h4 id="details-4">Details<a class="anchor" aria-label="anchor" href="#details-4"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
+</div><p></p><div class="section">
+<h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
 <p>A logical vector indicating which key-namespace pair exists.</p>
 </div>
 
@@ -345,17 +408,17 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-StorrTimeTravel-exists_object"></a><div class="section">
 <h3 id="storrtimetravel-exists-object-"><code>StorrTimeTravel$exists_object()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-exists-object-"></a></h3>
 <p>Check a serialised object exists given a hash.</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
+<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>hash</code></dt>
 <dd><p>A vector of hash values.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-9">Returns<a class="anchor" aria-label="anchor" href="#returns-9"></a></h4>
+<h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
 <p>A logical vector indicating which object exists.</p>
 </div>
 
@@ -364,11 +427,11 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <p></p><hr><a id="method-StorrTimeTravel-keys_with_expiration"></a><div class="section">
 <h3 id="storrtimetravel-keys-with-expiration-"><code>StorrTimeTravel$keys_with_expiration()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-keys-with-expiration-"></a></h3>
 <p>Get the key-namespace pairs with expiration timestamps.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
+<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
@@ -379,7 +442,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
+<h4 id="returns-12">Returns<a class="anchor" aria-label="anchor" href="#returns-12"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -388,11 +451,11 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-StorrTimeTravel-expired_keys"></a><div class="section">
 <h3 id="storrtimetravel-expired-keys-"><code>StorrTimeTravel$expired_keys()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-expired-keys-"></a></h3>
 <p>Get the expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
+<h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
@@ -403,7 +466,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
+<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -412,17 +475,17 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-StorrTimeTravel-has_expired_keys"></a><div class="section">
 <h3 id="storrtimetravel-has-expired-keys-"><code>StorrTimeTravel$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-has-expired-keys-"></a></h3>
 <p>Check for expired key-namespace pairs.</p><div class="section">
-<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
+<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
+<h4 id="arguments-15">Arguments<a class="anchor" aria-label="anchor" href="#arguments-15"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-12">Returns<a class="anchor" aria-label="anchor" href="#returns-12"></a></h4>
+<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
 <p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
 </div>
 
@@ -431,11 +494,11 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-StorrTimeTravel-is_key_expired"></a><div class="section">
 <h3 id="storrtimetravel-is-key-expired-"><code>StorrTimeTravel$is_key_expired()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-is-key-expired-"></a></h3>
 <p>Check a key-namespace for expiration.</p><div class="section">
-<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
+<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">is_key_expired</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
+<h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A scalar character of key name.</p></dd>
 
@@ -451,7 +514,7 @@ only matters to user.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
+<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
 <p></p><ul><li><p><code>TRUE</code> - key-namespace pair has expired</p></li>
 <li><p><code>FALSE</code> - (a) key has not expired, (b) has not expiration time-stamp
 or (c) <code>check = FALSE</code> and no key is found</p></li>
@@ -463,17 +526,17 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-StorrTimeTravel-list"></a><div class="section">
 <h3 id="storrtimetravel-list-"><code>StorrTimeTravel$list()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-"></a></h3>
 <p>List all keys stored in a namespace.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
+<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list</span><span class="op">(</span>namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-15">Arguments<a class="anchor" aria-label="anchor" href="#arguments-15"></a></h4>
+<h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A scalar character of namespace name.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
+<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
 <p>A sorted character vector with keys.</p>
 </div>
 
@@ -482,10 +545,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-StorrTimeTravel-list_hashes"></a><div class="section">
 <h3 id="storrtimetravel-list-hashes-"><code>StorrTimeTravel$list_hashes()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-hashes-"></a></h3>
 <p>List all hashes stored in the storr.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
+<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
 <p>A sorted character vector with hashes.</p>
 </div>
 
@@ -494,10 +557,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-StorrTimeTravel-list_unused_hashes"></a><div class="section">
 <h3 id="storrtimetravel-list-unused-hashes-"><code>StorrTimeTravel$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-unused-hashes-"></a></h3>
 <p>List unused hashes stored in the storr.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
+<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
+<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
 <p>A sorted character vector with unused hashes.</p>
 </div>
 
@@ -506,10 +569,10 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <p></p><hr><a id="method-StorrTimeTravel-list_namespaces"></a><div class="section">
 <h3 id="storrtimetravel-list-namespaces-"><code>StorrTimeTravel$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-list-namespaces-"></a></h3>
 <p>List all namespaces in the storr.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
+<h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
 <p>A sorted character vector with namespaces.</p>
 </div>
 
@@ -519,11 +582,11 @@ or (c) <code>check = FALSE</code> and no key is found</p></li>
 <h3 id="storrtimetravel-export-"><code>StorrTimeTravel$export()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-export-"></a></h3>
 <p>Export objects from storr.</p>
 <p>Use list() to export to a brand new list, or use as.list(object) for a shorthand.</p><div class="section">
-<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
+<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">export</span><span class="op">(</span><span class="va">dest</span>, list <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, skip_missing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
+<h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>dest</code></dt>
 <dd><p>A destination to export objects to. It can be a storr, list, or environment.</p></dd>
 
@@ -544,7 +607,7 @@ should be skipped over, rather than being treated as an error (the default).</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
+<h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
 <p><code>dest</code> object, invisibly.</p>
 </div>
 
@@ -554,17 +617,17 @@ should be skipped over, rather than being treated as an error (the default).</p>
 <h3 id="storrtimetravel-index-export-"><code>StorrTimeTravel$index_export()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-index-export-"></a></h3>
 <p>Generate a <code>data.table</code> with an index of objects
 present in a storr.</p><div class="section">
-<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
+<h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">index_export</span><span class="op">(</span>namespace <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
+<h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
+<h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
 <p>An object of class <code>data.table</code>.</p>
 </div>
 
@@ -573,11 +636,11 @@ present in a storr.</p><div class="section">
 <p></p><hr><a id="method-StorrTimeTravel-export_tdb"></a><div class="section">
 <h3 id="storrtimetravel-export-tdb-"><code>StorrTimeTravel$export_tdb()</code><a class="anchor" aria-label="anchor" href="#storrtimetravel-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
+<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrTimeTravel</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>, <span class="va">uri_dest</span>, context_dest <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
+<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -594,7 +657,7 @@ for destination storr.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
+<h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

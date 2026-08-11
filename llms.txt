@@ -41,6 +41,14 @@ pak::pkg_install("cgiachalis/storr.tiledb")
 remotes::install_github("cgiachalis/storr.tiledb")
 ```
 
+From r-universe:
+
+``` r
+
+# Install 'storr.tiledb' in R:
+install.packages('storr.tiledb', repos = c('https://cgiachalis.r-universe.dev'))
+```
+
 ## Quick start
 
 ``` r

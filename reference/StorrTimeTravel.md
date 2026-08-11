@@ -38,6 +38,10 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$mget()`](#method-StorrTimeTravel-mget)
 
+- [`StorrTimeTravel$get_all()`](#method-StorrTimeTravel-get_all)
+
+- [`StorrTimeTravel$mget_all()`](#method-StorrTimeTravel-mget_all)
+
 - [`StorrTimeTravel$get_hash()`](#method-StorrTimeTravel-get_hash)
 
 - [`StorrTimeTravel$mget_hash()`](#method-StorrTimeTravel-mget_hash)
@@ -128,10 +132,6 @@ The `R` object if available.
 
 Get multiple objects.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     StorrTimeTravel$mget(key, namespace = self$default_namespace,
@@ -151,9 +151,75 @@ permitted.
 
   Value to use for missing elements.
 
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
 #### Returns
 
 A list of `R` objects.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$get_all()`
+
+Get an object and its metadata given a key-namespace pair.
+
+#### Usage
+
+    StorrTimeTravel$get_all(key, namespace = self$default_namespace)
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+#### Returns
+
+The `R` object and its key-metadata, if available.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$mget_all()`
+
+Get multiple objects and their metadata.
+
+#### Usage
+
+    StorrTimeTravel$mget_all(key, namespace = self$default_namespace,
+      missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of key names.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+- `missing`:
+
+  Value to use for missing elements.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+#### Returns
+
+A list of `R` objects with their metadata for each key-namespace pair.
+For not found pairs will return the `missing` value.
 
 ------------------------------------------------------------------------
 
@@ -185,10 +251,6 @@ The hash value.
 
 Get hash values.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     StorrTimeTravel$mget_hash(key, namespace = self$default_namespace)
@@ -202,6 +264,12 @@ permitted.
 - `namespace`:
 
   A character vector of namespaces.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -281,10 +349,6 @@ A named list with the key-metadata: `"expires_at"` and `"notes".`
 
 Get multiple key metadata.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     StorrTimeTravel$mget_keymeta(key, namespace = self$default_namespace,
@@ -304,6 +368,12 @@ permitted.
 
   Fill value for missing keys. Default is `NULL`.
 
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
 #### Returns
 
 A list with key metadata for each key-namespace pair. For not found
@@ -314,10 +384,6 @@ pairs will return the `missing` value.
 ### `StorrTimeTravel$exists()`
 
 Check a key-namespace pair exists.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -332,6 +398,12 @@ permitted.
 - `namespace`:
 
   A character vector of namespaces.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 

@@ -101,6 +101,10 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mget_value()`](#method-TileDBStorr-mget_value)
 
+- [`TileDBStorr$get_all()`](#method-TileDBStorr-get_all)
+
+- [`TileDBStorr$mget_all()`](#method-TileDBStorr-mget_all)
+
 - [`TileDBStorr$set_keymeta()`](#method-TileDBStorr-set_keymeta)
 
 - [`TileDBStorr$mset_keymeta()`](#method-TileDBStorr-mset_keymeta)
@@ -205,12 +209,14 @@ Destroy (delete) 'storr'.
 
 Flush the cache of `R` objects.
 
-It removes all items from the hash tables (R objects and their
-metadata).
-
 #### Usage
 
     TileDBStorr$flush_cache()
+
+#### Details
+
+It removes all items from the hash tables (R objects and their
+metadata).
 
 #### Returns
 
@@ -263,10 +269,6 @@ The hash value, invisibly.
 
 Set multiple key value pairs.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
@@ -297,6 +299,12 @@ permitted.
 - `use_cache`:
 
   Should the cache be used? Default is `TRUE`.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -363,10 +371,6 @@ Invisibly, a named list with two elements:
 
 Set multiple key value pairs asynchronously.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
@@ -404,6 +408,12 @@ permitted.
   Pass a
   [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
   object to override context's configuration.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -547,10 +557,6 @@ Invisibly, a named list with two elements:
 
 Set multiple key value pairs using their hashes as keys, asynchronously.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
@@ -584,6 +590,12 @@ permitted.
   Pass a
   [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
   object to override context's configuration.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -685,10 +697,6 @@ The `R` object if available.
 
 Get multiple objects.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mget(key, namespace = self$default_namespace,
@@ -711,6 +719,12 @@ permitted.
 - `missing`:
 
   Value to use for missing elements.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -746,10 +760,6 @@ The hash value.
 
 Get hash values.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mget_hash(key, namespace = self$default_namespace)
@@ -763,6 +773,12 @@ permitted.
 - `namespace`:
 
   A character vector of namespaces.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -845,6 +861,75 @@ A list of `R` objects.
 
 ------------------------------------------------------------------------
 
+### `TileDBStorr$get_all()`
+
+Get an object and its metadata given a key-namespace pair.
+
+#### Usage
+
+    TileDBStorr$get_all(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE))
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+#### Returns
+
+The `R` object and its key-metadata, if available.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$mget_all()`
+
+Get multiple objects and their metadata.
+
+#### Usage
+
+    TileDBStorr$mget_all(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of key names.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `missing`:
+
+  Value to use for missing elements.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+#### Returns
+
+A list of `R` objects with their metadata for each key-namespace pair.
+For not found pairs will return the `missing` value.
+
+------------------------------------------------------------------------
+
 ### `TileDBStorr$set_keymeta()`
 
 Set key metadata.
@@ -880,6 +965,11 @@ Set key metadata.
   cleared for this key-namespace; this is to avoid mismatch between
   cache and database when reading back with `use_cache = TRUE`.
 
+#### Details
+
+Setting keymeta will update/replace only the chosen metadata and will
+not ovewrite the other.
+
 #### Returns
 
 The `key:namespace` string, invisibly. If both arguments `"expires_at"`
@@ -891,10 +981,6 @@ character vector is returned.
 ### `TileDBStorr$mset_keymeta()`
 
 Set multiple key metadata.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -926,6 +1012,15 @@ permitted.
   database. Note that when setting `FALSE`, the cache will always be
   cleared for this key-namespace; this is to avoid mismatch between
   cache and database when reading back with `use_cache = TRUE`.
+
+#### Details
+
+Setting keymeta will update/replace only the chosen metadata and will
+not ovewrite the other.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -977,6 +1072,11 @@ Set key metadata asynchronously.
   [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
   object to override context's configuration.
 
+#### Details
+
+Setting keymeta will update/replace only the chosen metadata and will
+not ovewrite the other.
+
 #### Returns
 
 A named list with two elements (invisibly):
@@ -993,10 +1093,6 @@ is set and a zero length character vector is returned.
 ### `TileDBStorr$mset_keymeta_async()`
 
 Set multiple key metadata.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -1035,6 +1131,15 @@ permitted.
   Pass a
   [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
   object to override context's configuration.
+
+#### Details
+
+Setting keymeta will update/replace only the chosen metadata and will
+not ovewrite the other.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -1103,7 +1208,7 @@ permitted.
 
 - `use_cache`:
 
-  Should it be retrieved from cache? Default is `TRUE`.
+  Should the cache be used? Default is `TRUE`.
 
 - `missing`:
 
@@ -1119,14 +1224,6 @@ pairs will return the `missing` value.
 ### `TileDBStorr$clear_keymeta()`
 
 Remove key metadata.
-
-This method is a convenient wrapper around `set_keymeta()` and
-`mset_keymeta()` and sets the key metadata fields to `NA` values, i.e.,
-`as.POSIXct(NA)` and `NA_character`.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -1151,6 +1248,16 @@ permitted.
   cleared for this key-namespace; this is to avoid mismatch between
   cache and database when reading back with `use_cache = TRUE`.
 
+#### Details
+
+This method is a convenient wrapper around `set_keymeta()` and
+`mset_keymeta()` and sets the key metadata fields to `NA` values, i.e.,
+`as.POSIXct(NA)` and `NA_character`.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
 #### Returns
 
 The `key:namespace` character vector of the recycled length, invisibly.
@@ -1160,14 +1267,6 @@ The `key:namespace` character vector of the recycled length, invisibly.
 ### `TileDBStorr$clear_keymeta_async()`
 
 Remove key metadata asynchronously.
-
-This method is a convenient wrapper around `set_keymeta_async()` and
-`mset_keymeta_async()` and sets the key metadata fields to `NA` values,
-i.e., `as.POSIXct(NA)` and `NA_character`.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -1198,6 +1297,16 @@ permitted.
   [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
   object to override context's configuration.
 
+#### Details
+
+This method is a convenient wrapper around `set_keymeta_async()` and
+`mset_keymeta_async()` and sets the key metadata fields to `NA` values,
+i.e., `as.POSIXct(NA)` and `NA_character`.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
 #### Returns
 
 A named list with two elements (invisibly):
@@ -1211,10 +1320,6 @@ A named list with two elements (invisibly):
 ### `TileDBStorr$fill()`
 
 Set one or more keys to the same value.
-
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
 
 #### Usage
 
@@ -1238,6 +1343,12 @@ permitted.
 - `use_cache`:
 
   Should the cache be used? Default is `TRUE`.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -1310,10 +1421,6 @@ The number of deleted namespaces.
 
 Check a key-namespace pair exists.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$exists(key, namespace = self$default_namespace)
@@ -1327,6 +1434,12 @@ permitted.
 - `namespace`:
 
   A character vector of namespaces.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 

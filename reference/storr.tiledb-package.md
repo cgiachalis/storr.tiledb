@@ -3,10 +3,11 @@
 Provides a TileDB driver for 'storr' interface. A 'storr' is a content
 addressed key value store with an optional caching layer and this
 package contributes a new driver using TileDB Embedded storage engine as
-a backend. In addition, storr.tiledb comes with a subclass of 'storr' in
-order to improve speed and efficiency but also enhances the 'storr' with
-additional features, such as adding notes and expiration timestamps as
-well as support for asynchronous and in parallel writes.
+a backend. In addition, storr.tiledb introduces a specialized
+TileDBStorr class that replicates 'storr' API in order to improve speed
+and efficiency while enhancing 'storr' with additional features, i.e.,
+per-key notes and Time-To-Live (TTL) expiration timestamps as well as
+support for asynchronous and in parallel writes.
 
 ## See also
 
