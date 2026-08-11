@@ -312,3 +312,37 @@ test_that("'export_tdb' with time-travel", {
 
 })
 
+test_that("'get_all' and 'mget_all'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1)
+  t1 <- Sys.time()
+  sto$set("a", 2, notes = "Good")
+  sto$set("b", 3)
+  t2 <- Sys.time()
+
+  # Open at t1
+  stott <- storr_timetravel(uri, timestamp = t1, default_namespace = "ns1")
+
+  # Check 'get_all'
+  trg1 <- list(keyval = 1, keymeta = list(expires_at = structure(NA_real_, class = c("POSIXct",
+                                                                                     "POSIXt"), tzone = ""), notes = NA_character_))
+  expect_equal(stott$get_all("a"), trg1)
+  expect_error(stott$get_all("b"), class = "error", "key 'b' ('ns1') not found", fixed = TRUE)
+
+  # Open at t2
+  stott$timestamp <- t2
+  trg2 <- list(list(keyval = 2, keymeta = list(expires_at = structure(NA_real_, class = c("POSIXct",
+                                                                                          "POSIXt"), tzone = ""), notes = "Good")), list(keyval = 3, keymeta = list(
+                                                                                            expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
+                                                                                            ), tzone = ""), notes = NA_character_)), NULL)
+  expect_equal(sto$mget_all(c("a", "b", "c")), trg2)
+
+  expect_equal(sto$mget_all("nope"), list(NULL))
+  expect_equal(sto$mget_all("nope", missing = "noval"), list(list(keyval = "noval", keymeta = "noval")))
+
+})
