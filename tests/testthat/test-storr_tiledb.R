@@ -308,3 +308,37 @@ test_that("'list_unused_hashes'", {
   expect_equal(sto$list_unused_hashes(), character(0))
 
 })
+
+
+test_that("'get_all' and 'mget_all'", {
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  sto$set("a",
+          value = 1,
+          expires_at = as.POSIXct("2026-02-25"),
+          notes = "Yeah")
+
+  sto$set("b", value = 2)
+
+
+  # Check 'get_all'
+  trg1 <- list(keyval = 2, keymeta = list(expires_at = structure(NA_real_, class = c("POSIXct",
+                                                                                     "POSIXt"), tzone = ""), notes = NA_character_))
+  expect_equal(sto$get_all("b"), trg1)
+  expect_equal(sto$get_all("b", use_cache = FALSE), trg1)
+
+
+  trg2 <- list(list(keyval = 1, keymeta = list(expires_at = structure(1771970400, class = c("POSIXct",
+                                                                                            "POSIXt"), tzone = ""), notes = "Yeah")), list(keyval = 2, keymeta = list(
+                                                                                              expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
+                                                                                              ), tzone = ""), notes = NA_character_)), NULL)
+  expect_equal(sto$mget_all(c("a", "b", "c")), trg2)
+  expect_equal(sto$mget_all(c("a", "b", "c"), use_cache = FALSE), trg2, ignore_attr = TRUE)
+
+  expect_equal(sto$mget_all("nope"), list(NULL))
+  expect_equal(sto$mget_all("nope", missing = "noval"), list(list(keyval = "noval", keymeta = "noval")))
+
+})
+
