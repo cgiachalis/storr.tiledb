@@ -149,13 +149,14 @@ functions? Default is  \code{FALSE}.}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-flush_cache}{}}}
 \subsection{\code{TileDBStorr$flush_cache()}}{
   Flush the cache of \code{R} objects.
-
-It removes all items from the hash tables (R objects and
-their metadata).
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$flush_cache()}
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    It removes all items from the hash tables (R objects and
+their metadata).
   }
   \subsection{Returns}{
     The object, invisibly.
@@ -195,9 +196,6 @@ their metadata).
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset}{}}}
 \subsection{\code{TileDBStorr$mset()}}{
   Set multiple key value pairs.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mset(key, value, namespace = self$default_namespace, expires_at,
@@ -215,6 +213,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A vector of hash values, invisibly.
@@ -262,9 +264,6 @@ logical \code{TRUE} if an evaluation is successful.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_async}{}}}
 \subsection{\code{TileDBStorr$mset_async()}}{
   Set multiple key value pairs asynchronously.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mset_async(key, value, namespace = self$default_namespace,
@@ -284,6 +283,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     Invisibly, a named list with two elements:
@@ -393,9 +396,6 @@ logical \code{TRUE} if an evaluation is successful.
 \subsection{\code{TileDBStorr$mset_by_value_async()}}{
   Set multiple key value pairs using their
 hashes as keys, asynchronously.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mset_by_value_async(value, namespace = self$default_namespace,
@@ -414,6 +414,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     Invisibly, a named list with two elements:
@@ -508,9 +512,6 @@ This is used internally.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget}{}}}
 \subsection{\code{TileDBStorr$mget()}}{
   Get multiple objects.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mget(key, namespace = self$default_namespace,
@@ -526,6 +527,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{missing}}{Value to use for missing elements.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A list of \code{R} objects.
@@ -560,9 +565,6 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_hash}{}}}
 \subsection{\code{TileDBStorr$mget_hash()}}{
   Get hash values.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mget_hash(key, namespace = self$default_namespace)}
@@ -575,6 +577,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{namespace}}{A character vector of namespaces.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A vector of hashes.
@@ -683,9 +689,6 @@ requested digest (hash) of the supplied R object.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_all}{}}}
 \subsection{\code{TileDBStorr$mget_all()}}{
   Get multiple objects and their metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mget_all(key, namespace = self$default_namespace,
@@ -701,6 +704,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{missing}}{Value to use for missing elements.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A list of \code{R} objects with their metadata for each key-namespace
@@ -735,6 +742,10 @@ between cache and database when reading back  with
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.
+  }
   \subsection{Returns}{
     The \code{key:namespace} string, invisibly. If both arguments
 \code{"expires_at"} and \code{"notes"} are missing, then nothing is set and
@@ -747,9 +758,6 @@ a zero length character vector is returned.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta}{}}}
 \subsection{\code{TileDBStorr$mset_keymeta()}}{
   Set multiple key metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
@@ -771,6 +779,13 @@ between cache and database when reading back  with
 \code{use_cache = TRUE}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     The \code{key:namespace} character vector of the recycled length,
@@ -808,6 +823,10 @@ between cache and database when reading back  with
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.
+  }
   \subsection{Returns}{
     A named list with two elements (invisibly):
 \itemize{
@@ -825,9 +844,6 @@ then nothing is set and a zero length character vector is returned.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta_async}{}}}
 \subsection{\code{TileDBStorr$mset_keymeta_async()}}{
   Set multiple key metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
@@ -851,6 +867,13 @@ between cache and database when reading back  with
       \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    Setting keymeta will update/replace only the chosen metadata and will not
+ovewrite the other.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A named list with two elements (invisibly):
@@ -926,13 +949,6 @@ pair. For not found pairs will return the \code{missing} value.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear_keymeta}{}}}
 \subsection{\code{TileDBStorr$clear_keymeta()}}{
   Remove key metadata.
-
-This method is a convenient  wrapper around \code{set_keymeta()} and \code{mset_keymeta()}
-and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
-\code{NA_character}.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$clear_keymeta(key, namespace = self$default_namespace,
@@ -953,6 +969,14 @@ between cache and database when reading back  with
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    This method is a convenient  wrapper around \code{set_keymeta()} and \code{mset_keymeta()}
+and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
+\code{NA_character}.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+  }
   \subsection{Returns}{
     The \code{key:namespace} character vector of the recycled length,
 invisibly.
@@ -964,13 +988,6 @@ invisibly.
 \if{latex}{\out{\hypertarget{method-TileDBStorr-clear_keymeta_async}{}}}
 \subsection{\code{TileDBStorr$clear_keymeta_async()}}{
   Remove key metadata asynchronously.
-
-This method is a convenient  wrapper around \code{set_keymeta_async()} and \code{mset_keymeta_async()}
-and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
-\code{NA_character}.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$clear_keymeta_async(key, namespace = self$default_namespace,
@@ -992,6 +1009,14 @@ between cache and database when reading back  with
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    This method is a convenient  wrapper around \code{set_keymeta_async()} and \code{mset_keymeta_async()}
+and sets the key metadata fields to \code{NA} values, i.e., \code{as.POSIXct(NA)} and
+\code{NA_character}.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+  }
   \subsection{Returns}{
     A named list with two elements (invisibly):
 \itemize{
@@ -1006,9 +1031,6 @@ between cache and database when reading back  with
 \if{latex}{\out{\hypertarget{method-TileDBStorr-fill}{}}}
 \subsection{\code{TileDBStorr$fill()}}{
   Set one or more keys to the same value.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$fill(key, value, namespace = self$default_namespace,
@@ -1024,6 +1046,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A vector of hash values, invisibly.
@@ -1088,9 +1114,6 @@ clear all namespaces.}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-exists}{}}}
 \subsection{\code{TileDBStorr$exists()}}{
   Check a key-namespace pair exists.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$exists(key, namespace = self$default_namespace)}
@@ -1103,6 +1126,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{namespace}}{A character vector of namespaces.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A logical vector indicating which key-namespace pair exists.

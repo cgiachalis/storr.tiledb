@@ -76,6 +76,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple objects.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -119,6 +120,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple objects and their metadata.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -150,7 +152,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get hash value.
     #'
-    #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
     #'
@@ -178,6 +179,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get hash values.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -219,7 +221,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple objects given their hashes.
     #'
-    #'
     #' @param hash A vector of hash values."
     #' @param missing Value to use for missing elements.
     #'
@@ -246,7 +247,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get key's metadata.
     #'
-    #'
     #' @param key The key name to get metadata values from.
     #' @param namespace The namespace to look the key within.
     #'
@@ -265,6 +265,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple key metadata.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key A character vector with keys to get metadata values from.
@@ -305,6 +306,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Check a key-namespace pair exists.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -466,7 +468,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Generate a `data.table` with an index of objects
     #' present in a storr.
-    #'
     #'
     #' @param namespace `r sto_namespaces_or_null`
     #'

@@ -108,9 +108,6 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
 \if{latex}{\out{\hypertarget{method-StorrTimeTravel-mget}{}}}
 \subsection{\code{StorrTimeTravel$mget()}}{
   Get multiple objects.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrTimeTravel$mget(key, namespace = self$default_namespace,
@@ -125,6 +122,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{missing}}{Value to use for missing elements.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A list of \code{R} objects.
@@ -159,9 +160,6 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \if{latex}{\out{\hypertarget{method-StorrTimeTravel-mget_all}{}}}
 \subsection{\code{StorrTimeTravel$mget_all()}}{
   Get multiple objects and their metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrTimeTravel$mget_all(key, namespace = self$default_namespace,
@@ -176,6 +174,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{missing}}{Value to use for missing elements.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A list of \code{R} objects with their metadata for each key-namespace
@@ -211,9 +213,6 @@ pair. For not found pairs will return the \code{missing} value.
 \if{latex}{\out{\hypertarget{method-StorrTimeTravel-mget_hash}{}}}
 \subsection{\code{StorrTimeTravel$mget_hash()}}{
   Get hash values.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrTimeTravel$mget_hash(key, namespace = self$default_namespace)}
@@ -226,6 +225,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{namespace}}{A character vector of namespaces.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A vector of hashes.
@@ -306,9 +309,6 @@ and \verb{"notes".}
 \if{latex}{\out{\hypertarget{method-StorrTimeTravel-mget_keymeta}{}}}
 \subsection{\code{StorrTimeTravel$mget_keymeta()}}{
   Get multiple key metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrTimeTravel$mget_keymeta(key, namespace = self$default_namespace,
@@ -324,6 +324,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+  }
   \subsection{Returns}{
     A list with key metadata for each key-namespace
 pair. For not found pairs will return the \code{missing} value.
@@ -335,9 +339,6 @@ pair. For not found pairs will return the \code{missing} value.
 \if{latex}{\out{\hypertarget{method-StorrTimeTravel-exists}{}}}
 \subsection{\code{StorrTimeTravel$exists()}}{
   Check a key-namespace pair exists.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrTimeTravel$exists(key, namespace = self$default_namespace)}
@@ -350,6 +351,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{namespace}}{A character vector of namespaces.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A logical vector indicating which key-namespace pair exists.

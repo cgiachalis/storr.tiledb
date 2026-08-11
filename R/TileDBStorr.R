@@ -113,6 +113,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Flush the cache of `R` objects.
     #'
+    #' @details
     #' It removes all items from the hash tables (R objects and
     #' their metadata).
     #'
@@ -178,6 +179,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key value pairs.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -238,7 +240,6 @@ TileDBStorr <- R6::R6Class(
 
 
     #' @description Set a key value pair asynchronously.
-    #'
     #'
     #' @param key `r sto_key()`
     #' @param value `r sto_value()`
@@ -348,6 +349,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key value pairs asynchronously.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -500,7 +502,6 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set a key value pair using its hash as key.
     #'
-    #'
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param expires_at `r sto_expires()`
@@ -544,7 +545,6 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set multiple key value pairs using their
     #'  hashes as keys.
-    #'
     #'
     #' @param value `r sto_value(1)`
     #' @param namespace `r sto_namespace(1)`
@@ -705,6 +705,7 @@ TileDBStorr <- R6::R6Class(
     #' @description Set multiple key value pairs using their
     #'  hashes as keys, asynchronously.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param value `r sto_value(1)`
@@ -948,6 +949,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get multiple objects.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -995,6 +997,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get hash values.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -1051,7 +1054,6 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Get multiple objects given their hashes.
-    #'
     #'
     #' @param hash A vector of hash values.
     #' @param use_cache `r sto_cache`
@@ -1132,6 +1134,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get multiple objects and their metadata.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -1164,6 +1167,9 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Set key metadata.
+    #'
+    #' @details
+    #' `r sto_keymeta_note`
     #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
@@ -1234,6 +1240,9 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Set multiple key metadata.
+    #'
+    #' @details
+    #' `r sto_keymeta_note`
     #'
     #' `r sto_recycle_note`
     #'
@@ -1311,6 +1320,8 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set key metadata asynchronously.
     #'
+    #' @details
+    #' `r sto_keymeta_note`
     #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
@@ -1424,6 +1435,9 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Set multiple key metadata.
+    #'
+    #' @details
+    #' `r sto_keymeta_note`
     #'
     #' `r sto_recycle_note`
     #'
@@ -1659,6 +1673,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Remove key metadata.
     #'
+    #' @details
     #' This method is a convenient  wrapper around `set_keymeta()` and `mset_keymeta()`
     #' and sets the key metadata fields to `NA` values, i.e., `as.POSIXct(NA)` and
     #' `NA_character`.
@@ -1699,6 +1714,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Remove key metadata asynchronously.
     #'
+    #' @details
     #' This method is a convenient  wrapper around `set_keymeta_async()` and `mset_keymeta_async()`
     #' and sets the key metadata fields to `NA` values, i.e., `as.POSIXct(NA)` and
     #' `NA_character`.
@@ -1744,6 +1760,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set one or more keys to the same value.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -1809,6 +1826,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Check a key-namespace pair exists.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`

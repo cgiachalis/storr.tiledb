@@ -68,6 +68,8 @@ sto_cfg <- "Pass a [tiledb::config()] object to override context's configuration
 sto_recycle_note <- "The arguments `key` and `namespace` can be recycled if any of them is a
     scalar character and the other is a vector. No other recycling rule is permitted."
 
+sto_keymeta_note <- "Setting keymeta will update/replace only the chosen metadata and will not
+    ovewrite the other."
 
 # SchemaBase
 
