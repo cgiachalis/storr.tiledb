@@ -106,13 +106,15 @@
 #' - **`get()`** - Retrieve an object by key-namespace pair
 #' - **`set_by_value()`** - Set a key-value pair using the object's hash as the key
 #' - **`get_value()`** - Retrieve an object given its hash
+#' - **`get_all()`** - Retrieve an object and its metadata by key-namespace pair
 #'
 #' **Multiple Key-Value Operations**
 #'
 #' - **`mset()`** - Set multiple key-value pairs in batch
-#' - **`mget()`** - Get multiple objects by keys
+#' - **`mget()`** - Get multiple objects by key-namespace pairs
 #' - **`mset_by_value()`** - Set multiple key-value pairs using their hashes as keys
 #' - **`mget_value()`** - Get multiple objects by their hashes
+#' - **`mget_all()`** - Retrieve multiple objects and its metadata by key-namespace pairs
 #'
 #' **Asynchronous Operations**
 #'

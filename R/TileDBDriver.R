@@ -375,14 +375,13 @@ TileDBDriver <- R6::R6Class(
 
       DT <- data.table::as.data.table(arr[])
 
-      # TODO: Remove when TileDB fixes it
-      expires_at <- NULL
-      DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
-
-
       if (nrow(DT) == 0) {
         stop(KeyError(key, namespace))
       }
+
+      # TODO: Remove when TileDB fixes it
+      expires_at <- NULL
+      DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
 
       as.list(DT)
     },

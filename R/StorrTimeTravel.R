@@ -76,6 +76,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple objects.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -91,8 +92,65 @@ StorrTimeTravel <- R6::R6Class(
        self$mget_value(hash, missing)
     },
 
-    #' @description Get hash value.
+    #' @description Get an object and its metadata given a key-namespace pair.
     #'
+    #' @param key `r sto_key()`
+    #' @param namespace `r sto_namespace()`
+    #'
+    #' @return The `R` object and its key-metadata, if available.
+    #'
+    get_all = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      out <- list(keyval = NULL, keymeta = NULL)
+
+      # TODO: Explore better approach w/ not touching tbl_key twice
+
+      # get
+      hash <- self$get_hash(key, namespace)
+      out$keyval <- self$get_value(hash)
+
+      # get_keymeta
+      out$keymeta <- private$DRIVER$get_keymeta(key, namespace)
+
+      out
+    },
+
+    #' @description Get multiple objects and their metadata.
+    #'
+    #' @details
+    #' `r sto_recycle_note`
+    #'
+    #' @param key `r sto_key(1)`
+    #' @param namespace `r sto_namespace(1)`
+    #' @param missing Value to use for missing elements.
+    #'
+    #' @return A list of `R` objects with their metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    mget_all = function(key, namespace = self$default_namespace, missing = NULL) {
+
+      # NB: storr::join_key_namespace check is performed inside $query_keys0
+      hash <- self$mget_hash(key, namespace)
+      kv <- self$mget_value(hash, missing)
+
+      km <- self$mget_keymeta(key, namespace, missing = missing)
+
+      mapply(kv, km,
+             FUN = function(.k, .m) {
+               if (is.null(.k)) {
+                 NULL
+               } else {
+                 list(keyval = .k, keymeta = .m)
+               }
+             },
+             SIMPLIFY = FALSE
+      )
+    },
+
+    #' @description Get hash value.
     #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
@@ -121,6 +179,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get hash values.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -162,7 +221,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple objects given their hashes.
     #'
-    #'
     #' @param hash A vector of hash values."
     #' @param missing Value to use for missing elements.
     #'
@@ -189,7 +247,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get key's metadata.
     #'
-    #'
     #' @param key The key name to get metadata values from.
     #' @param namespace The namespace to look the key within.
     #'
@@ -201,8 +258,6 @@ StorrTimeTravel <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      keyns <- paste(key, namespace, sep = ":")
-
       value <- private$DRIVER$get_keymeta(key, namespace)
 
       value
@@ -210,6 +265,7 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Get multiple key metadata.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key A character vector with keys to get metadata values from.
@@ -230,42 +286,27 @@ StorrTimeTravel <- R6::R6Class(
       namespace <- p$namespace
       keyns <- paste(key, namespace, sep = ":")
 
-      value <- vector("list", n)
-      cached <- logical(n)
-
       # Everything is TRUE, so go to find them in DB
-      not_cached <- !cached
-      status_not_cached <- TRUE
-      num_cached <- 0L
-
       is_missing <- FALSE
 
-      if (status_not_cached) {
+      # From not_cached find also which are truly missing
+      value <- private$DRIVER$mget_keymeta(key, namespace, nomatch = missing)
 
-        # From not_cached find also which are truly missing
-        cc <- private$DRIVER$mget_keymeta(key[not_cached],
-                                       namespace[not_cached],
-                                       nomatch = missing)
+      # not_cached and not found
+      keyns_missing <- keyns[attr(value, "missing")]
 
-        value[not_cached] <- cc
-        keyns_not_cached <- keyns[not_cached]
-
-        # not_cached and not found
-        keyns_missing <- keyns_not_cached[attr(cc, "missing")]
-
-        # Truly missing key-namespace pairs
-        is_missing <- keyns %in% keyns_missing
-      }
-
+      # Truly missing key-namespace pairs
+      is_missing <- keyns %in% keyns_missing
 
       if (any(is_missing)) {
-        attr(value, "missing") <- which(is_missing) #+ num_cached
+        attr(value, "missing") <- which(is_missing)
       }
       value
     },
 
     #' @description Check a key-namespace pair exists.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key `r sto_key(1)`
@@ -427,7 +468,6 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Generate a `data.table` with an index of objects
     #' present in a storr.
-    #'
     #'
     #' @param namespace `r sto_namespaces_or_null`
     #'
