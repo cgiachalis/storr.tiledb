@@ -1187,10 +1187,6 @@ A named list with the key-metadata: `"expires_at"` and `"notes".`
 
 Get multiple key metadata.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
@@ -1213,6 +1209,12 @@ permitted.
 - `missing`:
 
   Fill value for missing keys. Default is `NULL`.
+
+#### Details
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -1352,7 +1354,7 @@ permitted.
 
 #### Returns
 
-A vector of hash values, invisibly.
+A hash value, invisibly.
 
 ------------------------------------------------------------------------
 
@@ -1377,8 +1379,8 @@ Duplicate a set of keys.
 
 - `namespace`:
 
-  The namespace to copy keys within (used only of `namespace_src` and
-  `namespace_dest` are not provided.
+  The namespace to copy keys within (used only when `namespace_src` and
+  `namespace_dest` are not provided).
 
 - `namespace_src`:
 
@@ -1471,10 +1473,6 @@ A logical vector indicating which object exists.
 
 Delete an object from the storr.
 
-The arguments `key` and `namespace` can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is
-permitted.
-
 #### Usage
 
     TileDBStorr$del(key, namespace = self$default_namespace)
@@ -1488,6 +1486,17 @@ permitted.
 - `namespace`:
 
   A character vector of namespaces.
+
+#### Details
+
+This will delete only the key-namespace pointers(s) and not the
+underlying data. Explicit use of `$gc()` is required to remove the
+actual object when its hash is not associated with any key-namespace
+pair.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
 
 #### Returns
 
@@ -1700,6 +1709,11 @@ Garbage collect the storr.
 - `clear_expired`:
 
   Should the expired keys be deleted? Default is `FALSE`.
+
+#### Details
+
+This will delete the actual objects from store with unused hashes (i.e.,
+not associated with any key-namespace pair).
 
 #### Returns
 

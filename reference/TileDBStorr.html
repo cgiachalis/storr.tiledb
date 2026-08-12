@@ -31,7 +31,7 @@ usage is through storr_tiledb()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1048,9 +1048,7 @@ and <code>"notes".</code></p>
 
 <p></p><hr><a id="method-TileDBStorr-mget_keymeta"></a><div class="section">
 <h3 id="tiledbstorr-mget-keymeta-"><code>TileDBStorr$mget_keymeta()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-mget-keymeta-"></a></h3>
-<p>Get multiple key metadata.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Get multiple key metadata.</p><div class="section">
 <h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">mget_keymeta</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span>,</span>
 <span>  use_cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"storr.tiledb.cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>, missing <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -1070,6 +1068,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-11">Details<a class="anchor" aria-label="anchor" href="#details-11"></a></h4>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-26">Returns<a class="anchor" aria-label="anchor" href="#returns-26"></a></h4>
 <p>A list with key metadata for each key-namespace
@@ -1103,7 +1105,7 @@ between cache and database when reading back  with
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="details-11">Details<a class="anchor" aria-label="anchor" href="#details-11"></a></h4>
+<h4 id="details-12">Details<a class="anchor" aria-label="anchor" href="#details-12"></a></h4>
 <p>This method is a convenient  wrapper around <code>set_keymeta()</code> and <code>mset_keymeta()</code>
 and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
 <code>NA_character</code>.</p>
@@ -1145,7 +1147,7 @@ between cache and database when reading back  with
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="details-12">Details<a class="anchor" aria-label="anchor" href="#details-12"></a></h4>
+<h4 id="details-13">Details<a class="anchor" aria-label="anchor" href="#details-13"></a></h4>
 <p>This method is a convenient  wrapper around <code>set_keymeta_async()</code> and <code>mset_keymeta_async()</code>
 and sets the key metadata fields to <code>NA</code> values, i.e., <code>as.POSIXct(NA)</code> and
 <code>NA_character</code>.</p>
@@ -1183,12 +1185,12 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="details-13">Details<a class="anchor" aria-label="anchor" href="#details-13"></a></h4>
+<h4 id="details-14">Details<a class="anchor" aria-label="anchor" href="#details-14"></a></h4>
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-29">Returns<a class="anchor" aria-label="anchor" href="#returns-29"></a></h4>
-<p>A vector of hash values, invisibly.</p>
+<p>A hash value, invisibly.</p>
 </div>
 
 </div>
@@ -1208,8 +1210,8 @@ scalar character and the other is a vector. No other recycling rule is permitted
 <dd><p>A character vector of destination keys.</p></dd>
 
       <dt><code>namespace</code></dt>
-<dd><p>The namespace to copy keys within (used only of
-<code>namespace_src</code> and <code>namespace_dest</code> are not provided.</p></dd>
+<dd><p>The namespace to copy keys within (used only when
+<code>namespace_src</code> and <code>namespace_dest</code> are not provided).</p></dd>
 
       <dt><code>namespace_src</code></dt>
 <dd><p>The source namespace - use this where keys are
@@ -1264,7 +1266,7 @@ clear all namespaces.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="details-14">Details<a class="anchor" aria-label="anchor" href="#details-14"></a></h4>
+<h4 id="details-15">Details<a class="anchor" aria-label="anchor" href="#details-15"></a></h4>
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
@@ -1295,9 +1297,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 <p></p><hr><a id="method-TileDBStorr-del"></a><div class="section">
 <h3 id="tiledbstorr-del-"><code>TileDBStorr$del()</code><a class="anchor" aria-label="anchor" href="#tiledbstorr-del-"></a></h3>
-<p>Delete an object from the storr.</p>
-<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.</p><div class="section">
+<p>Delete an object from the storr.</p><div class="section">
 <h4 id="usage-35">Usage<a class="anchor" aria-label="anchor" href="#usage-35"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBStorr</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span><span class="va">key</span>, namespace <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">default_namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -1310,6 +1310,13 @@ scalar character and the other is a vector. No other recycling rule is permitted
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-16">Details<a class="anchor" aria-label="anchor" href="#details-16"></a></h4>
+<p>This will delete only the key-namespace pointers(s) and not the underlying
+data. Explicit use of <code>$gc()</code> is required to remove the actual object
+when its hash is not associated with any key-namespace pair.</p>
+<p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.</p>
 </div><p></p><div class="section">
 <h4 id="returns-34">Returns<a class="anchor" aria-label="anchor" href="#returns-34"></a></h4>
 <p>A logical vector indicating which key-namespace pair was
@@ -1507,6 +1514,10 @@ Default is <code>FALSE</code>.</p></dd>
 
 
 </dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="details-17">Details<a class="anchor" aria-label="anchor" href="#details-17"></a></h4>
+<p>This will delete the actual objects from store with unused hashes (i.e.,
+not associated with any key-namespace pair).</p>
 </div><p></p><div class="section">
 <h4 id="returns-44">Returns<a class="anchor" aria-label="anchor" href="#returns-44"></a></h4>
 <p>A vector of unused hashes, invisibly.</p>
