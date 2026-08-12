@@ -1619,14 +1619,12 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
         cached <- exists0(keyns, envir)
         value[cached] <- lapply(keyns[cached], function(h) gethash(envir, h))
-        num_cached <- sum(cached)
         not_cached <- !cached
         status_not_cached <- any(not_cached)
       } else {
         # Everything is TRUE, so go to find them in DB
         not_cached <- !cached
         status_not_cached <- TRUE
-        num_cached <- 0L
       }
 
       is_missing <- FALSE
@@ -1663,7 +1661,7 @@ TileDBStorr <- R6::R6Class(
 
 
       if (any(is_missing)) {
-        attr(value, "missing") <- which(is_missing) #+ num_cached
+        attr(value, "missing") <- which(is_missing)
       }
       value
     },
@@ -1675,7 +1673,7 @@ TileDBStorr <- R6::R6Class(
     #' An efficient method compared to `$get_keymeta()` for fetching expiration
     #' values only.
     #'
-    #' Note that`use_cache` will only fetch the metadata but not cache it if
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
     #' retrieved from database.
     #'
     #' @param key The key name to get metadata values from.
@@ -1699,7 +1697,7 @@ TileDBStorr <- R6::R6Class(
     #' An efficient method compared to `$get_keymeta()` for fetching notes
     #' values only.
     #'
-    #' Note that`use_cache` will only fetch the metadata but not cache it if
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
     #' retrieved from database.
     #'
     #' @param key The key name to get metadata values from.
