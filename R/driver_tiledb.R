@@ -53,6 +53,8 @@
 #'   expiry times and notes for single key-namespace pairs
 #'  - **`mget_keymeta()`** and **`mset_keymeta()`** - Manage metadata such as
 #'   expiry times and notes for multiple key-namespace pairs
+#'  - **`get_keymeta_unit()`** and **`mget_keymeta_unit()`** - Fetch single
+#'  metadata such as expiry times or notes
 #'
 #' **Expiration Management**
 #'

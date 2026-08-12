@@ -43,6 +43,8 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
     \item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
     \item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
+    \item \href{#method-TileDBDriver-get_keymeta_unit}{\code{TileDBDriver$get_keymeta_unit()}}
+    \item \href{#method-TileDBDriver-mget_keymeta_unit}{\code{TileDBDriver$mget_keymeta_unit()}}
     \item \href{#method-TileDBDriver-exists_hash}{\code{TileDBDriver$exists_hash()}}
     \item \href{#method-TileDBDriver-exists_object}{\code{TileDBDriver$exists_object()}}
     \item \href{#method-TileDBDriver-del_hash}{\code{TileDBDriver$del_hash()}}
@@ -414,6 +416,59 @@ and \code{"notes"}.
   }
   \subsection{Returns}{
     A list with key metadata for each key-namespace
+pair. For not found pairs will return the nomatch value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-get_keymeta_unit"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-get_keymeta_unit}{}}}
+\subsection{\code{TileDBDriver$get_keymeta_unit()}}{
+  Get key-namespace single metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$get_keymeta_unit(key, namespace, meta_col = c("expires_at",
+  "notes"))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A single character key.}
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{meta_col}}{Either \code{"expires_at"} or \code{"notes"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A scalar key-metadata value, either from \code{"expires_at"} or \code{"notes"}
+column attribute.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-mget_keymeta_unit"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-mget_keymeta_unit}{}}}
+\subsection{\code{TileDBDriver$mget_keymeta_unit()}}{
+  Get multiple key-namespace for a single metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$mget_keymeta_unit(key, namespace, meta_col = c("expires_at",
+  "notes"), nomatch = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{meta_col}}{Either \code{"expires_at"} or \code{"notes"}.}
+      \item{\code{nomatch}}{Value to fill in case of no match.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list with single key metadata for each key-namespace
 pair. For not found pairs will return the nomatch value.
   }
 }

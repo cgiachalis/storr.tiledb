@@ -30,7 +30,7 @@ test_that("m/get_keymeta", {
   # add some keys
   sto$set("x", 1)
   t0 <- Sys.time()+100
-  sto$set("y", 1, expires_at = t0, note = "name:Bob")
+  sto$set("y", 1, expires_at = t0, notes = "name:Bob")
 
   # expected outputs
   expval1 <- list(expires_at = as.POSIXct(NA),
@@ -69,6 +69,49 @@ test_that("m/get_keymeta", {
 
   })
 
+
+test_that("m/get_keymeta_unit", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, default_namespace = "ns", init = TRUE)
+  dr <- driver_tiledb(uri)
+
+  # add some keys
+  sto$set("x", 1)
+  t0 <- Sys.time()+100
+  sto$set("y", 1, expires_at = t0, notes = "name:Bob")
+
+  # get_keymeta_unit
+
+  expect_equal(dr$get_keymeta_unit("x", "ns", meta_col = "notes"), NA_character_)
+  expect_equal(dr$get_keymeta_unit("y", "ns", meta_col = "notes"), "name:Bob")
+
+  expect_equal(dr$get_keymeta_unit("x", "ns", meta_col = "expires_at"), as.POSIXct(NA))
+  expect_equal(dr$get_keymeta_unit("y", "ns", meta_col = "expires_at"), t0)
+  expect_error(dr$get_keymeta_unit("d", "ns", meta_col = "expires_at"),
+               "key 'd' ('ns') not found",
+               class = "error",
+               fixed = TRUE)
+
+
+
+  # mget_keymeta_unit
+  trg1 <- structure(list(NA_character_, "name:Bob"), missing = integer(0))
+  expect_equal(dr$mget_keymeta_unit(c("x", "y"), "ns", meta_col = "notes"), trg1)
+
+  trg2 <- structure(list(as.POSIXct(NA, tz = NULL), t0), missing = integer(0))
+  expect_equal(dr$mget_keymeta_unit(c("x", "y"), "ns", meta_col = "expires_at"), trg2)
+
+  trg3 <- structure(list(as.POSIXct(NA, tz = NULL), NULL, t0), missing = 2L)
+  expect_equal(dr$mget_keymeta_unit(c("x", "d","y"), "ns", meta_col = "expires_at"), trg3)
+
+  trg4 <- structure(list(as.POSIXct(NA, tz = NULL), "no-val", t0), missing = 2L)
+  expect_equal(dr$mget_keymeta_unit(c("x", "d","y"), "ns", meta_col = "expires_at", nomatch = "no-val"), trg4)
+
+})
+
 test_that("set_keymeta", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
@@ -79,7 +122,7 @@ test_that("set_keymeta", {
   # add some keys
   sto$set("x", 1)
   t0 <- Sys.time()+100
-  sto$set("y", 1,namespace = "obj2", expires_at = t0, note = "name:Bob")
+  sto$set("y", 1,namespace = "obj2", expires_at = t0, notes = "name:Bob")
 
   # test standard cases
   expect_true(dr$set_keymeta("x", "objects", expires_at = as.POSIXct(1), notes = "simple"))
@@ -110,7 +153,7 @@ test_that("mset_keymeta", {
   # add some keys
   sto$set("x", 1)
   t0 <- Sys.time()+100
-  sto$set("y", 1,namespace = "obj2", expires_at = t0, note = "name:Bob")
+  sto$set("y", 1,namespace = "obj2", expires_at = t0, notes = "name:Bob")
 
 
   expval0 <- list(expires_at = as.POSIXct(NA, tz = NULL),
