@@ -231,7 +231,7 @@ test_that("get_keymeta_expires_at and get_keymeta_notes", {
   expect_equal(sto$get_keymeta_notes("y", use_cache = FALSE), "name:Bob")
   expect_equal(sto$get_keymeta_expires_at("x", use_cache = FALSE), as.POSIXct(NA))
   expect_equal(sto$get_keymeta_expires_at("y", use_cache = FALSE), t0)
-
+  expect_equal(numhash(sto$envir_metadata), 0)
 
   # test assertions etc..
   expect_error(sto$get_keymeta_notes("y",namespace = "ns2"),
@@ -247,6 +247,48 @@ test_that("get_keymeta_expires_at and get_keymeta_notes", {
 
   expect_error(sto$get_keymeta_notes("x", c("ns1", "ns2")),
                "'namespace' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+})
+
+
+test_that("mget_keymeta_expires_at and mget_keymeta_notes", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  # add some keys
+  sto$set("x", 1)
+  t0 <- Sys.time()+100
+  sto$set("y", 1, expires_at = t0, notes = "name:Bob")
+  expect_equal(numhash(sto$envir_metadata), 2)
+
+  expect_equal(sto$mget_keymeta_notes("x", use_cache = TRUE), list(NA_character_))
+  expect_equal(sto$mget_keymeta_notes(c("x","y"), use_cache = TRUE), list(NA_character_, "name:Bob"))
+  expect_equal(sto$mget_keymeta_expires_at("x", use_cache = TRUE), list(as.POSIXct(NA)))
+  expect_equal(sto$mget_keymeta_expires_at(c("x","y"), use_cache = TRUE), list(as.POSIXct(NA), t0))
+
+  # with missing (nomatch)
+  expect_equal(sto$mget_keymeta_notes("d", use_cache = TRUE), structure(list(NULL), missing = 1L))
+  expect_equal(sto$mget_keymeta_notes(c("y", "d"), use_cache = TRUE), structure(list("name:Bob", NULL), missing = 2L))
+
+  # use_cache = FALSE with empty cache (no cache writes)
+  sto$flush_cache()
+  expect_equal(numhash(sto$envir_metadata), 0)
+  expect_equal(sto$mget_keymeta_notes("x", use_cache = FALSE), list(NA_character_))
+  expect_equal(sto$mget_keymeta_notes(c("x","y"), use_cache = FALSE), list(NA_character_, "name:Bob"))
+  expect_equal(sto$mget_keymeta_expires_at("x", use_cache = FALSE), list(as.POSIXct(NA)))
+  expect_equal(sto$mget_keymeta_expires_at(c("x","y"), use_cache = FALSE), list(as.POSIXct(NA, tz = NULL), t0))
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+  # with missing (nomatch)
+  expect_equal(sto$mget_keymeta_notes("d", use_cache = FALSE, missing = "NO-VAL"), structure(list("NO-VAL"), missing = 1L))
+  expect_equal(sto$mget_keymeta_notes(c("y", "d"), use_cache = FALSE, missing = "NO-VAL"), structure(list("name:Bob", "NO-VAL"), missing = 2L))
+
+  # check key-namespace for incompatibility
+  expect_error(sto$mget_keymeta_notes(c("x", "y", "z"), namespace = c("objects", "objects")),
+               "Incompatible lengths for key and namespace",
                fixed = TRUE,
                class = "error")
 

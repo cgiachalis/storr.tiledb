@@ -171,6 +171,10 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{mset_keymeta()}} - Set metadata for multiple keys
 \item \strong{\code{get_keymeta()}} - Retrieve metadata for a key
 \item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
+\item \strong{\code{get_keymeta_expires_at()}} - Retrieve expiration metadata for a key
+\item \strong{\code{get_keymeta_notes()}} - Retrieve notes metadata for a key
+\item \strong{\code{mget_keymeta_expires_at()}} - Retrieve expiration metadata for multiple keys
+\item \strong{\code{mget_keymeta_notes()}} - Retrieve notes metadata for multiple keys
 \item \strong{\code{set_keymeta_async()}} - Set metadata asynchronously
 \item \strong{\code{mset_keymeta_async()}} - Set multiple metadata asynchronously
 \item \strong{\code{clear_keymeta()}} - Clear metadata (set to NA) for key(s)
