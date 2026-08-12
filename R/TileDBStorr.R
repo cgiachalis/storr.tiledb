@@ -1668,6 +1668,54 @@ TileDBStorr <- R6::R6Class(
       value
     },
 
+    #' @description Get key's expiration metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching expiration
+    #' values only.
+    #'
+    #' Note that`use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_expires_at = function(key,
+                                      namespace = self$default_namespace,
+                                      use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      private$keymeta_unit(key, namespace, use_cache, "expires_at")
+    },
+
+    #' @description Get key's notes metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching notes
+    #' values only.
+    #'
+    #' Note that`use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_notes = function(key,
+                                 namespace = self$default_namespace,
+                                 use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      private$keymeta_unit(key, namespace, use_cache, "notes")
+    },
+
     #' @description Remove key metadata.
     #'
     #' @details
@@ -2278,6 +2326,25 @@ TileDBStorr <- R6::R6Class(
       stop(sprintf("'%s' must have %d elements (recieved %d)", name, n, length(x)),
            call. = FALSE)
     }
+  },
+
+  # Select a single metadata from key-namespace pair
+  keymeta_unit = function(key, namespace, use_cache, meta_col) {
+
+    private$check_input(key, n = 1, type = "character")
+    private$check_input(namespace, n = 1, type = "character")
+
+    keyns <- paste(key, namespace, sep = ":")
+    envir <- self$envir_metadata
+
+    if (use_cache && exists1(keyns, envir)) {
+      value <- gethash(envir, keyns)[[meta_col]]
+    } else {
+      value <- private$DRIVER$get_keymeta_unit(key, namespace, meta_col)
+
+    }
+    value
+
   },
 
   # Set up persistent daemons for storr compute profile
