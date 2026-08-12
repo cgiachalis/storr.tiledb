@@ -597,7 +597,6 @@ TileDBStorr <- R6::R6Class(
     #' @description Set a key value pair using its hash as key,
     #' asynchronously.
     #'
-    #'
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param expires_at `r sto_expires()`
@@ -969,7 +968,6 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get hash value.
     #'
-    #'
     #' @param key `r sto_key()`
     #' @param namespace `r sto_namespace()`
     #'
@@ -1022,7 +1020,6 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Get an object given its hash.
-    #'
     #'
     #' @param hash The hash value of the object.
     #' @param use_cache `r sto_cache`
@@ -1559,7 +1556,6 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get key's metadata.
     #'
-    #'
     #' @param key The key name to get metadata values from.
     #' @param namespace The namespace to look the key within.
     #' @param use_cache Should it be retrieved from cache? Default is
@@ -1592,6 +1588,7 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Get multiple key metadata.
     #'
+    #' @details
     #' `r sto_recycle_note`
     #'
     #' @param key A character vector with keys to get metadata values from.
@@ -1768,7 +1765,7 @@ TileDBStorr <- R6::R6Class(
     #' @param namespace `r sto_namespace(1)`
     #' @param use_cache `r sto_cache`
     #'
-    #' @return A vector of hash values, invisibly.
+    #' @return A hash value, invisibly.
     #'
     fill = function(key, value, namespace = self$default_namespace,
                     use_cache = getOption("storr.tiledb.cache", TRUE)) {
@@ -1784,8 +1781,8 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @param key_src A character vector of source keys.
     #' @param key_dest A character vector of destination keys.
-    #' @param namespace The namespace to copy keys within (used only of
-    #'  `namespace_src` and `namespace_dest` are not provided.
+    #' @param namespace The namespace to copy keys within (used only when
+    #'  `namespace_src` and `namespace_dest` are not provided).
     #' @param namespace_src The source namespace - use this where keys are
     #'  duplicated across namespaces.
     #' @param namespace_dest  The destination namespace - use this where keys are duplicated
@@ -1849,6 +1846,12 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Delete an object from the storr.
+    #'
+    #' @details
+    #'
+    #' This will delete only the key-namespace pointers(s) and not the underlying
+    #' data. Explicit use of `$gc()` is required to remove the actual object
+    #' when its hash is not associated with any key-namespace pair.
     #'
     #' `r sto_recycle_note`
     #'
@@ -2027,6 +2030,10 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Garbage collect the storr.
     #'
+    #' @details
+    #' This will delete the actual objects from store with unused hashes (i.e.,
+    #' not associated with any key-namespace pair).
+    #'
     #' @param clear_expired Should the expired keys be deleted?
     #' Default is `FALSE`.
     #'
@@ -2052,7 +2059,6 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Import objects to storr.
-    #'
     #'
     #' @param src A source to import objects from. It can be a storr, list, or environment.
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
@@ -2136,7 +2142,6 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Import an index of objects from a storr.
-    #'
     #'
     #' @param index A `data.frame` with minimum required columns 'namespace', 'key'
     #' 'hash' and optionally 'expires_at' and 'notes'. It is an error if not all

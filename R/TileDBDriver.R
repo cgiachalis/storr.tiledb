@@ -875,18 +875,7 @@ TileDBDriver <- R6::R6Class(
 
       arrobj <- private$keys_array()
 
-      # Ignore NA datetimes
-      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                              value = as.POSIXct(NA),
-                                              dtype = "DATETIME_MS",
-                                              op = "NE")
-      # Expired datetimes (dbts < now)
-      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                              value = Sys.time(),
-                                              dtype = "DATETIME_MS",
-                                              op = "LT")
-
-      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+      qc <- private$expiry_qc(expired = TRUE)
 
       sp <- list()
 
@@ -920,18 +909,7 @@ TileDBDriver <- R6::R6Class(
 
       arrobj <- private$keys_array()
 
-      # Ignore NA datetimes
-      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                      value = as.POSIXct(NA),
-                                                      dtype = "DATETIME_MS",
-                                                      op = "NE")
-      # Un-expired datetimes (dbts > now)
-      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                      value = Sys.time(),
-                                                      dtype = "DATETIME_MS",
-                                                      op = "GT")
-
-      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+      qc <- private$expiry_qc(expired = FALSE)
 
       sp <- list()
 
@@ -963,20 +941,8 @@ TileDBDriver <- R6::R6Class(
 
       arrobj <- private$keys_array()
 
-      # expired keys: now > expires_at excl datetime with NA values
-
-      # Ignore NA datetimes
-      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                              value = as.POSIXct(NA),
-                                              dtype = "DATETIME_MS",
-                                              op = "NE")
-      # Expired datetimes (dbts < now)
-      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                              value = Sys.time(),
-                                              dtype = "DATETIME_MS",
-                                              op = "LT")
-
-      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+      # expired keys: now >= 'expires_at' excl datetime with NA values
+      qc <- private$expiry_qc(expired = TRUE)
 
       if (!is.null(namespace)) {
 
@@ -1073,19 +1039,7 @@ TileDBDriver <- R6::R6Class(
 
       arrobj <- private$keys_array()
 
-      # Ignore NA datetimes
-      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                      value = as.POSIXct(NA),
-                                                      dtype = "DATETIME_MS",
-                                                      op = "NE")
-      # Expired datetimes (dbts < now)
-      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                      value = Sys.time(),
-                                                      dtype = "DATETIME_MS",
-                                                      op = "LT")
-
-      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
-
+      qc <- private$expiry_qc(expired = TRUE)
 
       sp <- list(namespace = namespace, key = key)
       out <- arrobj$tiledb_array(attrs = "expires_at",

@@ -384,6 +384,34 @@ CAS <- R6::R6Class(
       dta[.(namespace, key), "hash", with = FALSE,
              env = list(namespace = I(namespace), key = I(key))][[1]]
 
+    },
+
+    # Create query condition to get expired or not-expired keys
+    #
+    # @param expired `TRUE` for expired key condition, `FALSE` for un-expired
+    #     condition.
+    expiry_qc = function(expired = TRUE) {
+
+      op <- if (expired) {
+        "LE"
+      } else {
+        "GT"
+      }
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = as.POSIXct(NA),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "NE")
+      # Expired datetimes ('expires_at' <= now)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = Sys.time(),
+                                                      dtype = "DATETIME_MS",
+                                                      op = op)
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      qc
     }
   ) # private
 )

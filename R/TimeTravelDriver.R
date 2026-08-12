@@ -630,19 +630,7 @@ TimeTravelDriver <- R6::R6Class(
 
      arrobj <- private$keys_array()
      arr <- arrobj$object
-
-     # Ignore NA datetimes
-     qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = as.POSIXct(NA),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "NE")
-     # Expired datetimes (now > index)
-     qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = Sys.time(),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "LT")
-
-     qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+     qc <- private$expiry_qc(expired = TRUE)
 
      sp <- list()
 
@@ -682,19 +670,7 @@ TimeTravelDriver <- R6::R6Class(
 
      arrobj <- private$keys_array()
      arr <- arrobj$object
-
-     # Ignore NA datetimes
-     qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = as.POSIXct(NA),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "NE")
-     # Expired datetimes (now > index)
-     qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = Sys.time(),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "GT")
-
-     qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+     qc <- private$expiry_qc(expired = FALSE)
 
      sp <- list()
 
@@ -780,19 +756,7 @@ TimeTravelDriver <- R6::R6Class(
 
      arrobj <- private$keys_array()
      arr <- arrobj$object
-
-     # Ignore NA datetimes
-     qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = as.POSIXct(NA),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "NE")
-     # Expired datetimes (dbts < now)
-     qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
-                                                     value = Sys.time(),
-                                                     dtype = "DATETIME_MS",
-                                                     op = "LT")
-
-     qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+     qc <- private$expiry_qc(expired = TRUE)
      sp <- list(namespace = namespace, key = key)
 
      tiledb::attrs(arr) <- "expires_at"
@@ -1062,6 +1026,36 @@ TimeTravelDriver <- R6::R6Class(
       dta[.(namespace, key), "hash", with = FALSE,
              env = list(namespace = I(namespace), key = I(key))][[1]]
 
+    },
+
+    # Create query condition to get expired or not-expired keys
+    #
+    # @param expired `TRUE` for expired key condition, `FALSE` for un-expired
+    #     condition.
+    #
+    expiry_qc = function(expired = TRUE) {
+
+      op <- if (expired) {
+        "LE"
+      } else {
+        "GT"
+      }
+
+      # Ignore NA datetimes
+      qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = as.POSIXct(NA),
+                                                      dtype = "DATETIME_MS",
+                                                      op = "NE")
+      # Expired datetimes ('expires_at' <= now)
+      qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
+                                                      value = Sys.time(),
+                                                      dtype = "DATETIME_MS",
+                                                      op = op)
+
+      qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
+
+      qc
     }
+
   ) # private
 )
