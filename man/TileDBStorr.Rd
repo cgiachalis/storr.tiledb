@@ -919,9 +919,6 @@ and \verb{"notes".}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-mget_keymeta}{}}}
 \subsection{\code{TileDBStorr$mget_keymeta()}}{
   Get multiple key metadata.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$mget_keymeta(key, namespace = self$default_namespace,
@@ -937,6 +934,10 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A list with key metadata for each key-namespace
@@ -1052,7 +1053,7 @@ scalar character and the other is a vector. No other recycling rule is permitted
 scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
-    A vector of hash values, invisibly.
+    A hash value, invisibly.
   }
 }
 
@@ -1072,8 +1073,8 @@ scalar character and the other is a vector. No other recycling rule is permitted
     \describe{
       \item{\code{key_src}}{A character vector of source keys.}
       \item{\code{key_dest}}{A character vector of destination keys.}
-      \item{\code{namespace}}{The namespace to copy keys within (used only of
-\code{namespace_src} and \code{namespace_dest} are not provided.}
+      \item{\code{namespace}}{The namespace to copy keys within (used only when
+\code{namespace_src} and \code{namespace_dest} are not provided).}
       \item{\code{namespace_src}}{The source namespace - use this where keys are
 duplicated across namespaces.}
       \item{\code{namespace_dest}}{The destination namespace - use this where keys are duplicated
@@ -1163,9 +1164,6 @@ scalar character and the other is a vector. No other recycling rule is permitted
 \if{latex}{\out{\hypertarget{method-TileDBStorr-del}{}}}
 \subsection{\code{TileDBStorr$del()}}{
   Delete an object from the storr.
-
-The arguments \code{key} and \code{namespace} can be recycled if any of them is a
-scalar character and the other is a vector. No other recycling rule is permitted.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TileDBStorr$del(key, namespace = self$default_namespace)}
@@ -1178,6 +1176,14 @@ scalar character and the other is a vector. No other recycling rule is permitted
       \item{\code{namespace}}{A character vector of namespaces.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This will delete only the key-namespace pointers(s) and not the underlying
+data. Explicit use of \verb{$gc()} is required to remove the actual object
+when its hash is not associated with any key-namespace pair.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
   }
   \subsection{Returns}{
     A logical vector indicating which key-namespace pair was
@@ -1396,6 +1402,10 @@ or (c) \code{check = FALSE} and no key is found
 Default is \code{FALSE}.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This will delete the actual objects from store with unused hashes (i.e.,
+not associated with any key-namespace pair).
   }
   \subsection{Returns}{
     A vector of unused hashes, invisibly.
