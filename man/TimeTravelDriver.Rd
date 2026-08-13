@@ -49,6 +49,8 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-TimeTravelDriver-mget_object}{\code{TimeTravelDriver$mget_object()}}
     \item \href{#method-TimeTravelDriver-get_keymeta}{\code{TimeTravelDriver$get_keymeta()}}
     \item \href{#method-TimeTravelDriver-mget_keymeta}{\code{TimeTravelDriver$mget_keymeta()}}
+    \item \href{#method-TimeTravelDriver-get_keymeta_unit}{\code{TimeTravelDriver$get_keymeta_unit()}}
+    \item \href{#method-TimeTravelDriver-mget_keymeta_unit}{\code{TimeTravelDriver$mget_keymeta_unit()}}
     \item \href{#method-TimeTravelDriver-exists_hash}{\code{TimeTravelDriver$exists_hash()}}
     \item \href{#method-TimeTravelDriver-exists_object}{\code{TimeTravelDriver$exists_object()}}
     \item \href{#method-TimeTravelDriver-list_hashes}{\code{TimeTravelDriver$list_hashes()}}
@@ -337,6 +339,59 @@ and \verb{"notes".}
   }
   \subsection{Returns}{
     A list with key metadata for each key-namespace
+pair. For not found pairs will return the nomatch value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-get_keymeta_unit"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-get_keymeta_unit}{}}}
+\subsection{\code{TimeTravelDriver$get_keymeta_unit()}}{
+  Get key-namespace single metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$get_keymeta_unit(key, namespace, meta_col = c("expires_at",
+  "notes"))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A single character key.}
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{meta_col}}{Either \code{"expires_at"} or \code{"notes"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A scalar key-metadata value, either from \code{"expires_at"} or \code{"notes"}
+column attribute.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-mget_keymeta_unit"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-mget_keymeta_unit}{}}}
+\subsection{\code{TimeTravelDriver$mget_keymeta_unit()}}{
+  Get multiple key-namespace for a single metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$mget_keymeta_unit(key, namespace, meta_col = c("expires_at",
+  "notes"), nomatch = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector of keys.}
+      \item{\code{namespace}}{A character vector of namespaces.}
+      \item{\code{meta_col}}{Either \code{"expires_at"} or \code{"notes"}.}
+      \item{\code{nomatch}}{Value to fill in case of no match.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list with single key metadata for each key-namespace
 pair. For not found pairs will return the nomatch value.
   }
 }

@@ -435,7 +435,6 @@ TileDBDriver <- R6::R6Class(
 
     },
 
-
     #' @description Get key-namespace single metadata.
     #'
     #' @param key A single character key.
