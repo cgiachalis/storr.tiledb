@@ -312,7 +312,7 @@ test_that("'export_tdb' with time-travel", {
 
 })
 
-test_that("'get_all' and 'mget_all'", {
+test_that("'get_all' and 'mget_all' with time-travel", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
@@ -344,5 +344,48 @@ test_that("'get_all' and 'mget_all'", {
 
   expect_equal(sto$mget_all("nope"), list(NULL))
   expect_equal(sto$mget_all("nope", missing = "noval"), list(list(keyval = "noval", keymeta = "noval")))
+
+})
+
+
+test_that("'get_keymeta_expires_at/notes' and 'mget_keymeta_expires_at/notes' with time-travel", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1, notes = "a1")
+  t1 <- Sys.time()
+  sto$set_keymeta("a", notes = "a2", expires_at = as.POSIXct(t1))
+  sto$set("b", 3, namespace = "ns2", notes = "b3")
+  t2 <- Sys.time()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_error(stott$get_keymeta_notes("a"), class = "error", "key 'a' ('ns1') not found", fixed = TRUE)
+  expect_equal(stott$mget_keymeta_notes(c("a", "b")), structure(list(NULL, NULL), missing = 1:2))
+
+  expect_all_false(stott$exists(c("a", "b"), namespace = c("ns1", "ns2")))
+
+  # Open at t1
+  stott$timestamp <- t1
+
+  expect_equal(stott$get_keymeta_expires_at("a"), as.POSIXct(NA))
+  expect_equal(stott$mget_keymeta_expires_at(c("a", "b")), structure(list(as.POSIXct(NA), NULL), missing = 2L))
+
+  expect_equal(stott$exists(c("a", "b"),  namespace = c("ns1", "ns2")), c(TRUE, FALSE))
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_equal(stott$get_keymeta_notes("a"), "a2")
+  expect_equal(stott$get_keymeta_notes("b", namespace = "ns2"), "b3")
+
+  trg <- structure(list(as.POSIXct(t1), as.POSIXct(NA) , NULL), missing = 3L)
+  expect_equal(stott$mget_keymeta_expires_at(c("a", "b", "c"), namespace = c("ns1", "ns2", "ns")), trg,ignore_attr = TRUE)
+
+  expect_all_true(stott$exists(c("a", "b"), namespace = c("ns1", "ns2")))
 
 })

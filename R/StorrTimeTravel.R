@@ -304,6 +304,124 @@ StorrTimeTravel <- R6::R6Class(
       value
     },
 
+    #' @description Get key's expiration metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching expiration
+    #' values only.
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_expires_at = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      private$DRIVER$get_keymeta_unit(key, namespace, "expires_at")
+
+    },
+
+    #' @description Get key's notes metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching notes
+    #' values only.
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_notes = function(key, namespace = self$default_namespace) {
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      private$DRIVER$get_keymeta_unit(key, namespace, "notes")
+
+    },
+
+    #' @description Get expiration metadata for multiple keys.
+    #'
+    #' @details
+    #'
+    #  An efficient method compared to `$mget_keymeta()` for fetching expiration
+    #' values only.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param missing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with  expiration metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
+    mget_keymeta_expires_at = function(key,
+                                       namespace = self$default_namespace,
+                                       missing = NULL) {
+
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      key <- p$key
+      namespace <- p$namespace
+
+      private$DRIVER$mget_keymeta_unit(key, namespace, meta_col = "expires_at", nomatch = missing)
+
+    },
+
+    #' @description Get notes metadata for multiple keys.
+    #'
+    #' @details
+    #'
+    #  An efficient method compared to `$mget_keymeta()` for fetching notes
+    #' values only.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param missing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with notes metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
+    mget_keymeta_notes = function(key,
+                                  namespace = self$default_namespace,
+                                  missing = NULL) {
+
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+
+      key <- p$key
+      namespace <- p$namespace
+
+      private$DRIVER$mget_keymeta_unit(key, namespace, meta_col = "notes", nomatch = missing)
+
+    },
+
     #' @description Check a key-namespace pair exists.
     #'
     #' @details
@@ -573,6 +691,5 @@ StorrTimeTravel <- R6::R6Class(
            call. = FALSE)
     }
   }
-
   )
 )
