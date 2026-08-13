@@ -13,7 +13,7 @@ This class is intended for usage in storr or TileDBStorr."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,8 @@ back-end.</p>
 <li><p><a href="#method-TileDBDriver-mset_keymeta"><code>TileDBDriver$mset_keymeta()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-get_keymeta"><code>TileDBDriver$get_keymeta()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-mget_keymeta"><code>TileDBDriver$mget_keymeta()</code></a></p></li>
+<li><p><a href="#method-TileDBDriver-get_keymeta_unit"><code>TileDBDriver$get_keymeta_unit()</code></a></p></li>
+<li><p><a href="#method-TileDBDriver-mget_keymeta_unit"><code>TileDBDriver$mget_keymeta_unit()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-exists_hash"><code>TileDBDriver$exists_hash()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-exists_object"><code>TileDBDriver$exists_object()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-del_hash"><code>TileDBDriver$del_hash()</code></a></p></li>
@@ -466,52 +468,68 @@ pair. For not found pairs will return the nomatch value.</p>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-exists_hash"></a><div class="section">
-<h3 id="tiledbdriver-exists-hash-"><code>TileDBDriver$exists_hash()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-exists-hash-"></a></h3>
-<p>Check a key-namespace pair exists.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-get_keymeta_unit"></a><div class="section">
+<h3 id="tiledbdriver-get-keymeta-unit-"><code>TileDBDriver$get_keymeta_unit()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-get-keymeta-unit-"></a></h3>
+<p>Get key-namespace single metadata.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">exists_hash</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">get_keymeta_unit</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, meta_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expires_at"</span>,</span>
+<span>  <span class="st">"notes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A single character key.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A single character namespace.</p></dd>
+
+      <dt><code>meta_col</code></dt>
+<dd><p>Either <code>"expires_at"</code> or <code>"notes"</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
+<p>A scalar key-metadata value, either from <code>"expires_at"</code> or <code>"notes"</code>
+column attribute.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBDriver-mget_keymeta_unit"></a><div class="section">
+<h3 id="tiledbdriver-mget-keymeta-unit-"><code>TileDBDriver$mget_keymeta_unit()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-mget-keymeta-unit-"></a></h3>
+<p>Get multiple key-namespace for a single metadata.</p><div class="section">
+<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">mget_keymeta_unit</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, meta_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expires_at"</span>,</span>
+<span>  <span class="st">"notes"</span><span class="op">)</span>, nomatch <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of keys.</p></dd>
 
       <dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces.</p></dd>
 
+      <dt><code>meta_col</code></dt>
+<dd><p>Either <code>"expires_at"</code> or <code>"notes"</code>.</p></dd>
 
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
-<p>A logical vector.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TileDBDriver-exists_object"></a><div class="section">
-<h3 id="tiledbdriver-exists-object-"><code>TileDBDriver$exists_object()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-exists-object-"></a></h3>
-<p>Check a serialised object exists.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>hash</code></dt>
-<dd><p>A vector of hash values.</p></dd>
+      <dt><code>nomatch</code></dt>
+<dd><p>Value to fill in case of no match.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
-<p>A logical vector.</p>
+<p>A list with single key metadata for each key-namespace
+pair. For not found pairs will return the nomatch value.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-del_hash"></a><div class="section">
-<h3 id="tiledbdriver-del-hash-"><code>TileDBDriver$del_hash()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-del-hash-"></a></h3>
-<p>Delete a key/namespace pair.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-exists_hash"></a><div class="section">
+<h3 id="tiledbdriver-exists-hash-"><code>TileDBDriver$exists_hash()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-exists-hash-"></a></h3>
+<p>Check a key-namespace pair exists.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">del_hash</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">exists_hash</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-15">Arguments<a class="anchor" aria-label="anchor" href="#arguments-15"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
@@ -529,11 +547,11 @@ pair. For not found pairs will return the nomatch value.</p>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-del_object"></a><div class="section">
-<h3 id="tiledbdriver-del-object-"><code>TileDBDriver$del_object()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-del-object-"></a></h3>
-<p>Delete serialised objects.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-exists_object"></a><div class="section">
+<h3 id="tiledbdriver-exists-object-"><code>TileDBDriver$exists_object()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-exists-object-"></a></h3>
+<p>Check a serialised object exists.</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">del_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>hash</code></dt>
@@ -548,13 +566,54 @@ pair. For not found pairs will return the nomatch value.</p>
 
 </div>
 
+<p></p><hr><a id="method-TileDBDriver-del_hash"></a><div class="section">
+<h3 id="tiledbdriver-del-hash-"><code>TileDBDriver$del_hash()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-del-hash-"></a></h3>
+<p>Delete a key/namespace pair.</p><div class="section">
+<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">del_hash</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A character vector of keys.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
+<p>A logical vector.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBDriver-del_object"></a><div class="section">
+<h3 id="tiledbdriver-del-object-"><code>TileDBDriver$del_object()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-del-object-"></a></h3>
+<p>Delete serialised objects.</p><div class="section">
+<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">del_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>hash</code></dt>
+<dd><p>A vector of hash values.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
+<p>A logical vector.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-TileDBDriver-list_hashes"></a><div class="section">
 <h3 id="tiledbdriver-list-hashes-"><code>TileDBDriver$list_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-list-hashes-"></a></h3>
 <p>List all hash values.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
+<h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
 <p>A vector of hash values.</p>
 </div>
 
@@ -563,10 +622,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-list_namespaces"></a><div class="section">
 <h3 id="tiledbdriver-list-namespaces-"><code>TileDBDriver$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-list-namespaces-"></a></h3>
 <p>List all namespace values.</p><div class="section">
-<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
+<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
+<h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
 <p>A vector of namespace values.</p>
 </div>
 
@@ -575,17 +634,17 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-list_keys"></a><div class="section">
 <h3 id="tiledbdriver-list-keys-"><code>TileDBDriver$list_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-list-keys-"></a></h3>
 <p>List keys given a namespace.</p><div class="section">
-<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
+<h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">list_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
+<h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A single character namespace.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-19">Returns<a class="anchor" aria-label="anchor" href="#returns-19"></a></h4>
+<h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
 <p>A vector of key values.</p>
 </div>
 
@@ -594,10 +653,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-list_unused_hashes"></a><div class="section">
 <h3 id="tiledbdriver-list-unused-hashes-"><code>TileDBDriver$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-list-unused-hashes-"></a></h3>
 <p>List unused hashes.</p><div class="section">
-<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
+<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
+<h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
 <p>A vector of hash values.</p>
 </div>
 
@@ -606,10 +665,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-delete_unused_hashes"></a><div class="section">
 <h3 id="tiledbdriver-delete-unused-hashes-"><code>TileDBDriver$delete_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-delete-unused-hashes-"></a></h3>
 <p>Delete unused hashes.</p><div class="section">
-<h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
+<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">delete_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
+<h4 id="returns-23">Returns<a class="anchor" aria-label="anchor" href="#returns-23"></a></h4>
 <p>A vector of deleted hash values, invisibly.</p>
 </div>
 
@@ -618,17 +677,17 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-delete_namespaces"></a><div class="section">
 <h3 id="tiledbdriver-delete-namespaces-"><code>TileDBDriver$delete_namespaces()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-delete-namespaces-"></a></h3>
 <p>Delete namespaces.</p><div class="section">
-<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
+<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">delete_namespaces</span><span class="op">(</span><span class="va">ns</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
+<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>ns</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
+<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
 <p>A logical vector indicating successful deletion or not.
 <code>FALSE</code> means the namespace was not found in database.</p>
 </div>
@@ -638,54 +697,8 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TileDBDriver-keys_with_expiration"></a><div class="section">
 <h3 id="tiledbdriver-keys-with-expiration-"><code>TileDBDriver$keys_with_expiration()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-keys-with-expiration-"></a></h3>
 <p>Get the key-namespace pairs with expiration timestamps.</p><div class="section">
-<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
-<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
-
-      <dt><code>datetimes</code></dt>
-<dd><p>Should the <code>expires_at</code> column be returned?
-Default is <code>TRUE</code>.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-23">Returns<a class="anchor" aria-label="anchor" href="#returns-23"></a></h4>
-<p>An <code>ArrowObject</code> object.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TileDBDriver-keys_without_expiration"></a><div class="section">
-<h3 id="tiledbdriver-keys-without-expiration-"><code>TileDBDriver$keys_without_expiration()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-keys-without-expiration-"></a></h3>
-<p>Get the key-namespace pairs without expiration timestamps.</p><div class="section">
-<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">keys_without_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
-<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
-
-      <dt><code>datetimes</code></dt>
-<dd><p>Should the <code>expires_at</code> column be returned?
-Default is <code>TRUE</code>.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
-<p>An <code>ArrowObject</code> object.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TileDBDriver-expired_keys"></a><div class="section">
-<h3 id="tiledbdriver-expired-keys-"><code>TileDBDriver$expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-expired-keys-"></a></h3>
-<p>Get the expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-21">Arguments<a class="anchor" aria-label="anchor" href="#arguments-21"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -704,11 +717,11 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-unexpired_keys"></a><div class="section">
-<h3 id="tiledbdriver-unexpired-keys-"><code>TileDBDriver$unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-unexpired-keys-"></a></h3>
-<p>Get the unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-keys_without_expiration"></a><div class="section">
+<h3 id="tiledbdriver-keys-without-expiration-"><code>TileDBDriver$keys_without_expiration()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-keys-without-expiration-"></a></h3>
+<p>Get the key-namespace pairs without expiration timestamps.</p><div class="section">
 <h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">unexpired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">keys_without_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-22">Arguments<a class="anchor" aria-label="anchor" href="#arguments-22"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -727,49 +740,57 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-delete_expired_keys"></a><div class="section">
-<h3 id="tiledbdriver-delete-expired-keys-"><code>TileDBDriver$delete_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-delete-expired-keys-"></a></h3>
+<p></p><hr><a id="method-TileDBDriver-expired_keys"></a><div class="section">
+<h3 id="tiledbdriver-expired-keys-"><code>TileDBDriver$expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-expired-keys-"></a></h3>
 <p>Get the expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">delete_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-23">Arguments<a class="anchor" aria-label="anchor" href="#arguments-23"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
+      <dt><code>datetimes</code></dt>
+<dd><p>Should the <code>expires_at</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-27">Returns<a class="anchor" aria-label="anchor" href="#returns-27"></a></h4>
-<p>A boolean value <code>TRUE</code> indicating success, invisibly.</p>
+<p>An <code>ArrowObject</code> object.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-num_expired_keys"></a><div class="section">
-<h3 id="tiledbdriver-num-expired-keys-"><code>TileDBDriver$num_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-num-expired-keys-"></a></h3>
-<p>Get the number of expired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-unexpired_keys"></a><div class="section">
+<h3 id="tiledbdriver-unexpired-keys-"><code>TileDBDriver$unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-unexpired-keys-"></a></h3>
+<p>Get the unexpired key-namespace pairs.</p><div class="section">
 <h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">num_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">unexpired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
+      <dt><code>datetimes</code></dt>
+<dd><p>Should the <code>expires_at</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-28">Returns<a class="anchor" aria-label="anchor" href="#returns-28"></a></h4>
-<p>A numeric value.</p>
+<p>An <code>ArrowObject</code> object.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-num_unexpired_keys"></a><div class="section">
-<h3 id="tiledbdriver-num-unexpired-keys-"><code>TileDBDriver$num_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-num-unexpired-keys-"></a></h3>
-<p>Get the number of unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-delete_expired_keys"></a><div class="section">
+<h3 id="tiledbdriver-delete-expired-keys-"><code>TileDBDriver$delete_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-delete-expired-keys-"></a></h3>
+<p>Get the expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">num_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">delete_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-25">Arguments<a class="anchor" aria-label="anchor" href="#arguments-25"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -779,16 +800,16 @@ Default is <code>TRUE</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-29">Returns<a class="anchor" aria-label="anchor" href="#returns-29"></a></h4>
-<p>A numeric value.</p>
+<p>A boolean value <code>TRUE</code> indicating success, invisibly.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-has_expired_keys"></a><div class="section">
-<h3 id="tiledbdriver-has-expired-keys-"><code>TileDBDriver$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-has-expired-keys-"></a></h3>
-<p>Check for expired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-num_expired_keys"></a><div class="section">
+<h3 id="tiledbdriver-num-expired-keys-"><code>TileDBDriver$num_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-num-expired-keys-"></a></h3>
+<p>Get the number of expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-31">Usage<a class="anchor" aria-label="anchor" href="#usage-31"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">num_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-26">Arguments<a class="anchor" aria-label="anchor" href="#arguments-26"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -798,16 +819,16 @@ Default is <code>TRUE</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-30">Returns<a class="anchor" aria-label="anchor" href="#returns-30"></a></h4>
-<p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
+<p>A numeric value.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TileDBDriver-has_unexpired_keys"></a><div class="section">
-<h3 id="tiledbdriver-has-unexpired-keys-"><code>TileDBDriver$has_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-has-unexpired-keys-"></a></h3>
-<p>Check for unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TileDBDriver-num_unexpired_keys"></a><div class="section">
+<h3 id="tiledbdriver-num-unexpired-keys-"><code>TileDBDriver$num_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-num-unexpired-keys-"></a></h3>
+<p>Get the number of unexpired key-namespace pairs.</p><div class="section">
 <h4 id="usage-32">Usage<a class="anchor" aria-label="anchor" href="#usage-32"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">has_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">num_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-27">Arguments<a class="anchor" aria-label="anchor" href="#arguments-27"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -817,6 +838,44 @@ Default is <code>TRUE</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-31">Returns<a class="anchor" aria-label="anchor" href="#returns-31"></a></h4>
+<p>A numeric value.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBDriver-has_expired_keys"></a><div class="section">
+<h3 id="tiledbdriver-has-expired-keys-"><code>TileDBDriver$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-has-expired-keys-"></a></h3>
+<p>Check for expired key-namespace pairs.</p><div class="section">
+<h4 id="usage-33">Usage<a class="anchor" aria-label="anchor" href="#usage-33"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-28">Arguments<a class="anchor" aria-label="anchor" href="#arguments-28"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-32">Returns<a class="anchor" aria-label="anchor" href="#returns-32"></a></h4>
+<p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TileDBDriver-has_unexpired_keys"></a><div class="section">
+<h3 id="tiledbdriver-has-unexpired-keys-"><code>TileDBDriver$has_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-has-unexpired-keys-"></a></h3>
+<p>Check for unexpired key-namespace pairs.</p><div class="section">
+<h4 id="usage-34">Usage<a class="anchor" aria-label="anchor" href="#usage-34"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">has_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-29">Arguments<a class="anchor" aria-label="anchor" href="#arguments-29"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-33">Returns<a class="anchor" aria-label="anchor" href="#returns-33"></a></h4>
 <p><code>TRUE</code> for unexpired keys, <code>FALSE</code> otherwise.</p>
 </div>
 
@@ -825,10 +884,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TileDBDriver-is_key_expired"></a><div class="section">
 <h3 id="tiledbdriver-is-key-expired-"><code>TileDBDriver$is_key_expired()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-is-key-expired-"></a></h3>
 <p>Check a key-namespace for expiration.</p><div class="section">
-<h4 id="usage-33">Usage<a class="anchor" aria-label="anchor" href="#usage-33"></a></h4>
+<h4 id="usage-35">Usage<a class="anchor" aria-label="anchor" href="#usage-35"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">is_key_expired</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-28">Arguments<a class="anchor" aria-label="anchor" href="#arguments-28"></a></h4>
+<h4 id="arguments-30">Arguments<a class="anchor" aria-label="anchor" href="#arguments-30"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of keys.</p></dd>
 
@@ -838,7 +897,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-32">Returns<a class="anchor" aria-label="anchor" href="#returns-32"></a></h4>
+<h4 id="returns-34">Returns<a class="anchor" aria-label="anchor" href="#returns-34"></a></h4>
 <p><code>TRUE</code> for expired key-namespace pair, <code>FALSE</code> if key has not
 expired yet or has not expiration timestamp.</p>
 </div>
@@ -848,10 +907,10 @@ expired yet or has not expiration timestamp.</p>
 <p></p><hr><a id="method-TileDBDriver-export_tdb"></a><div class="section">
 <h3 id="tiledbdriver-export-tdb-"><code>TileDBDriver$export_tdb()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-34">Usage<a class="anchor" aria-label="anchor" href="#usage-34"></a></h4>
+<h4 id="usage-36">Usage<a class="anchor" aria-label="anchor" href="#usage-36"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, <span class="va">dest_driver</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-29">Arguments<a class="anchor" aria-label="anchor" href="#arguments-29"></a></h4>
+<h4 id="arguments-31">Arguments<a class="anchor" aria-label="anchor" href="#arguments-31"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -864,7 +923,7 @@ expired yet or has not expiration timestamp.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-33">Returns<a class="anchor" aria-label="anchor" href="#returns-33"></a></h4>
+<h4 id="returns-35">Returns<a class="anchor" aria-label="anchor" href="#returns-35"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

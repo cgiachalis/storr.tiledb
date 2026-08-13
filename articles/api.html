@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
 
       <h1>API Usage</h1>
             
-            <h4 data-toc-skip class="date">2026-08-11</h4>
+            <h4 data-toc-skip class="date">2026-08-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/api.Rmd" class="external-link"><code>vignettes/api.Rmd</code></a></small>
       <div class="d-none name"><code>api.Rmd</code></div>
@@ -76,14 +76,18 @@
     
     
 <div class="section level2">
-<h2 id="storr-setup">Storr setup<a class="anchor" aria-label="anchor" href="#storr-setup"></a>
+<h2 id="storr-set-up">Storr set up<a class="anchor" aria-label="anchor" href="#storr-set-up"></a>
 </h2>
-<p>Create a <code>storr</code> either via
-<code><a href="../reference/storr_tiledb.html">storr_tiledb()</a></code>:</p>
+<p>Create a ‘storr’ using one of the two construction paths:</p>
+<ul>
+<li>use the specialised constructor <code><a href="../reference/storr_tiledb.html">storr_tiledb()</a></code>:</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">sto</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/storr_tiledb.html">storr_tiledb</a></span><span class="op">(</span><span class="va">uri</span>, init <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Or more explicitly:</p>
+<ul>
+<li>or explicitly with the standard ‘storr’ interface:</li>
+</ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">uri2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_tiledb.html">driver_tiledb</a></span><span class="op">(</span><span class="va">uri2</span>, init <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -92,6 +96,8 @@
 represents the storr interface optimised for TileDB storage and provides
 additional functionality. The latter is the standard <code>storr</code>
 object.</p>
+<p>For the following examples, we use the <code><a href="../reference/storr_tiledb.html">storr_tiledb()</a></code>
+constructor.</p>
 </div>
 <div class="section level2">
 <h2 id="api-examples">API Examples<a class="anchor" aria-label="anchor" href="#api-examples"></a>
@@ -179,14 +185,14 @@ only the chosen metadata and will not overwrite the other.</p>
 <code class="sourceCode R"><span><span class="co"># Retrieve key metadata</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="st">"aa"</span>, use_cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co"># $expires_at</span></span>
-<span><span class="co"># [1] "2026-08-11 10:26:01 EEST"</span></span>
+<span><span class="co"># [1] "2026-08-13 09:24:25 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># $notes</span></span>
 <span><span class="co"># [1] "{\"name\":\"John\",\"id\":12345}"</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">mget_keymeta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aa"</span>, <span class="st">"bb"</span><span class="op">)</span>, use_cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># [[1]]</span></span>
 <span><span class="co"># [[1]]$expires_at</span></span>
-<span><span class="co"># [1] "2026-08-11 10:26:01 EEST"</span></span>
+<span><span class="co"># [1] "2026-08-13 09:24:25 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># [[1]]$notes</span></span>
 <span><span class="co"># [1] "{\"name\":\"John\",\"id\":12345}"</span></span>
@@ -194,7 +200,7 @@ only the chosen metadata and will not overwrite the other.</p>
 <span><span class="co"># </span></span>
 <span><span class="co"># [[2]]</span></span>
 <span><span class="co"># [[2]]$expires_at</span></span>
-<span><span class="co"># [1] "2026-08-11 10:21:03 EEST"</span></span>
+<span><span class="co"># [1] "2026-08-13 09:19:26 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># [[2]]$notes</span></span>
 <span><span class="co"># [1] NA</span></span>
@@ -203,7 +209,7 @@ only the chosen metadata and will not overwrite the other.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_keymeta</span><span class="op">(</span><span class="st">"bb"</span>, notes <span class="op">=</span> <span class="st">"Updated Note"</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="st">"bb"</span><span class="op">)</span></span>
 <span><span class="co"># $expires_at</span></span>
-<span><span class="co"># [1] "2026-08-11 10:21:03 EEST"</span></span>
+<span><span class="co"># [1] "2026-08-13 09:19:26 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># $notes</span></span>
 <span><span class="co"># [1] "Updated Note"</span></span></code></pre></div>
@@ -220,13 +226,28 @@ only the chosen metadata and will not overwrite the other.</p>
 <span><span class="co"># </span></span>
 <span><span class="co"># $notes</span></span>
 <span><span class="co"># [1] "{\"name\":\"John\",\"id\":12345}"</span></span></code></pre></div>
-<p><strong>Expiration management</strong></p>
+<p><strong>Fetch single metadata</strong></p>
+<p>For getting only one metadata value, either expiration or notes,
+<code>storr.tiledb</code> offers efficient methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get only notes for key 'aa' </span></span>
+<span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta_notes</span><span class="op">(</span><span class="st">"aa"</span><span class="op">)</span></span>
+<span><span class="co"># [1] "{\"name\":\"John\",\"id\":12345}"</span></span>
+<span></span>
+<span><span class="co"># # Get only expiration date-times </span></span>
+<span><span class="va">sto</span><span class="op">$</span><span class="fu">mget_keymeta_expires_at</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aa"</span>, <span class="st">"bb"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># [[1]]</span></span>
+<span><span class="co"># [1] NA</span></span>
+<span><span class="co"># </span></span>
+<span><span class="co"># [[2]]</span></span>
+<span><span class="co"># [1] "2026-08-13 09:19:26 EEST"</span></span></code></pre></div>
+<p><strong>Expiration management</strong></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve keys with expiration</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects     bb 2026-08-11 10:21:03</span></span>
+<span><span class="co"># 1:   objects     bb 2026-08-13 09:19:26</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -234,7 +255,7 @@ only the chosen metadata and will not overwrite the other.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects     bb 2026-08-11 10:21:03</span></span>
+<span><span class="co"># 1:   objects     bb 2026-08-13 09:19:26</span></span>
 <span></span>
 <span><span class="co"># Remove expired keys</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">clear_expired_keys</span><span class="op">(</span><span class="op">)</span></span>
@@ -247,7 +268,7 @@ only the chosen metadata and will not overwrite the other.</p>
 <span><span class="co"># Or via gc()</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">gc</span><span class="op">(</span>clear_expired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Clear metadata</strong></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sto</span><span class="op">$</span><span class="fu">clear_keymeta</span><span class="op">(</span><span class="st">"aa"</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="st">"aa"</span><span class="op">)</span></span>
 <span><span class="co"># $expires_at</span></span>
@@ -260,7 +281,7 @@ only the chosen metadata and will not overwrite the other.</p>
 <h3 id="async-methods">3. Async methods<a class="anchor" aria-label="anchor" href="#async-methods"></a>
 </h3>
 <p>Set keys without blocking R session:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_async</span><span class="op">(</span><span class="st">"abc"</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_async</span><span class="op">(</span><span class="st">"abc2"</span>, <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
@@ -277,7 +298,7 @@ The actual cleanup of old fragments is performed by the separate
 <strong>vacuum</strong> operation.</p>
 <p>To manage storr TileDB fragments use <code><a href="../reference/storr_fragments.html">storr_fragments()</a></code>
 which encapsulates the consolidation and vacuum operations.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set up a new storr</span></span>
 <span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">sto</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/storr_tiledb.html">storr_tiledb</a></span><span class="op">(</span><span class="va">uri</span>, init <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -286,7 +307,7 @@ which encapsulates the consolidation and vacuum operations.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"a"</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"b"</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"c"</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Initialise StorrFragments class</span></span>
 <span><span class="va">fosto</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/storr_fragments.html">storr_fragments</a></span><span class="op">(</span><span class="va">uri</span><span class="op">)</span></span>
 <span></span>
@@ -298,11 +319,11 @@ which encapsulates the consolidation and vacuum operations.</p>
 <span><span class="va">fosto</span><span class="op">$</span><span class="fu">to_vacuum_num</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># [1] 0</span></span></code></pre></div>
 <p>Consolidate everything (both arrays)</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Consolidate all</span></span>
 <span><span class="va">fosto</span><span class="op">$</span><span class="fu">consolidate</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># [1] TRUE</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Total fragments (2, 1 for keys, 1 for hashes)</span></span>
 <span><span class="va">fosto</span><span class="op">$</span><span class="fu">frag_num</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># [1] 2</span></span>
@@ -311,7 +332,7 @@ which encapsulates the consolidation and vacuum operations.</p>
 <span><span class="va">fosto</span><span class="op">$</span><span class="fu">to_vacuum_num</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># [1] 5</span></span></code></pre></div>
 <p>Now, let’s clean up the old fragments.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Cleaup old fragments</span></span>
 <span><span class="va">fosto</span><span class="op">$</span><span class="fu">vacuum</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># [1] TRUE</span></span>

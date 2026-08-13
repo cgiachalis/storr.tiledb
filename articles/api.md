@@ -1,9 +1,11 @@
 # API Usage
 
-## Storr setup
+## Storr set up
 
-Create a `storr` either via
-[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md):
+Create a ‘storr’ using one of the two construction paths:
+
+- use the specialised constructor
+  [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md):
 
 ``` r
 
@@ -11,7 +13,7 @@ uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 ```
 
-Or more explicitly:
+- or explicitly with the standard ‘storr’ interface:
 
 ``` r
 
@@ -23,6 +25,10 @@ sto2 <- storr::storr(dr)
 The first approach generates a `TileDBStorr` object that represents the
 storr interface optimised for TileDB storage and provides additional
 functionality. The latter is the standard `storr` object.
+
+For the following examples, we use the
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md)
+constructor.
 
 ## API Examples
 
@@ -115,14 +121,14 @@ Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 # $expires_at
-# [1] "2026-08-11 10:26:01 EEST"
+# [1] "2026-08-13 09:24:25 EEST"
 # 
 # $notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # [[1]]
 # [[1]]$expires_at
-# [1] "2026-08-11 10:26:01 EEST"
+# [1] "2026-08-13 09:24:25 EEST"
 # 
 # [[1]]$notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
@@ -130,7 +136,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # 
 # [[2]]
 # [[2]]$expires_at
-# [1] "2026-08-11 10:21:03 EEST"
+# [1] "2026-08-13 09:19:26 EEST"
 # 
 # [[2]]$notes
 # [1] NA
@@ -139,7 +145,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 sto$set_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
 # $expires_at
-# [1] "2026-08-11 10:21:03 EEST"
+# [1] "2026-08-13 09:19:26 EEST"
 # 
 # $notes
 # [1] "Updated Note"
@@ -161,6 +167,26 @@ sto$get_keymeta("aa")
 # [1] "{\"name\":\"John\",\"id\":12345}"
 ```
 
+**Fetch single metadata**
+
+For getting only one metadata value, either expiration or notes,
+`storr.tiledb` offers efficient methods:
+
+``` r
+
+# Get only notes for key 'aa' 
+sto$get_keymeta_notes("aa")
+# [1] "{\"name\":\"John\",\"id\":12345}"
+
+# # Get only expiration date-times 
+sto$mget_keymeta_expires_at(c("aa", "bb"))
+# [[1]]
+# [1] NA
+# 
+# [[2]]
+# [1] "2026-08-13 09:19:26 EEST"
+```
+
 **Expiration management**
 
 ``` r
@@ -169,7 +195,7 @@ sto$get_keymeta("aa")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-11 10:21:03
+# 1:   objects     bb 2026-08-13 09:19:26
 
 Sys.sleep(1)
 
@@ -177,7 +203,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-11 10:21:03
+# 1:   objects     bb 2026-08-13 09:19:26
 
 # Remove expired keys
 sto$clear_expired_keys()

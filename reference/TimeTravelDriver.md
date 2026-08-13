@@ -65,6 +65,10 @@ A `TimeTravelDriver`, `R6` object.
 
 - [`TimeTravelDriver$mget_keymeta()`](#method-TimeTravelDriver-mget_keymeta)
 
+- [`TimeTravelDriver$get_keymeta_unit()`](#method-TimeTravelDriver-get_keymeta_unit)
+
+- [`TimeTravelDriver$mget_keymeta_unit()`](#method-TimeTravelDriver-mget_keymeta_unit)
+
 - [`TimeTravelDriver$exists_hash()`](#method-TimeTravelDriver-exists_hash)
 
 - [`TimeTravelDriver$exists_object()`](#method-TimeTravelDriver-exists_object)
@@ -379,6 +383,70 @@ Get multiple key-namespace metadata.
 
 A list with key metadata for each key-namespace pair. For not found
 pairs will return the nomatch value.
+
+------------------------------------------------------------------------
+
+### `TimeTravelDriver$get_keymeta_unit()`
+
+Get key-namespace single metadata.
+
+#### Usage
+
+    TimeTravelDriver$get_keymeta_unit(key, namespace, meta_col = c("expires_at",
+      "notes"))
+
+#### Arguments
+
+- `key`:
+
+  A single character key.
+
+- `namespace`:
+
+  A single character namespace.
+
+- `meta_col`:
+
+  Either `"expires_at"` or `"notes"`.
+
+#### Returns
+
+A scalar key-metadata value, either from `"expires_at"` or `"notes"`
+column attribute.
+
+------------------------------------------------------------------------
+
+### `TimeTravelDriver$mget_keymeta_unit()`
+
+Get multiple key-namespace for a single metadata.
+
+#### Usage
+
+    TimeTravelDriver$mget_keymeta_unit(key, namespace, meta_col = c("expires_at",
+      "notes"), nomatch = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of keys.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+- `meta_col`:
+
+  Either `"expires_at"` or `"notes"`.
+
+- `nomatch`:
+
+  Value to fill in case of no match.
+
+#### Returns
+
+A list with single key metadata for each key-namespace pair. For not
+found pairs will return the nomatch value.
 
 ------------------------------------------------------------------------
 

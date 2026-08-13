@@ -61,6 +61,10 @@ A `TileDBDriver`, `R6` object.
 
 - [`TileDBDriver$mget_keymeta()`](#method-TileDBDriver-mget_keymeta)
 
+- [`TileDBDriver$get_keymeta_unit()`](#method-TileDBDriver-get_keymeta_unit)
+
+- [`TileDBDriver$mget_keymeta_unit()`](#method-TileDBDriver-mget_keymeta_unit)
+
 - [`TileDBDriver$exists_hash()`](#method-TileDBDriver-exists_hash)
 
 - [`TileDBDriver$exists_object()`](#method-TileDBDriver-exists_object)
@@ -492,6 +496,70 @@ Get multiple key-namespace metadata.
 
 A list with key metadata for each key-namespace pair. For not found
 pairs will return the nomatch value.
+
+------------------------------------------------------------------------
+
+### `TileDBDriver$get_keymeta_unit()`
+
+Get key-namespace single metadata.
+
+#### Usage
+
+    TileDBDriver$get_keymeta_unit(key, namespace, meta_col = c("expires_at",
+      "notes"))
+
+#### Arguments
+
+- `key`:
+
+  A single character key.
+
+- `namespace`:
+
+  A single character namespace.
+
+- `meta_col`:
+
+  Either `"expires_at"` or `"notes"`.
+
+#### Returns
+
+A scalar key-metadata value, either from `"expires_at"` or `"notes"`
+column attribute.
+
+------------------------------------------------------------------------
+
+### `TileDBDriver$mget_keymeta_unit()`
+
+Get multiple key-namespace for a single metadata.
+
+#### Usage
+
+    TileDBDriver$mget_keymeta_unit(key, namespace, meta_col = c("expires_at",
+      "notes"), nomatch = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector of keys.
+
+- `namespace`:
+
+  A character vector of namespaces.
+
+- `meta_col`:
+
+  Either `"expires_at"` or `"notes"`.
+
+- `nomatch`:
+
+  Value to fill in case of no match.
+
+#### Returns
+
+A list with single key metadata for each key-namespace pair. For not
+found pairs will return the nomatch value.
 
 ------------------------------------------------------------------------
 

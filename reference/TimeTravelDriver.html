@@ -11,7 +11,7 @@ This class is intended for usage into StorrTimeTravel."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,6 +104,8 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 <li><p><a href="#method-TimeTravelDriver-mget_object"><code>TimeTravelDriver$mget_object()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-get_keymeta"><code>TimeTravelDriver$get_keymeta()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-mget_keymeta"><code>TimeTravelDriver$mget_keymeta()</code></a></p></li>
+<li><p><a href="#method-TimeTravelDriver-get_keymeta_unit"><code>TimeTravelDriver$get_keymeta_unit()</code></a></p></li>
+<li><p><a href="#method-TimeTravelDriver-mget_keymeta_unit"><code>TimeTravelDriver$mget_keymeta_unit()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-exists_hash"><code>TimeTravelDriver$exists_hash()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-exists_object"><code>TimeTravelDriver$exists_object()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-list_hashes"><code>TimeTravelDriver$list_hashes()</code></a></p></li>
@@ -373,13 +375,70 @@ pair. For not found pairs will return the nomatch value.</p>
 
 </div>
 
+<p></p><hr><a id="method-TimeTravelDriver-get_keymeta_unit"></a><div class="section">
+<h3 id="timetraveldriver-get-keymeta-unit-"><code>TimeTravelDriver$get_keymeta_unit()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-get-keymeta-unit-"></a></h3>
+<p>Get key-namespace single metadata.</p><div class="section">
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">get_keymeta_unit</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, meta_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expires_at"</span>,</span>
+<span>  <span class="st">"notes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A single character key.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A single character namespace.</p></dd>
+
+      <dt><code>meta_col</code></dt>
+<dd><p>Either <code>"expires_at"</code> or <code>"notes"</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
+<p>A scalar key-metadata value, either from <code>"expires_at"</code> or <code>"notes"</code>
+column attribute.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TimeTravelDriver-mget_keymeta_unit"></a><div class="section">
+<h3 id="timetraveldriver-mget-keymeta-unit-"><code>TimeTravelDriver$mget_keymeta_unit()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-mget-keymeta-unit-"></a></h3>
+<p>Get multiple key-namespace for a single metadata.</p><div class="section">
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">mget_keymeta_unit</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, meta_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expires_at"</span>,</span>
+<span>  <span class="st">"notes"</span><span class="op">)</span>, nomatch <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>key</code></dt>
+<dd><p>A character vector of keys.</p></dd>
+
+      <dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces.</p></dd>
+
+      <dt><code>meta_col</code></dt>
+<dd><p>Either <code>"expires_at"</code> or <code>"notes"</code>.</p></dd>
+
+      <dt><code>nomatch</code></dt>
+<dd><p>Value to fill in case of no match.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
+<p>A list with single key metadata for each key-namespace
+pair. For not found pairs will return the nomatch value.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-TimeTravelDriver-exists_hash"></a><div class="section">
 <h3 id="timetraveldriver-exists-hash-"><code>TimeTravelDriver$exists_hash()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-exists-hash-"></a></h3>
 <p>Check a key-namespace pair exists.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">exists_hash</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of keys.</p></dd>
 
@@ -389,7 +448,7 @@ pair. For not found pairs will return the nomatch value.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-10">Returns<a class="anchor" aria-label="anchor" href="#returns-10"></a></h4>
+<h4 id="returns-12">Returns<a class="anchor" aria-label="anchor" href="#returns-12"></a></h4>
 <p>A logical vector.</p>
 </div>
 
@@ -398,17 +457,17 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-exists_object"></a><div class="section">
 <h3 id="timetraveldriver-exists-object-"><code>TimeTravelDriver$exists_object()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-exists-object-"></a></h3>
 <p>Check a serialised object exists.</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">exists_object</span><span class="op">(</span><span class="va">hash</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
+<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>hash</code></dt>
 <dd><p>A vector of hash values.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-11">Returns<a class="anchor" aria-label="anchor" href="#returns-11"></a></h4>
+<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
 <p>A logical vector.</p>
 </div>
 
@@ -417,10 +476,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-list_hashes"></a><div class="section">
 <h3 id="timetraveldriver-list-hashes-"><code>TimeTravelDriver$list_hashes()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-list-hashes-"></a></h3>
 <p>List all hash values.</p><div class="section">
-<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
+<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-12">Returns<a class="anchor" aria-label="anchor" href="#returns-12"></a></h4>
+<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
 <p>A vector of hash values.</p>
 </div>
 
@@ -429,10 +488,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-list_namespaces"></a><div class="section">
 <h3 id="timetraveldriver-list-namespaces-"><code>TimeTravelDriver$list_namespaces()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-list-namespaces-"></a></h3>
 <p>List all namespace values.</p><div class="section">
-<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
+<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">list_namespaces</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-13">Returns<a class="anchor" aria-label="anchor" href="#returns-13"></a></h4>
+<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
 <p>A vector of namespace values.</p>
 </div>
 
@@ -441,17 +500,17 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-list_keys"></a><div class="section">
 <h3 id="timetraveldriver-list-keys-"><code>TimeTravelDriver$list_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-list-keys-"></a></h3>
 <p>List keys given a namespace.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
+<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">list_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
+<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A single character namespace.</p></dd>
 
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
+<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
 <p>A vector of key values.</p>
 </div>
 
@@ -460,10 +519,10 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-list_unused_hashes"></a><div class="section">
 <h3 id="timetraveldriver-list-unused-hashes-"><code>TimeTravelDriver$list_unused_hashes()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-list-unused-hashes-"></a></h3>
 <p>List unused hashes.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">list_unused_hashes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
+<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
 <p>A vector of hash values.</p>
 </div>
 
@@ -472,54 +531,8 @@ pair. For not found pairs will return the nomatch value.</p>
 <p></p><hr><a id="method-TimeTravelDriver-keys_with_expiration"></a><div class="section">
 <h3 id="timetraveldriver-keys-with-expiration-"><code>TimeTravelDriver$keys_with_expiration()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-keys-with-expiration-"></a></h3>
 <p>Get the key-namespace pairs with expiration timestamps.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
-<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
-
-      <dt><code>datetimes</code></dt>
-<dd><p>Should the <code>expires_at</code> column be returned?
-Default is <code>TRUE</code>.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
-<p>An <code>ArrowObject</code> object.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TimeTravelDriver-keys_without_expiration"></a><div class="section">
-<h3 id="timetraveldriver-keys-without-expiration-"><code>TimeTravelDriver$keys_without_expiration()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-keys-without-expiration-"></a></h3>
-<p>Get the key-namespace pairs without expiration timestamps.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">keys_without_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
-<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
-
-      <dt><code>datetimes</code></dt>
-<dd><p>Should the <code>expires_at</code> column be returned?
-Default is <code>TRUE</code>.</p></dd>
-
-
-</dl><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
-<p>An <code>ArrowObject</code> object.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-TimeTravelDriver-expired_keys"></a><div class="section">
-<h3 id="timetraveldriver-expired-keys-"><code>TimeTravelDriver$expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-expired-keys-"></a></h3>
-<p>Get the expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-14">Arguments<a class="anchor" aria-label="anchor" href="#arguments-14"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -538,11 +551,11 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
-<p></p><hr><a id="method-TimeTravelDriver-unexpired_keys"></a><div class="section">
-<h3 id="timetraveldriver-unexpired-keys-"><code>TimeTravelDriver$unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-unexpired-keys-"></a></h3>
-<p>Get the unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TimeTravelDriver-keys_without_expiration"></a><div class="section">
+<h3 id="timetraveldriver-keys-without-expiration-"><code>TimeTravelDriver$keys_without_expiration()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-keys-without-expiration-"></a></h3>
+<p>Get the key-namespace pairs without expiration timestamps.</p><div class="section">
 <h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">unexpired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">keys_without_expiration</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-15">Arguments<a class="anchor" aria-label="anchor" href="#arguments-15"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -561,49 +574,57 @@ Default is <code>TRUE</code>.</p></dd>
 
 </div>
 
-<p></p><hr><a id="method-TimeTravelDriver-num_expired_keys"></a><div class="section">
-<h3 id="timetraveldriver-num-expired-keys-"><code>TimeTravelDriver$num_expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-num-expired-keys-"></a></h3>
-<p>Get the number of expired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TimeTravelDriver-expired_keys"></a><div class="section">
+<h3 id="timetraveldriver-expired-keys-"><code>TimeTravelDriver$expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-expired-keys-"></a></h3>
+<p>Get the expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">num_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-16">Arguments<a class="anchor" aria-label="anchor" href="#arguments-16"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
+      <dt><code>datetimes</code></dt>
+<dd><p>Should the <code>expires_at</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-20">Returns<a class="anchor" aria-label="anchor" href="#returns-20"></a></h4>
-<p>A numeric value.</p>
+<p>An <code>ArrowObject</code> object.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TimeTravelDriver-num_unexpired_keys"></a><div class="section">
-<h3 id="timetraveldriver-num-unexpired-keys-"><code>TimeTravelDriver$num_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-num-unexpired-keys-"></a></h3>
-<p>Get the number of unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TimeTravelDriver-unexpired_keys"></a><div class="section">
+<h3 id="timetraveldriver-unexpired-keys-"><code>TimeTravelDriver$unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-unexpired-keys-"></a></h3>
+<p>Get the unexpired key-namespace pairs.</p><div class="section">
 <h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">num_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">unexpired_keys</span><span class="op">(</span><span class="va">namespace</span>, datetimes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-17">Arguments<a class="anchor" aria-label="anchor" href="#arguments-17"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
 <dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
 
+      <dt><code>datetimes</code></dt>
+<dd><p>Should the <code>expires_at</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
 
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-21">Returns<a class="anchor" aria-label="anchor" href="#returns-21"></a></h4>
-<p>A numeric value.</p>
+<p>An <code>ArrowObject</code> object.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TimeTravelDriver-has_expired_keys"></a><div class="section">
-<h3 id="timetraveldriver-has-expired-keys-"><code>TimeTravelDriver$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-has-expired-keys-"></a></h3>
-<p>Check for expired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TimeTravelDriver-num_expired_keys"></a><div class="section">
+<h3 id="timetraveldriver-num-expired-keys-"><code>TimeTravelDriver$num_expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-num-expired-keys-"></a></h3>
+<p>Get the number of expired key-namespace pairs.</p><div class="section">
 <h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">num_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-18">Arguments<a class="anchor" aria-label="anchor" href="#arguments-18"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -613,16 +634,16 @@ Default is <code>TRUE</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-22">Returns<a class="anchor" aria-label="anchor" href="#returns-22"></a></h4>
-<p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
+<p>A numeric value.</p>
 </div>
 
 </div>
 
-<p></p><hr><a id="method-TimeTravelDriver-has_unexpired_keys"></a><div class="section">
-<h3 id="timetraveldriver-has-unexpired-keys-"><code>TimeTravelDriver$has_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-has-unexpired-keys-"></a></h3>
-<p>Check for unexpired key-namespace pairs.</p><div class="section">
+<p></p><hr><a id="method-TimeTravelDriver-num_unexpired_keys"></a><div class="section">
+<h3 id="timetraveldriver-num-unexpired-keys-"><code>TimeTravelDriver$num_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-num-unexpired-keys-"></a></h3>
+<p>Get the number of unexpired key-namespace pairs.</p><div class="section">
 <h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">has_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">num_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-19">Arguments<a class="anchor" aria-label="anchor" href="#arguments-19"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
@@ -632,6 +653,44 @@ Default is <code>TRUE</code>.</p></dd>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="returns-23">Returns<a class="anchor" aria-label="anchor" href="#returns-23"></a></h4>
+<p>A numeric value.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TimeTravelDriver-has_expired_keys"></a><div class="section">
+<h3 id="timetraveldriver-has-expired-keys-"><code>TimeTravelDriver$has_expired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-has-expired-keys-"></a></h3>
+<p>Check for expired key-namespace pairs.</p><div class="section">
+<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">has_expired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
+<p><code>TRUE</code> for expired keys, <code>FALSE</code> otherwise.</p>
+</div>
+
+</div>
+
+<p></p><hr><a id="method-TimeTravelDriver-has_unexpired_keys"></a><div class="section">
+<h3 id="timetraveldriver-has-unexpired-keys-"><code>TimeTravelDriver$has_unexpired_keys()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-has-unexpired-keys-"></a></h3>
+<p>Check for unexpired key-namespace pairs.</p><div class="section">
+<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">has_unexpired_keys</span><span class="op">(</span><span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-21">Arguments<a class="anchor" aria-label="anchor" href="#arguments-21"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-25">Returns<a class="anchor" aria-label="anchor" href="#returns-25"></a></h4>
 <p><code>TRUE</code> for unexpired keys, <code>FALSE</code> otherwise.</p>
 </div>
 
@@ -640,10 +699,10 @@ Default is <code>TRUE</code>.</p></dd>
 <p></p><hr><a id="method-TimeTravelDriver-is_key_expired"></a><div class="section">
 <h3 id="timetraveldriver-is-key-expired-"><code>TimeTravelDriver$is_key_expired()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-is-key-expired-"></a></h3>
 <p>Check a key-namespace for expiration.</p><div class="section">
-<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
+<h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">is_key_expired</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-20">Arguments<a class="anchor" aria-label="anchor" href="#arguments-20"></a></h4>
+<h4 id="arguments-22">Arguments<a class="anchor" aria-label="anchor" href="#arguments-22"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of keys.</p></dd>
 
@@ -653,7 +712,7 @@ Default is <code>TRUE</code>.</p></dd>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-24">Returns<a class="anchor" aria-label="anchor" href="#returns-24"></a></h4>
+<h4 id="returns-26">Returns<a class="anchor" aria-label="anchor" href="#returns-26"></a></h4>
 <p><code>TRUE</code> for expired key-namespace pair, <code>FALSE</code> if key has not
 expired yet or has not expiration timestamp.</p>
 </div>
@@ -663,10 +722,10 @@ expired yet or has not expiration timestamp.</p>
 <p></p><hr><a id="method-TimeTravelDriver-export_tdb"></a><div class="section">
 <h3 id="timetraveldriver-export-tdb-"><code>TimeTravelDriver$export_tdb()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
+<h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, <span class="va">dest_driver</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-21">Arguments<a class="anchor" aria-label="anchor" href="#arguments-21"></a></h4>
+<h4 id="arguments-23">Arguments<a class="anchor" aria-label="anchor" href="#arguments-23"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -679,7 +738,7 @@ expired yet or has not expiration timestamp.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-25">Returns<a class="anchor" aria-label="anchor" href="#returns-25"></a></h4>
+<h4 id="returns-27">Returns<a class="anchor" aria-label="anchor" href="#returns-27"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

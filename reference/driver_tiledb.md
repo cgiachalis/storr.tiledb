@@ -150,6 +150,9 @@ and its parent class
 - **`mget_keymeta()`** and **`mset_keymeta()`** - Manage metadata such
   as expiry times and notes for multiple key-namespace pairs
 
+- **`get_keymeta_unit()`** and **`mget_keymeta_unit()`** - Fetch single
+  metadata such as expiry times or notes
+
 **Expiration Management**
 
 - **`keys_with_expiration`** and **`keys_without_expiration`** -

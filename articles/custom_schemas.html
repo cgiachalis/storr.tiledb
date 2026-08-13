@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
 
       <h1>Schema Configuration</h1>
             
-            <h4 data-toc-skip class="date">2026-08-01</h4>
+            <h4 data-toc-skip class="date">2026-08-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/custom_schemas.Rmd" class="external-link"><code>vignettes/custom_schemas.Rmd</code></a></small>
       <div class="d-none name"><code>custom_schemas.Rmd</code></div>
@@ -78,10 +78,11 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The <code><a href="../reference/driver_schemas.html">driver_schemas()</a></code> function allows you to tune your
-storr’s performance and storage characteristics by customizing the
-TileDB schema configuration. This is useful for creating storage drivers
-optimized for different use cases:</p>
+<p>To tune your storr’s performance and storage characteristics,
+<code>storr.tiledb</code> provides functionality to customise the TileDB
+schema configuration.</p>
+<p>This is useful for creating storage drivers optimized for different
+use cases:</p>
 <ul>
 <li>
 <strong>Storage-bound workloads</strong>: Maximize compression to
@@ -104,7 +105,7 @@ arrays.</p>
 <h3 id="step-1-initialize-schema-objects">Step 1: Initialize Schema Objects<a class="anchor" aria-label="anchor" href="#step-1-initialize-schema-objects"></a>
 </h3>
 <p>Create a <code>TileDBDriverSchemas</code> object using
-<code><a href="../reference/driver_schemas.html">driver_schemas()</a></code>:</p>
+<code><a href="../reference/driver_schemas.html">driver_schemas()</a></code> constructor:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cgiachalis/storr.tiledb" class="external-link">storr.tiledb</a></span><span class="op">)</span></span>
 <span></span>
@@ -134,8 +135,9 @@ configuration:</p>
 <h3 id="step-2-customize-schemas">Step 2: Customize Schemas<a class="anchor" aria-label="anchor" href="#step-2-customize-schemas"></a>
 </h3>
 <div class="section level4">
-<h4 id="example-1-high-compression-for-storage">Example 1: High Compression for Storage<a class="anchor" aria-label="anchor" href="#example-1-high-compression-for-storage"></a>
+<h4 id="example-high-compression-for-storage">Example: High Compression for Storage<a class="anchor" aria-label="anchor" href="#example-high-compression-for-storage"></a>
 </h4>
+<p>For setting up filters, we use tiledb-r client functionality:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a ZSTD filter with high compression level</span></span>
 <span><span class="va">flt</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter.html" class="external-link">tiledb_filter</a></span><span class="op">(</span><span class="st">"ZSTD"</span>, ctx <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span>
@@ -147,14 +149,14 @@ configuration:</p>
 <span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">flt_list</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="example-2-no-compression-for-speed">Example 2: No Compression for Speed<a class="anchor" aria-label="anchor" href="#example-2-no-compression-for-speed"></a>
+<h4 id="example-no-compression-for-speed">Example: No Compression for Speed<a class="anchor" aria-label="anchor" href="#example-no-compression-for-speed"></a>
 </h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create schemas without any compression filters</span></span>
 <span><span class="va">schemas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_schemas.html">driver_schemas</a></span><span class="op">(</span>ctx <span class="op">=</span> <span class="va">ctx</span>, none_filter <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="example-3-mixed-strategy---fast-keys-compressed-data">Example 3: Mixed Strategy - Fast Keys, Compressed Data<a class="anchor" aria-label="anchor" href="#example-3-mixed-strategy---fast-keys-compressed-data"></a>
+<h4 id="example-mixed-strategy---fast-keys-compressed-data">Example: Mixed Strategy - Fast Keys, Compressed Data<a class="anchor" aria-label="anchor" href="#example-mixed-strategy---fast-keys-compressed-data"></a>
 </h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Start with no compression</span></span>
@@ -165,12 +167,11 @@ configuration:</p>
 <span><span class="va">flt</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter_set_option.html" class="external-link">tiledb_filter_set_option</a></span><span class="op">(</span><span class="va">flt</span>, <span class="st">"COMPRESSION_LEVEL"</span>, <span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">flt_list</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter_list.html" class="external-link">tiledb_filter_list</a></span><span class="op">(</span><span class="va">flt</span>, ctx <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">flt_list</span></span>
-<span></span>
-<span><span class="co"># SchemaKeys remains uncompressed for fast lookups</span></span></code></pre></div>
+<span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">flt_list</span></span></code></pre></div>
+<p><code>SchemaKeys</code> remains uncompressed for fast lookups.</p>
 </div>
 <div class="section level4">
-<h4 id="example-4-adjust-tile-capacity">Example 4: Adjust Tile Capacity<a class="anchor" aria-label="anchor" href="#example-4-adjust-tile-capacity"></a>
+<h4 id="example-adjust-tile-capacity">Example: Adjust Tile Capacity<a class="anchor" aria-label="anchor" href="#example-adjust-tile-capacity"></a>
 </h4>
 <p>Optimize memory usage by adjusting how many cells are stored per
 tile:</p>
@@ -182,7 +183,7 @@ tile:</p>
 <span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">capacity</span> <span class="op">&lt;-</span> <span class="fl">5000</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="example-5-configure-cell-and-tile-order">Example 5: Configure Cell and Tile Order<a class="anchor" aria-label="anchor" href="#example-5-configure-cell-and-tile-order"></a>
+<h4 id="example-configure-cell-and-tile-order">Example: Configure Cell and Tile Order<a class="anchor" aria-label="anchor" href="#example-configure-cell-and-tile-order"></a>
 </h4>
 <p>Tune for specific access patterns:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -309,7 +310,7 @@ tile:</p>
 <div class="section level2">
 <h2 id="common-configuration-patterns">Common Configuration Patterns<a class="anchor" aria-label="anchor" href="#common-configuration-patterns"></a>
 </h2>
-<p><strong>Pattern 1: Default with Data Compression</strong></p>
+<p><strong>Default with Data Compression</strong></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">schemas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_schemas.html">driver_schemas</a></span><span class="op">(</span>ctx <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span>
 <span></span>
@@ -320,11 +321,11 @@ tile:</p>
 <span></span>
 <span><span class="co"># Apply filter on data</span></span>
 <span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">flt_list</span></span></code></pre></div>
-<p><strong>Pattern 2: All Compression Disabled</strong></p>
+<p><strong>All Compression Disabled</strong></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">schemas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_schemas.html">driver_schemas</a></span><span class="op">(</span>ctx <span class="op">=</span> <span class="va">ctx</span>, none_filter <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Pattern 3: Asymmetric Optimization (no compression on keys,
-heavy on data)</strong></p>
+<p><strong>Asymmetric Optimization (no compression on keys, heavy on
+data)</strong></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># No compression</span></span>
 <span><span class="va">schemas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_schemas.html">driver_schemas</a></span><span class="op">(</span>ctx <span class="op">=</span> <span class="va">ctx</span>, none_filter <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

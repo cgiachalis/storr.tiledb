@@ -2,11 +2,12 @@
 
 ## Overview
 
-The
-[`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md)
-function allows you to tune your storr’s performance and storage
-characteristics by customizing the TileDB schema configuration. This is
-useful for creating storage drivers optimized for different use cases:
+To tune your storr’s performance and storage characteristics,
+`storr.tiledb` provides functionality to customise the TileDB schema
+configuration.
+
+This is useful for creating storage drivers optimized for different use
+cases:
 
 - **Storage-bound workloads**: Maximize compression to minimize disk
   space
@@ -24,7 +25,8 @@ arrays.
 ### Step 1: Initialize Schema Objects
 
 Create a `TileDBDriverSchemas` object using
-[`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md):
+[`driver_schemas()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_schemas.md)
+constructor:
 
 ``` r
 
@@ -48,7 +50,9 @@ configuration:
 
 ### Step 2: Customize Schemas
 
-#### Example 1: High Compression for Storage
+#### Example: High Compression for Storage
+
+For setting up filters, we use tiledb-r client functionality:
 
 ``` r
 
@@ -62,7 +66,7 @@ schemas <- driver_schemas(ctx = ctx)
 schemas$SchemaData$attr_value <- flt_list
 ```
 
-#### Example 2: No Compression for Speed
+#### Example: No Compression for Speed
 
 ``` r
 
@@ -70,7 +74,7 @@ schemas$SchemaData$attr_value <- flt_list
 schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 ```
 
-#### Example 3: Mixed Strategy - Fast Keys, Compressed Data
+#### Example: Mixed Strategy - Fast Keys, Compressed Data
 
 ``` r
 
@@ -83,11 +87,11 @@ flt <- tiledb::tiledb_filter_set_option(flt, "COMPRESSION_LEVEL", 18)
 flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
 schemas$SchemaData$attr_value <- flt_list
-
-# SchemaKeys remains uncompressed for fast lookups
 ```
 
-#### Example 4: Adjust Tile Capacity
+`SchemaKeys` remains uncompressed for fast lookups.
+
+#### Example: Adjust Tile Capacity
 
 Optimize memory usage by adjusting how many cells are stored per tile:
 
@@ -100,7 +104,7 @@ schemas$SchemaKeys$capacity <- 5000
 schemas$SchemaData$capacity <- 5000
 ```
 
-#### Example 5: Configure Cell and Tile Order
+#### Example: Configure Cell and Tile Order
 
 Tune for specific access patterns:
 
@@ -240,7 +244,7 @@ tiledb::capacity(tdb_schema_keys)
 
 ## Common Configuration Patterns
 
-**Pattern 1: Default with Data Compression**
+**Default with Data Compression**
 
 ``` r
 
@@ -255,15 +259,14 @@ flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 schemas$SchemaData$attr_value <- flt_list
 ```
 
-**Pattern 2: All Compression Disabled**
+**All Compression Disabled**
 
 ``` r
 
 schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 ```
 
-**Pattern 3: Asymmetric Optimization (no compression on keys, heavy on
-data)**
+**Asymmetric Optimization (no compression on keys, heavy on data)**
 
 ``` r
 

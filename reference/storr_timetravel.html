@@ -11,7 +11,7 @@ no write capabilities."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,6 +102,10 @@ or length 2 with start, end timestamps</p></li>
 <li><p><strong><code>mget_all()</code></strong> - Retrieve multiple objects and its metadata by key-namespace pairs</p></li>
 </ul><p><strong>Metadata Operations</strong></p><ul><li><p><strong><code>get_keymeta()</code></strong> - Retrieve metadata for a key</p></li>
 <li><p><strong><code>mget_keymeta()</code></strong> - Retrieve metadata for multiple keys</p></li>
+<li><p><strong><code>get_keymeta_expires_at()</code></strong> - Retrieve expiration metadata for a key</p></li>
+<li><p><strong><code>get_keymeta_notes()</code></strong> - Retrieve notes metadata for a key</p></li>
+<li><p><strong><code>mget_keymeta_expires_at()</code></strong> - Retrieve expiration metadata for multiple keys</p></li>
+<li><p><strong><code>mget_keymeta_notes()</code></strong> - Retrieve notes metadata for multiple keys</p></li>
 </ul><p><strong>Object Hash Management</strong></p><ul><li><p><strong><code>get_hash()</code></strong> - Get hash value for a key-namespace pair</p></li>
 <li><p><strong><code>mget_hash()</code></strong> - Get hash values for multiple keys</p></li>
 </ul><p><strong>Key Management</strong></p><ul><li><p><strong><code><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists()</a></code></strong> - Check if key-namespace pair(s) exist</p></li>

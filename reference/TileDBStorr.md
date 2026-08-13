@@ -117,6 +117,14 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mget_keymeta()`](#method-TileDBStorr-mget_keymeta)
 
+- [`TileDBStorr$get_keymeta_expires_at()`](#method-TileDBStorr-get_keymeta_expires_at)
+
+- [`TileDBStorr$get_keymeta_notes()`](#method-TileDBStorr-get_keymeta_notes)
+
+- [`TileDBStorr$mget_keymeta_expires_at()`](#method-TileDBStorr-mget_keymeta_expires_at)
+
+- [`TileDBStorr$mget_keymeta_notes()`](#method-TileDBStorr-mget_keymeta_notes)
+
 - [`TileDBStorr$clear_keymeta()`](#method-TileDBStorr-clear_keymeta)
 
 - [`TileDBStorr$clear_keymeta_async()`](#method-TileDBStorr-clear_keymeta_async)
@@ -1219,6 +1227,170 @@ permitted.
 #### Returns
 
 A list with key metadata for each key-namespace pair. For not found
+pairs will return the `missing` value.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$get_keymeta_expires_at()`
+
+Get key's expiration metadata.
+
+#### Usage
+
+    TileDBStorr$get_keymeta_expires_at(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE))
+
+#### Arguments
+
+- `key`:
+
+  The key name to get metadata values from.
+
+- `namespace`:
+
+  The namespace to look the key within.
+
+- `use_cache`:
+
+  Should it be retrieved from cache? Default is `TRUE`.
+
+#### Details
+
+An efficient method compared to `$get_keymeta()` for fetching expiration
+values only.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A scalar key-metadata value.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$get_keymeta_notes()`
+
+Get key's notes metadata.
+
+#### Usage
+
+    TileDBStorr$get_keymeta_notes(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE))
+
+#### Arguments
+
+- `key`:
+
+  The key name to get metadata values from.
+
+- `namespace`:
+
+  The namespace to look the key within.
+
+- `use_cache`:
+
+  Should it be retrieved from cache? Default is `TRUE`.
+
+#### Details
+
+An efficient method compared to `$get_keymeta()` for fetching notes
+values only.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A scalar key-metadata value.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$mget_keymeta_expires_at()`
+
+Get expiration metadata for multiple keys.
+
+#### Usage
+
+    TileDBStorr$mget_keymeta_expires_at(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector with keys to get metadata values from.
+
+- `namespace`:
+
+  A character vector of namespaces to look the keys within.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `missing`:
+
+  Fill value for missing keys. Default is `NULL`.
+
+#### Details
+
+values only.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A list with expiration metadata for each key-namespace pair. For not
+found pairs will return the `missing` value.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$mget_keymeta_notes()`
+
+Get notes metadata for multiple keys.
+
+#### Usage
+
+    TileDBStorr$mget_keymeta_notes(key, namespace = self$default_namespace,
+      use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector with keys to get metadata values from.
+
+- `namespace`:
+
+  A character vector of namespaces to look the keys within.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `missing`:
+
+  Fill value for missing keys. Default is `NULL`.
+
+#### Details
+
+values only.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A list with notes metadata for each key-namespace pair. For not found
 pairs will return the `missing` value.
 
 ------------------------------------------------------------------------

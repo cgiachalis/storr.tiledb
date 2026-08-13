@@ -54,6 +54,14 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$mget_keymeta()`](#method-StorrTimeTravel-mget_keymeta)
 
+- [`StorrTimeTravel$get_keymeta_expires_at()`](#method-StorrTimeTravel-get_keymeta_expires_at)
+
+- [`StorrTimeTravel$get_keymeta_notes()`](#method-StorrTimeTravel-get_keymeta_notes)
+
+- [`StorrTimeTravel$mget_keymeta_expires_at()`](#method-StorrTimeTravel-mget_keymeta_expires_at)
+
+- [`StorrTimeTravel$mget_keymeta_notes()`](#method-StorrTimeTravel-mget_keymeta_notes)
+
 - [`StorrTimeTravel$exists()`](#method-StorrTimeTravel-exists)
 
 - [`StorrTimeTravel$exists_object()`](#method-StorrTimeTravel-exists_object)
@@ -377,6 +385,153 @@ permitted.
 #### Returns
 
 A list with key metadata for each key-namespace pair. For not found
+pairs will return the `missing` value.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$get_keymeta_expires_at()`
+
+Get key's expiration metadata.
+
+#### Usage
+
+    StorrTimeTravel$get_keymeta_expires_at(key,
+      namespace = self$default_namespace)
+
+#### Arguments
+
+- `key`:
+
+  The key name to get metadata values from.
+
+- `namespace`:
+
+  The namespace to look the key within.
+
+#### Details
+
+An efficient method compared to `$get_keymeta()` for fetching expiration
+values only.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A scalar key-metadata value.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$get_keymeta_notes()`
+
+Get key's notes metadata.
+
+#### Usage
+
+    StorrTimeTravel$get_keymeta_notes(key, namespace = self$default_namespace)
+
+#### Arguments
+
+- `key`:
+
+  The key name to get metadata values from.
+
+- `namespace`:
+
+  The namespace to look the key within.
+
+#### Details
+
+An efficient method compared to `$get_keymeta()` for fetching notes
+values only.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A scalar key-metadata value.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$mget_keymeta_expires_at()`
+
+Get expiration metadata for multiple keys.
+
+#### Usage
+
+    StorrTimeTravel$mget_keymeta_expires_at(key,
+      namespace = self$default_namespace, missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector with keys to get metadata values from.
+
+- `namespace`:
+
+  A character vector of namespaces to look the keys within.
+
+- `missing`:
+
+  Fill value for missing keys. Default is `NULL`.
+
+#### Details
+
+values only.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A list with expiration metadata for each key-namespace pair. For not
+found pairs will return the `missing` value.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$mget_keymeta_notes()`
+
+Get notes metadata for multiple keys.
+
+#### Usage
+
+    StorrTimeTravel$mget_keymeta_notes(key, namespace = self$default_namespace,
+      missing = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A character vector with keys to get metadata values from.
+
+- `namespace`:
+
+  A character vector of namespaces to look the keys within.
+
+- `missing`:
+
+  Fill value for missing keys. Default is `NULL`.
+
+#### Details
+
+values only.
+
+The arguments `key` and `namespace` can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is
+permitted.
+
+Note that `use_cache` will only fetch the metadata but not cache it if
+retrieved from database.
+
+#### Returns
+
+A list with notes metadata for each key-namespace pair. For not found
 pairs will return the `missing` value.
 
 ------------------------------------------------------------------------

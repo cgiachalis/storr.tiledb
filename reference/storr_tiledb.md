@@ -226,6 +226,16 @@ For complete definitions, see **Methods** section in
 
 - **`mget_keymeta()`** - Retrieve metadata for multiple keys
 
+- **`get_keymeta_expires_at()`** - Retrieve expiration metadata for a
+  key
+
+- **`get_keymeta_notes()`** - Retrieve notes metadata for a key
+
+- **`mget_keymeta_expires_at()`** - Retrieve expiration metadata for
+  multiple keys
+
+- **`mget_keymeta_notes()`** - Retrieve notes metadata for multiple keys
+
 - **`set_keymeta_async()`** - Set metadata asynchronously
 
 - **`mset_keymeta_async()`** - Set multiple metadata asynchronously
