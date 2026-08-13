@@ -286,22 +286,8 @@ StorrTimeTravel <- R6::R6Class(
       namespace <- p$namespace
       keyns <- paste(key, namespace, sep = ":")
 
-      # Everything is TRUE, so go to find them in DB
-      is_missing <- FALSE
+      private$DRIVER$mget_keymeta(key, namespace, nomatch = missing)
 
-      # From not_cached find also which are truly missing
-      value <- private$DRIVER$mget_keymeta(key, namespace, nomatch = missing)
-
-      # not_cached and not found
-      keyns_missing <- keyns[attr(value, "missing")]
-
-      # Truly missing key-namespace pairs
-      is_missing <- keyns %in% keyns_missing
-
-      if (any(is_missing)) {
-        attr(value, "missing") <- which(is_missing)
-      }
-      value
     },
 
     #' @description Get key's expiration metadata.
