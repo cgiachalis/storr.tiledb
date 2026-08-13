@@ -96,6 +96,8 @@ parent class \link{CAS}.
 expiry times and notes for single key-namespace pairs
 \item \strong{\code{mget_keymeta()}} and \strong{\code{mset_keymeta()}} - Manage metadata such as
 expiry times and notes for multiple key-namespace pairs
+\item \strong{\code{get_keymeta_unit()}} and \strong{\code{mget_keymeta_unit()}} - Fetch single
+metadata such as expiry times or notes
 }
 
 \strong{Expiration Management}

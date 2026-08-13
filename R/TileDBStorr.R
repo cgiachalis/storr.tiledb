@@ -1619,14 +1619,12 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
         cached <- exists0(keyns, envir)
         value[cached] <- lapply(keyns[cached], function(h) gethash(envir, h))
-        num_cached <- sum(cached)
         not_cached <- !cached
         status_not_cached <- any(not_cached)
       } else {
         # Everything is TRUE, so go to find them in DB
         not_cached <- !cached
         status_not_cached <- TRUE
-        num_cached <- 0L
       }
 
       is_missing <- FALSE
@@ -1663,9 +1661,119 @@ TileDBStorr <- R6::R6Class(
 
 
       if (any(is_missing)) {
-        attr(value, "missing") <- which(is_missing) #+ num_cached
+        attr(value, "missing") <- which(is_missing)
       }
       value
+    },
+
+    #' @description Get key's expiration metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching expiration
+    #' values only.
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_expires_at = function(key,
+                                      namespace = self$default_namespace,
+                                      use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      private$keymeta_unit(key, namespace, use_cache, "expires_at")
+    },
+
+    #' @description Get key's notes metadata.
+    #'
+    #' @details
+    #'
+    #' An efficient method compared to `$get_keymeta()` for fetching notes
+    #' values only.
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key The key name to get metadata values from.
+    #' @param namespace The namespace to look the key within.
+    #' @param use_cache Should it be retrieved from cache? Default is
+    #'  `TRUE`.
+    #'
+    #' @return A scalar key-metadata value.
+    #'
+    get_keymeta_notes = function(key,
+                                 namespace = self$default_namespace,
+                                 use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      private$keymeta_unit(key, namespace, use_cache, "notes")
+    },
+
+    #' @description Get expiration metadata for multiple keys.
+    #'
+    #' @details
+    #'
+    #  An efficient method compared to `$mget_keymeta()` for fetching expiration
+    #' values only.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param use_cache `r sto_cache`
+    #' @param missing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with  expiration metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
+    mget_keymeta_expires_at = function(key,
+                                       namespace = self$default_namespace,
+                                       use_cache = getOption("storr.tiledb.cache", TRUE),
+                                       missing = NULL) {
+
+      private$multi_keymeta_unit(key, namespace, use_cache, missing, meta_col = "expires_at")
+
+    },
+
+    #' @description Get notes metadata for multiple keys.
+    #'
+    #' @details
+    #'
+    #  An efficient method compared to `$mget_keymeta()` for fetching notes
+    #' values only.
+    #'
+    #' `r sto_recycle_note`
+    #'
+    #'
+    #' Note that `use_cache` will only fetch the metadata but not cache it if
+    #' retrieved from database.
+    #'
+    #' @param key A character vector with keys to get metadata values from.
+    #' @param namespace A character vector of namespaces to look the keys within.
+    #' @param use_cache `r sto_cache`
+    #' @param missing Fill value for missing keys. Default is `NULL`.
+    #'
+    #' @return A list with notes metadata for each key-namespace
+    #' pair. For not found pairs will return the `missing` value.
+    #'
+    #'
+    mget_keymeta_notes = function(key,
+                                  namespace = self$default_namespace,
+                                  use_cache = getOption("storr.tiledb.cache", TRUE),
+                                  missing = NULL) {
+
+      private$multi_keymeta_unit(key, namespace, use_cache, missing, meta_col = "notes")
+
     },
 
     #' @description Remove key metadata.
@@ -2278,6 +2386,81 @@ TileDBStorr <- R6::R6Class(
       stop(sprintf("'%s' must have %d elements (recieved %d)", name, n, length(x)),
            call. = FALSE)
     }
+  },
+
+  # Select a single metadata for a key-namespace pair
+  keymeta_unit = function(key, namespace, use_cache, meta_col) {
+
+    private$check_input(key, n = 1, type = "character")
+    private$check_input(namespace, n = 1, type = "character")
+
+    keyns <- paste(key, namespace, sep = ":")
+    envir <- self$envir_metadata
+
+    if (use_cache && exists1(keyns, envir)) {
+      value <- gethash(envir, keyns)[[meta_col]]
+    } else {
+      value <- private$DRIVER$get_keymeta_unit(key, namespace, meta_col)
+
+    }
+    value
+
+  },
+
+  # Select single metadata for multiple key-namespace pairs
+  multi_keymeta_unit = function(key, namespace, use_cache, nomatch, meta_col) {
+
+    p <- storr::join_key_namespace(key, namespace)
+    n <- p$n
+
+    key <- p$key
+    namespace <- p$namespace
+    keyns <- paste(key, namespace, sep = ":")
+    envir <- self$envir_metadata
+
+    value <- vector("list", n)
+    cached <- logical(n)
+
+    if (use_cache) {
+      cached <- exists0(keyns, envir)
+      value[cached] <- lapply(keyns[cached], function(h) gethash(envir, h)[[meta_col]])
+      not_cached <- !cached
+      status_not_cached <- any(not_cached)
+    } else {
+      # Everything is TRUE, so go to find them in DB
+      not_cached <- !cached
+      status_not_cached <- TRUE
+    }
+
+    is_missing <- FALSE
+
+    if (status_not_cached) {
+
+      # From not_cached find also which are truly missing
+      cc <- private$DRIVER$mget_keymeta_unit(key[not_cached],
+                                             namespace[not_cached],
+                                             meta_col = meta_col,
+                                             nomatch = nomatch)
+
+      value[not_cached] <- cc
+      keyns_not_cached <- keyns[not_cached]
+
+      # not_cached and not found
+      keyns_missing <- keyns_not_cached[attr(cc, "missing")]
+
+      # Fill cache if needed
+      # Indices for not_cached but existent items
+
+      # Truly missing key-namespace pairs
+      is_missing <- keyns %in% keyns_missing
+    }
+
+
+    if (any(is_missing)) {
+      attr(value, "missing") <- which(is_missing)
+    }
+
+    value
   },
 
   # Set up persistent daemons for storr compute profile

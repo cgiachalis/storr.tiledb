@@ -82,6 +82,10 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
     \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
     \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
+    \item \href{#method-TileDBStorr-get_keymeta_expires_at}{\code{TileDBStorr$get_keymeta_expires_at()}}
+    \item \href{#method-TileDBStorr-get_keymeta_notes}{\code{TileDBStorr$get_keymeta_notes()}}
+    \item \href{#method-TileDBStorr-mget_keymeta_expires_at}{\code{TileDBStorr$mget_keymeta_expires_at()}}
+    \item \href{#method-TileDBStorr-mget_keymeta_notes}{\code{TileDBStorr$mget_keymeta_notes()}}
     \item \href{#method-TileDBStorr-clear_keymeta}{\code{TileDBStorr$clear_keymeta()}}
     \item \href{#method-TileDBStorr-clear_keymeta_async}{\code{TileDBStorr$clear_keymeta_async()}}
     \item \href{#method-TileDBStorr-fill}{\code{TileDBStorr$fill()}}
@@ -941,6 +945,144 @@ scalar character and the other is a vector. No other recycling rule is permitted
   }
   \subsection{Returns}{
     A list with key metadata for each key-namespace
+pair. For not found pairs will return the \code{missing} value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-get_keymeta_expires_at"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-get_keymeta_expires_at}{}}}
+\subsection{\code{TileDBStorr$get_keymeta_expires_at()}}{
+  Get key's expiration metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_keymeta_expires_at(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{The key name to get metadata values from.}
+      \item{\code{namespace}}{The namespace to look the key within.}
+      \item{\code{use_cache}}{Should it be retrieved from cache? Default is
+\code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    An efficient method compared to \verb{$get_keymeta()} for fetching expiration
+values only.
+
+Note that \code{use_cache} will only fetch the metadata but not cache it if
+retrieved from database.
+  }
+  \subsection{Returns}{
+    A scalar key-metadata value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-get_keymeta_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-get_keymeta_notes}{}}}
+\subsection{\code{TileDBStorr$get_keymeta_notes()}}{
+  Get key's notes metadata.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$get_keymeta_notes(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{The key name to get metadata values from.}
+      \item{\code{namespace}}{The namespace to look the key within.}
+      \item{\code{use_cache}}{Should it be retrieved from cache? Default is
+\code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    An efficient method compared to \verb{$get_keymeta()} for fetching notes
+values only.
+
+Note that \code{use_cache} will only fetch the metadata but not cache it if
+retrieved from database.
+  }
+  \subsection{Returns}{
+    A scalar key-metadata value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mget_keymeta_expires_at"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mget_keymeta_expires_at}{}}}
+\subsection{\code{TileDBStorr$mget_keymeta_expires_at()}}{
+  Get expiration metadata for multiple keys.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_keymeta_expires_at(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector with keys to get metadata values from.}
+      \item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    values only.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+
+Note that \code{use_cache} will only fetch the metadata but not cache it if
+retrieved from database.
+  }
+  \subsection{Returns}{
+    A list with  expiration metadata for each key-namespace
+pair. For not found pairs will return the \code{missing} value.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mget_keymeta_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mget_keymeta_notes}{}}}
+\subsection{\code{TileDBStorr$mget_keymeta_notes()}}{
+  Get notes metadata for multiple keys.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mget_keymeta_notes(key, namespace = self$default_namespace,
+  use_cache = getOption("storr.tiledb.cache", TRUE), missing = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A character vector with keys to get metadata values from.}
+      \item{\code{namespace}}{A character vector of namespaces to look the keys within.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{missing}}{Fill value for missing keys. Default is \code{NULL}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    values only.
+
+The arguments \code{key} and \code{namespace} can be recycled if any of them is a
+scalar character and the other is a vector. No other recycling rule is permitted.
+
+Note that \code{use_cache} will only fetch the metadata but not cache it if
+retrieved from database.
+  }
+  \subsection{Returns}{
+    A list with notes metadata for each key-namespace
 pair. For not found pairs will return the \code{missing} value.
   }
 }

@@ -28,6 +28,10 @@
 #'
 #' - **`get_keymeta()`** - Retrieve metadata for a key
 #' - **`mget_keymeta()`** - Retrieve metadata for multiple keys
+#' - **`get_keymeta_expires_at()`** - Retrieve expiration metadata for a key
+#' - **`get_keymeta_notes()`** - Retrieve notes metadata for a key
+#' - **`mget_keymeta_expires_at()`** - Retrieve expiration metadata for multiple keys
+#' - **`mget_keymeta_notes()`** - Retrieve notes metadata for multiple keys
 #'
 #' **Object Hash Management**
 #'

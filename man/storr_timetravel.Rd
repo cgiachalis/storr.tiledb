@@ -60,6 +60,10 @@ For complete definitions, see \strong{Methods} section in \link{StorrTimeTravel}
 \itemize{
 \item \strong{\code{get_keymeta()}} - Retrieve metadata for a key
 \item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
+\item \strong{\code{get_keymeta_expires_at()}} - Retrieve expiration metadata for a key
+\item \strong{\code{get_keymeta_notes()}} - Retrieve notes metadata for a key
+\item \strong{\code{mget_keymeta_expires_at()}} - Retrieve expiration metadata for multiple keys
+\item \strong{\code{mget_keymeta_notes()}} - Retrieve notes metadata for multiple keys
 }
 
 \strong{Object Hash Management}

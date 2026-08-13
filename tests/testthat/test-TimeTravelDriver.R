@@ -25,6 +25,8 @@ test_that("'TimeTravelBDriver'", {
 # Time-travel testing will be carried out with 'StorrTimeTravel' class.
 
 test_that("'get_hash'/'mget_hash'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
   sto$mset(c("a", "b"), c("a", "b"))
@@ -48,6 +50,8 @@ test_that("'get_hash'/'mget_hash'", {
 })
 
 test_that("'get_object'/'mget_object'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
   sto$mset(c("a", "b"), c("a", "b"))
@@ -68,6 +72,7 @@ test_that("'get_object'/'mget_object'", {
 
 test_that("'get_keymeta'/'mget_keymeta' and friends", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
   sto$mset(c("a", "b"), c("a", "b"),
@@ -98,5 +103,36 @@ test_that("'get_keymeta'/'mget_keymeta' and friends", {
 
   expect_true(dr$has_expired_keys("ns1"))
   expect_false(dr$has_unexpired_keys("ns1"))
+
+})
+
+
+test_that("'get_keymeta_unit'/'mget_keymeta_unit'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+  sto$mset(c("a", "b"), c("a", "b"),
+           notes = c("notes-a", "notes-b"),
+           expires_at = c(as.POSIXct(NA), as.POSIXct("1990-01-01")))
+
+  dr <- TimeTravelDriver$new(uri)
+
+  # expires_at
+  expect_equal(dr$get_keymeta_unit("b", "ns1", "expires_at"), as.POSIXct("1990-01-01"), ignore_attr = TRUE)
+
+  trg <- structure(list(as.POSIXct(NA), as.POSIXct("1990-01-01")), missing = integer(0))
+  expect_equal(dr$mget_keymeta_unit(c("a","b"), "ns1", "expires_at"), trg, ignore_attr = TRUE)
+
+
+  # notes
+  expect_equal(dr$get_keymeta_unit("b", "ns1", "notes"), "notes-b")
+
+  trg <- structure(list("notes-a", "notes-b"), missing = integer(0))
+  expect_equal(dr$mget_keymeta_unit(c("a","b"), "ns1", "notes"), trg)
+
+  trg <- structure(list("notes-a", "notes-b", "no-val"), missing = 3L)
+  expect_equal(dr$mget_keymeta_unit(c("a","b", "d"), "ns1", nomatch = "no-val",
+                                    meta_col = "notes"), trg)
 
 })

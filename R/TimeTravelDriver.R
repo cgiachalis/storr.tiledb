@@ -294,14 +294,13 @@ TimeTravelDriver <- R6::R6Class(
 
      DT <- data.table::as.data.table(arr[])
 
-     # TODO: Remove when TileDB fixes it
-     expires_at <- NULL
-     DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
-
-
      if (nrow(DT) == 0) {
        stop(KeyError(key, namespace))
      }
+
+     # TODO: Remove when TileDB fixes it
+     expires_at <- NULL
+     DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
 
      as.list(DT)
    },
@@ -357,6 +356,98 @@ TimeTravelDriver <- R6::R6Class(
 
      out
 
+   },
+
+   #' @description Get key-namespace single metadata.
+   #'
+   #' @param key A single character key.
+   #' @param namespace A single character namespace.
+   #' @param meta_col Either `"expires_at"` or `"notes"`.
+   #'
+   #' @return A scalar key-metadata value, either from `"expires_at"` or `"notes"`
+   #'  column attribute.
+   #'
+   get_keymeta_unit = function(key, namespace, meta_col = c("expires_at", "notes")) {
+
+     meta_col <- match.arg(meta_col)
+     sp <- list(namespace = namespace, key = key)
+
+     arrobj <- private$keys_array()
+     arr <- arrobj$object
+     tiledb::extended(arr) <- FALSE
+     tiledb::attrs(arr) <- c("expires_at", "notes")
+     tiledb::selected_points(arr) <- sp
+     tiledb::return_as(arr) <- "arrow"
+
+     val <- arr[]
+
+     if (val$num_rows == 0) {
+       stop(KeyError(key, namespace))
+     }
+
+     val <- val$GetColumnByName(meta_col)$as_vector()
+
+     # TODO: Remove when TileDB fixes it
+     if (meta_col == "expires_at") {
+       if (val <= 0) {
+         val <- as.POSIXct(NA)
+       }
+     }
+
+     val
+
+   },
+
+   #' @description Get multiple key-namespace for a single metadata.
+   #'
+   #' @param key `r roxy_key`
+   #' @param namespace `r roxy_namespace`
+   #' @param meta_col Either `"expires_at"` or `"notes"`.
+   #' @param nomatch Value to fill in case of no match.
+   #'
+   #' @return A list with single key metadata for each key-namespace
+   #' pair. For not found pairs will return the nomatch value.
+   #'
+   mget_keymeta_unit = function(key, namespace, meta_col = c("expires_at", "notes"), nomatch = NULL) {
+
+     meta_col <- match.arg(meta_col)
+     arrobj <- private$keys_array()
+
+     # Slice array
+     sp <- list(namespace = namespace, key = key)
+     arr <- arrobj$object
+     tiledb::selected_points(arr) <- sp
+     tiledb::attrs(arr) <- c("hash", meta_col)
+     tiledb::return_as(arr) <- "arrow"
+
+     DT <- data.table::as.data.table(arr[], key = c("namespace", "key"))
+
+     # TODO: Remove when TileDB fixes it
+     # Sanitise datetime columns
+     if (meta_col == "expires_at") {
+       expires_at <- NULL
+       DT[expires_at <= 0 , expires_at := as.POSIXct(NA)]
+     }
+
+     DT <- DT[.(namespace, key), env = list(namespace = I(namespace), key = I(key))]
+
+     hash_isna <- is.na(DT[["hash"]])
+
+     out <- as.list(DT[[meta_col]])
+
+     if (is.null(nomatch)) {
+       nomatch <- list(nomatch)
+     }
+
+     idx_na <- which(hash_isna)
+
+     for (i in seq_along(idx_na)) {
+       out[idx_na[i]] <- nomatch
+     }
+
+     attr(out, "missing") <- which(hash_isna)
+
+     out
    },
 
    #' @description Check a key-namespace pair exists.
