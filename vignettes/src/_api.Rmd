@@ -15,16 +15,18 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Storr setup
+## Storr set up
 
-Create a `storr` either via `storr_tiledb()`:
+Create a 'storr' using one of the two construction paths:
+
+- use the specialised constructor `storr_tiledb()`:
 
 ```{r}
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 ```
 
-Or more explicitly:
+- or explicitly with the standard 'storr' interface:
 
 ```{r}
 uri2 <- tempfile()
@@ -34,6 +36,8 @@ sto2 <- storr::storr(dr)
 
 The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality.
 The latter is the standard `storr` object.
+
+For the following examples, we use the `storr_tiledb()` constructor.
 
 ## API Examples
 
@@ -120,7 +124,21 @@ sto$get_keymeta("aa")
 
 ```
 
+**Fetch single metadata**
+
+For getting only one metadata value, either expiration or notes, `storr.tiledb`
+offers efficient methods:
+
+```{r}
+# Get only notes for key 'aa' 
+sto$get_keymeta_notes("aa")
+
+# # Get only expiration date-times 
+sto$mget_keymeta_expires_at(c("aa", "bb"))
+```
+
 **Expiration management**
+  
 ```{r}
 # Retrieve keys with expiration
 sto$keys_with_expiration()
