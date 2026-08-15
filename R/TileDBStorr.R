@@ -1190,6 +1190,9 @@ TileDBStorr <- R6::R6Class(
                       notes,
                       use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
       dat <- private$DRIVER$filter_keys(key, namespace)
 
       if (nrow(dat) == 0) {
@@ -1210,16 +1213,17 @@ TileDBStorr <- R6::R6Class(
           private$check_input(notes, n = 1, type = "character")
           private$check_input(expires_at, n = 1, type = "datetime")
 
+
           dat <- data.table::as.data.table(
             list(
-              namespace = dat$namespace,
-              key = dat$key,
-              hash = dat$hash,
+              namespace = namespace,
+              key = key,
+              hash = NA_character_,
+              # Will be populated later
               expires_at = expires_at,
               notes = notes
             )
           )
-
         }
       }
 
@@ -1227,7 +1231,6 @@ TileDBStorr <- R6::R6Class(
 
       # Update hash index only
       dat$hash <- hash
-
       private$DRIVER$mset_hash(dat$key,
                                dat$namespace,
                                dat$hash,
@@ -1242,7 +1245,7 @@ TileDBStorr <- R6::R6Class(
       envir <- self$envir_metadata
 
       if (use_cache && !exists1(keyns, envir)) {
-        sethash(envir, km, list(expires_at = dat$expires_at,
+        sethash(envir, keyns, list(expires_at = dat$expires_at,
                                               notes = dat$notes))
       }
 
