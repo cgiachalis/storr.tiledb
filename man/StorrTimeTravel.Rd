@@ -420,7 +420,8 @@ retrieved from database.
     \if{html}{\out{</div>}}
   }
   \subsection{Details}{
-    values only.
+    An efficient method compared to \verb{$mget_keymeta()} for fetching expiration
+values only.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
@@ -455,7 +456,8 @@ pair. For not found pairs will return the \code{missing} value.
     \if{html}{\out{</div>}}
   }
   \subsection{Details}{
-    values only.
+    An efficient method compared to \verb{$mget_keymeta()} for fetching notes
+values only.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
