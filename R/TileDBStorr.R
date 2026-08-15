@@ -128,7 +128,6 @@ TileDBStorr <- R6::R6Class(
 
     #' @description Set a key value pair.
     #'
-    #'
     #' @param key `r sto_key()`
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
@@ -1163,6 +1162,94 @@ TileDBStorr <- R6::R6Class(
       )
     },
 
+    #' @description Update a key value pair.
+    #'
+    #' @details
+    #'
+    #' This method updates a key-namespace value while retaining
+    #' its key-metadata. If a key is not found, it raises an error by default;
+    #' otherwise, set `create` argument to  `TRUE` to set a new key and optionally
+    #' add key metadata with `expires_at,notes` arguments.
+    #'
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param create Should the key be created, if not found. Default is `FALSE`
+    #' raising an `KeyError`. Otherwise, create a new key.
+    #' @param expires_at,notes A scalar string of notes and/or a date-time
+    #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
+    #' @param use_cache `r sto_cache`
+    #'
+    #' @return The hash value, invisibly.
+    #'
+    update = function(key,
+                      value,
+                      namespace = self$default_namespace,
+                      create = FALSE,
+                      expires_at,
+                      notes,
+                      use_cache = getOption("storr.tiledb.cache", TRUE)) {
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        if (isFALSE(create)) {
+          stop(KeyError(key, namespace))
+        } else {
+
+          #  When 'create = TRUE' construct key-namespace index mapping and
+          #  add key-metadata (optional)
+          if (missing(expires_at)) {
+            expires_at <- as.POSIXct(NA_real_)
+          }
+
+          if (missing(notes)) {
+            notes <- NA_character_
+          }
+
+          private$check_input(notes, n = 1, type = "character")
+          private$check_input(expires_at, n = 1, type = "datetime")
+
+          dat <- data.table::as.data.table(
+            list(
+              namespace = dat$namespace,
+              key = dat$key,
+              hash = dat$hash,
+              expires_at = expires_at,
+              notes = notes
+            )
+          )
+
+        }
+      }
+
+      hash <- self$set_value(value, use_cache)
+
+      # Update hash index only
+      dat$hash <- hash
+
+      private$DRIVER$mset_hash(dat$key,
+                               dat$namespace,
+                               dat$hash,
+                               dat$expires_at,
+                               dat$notes)
+
+      # NB: Here, we need only to set metadata cache and not to remove it when
+      # use_cache is FALSE, as it happens with $set() method; because the idea
+      # of 'update' is to retain the key-metadata.
+
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      if (use_cache && !exists1(keyns, envir)) {
+        sethash(envir, km, list(expires_at = dat$expires_at,
+                                              notes = dat$notes))
+      }
+
+      invisible(hash)
+
+    },
+
     #' @description Set key metadata.
     #'
     #' @details
@@ -1718,7 +1805,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @details
     #'
-    #  An efficient method compared to `$mget_keymeta()` for fetching expiration
+    #' An efficient method compared to `$mget_keymeta()` for fetching expiration
     #' values only.
     #'
     #' `r sto_recycle_note`
@@ -1749,7 +1836,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @details
     #'
-    #  An efficient method compared to `$mget_keymeta()` for fetching notes
+    #' An efficient method compared to `$mget_keymeta()` for fetching notes
     #' values only.
     #'
     #' `r sto_recycle_note`
