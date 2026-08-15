@@ -104,6 +104,7 @@
 #'
 #' - **`set()`** - Set a key-value pair with optional metadata (expires_at, notes)
 #' - **`get()`** - Retrieve an object by key-namespace pair
+#' - **`update()`** - Update a key-value pair and retain key-metadata
 #' - **`set_by_value()`** - Set a key-value pair using the object's hash as the key
 #' - **`get_value()`** - Retrieve an object given its hash
 #' - **`get_all()`** - Retrieve an object and its metadata by key-namespace pair
@@ -112,6 +113,7 @@
 #'
 #' - **`mset()`** - Set multiple key-value pairs in batch
 #' - **`mget()`** - Get multiple objects by key-namespace pairs
+#' - **`mupdate()`** - Update multiple objects by key-namespace pairs and retain key-metadata
 #' - **`mset_by_value()`** - Set multiple key-value pairs using their hashes as keys
 #' - **`mget_value()`** - Get multiple objects by their hashes
 #' - **`mget_all()`** - Retrieve multiple objects and its metadata by key-namespace pairs

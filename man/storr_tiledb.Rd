@@ -143,6 +143,7 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \itemize{
 \item \strong{\code{set()}} - Set a key-value pair with optional metadata (expires_at, notes)
 \item \strong{\code{get()}} - Retrieve an object by key-namespace pair
+\item \strong{\code{update()}} - Update a key-value pair and retain key-metadata
 \item \strong{\code{set_by_value()}} - Set a key-value pair using the object's hash as the key
 \item \strong{\code{get_value()}} - Retrieve an object given its hash
 \item \strong{\code{get_all()}} - Retrieve an object and its metadata by key-namespace pair
@@ -152,6 +153,7 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \itemize{
 \item \strong{\code{mset()}} - Set multiple key-value pairs in batch
 \item \strong{\code{mget()}} - Get multiple objects by key-namespace pairs
+\item \strong{\code{mupdate()}} - Update multiple objects by key-namespace pairs and retain key-metadata
 \item \strong{\code{mset_by_value()}} - Set multiple key-value pairs using their hashes as keys
 \item \strong{\code{mget_value()}} - Get multiple objects by their hashes
 \item \strong{\code{mget_all()}} - Retrieve multiple objects and its metadata by key-namespace pairs
