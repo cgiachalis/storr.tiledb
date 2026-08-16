@@ -342,7 +342,7 @@ StorrTimeTravel <- R6::R6Class(
     #'
     #' @details
     #'
-    #  An efficient method compared to `$mget_keymeta()` for fetching expiration
+    #' An efficient method compared to `$mget_keymeta()` for fetching expiration
     #' values only.
     #'
     #' `r sto_recycle_note`
@@ -377,7 +377,7 @@ StorrTimeTravel <- R6::R6Class(
     #'
     #' @details
     #'
-    #  An efficient method compared to `$mget_keymeta()` for fetching notes
+    #' An efficient method compared to `$mget_keymeta()` for fetching notes
     #' values only.
     #'
     #' `r sto_recycle_note`

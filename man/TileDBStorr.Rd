@@ -76,6 +76,8 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-mget_value}{\code{TileDBStorr$mget_value()}}
     \item \href{#method-TileDBStorr-get_all}{\code{TileDBStorr$get_all()}}
     \item \href{#method-TileDBStorr-mget_all}{\code{TileDBStorr$mget_all()}}
+    \item \href{#method-TileDBStorr-update}{\code{TileDBStorr$update()}}
+    \item \href{#method-TileDBStorr-mupdate}{\code{TileDBStorr$mupdate()}}
     \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
     \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
     \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
@@ -720,6 +722,82 @@ pair. For not found pairs will return the \code{missing} value.
 }
 
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-update"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-update}{}}}
+\subsection{\code{TileDBStorr$update()}}{
+  Update a key value pair.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$update(key, value, namespace = self$default_namespace,
+  create = FALSE, expires_at, notes,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{create}}{Should the key be created, if not found. Default is \code{FALSE}
+raising an \code{KeyError}. Otherwise, create a new key.}
+      \item{\code{expires_at, notes}}{A scalar string of notes and/or a date-time
+object of class \code{POSIXct}(optional). Applies only if \code{create = TRUE}.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This method updates a key-namespace value while retaining
+its key-metadata. If a key is not found, it raises an error by default;
+otherwise, set \code{create} argument to  \code{TRUE} to set a new key and optionally
+add key metadata with \verb{expires_at,notes} arguments.
+  }
+  \subsection{Returns}{
+    The hash value, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-mupdate"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mupdate}{}}}
+\subsection{\code{TileDBStorr$mupdate()}}{
+  Update multiple key value pairs.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$mupdate(key, value, namespace = self$default_namespace,
+  create = FALSE, fail_fast = TRUE, expires_at, notes,
+  use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{create}}{Should the key be created, if not found. Default is \code{FALSE}
+raising an \code{KeyError}. Otherwise, create a new key.}
+      \item{\code{fail_fast}}{Should abort on missing keys, default is \code{TRUE}. Use
+\code{FALSE} for skipping keys and emit a warning for missing items. The
+argument has no effect when upsert is used via \code{create = TRUE}.}
+      \item{\code{expires_at, notes}}{A scalar string of notes and/or a date-time
+object of class \code{POSIXct}(optional). Applies only if \code{create = TRUE}.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This works similar to \verb{$update} but for multiple key pairs and with
+more control about missing keys; use \code{fail_fast} to abort (default) or
+skip with warning.
+  }
+  \subsection{Returns}{
+    A vector of hash values, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TileDBStorr-set_keymeta"></a>}}
 \if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta}{}}}
 \subsection{\code{TileDBStorr$set_keymeta()}}{
@@ -1037,7 +1115,8 @@ retrieved from database.
     \if{html}{\out{</div>}}
   }
   \subsection{Details}{
-    values only.
+    An efficient method compared to \verb{$mget_keymeta()} for fetching expiration
+values only.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
@@ -1073,7 +1152,8 @@ pair. For not found pairs will return the \code{missing} value.
     \if{html}{\out{</div>}}
   }
   \subsection{Details}{
-    values only.
+    An efficient method compared to \verb{$mget_keymeta()} for fetching notes
+values only.
 
 The arguments \code{key} and \code{namespace} can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.
