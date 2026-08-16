@@ -479,7 +479,8 @@ Get expiration metadata for multiple keys.
 
 #### Details
 
-values only.
+An efficient method compared to `$mget_keymeta()` for fetching
+expiration values only.
 
 The arguments `key` and `namespace` can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is
@@ -520,6 +521,7 @@ Get notes metadata for multiple keys.
 
 #### Details
 
+An efficient method compared to `$mget_keymeta()` for fetching notes
 values only.
 
 The arguments `key` and `namespace` can be recycled if any of them is a

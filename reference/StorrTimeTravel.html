@@ -13,7 +13,7 @@ usage is through storr_timetravel()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -461,7 +461,8 @@ retrieved from database.</p>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="details-6">Details<a class="anchor" aria-label="anchor" href="#details-6"></a></h4>
-<p>values only.</p>
+<p>An efficient method compared to <code>$mget_keymeta()</code> for fetching expiration
+values only.</p>
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p>
 <p>Note that <code>use_cache</code> will only fetch the metadata but not cache it if
@@ -495,7 +496,8 @@ pair. For not found pairs will return the <code>missing</code> value.</p>
 </dl><p></p></div>
 </div><p></p><div class="section">
 <h4 id="details-7">Details<a class="anchor" aria-label="anchor" href="#details-7"></a></h4>
-<p>values only.</p>
+<p>An efficient method compared to <code>$mget_keymeta()</code> for fetching notes
+values only.</p>
 <p>The arguments <code>key</code> and <code>namespace</code> can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is permitted.</p>
 <p>Note that <code>use_cache</code> will only fetch the metadata but not cache it if

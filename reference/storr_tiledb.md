@@ -181,6 +181,9 @@ For complete definitions, see **Methods** section in
 - **[`get()`](https://rdrr.io/r/base/get.html)** - Retrieve an object by
   key-namespace pair
 
+- **[`update()`](https://rdrr.io/r/stats/update.html)** - Update a
+  key-value pair and retain key-metadata
+
 - **`set_by_value()`** - Set a key-value pair using the object's hash as
   the key
 
@@ -195,6 +198,9 @@ For complete definitions, see **Methods** section in
 
 - **[`mget()`](https://rdrr.io/r/base/get.html)** - Get multiple objects
   by key-namespace pairs
+
+- **`mupdate()`** - Update multiple objects by key-namespace pairs and
+  retain key-metadata
 
 - **`mset_by_value()`** - Set multiple key-value pairs using their
   hashes as keys

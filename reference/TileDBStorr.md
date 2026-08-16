@@ -105,6 +105,10 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mget_all()`](#method-TileDBStorr-mget_all)
 
+- [`TileDBStorr$update()`](#method-TileDBStorr-update)
+
+- [`TileDBStorr$mupdate()`](#method-TileDBStorr-mupdate)
+
 - [`TileDBStorr$set_keymeta()`](#method-TileDBStorr-set_keymeta)
 
 - [`TileDBStorr$mset_keymeta()`](#method-TileDBStorr-mset_keymeta)
@@ -938,6 +942,113 @@ For not found pairs will return the `missing` value.
 
 ------------------------------------------------------------------------
 
+### `TileDBStorr$update()`
+
+Update a key value pair.
+
+#### Usage
+
+    TileDBStorr$update(key, value, namespace = self$default_namespace,
+      create = FALSE, expires_at, notes,
+      use_cache = getOption("storr.tiledb.cache", TRUE))
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `value`:
+
+  An R object to store.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `create`:
+
+  Should the key be created, if not found. Default is `FALSE` raising an
+  `KeyError`. Otherwise, create a new key.
+
+- `expires_at, notes`:
+
+  A scalar string of notes and/or a date-time object of class
+  `POSIXct`(optional). Applies only if `create = TRUE`.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+#### Details
+
+This method updates a key-namespace value while retaining its
+key-metadata. If a key is not found, it raises an error by default;
+otherwise, set `create` argument to `TRUE` to set a new key and
+optionally add key metadata with `expires_at,notes` arguments.
+
+#### Returns
+
+The hash value, invisibly.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$mupdate()`
+
+Update multiple key value pairs.
+
+#### Usage
+
+    TileDBStorr$mupdate(key, value, namespace = self$default_namespace,
+      create = FALSE, fail_fast = TRUE, expires_at, notes,
+      use_cache = getOption("storr.tiledb.cache", TRUE))
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `value`:
+
+  An R object to store.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `create`:
+
+  Should the key be created, if not found. Default is `FALSE` raising an
+  `KeyError`. Otherwise, create a new key.
+
+- `fail_fast`:
+
+  Should abort on missing keys, default is `TRUE`. Use `FALSE` for
+  skipping keys and emit a warning for missing items. The argument has
+  no effect when upsert is used via `create = TRUE`.
+
+- `expires_at, notes`:
+
+  A scalar string of notes and/or a date-time object of class
+  `POSIXct`(optional). Applies only if `create = TRUE`.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+#### Details
+
+This works similar to `$update` but for multiple key pairs and with more
+control about missing keys; use `fail_fast` to abort (default) or skip
+with warning.
+
+#### Returns
+
+A vector of hash values, invisibly.
+
+------------------------------------------------------------------------
+
 ### `TileDBStorr$set_keymeta()`
 
 Set key metadata.
@@ -1334,7 +1445,8 @@ Get expiration metadata for multiple keys.
 
 #### Details
 
-values only.
+An efficient method compared to `$mget_keymeta()` for fetching
+expiration values only.
 
 The arguments `key` and `namespace` can be recycled if any of them is a
 scalar character and the other is a vector. No other recycling rule is
@@ -1379,6 +1491,7 @@ Get notes metadata for multiple keys.
 
 #### Details
 
+An efficient method compared to `$mget_keymeta()` for fetching notes
 values only.
 
 The arguments `key` and `namespace` can be recycled if any of them is a
