@@ -311,6 +311,7 @@ test_that("'list_unused_hashes'", {
 
 
 test_that("'get_all' and 'mget_all'", {
+
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE)
@@ -356,3 +357,124 @@ test_that("'get_all' and 'mget_all'", {
 
 })
 
+test_that("'update'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  dt <- as.POSIXct("2026-02-25")
+  sto$set("a", value = 1, expires_at = dt, notes = "Joe")
+
+  # Update existing key, retain metadata
+  hash1 <- sto$update("a", value = 10)
+  expect_equal(gethash(sto$envir, hash1), 10)
+  expect_equal(sto$get("a", use_cache = TRUE), 10)
+  expect_equal(sto$get("a", use_cache = FALSE), 10)
+  expect_equal(sto$get_keymeta("a"), list(expires_at = dt, notes = "Joe"))
+
+  # Update non-existent key with create = FALSE (error)
+  expect_error(sto$update("b", value = 2, create = FALSE),
+               "key 'b' ('objects') not found",
+               class = "error", fixed = TRUE)
+
+  # Upsert non-existent key with create = TRUE
+  hash2 <- sto$update("b", value = 2, create = TRUE)
+  expect_equal(sto$get("b", use_cache = TRUE), 2)
+  expect_equal(sto$get("b", use_cache = FALSE), 2)
+  expect_equal(sto$get_keymeta("b", use_cache = TRUE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+  expect_equal(sto$get_keymeta("b", use_cache = FALSE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+
+  # Create with metadata
+  hash3 <- sto$update("c", value = 3, create = TRUE,
+                      expires_at = dt, notes = "Joe")
+  expect_equal(sto$get("c", use_cache = TRUE), 3)
+  expect_equal(sto$get("c", use_cache = FALSE), 3)
+  expect_equal(sto$get_keymeta("c", use_cache = TRUE), list(expires_at = dt, notes = "Joe"), ignore_attr = TRUE)
+  expect_equal(sto$get_keymeta("c", use_cache = FALSE), list(expires_at = dt, notes = "Joe"), ignore_attr = TRUE)
+
+  # Update existing key, retain metadata (use_cache = FALSE)
+  sto$flush_cache()
+  expect_equal(numhash(sto$envir), 0)
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+  hash4 <- sto$update("a", value = 30, use_cache = FALSE)
+  expect_equal(sto$get("a", use_cache = FALSE), 30)
+  expect_equal(sto$get_keymeta("a", use_cache = FALSE), list(expires_at = dt, notes = "Joe"), ignore_attr = TRUE)
+
+  expect_null(gethash(sto$envir, hash4))
+  expect_null(gethash(sto$envir_metadata, "a:objects"))
+
+  # Check it didn't fill up something else
+  expect_equal(numhash(sto$envir), 0)
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+})
+
+
+test_that("'mupdate'", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  dt <- rep(as.POSIXct("2026-02-25"), 2)
+  nt <- rep("Joe", 2)
+  sto$mset(c("a", "b"), c(10, 20), expires_at = dt, notes = nt)
+
+  # Update existing keys, retain metadata
+  hash <- sto$mupdate(c("a", "b"), c(10, 20))
+  expect_equal(sto$mget(c("a", "b"), use_cache = TRUE), list(10, 20))
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(10, 20))
+
+  trg_meta <- list(list(expires_at = dt[1], notes = "Joe"), list(expires_at = dt[1], notes = "Joe"))
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = TRUE), trg_meta, ignore_attr = TRUE)
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = FALSE), trg_meta, ignore_attr = TRUE)
+
+  # Upsert with create = TRUE
+  hash <- sto$mupdate(c("a", "c"), c(100, 30), create = TRUE)
+  expect_equal(sto$mget(c("a", "c"), use_cache = TRUE), list(100, 30))
+  expect_equal(sto$mget(c("a", "c"), use_cache = FALSE), list(100, 30))
+  expect_equal(sto$get_keymeta("c", use_cache = TRUE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+  expect_equal(sto$get_keymeta("c", use_cache = FALSE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+
+  # Upsert with create = TRUE and with metadata
+  hash <- sto$mupdate(c("d", "e"), c(200, 300), create = TRUE, expires_at = dt[1], notes = nt[1])
+  expect_equal(sto$mget(c("d", "e"), use_cache = TRUE), list(200, 300))
+  expect_equal(sto$mget(c("d", "e"), use_cache = FALSE), list(200, 300))
+  expect_equal(sto$get_keymeta("d", use_cache = TRUE), list(expires_at = dt[1], notes = "Joe"), ignore_attr = TRUE)
+  expect_equal(sto$get_keymeta("e", use_cache = FALSE), list(expires_at = dt[1], notes = "Joe"), ignore_attr = TRUE)
+
+  # Missing keys with fail_fast = TRUE (error)
+  expect_error(sto$mupdate(c("x", "y"), c(1, 2), fail_fast = TRUE),
+               "key 'x,y' ('objects,objects') not found",
+               class = "error",
+               fixed = TRUE)
+
+  # Missing keys with fail_fast = FALSE (warning + skip)
+  expect_warning(hash <- sto$mupdate(c("a", "z"), c(12, 99), fail_fast = FALSE))
+  # One object was stored
+  expect_length(hash, 1)
+
+  expect_equal(sto$get("a"), 12)
+  expect_error(sto$get("z"))
+
+  # Update existing keys, retain metadata (use_cache = FALSE)
+  sto$flush_cache()
+  expect_equal(numhash(sto$envir), 0)
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+  hash <- sto$mupdate(c("a", "b"), value = list(0, 0), use_cache = FALSE)
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(0, 0))
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = FALSE), trg_meta, ignore_attr = TRUE)
+
+  expect_null(gethash(sto$envir, hash[1]))
+  expect_null(gethash(sto$envir_metadata, "a:objects"))
+  expect_null(gethash(sto$envir, hash[2]))
+  expect_null(gethash(sto$envir_metadata, "b:objects"))
+
+  # Check it didn't fill up something else
+  expect_equal(numhash(sto$envir), 0)
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+})
