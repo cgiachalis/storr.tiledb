@@ -1,5 +1,5 @@
 # Changelog
 
-## storr.tiledb 0.1.5
+## storr.tiledb 0.1.6
 
 - Initial GitHub release.
