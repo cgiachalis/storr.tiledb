@@ -24,8 +24,13 @@
 #'
 #'  ## Cache option
 #'
-#'  By default, the in-memory caching layer is enabled. The global option `storr.tiledb.cache`
-#'  can be used to disable it, like so: `options(storr.tiledb.cache = FALSE)`.
+#'  The in-memory caching layer is enabled by default and is controlled via
+#'  the global option `storr.tiledb.cache` :
+#'
+#'  ```r
+#'  # Disable cache
+#'   options(storr.tiledb.cache = FALSE)
+#'  ````
 #'
 #'  ## Buffer size
 #'
@@ -55,24 +60,41 @@
 #'
 #' ## Async Evaluation
 #'
-#' `storr_tiledb` uses [mirai] package to set keys asynchronously.
+#' `storr_tiledb` uses [mirai] package to set keys asynchronously. Async is
+#' enabled either at initialisation or automatically when using one of the
+#' async methods.
 #'
-#' Each storr instantiation comes with it own independent set of daemons using
-#' a unique compute profile (namespace). By default it launches two daemons if
-#' async is enabled. The daemons associated with the specific compute profile are
-#' reset to zero when the storr object is deleted.
-#'
-#' Async is enabled either at initialisation or automatically when using one of
-#' the async methods.
-#'
-#' To access the specific compute profile, i.e., to launch more daemons via
-#' `mirai::launch_local()` use the active field `$async_info` :
+#' Each 'storr' instantiation comes with its own independent set of daemons using
+#' a unique compute profile (namespace). To access the specific compute profile,
+#' i.e., to launch more daemons via `mirai::launch_local()` use the active field
+#' `$async_info` :
 #'
 #' ```r
 #' # Retrieve mirai's compute profile
 #' sto$async_info["profile"]
 #'
 #' ````
+#'
+#' By default, async process launches two daemons. This is configurable with
+#' `storr.tiledb.mirai.daemons` option:
+#'
+#' ```r
+#' # set mirai daemons
+#'  options(storr.tiledb.mirai.daemons = 1L)
+#'```
+#'
+#' In addition, to set a memory budget (in MB) for queued task payloads at the
+#' dispatcher, use `storr.tiledb.mirai.memory` option:
+#'
+#' ```r
+#' # set mirai memory budget
+#'  options(storr.tiledb.mirai.memory = 100) # 100MB
+#'```
+#'
+#' The daemons associated with the specific compute profile are reset to zero
+#' when the 'storr' object is deleted/garbage collected.
+#'
+#'
 #' ## Key Expiration
 #'
 #' Keys with expiration time-stamps are not automatically cleared; they can be

@@ -2687,7 +2687,9 @@ TileDBStorr <- R6::R6Class(
   set_daemons = function() {
     if (!mirai::daemons_set(private$MIRAI_PROFILE)) {
       private$MIRAI_PROFILE <- paste("storr", digest::digest(Sys.time(), algo = "xxhash64"), sep = "_")
-      mirai::daemons(2L, .compute = private$MIRAI_PROFILE)
+      n <- getOption("storr.mirai.daemons", 2L)
+      mb <- getOption("storr.mirai.memory", NULL)
+      mirai::daemons(n, memory = mb,.compute = private$MIRAI_PROFILE)
     }
   },
 
