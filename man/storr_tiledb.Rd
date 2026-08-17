@@ -89,23 +89,36 @@ algorithms, compression levels, tile and cell order. For details, see
 
 \subsection{Async Evaluation}{
 
-\code{storr_tiledb} uses \link[mirai:mirai]{mirai} package to set keys asynchronously.
+\code{storr_tiledb} uses \link[mirai:mirai]{mirai} package to set keys asynchronously. Async is
+enabled either at initialisation or automatically when using one of the
+async methods.
 
-Each storr instantiation comes with it own independent set of daemons using
-a unique compute profile (namespace). By default it launches two daemons if
-async is enabled. The daemons associated with the specific compute profile are
-reset to zero when the storr object is deleted.
-
-Async is enabled either at initialisation or automatically when using one of
-the async methods.
-
-To access the specific compute profile, i.e., to launch more daemons via
-\code{mirai::launch_local()} use the active field \verb{$async_info} :
+Each 'storr' instantiation comes with its own independent set of daemons using
+a unique compute profile (namespace). To access the specific compute profile,
+i.e., to launch more daemons via \code{mirai::launch_local()} use the active field
+\verb{$async_info} :
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# Retrieve mirai's compute profile
 sto$async_info["profile"]
 
 }\if{html}{\out{</div>}}
+
+By default, async process launches two daemons. This is configurable with
+\code{storr.tiledb.mirai.daemons} option:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# set mirai daemons
+ options(storr.tiledb.mirai.daemons = 1L)
+}\if{html}{\out{</div>}}
+
+In addition, to set a memory budget (in MB) for queued task payloads at the
+dispatcher, use \code{storr.tiledb.mirai.memory} option:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# set mirai memory budget
+ options(storr.tiledb.mirai.memory = 100) # 100MB
+}\if{html}{\out{</div>}}
+
+The daemons associated with the specific compute profile are reset to zero
+when the 'storr' object is deleted/garbage collected.
 }
 
 \subsection{Key Expiration}{
