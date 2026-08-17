@@ -24,8 +24,13 @@
 #'
 #'  ## Cache option
 #'
-#'  By default, the in-memory caching layer is enabled. The global option `storr.tiledb.cache`
-#'  can be used to disable it, like so: `options(storr.tiledb.cache = FALSE)`.
+#'  The in-memory caching layer is enabled by default and is controlled via
+#'  the global option `storr.tiledb.cache` :
+#'
+#'  ```r
+#'  # Disable cache
+#'   options(storr.tiledb.cache = FALSE)
+#'  ````
 #'
 #'  ## Buffer size
 #'

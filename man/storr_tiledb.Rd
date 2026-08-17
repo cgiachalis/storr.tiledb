@@ -54,8 +54,12 @@ Another difference, but not visible to the user, is that the
 environments.
 \subsection{Cache option}{
 
-By default, the in-memory caching layer is enabled. The global option \code{storr.tiledb.cache}
-can be used to disable it, like so: \code{options(storr.tiledb.cache = FALSE)}.
+The in-memory caching layer is enabled by default and is controlled via
+the global option \code{storr.tiledb.cache} :
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Disable cache
+ options(storr.tiledb.cache = FALSE)
+}\if{html}{\out{</div>}}
 }
 
 \subsection{Buffer size}{
