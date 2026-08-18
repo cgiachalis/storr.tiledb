@@ -176,14 +176,6 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{mget_all()}} - Retrieve multiple objects and its metadata by key-namespace pairs
 }
 
-\strong{Asynchronous Operations}
-\itemize{
-\item \strong{\code{set_async()}} - Set a key-value pair asynchronously using mirai
-\item \strong{\code{mset_async()}} - Set multiple key-value pairs asynchronously
-\item \strong{\code{set_by_value_async()}} - Set key-value pair using hash, asynchronously
-\item \strong{\code{mset_by_value_async()}} - Set multiple key-value pairs using hashes, asynchronously
-}
-
 \strong{Metadata Operations}
 \itemize{
 \item \strong{\code{set_keymeta()}} - Set metadata (expires_at, notes) for a key
@@ -194,10 +186,20 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{get_keymeta_notes()}} - Retrieve notes metadata for a key
 \item \strong{\code{mget_keymeta_expires_at()}} - Retrieve expiration metadata for multiple keys
 \item \strong{\code{mget_keymeta_notes()}} - Retrieve notes metadata for multiple keys
-\item \strong{\code{set_keymeta_async()}} - Set metadata asynchronously
-\item \strong{\code{mset_keymeta_async()}} - Set multiple metadata asynchronously
 \item \strong{\code{clear_keymeta()}} - Clear metadata (set to NA) for key(s)
-\item \strong{\code{clear_keymeta_async()}} - Clear metadata asynchronously
+}
+
+\strong{Asynchronous Operations}
+\itemize{
+\item \strong{\code{set_async()}} - Set a key-value pair, asynchronously
+\item \strong{\code{mset_async()}} - Set multiple key-value pairs, asynchronously
+\item \strong{\code{set_by_value_async()}} - Set a key-value pair using hash, asynchronously
+\item \strong{\code{mset_by_value_async()}} - Set multiple key-value pairs using hashes, asynchronously
+\item \strong{\code{update_async()}} - Update a key-value pair and retain key-metadata, asynchronously
+\item \strong{\code{mupdate_async()}} - Update multiple key-value pairs and retain key-metadata, asynchronously
+\item \strong{\code{set_keymeta_async()}} - Set metadata, asynchronously
+\item \strong{\code{mset_keymeta_async()}} - Set multiple metadata, asynchronously
+\item \strong{\code{clear_keymeta_async()}} - Clear metadata, asynchronously
 }
 
 \strong{Object Hash Management}
