@@ -454,6 +454,12 @@ test_that("update_async", {
   expect_equal(sto$get("x", use_cache = TRUE), 2)
   expect_equal(sto$get("x", use_cache = FALSE), 2)
 
+  expect_equal(sto$get_keymeta("x", use_cache = TRUE), list(expires_at = as.POSIXct(NA),
+                                                            notes = NA_character_))
+  expect_equal(sto$get_keymeta("x", use_cache = FALSE),  list(expires_at = as.POSIXct(NA),
+                                                              notes = NA_character_))
+
+
   # Upsert non-existent key with create = TRUE and metadata
   expect_no_error(m2 <- sto$update_async("y", value = 3,
                                          create = TRUE,
@@ -461,6 +467,10 @@ test_that("update_async", {
                                          notes = "async"))
   expect_named(m2, c("mirai", "hash"))
   expect_all_true(sapply(m2$mirai, mirai::is_mirai))
+
+  # cached keymeta are available immediately
+  expect_equal(sto$get_keymeta("y"), list(expires_at = t0, notes = "async"))
+
   m2$mirai$obj[]
   m2$mirai$key[]
   expect_equal(sto$get("y", use_cache = TRUE), 3)
@@ -495,6 +505,85 @@ test_that("update_async", {
                class = "error")
   expect_error(sto$update_async("w", 1, create = TRUE, notes = c("a", "b")),
                "'notes' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+})
+
+test_that("mupdate_async", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  dt <- rep(as.POSIXct("2026-02-25"), 2)
+  nt <- rep("Joe", 2)
+  trg_meta <- list(list(expires_at = dt[1], notes = "Joe"), list(expires_at = dt[1], notes = "Joe"))
+  trg_meta0 <- list(list(expires_at = as.POSIXct(NA), notes = NA_character_), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+  sto$mset(c("a", "b"), c(1, 2))
+
+  # update existing keys, retain metadata
+  expect_no_error(m1 <- sto$mupdate_async(c("a", "b"), value = list(3, 4)))
+  expect_named(m1, c("mirai", "hash"))
+  expect_equal(m1$hash, c("02c87a685a6264c39c65c94a51de14b8", "659a43cda2f407e0a2eafc39bd236900"))
+  expect_all_true(sapply(m1$mirai, mirai::is_mirai))
+
+  m1$mirai$obj[]
+  m1$mirai$key[]
+
+  # test cached values
+  expect_equal(sto$mget(c("a", "b"), use_cache = TRUE), list(3, 4))
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = TRUE), trg_meta0, ignore_attr = TRUE)
+
+  # test key/keymeta are saved on disk
+  expect_equal(sto$mget(c("a", "b"),  use_cache = FALSE), list(3, 4))
+  expect_equal(sto$mget_keymeta(c("a", "b"),use_cache = FALSE), trg_meta0, ignore_attr = TRUE)
+
+  # Upsert with create = TRUE and metadata
+  expect_no_error(m2 <- sto$mupdate_async(c("a", "b"),
+                                          namespace = c("ns1", "ns2"),
+                                          value = list(1, 2),
+                                          create = TRUE,
+                                          expires_at = dt[1],
+                                          notes = nt[1]))
+
+
+  m2$mirai$obj[]
+  m2$mirai$key[]
+
+  # test cached values
+  expect_equal(sto$mget(c("a", "b"), namespace = c("ns1", "ns2"), use_cache = TRUE), list(1, 2))
+  expect_equal(sto$mget_keymeta(c("a", "b"),namespace = c("ns1", "ns2"),  use_cache = TRUE), trg_meta, ignore_attr = TRUE)
+
+
+  # test key/keymeta are saved on disk
+  expect_equal(sto$mget(c("a", "b"), namespace = c("ns1", "ns2"), use_cache = FALSE), list(1, 2))
+  expect_equal(sto$mget_keymeta(c("a", "b"),namespace = c("ns1", "ns2"),  use_cache = FALSE), trg_meta, ignore_attr = TRUE)
+
+
+  # Missing keys with fail_fast = TRUE (error)
+  expect_error(sto$mupdate_async(c("x", "y"), c(1, 2), fail_fast = TRUE),
+               "key 'x,y' ('objects,objects') not found",
+               class = "error",
+               fixed = TRUE)
+
+  # test inputs
+  expect_error(sto$mupdate_async(c("a", "b"), list(1,2), namespace = c("ns1", "ns2", "ns3")),
+               "Incompatible lengths for key and namespace",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mset_async(c("a", "b"), list(1,2, 3)),
+               "'value' must have 2 elements (recieved 3)",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mupdate_async("aa", 1, create = TRUE,  notes = c("a", "b")),
+               "'notes' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+
+  expect_error(sto$mupdate_async("ab", 1, create = TRUE, expires_at = c("a", "b")),
+               "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
 
