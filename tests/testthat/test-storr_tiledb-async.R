@@ -463,12 +463,34 @@ test_that("update_async", {
   expect_equal(sto$get_keymeta("y", use_cache = TRUE), list(expires_at = t0, notes = "async"))
   expect_equal(sto$get_keymeta("y", use_cache = FALSE), list(expires_at = t0, notes = "async"))
 
-  expect_error(sto$update_async("noexist", value = 1), "key 'noexist' ('objects') not found", fixed = TRUE, class = "KeyError")
-  expect_error(sto$update_async(c("a", "b"), 1), "'key' must have 1 elements (recieved 2)", fixed = TRUE, class = "error")
-  expect_error(sto$update_async("z", 1, namespace = c("a", "b")), "'namespace' must have 1 elements (recieved 2)", fixed = TRUE, class = "error")
-  expect_error(sto$update_async("w", 1, create = TRUE, expires_at = "a"), "'expires_at' should be a date-time object, not character", fixed = TRUE, class = "error")
-  expect_error(sto$update_async("w", 1, create = TRUE, expires_at = rep(as.POSIXct(NA), 2)), "'expires_at' must have 1 elements (recieved 2)", fixed = TRUE, class = "error")
-  expect_error(sto$update_async("w", 1, create = TRUE, notes = 1), "'notes' should be a character string, not numeric", fixed = TRUE, class = "error")
-  expect_error(sto$update_async("w", 1, create = TRUE, notes = c("a", "b")), "'notes' must have 1 elements (recieved 2)", fixed = TRUE, class = "error")
+  expect_error(sto$update_async("noexist", value = 1),
+               "key 'noexist' ('objects') not found",
+               fixed = TRUE,
+               class = "KeyError")
+
+  expect_error(sto$update_async(c("a", "b"), 1),
+               "'key' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+  expect_error(sto$update_async("z", 1, namespace = c("a", "b")),
+               "'namespace' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+  expect_error(sto$update_async("w", 1, create = TRUE, expires_at = "a"),
+               "'expires_at' should be a date-time object, not character",
+               fixed = TRUE,
+               class = "error")
+  expect_error(sto$update_async("w", 1, create = TRUE, expires_at = rep(as.POSIXct(NA), 2)),
+               "'expires_at' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
+  expect_error(sto$update_async("w", 1, create = TRUE, notes = 1),
+               "'notes' should be a character string, not numeric",
+               fixed = TRUE,
+               class = "error")
+  expect_error(sto$update_async("w", 1, create = TRUE, notes = c("a", "b")),
+               "'notes' must have 1 elements (recieved 2)",
+               fixed = TRUE,
+               class = "error")
 
 })
