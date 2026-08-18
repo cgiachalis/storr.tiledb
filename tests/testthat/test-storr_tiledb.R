@@ -491,6 +491,11 @@ test_that("'mupdate'", {
                fixed = TRUE,
                class = "error")
 
+  expect_error(sto$mupdate(c("a", "b"), list(1,2, 3)),
+               "'value' must have 2 elements (recieved 3)",
+               fixed = TRUE,
+               class = "error")
+
   expect_error(sto$mupdate("noexist", 1, create = TRUE,  notes = c("a", "b")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
