@@ -163,9 +163,25 @@ sto$gc(clear_expired = TRUE)
 sto$clear_keymeta("aa")
 sto$get_keymeta("aa")
 ```
+### 3. update
 
+Use `update()` and `mupdate()` to replace  key-values and retain their key-metadata.
 
-### 3. Async methods
+```{r}
+# Add new key
+sto$set("mykey", 1, notes = "mykey")
+
+# Update "mykey"
+sto$update("mykey", 10)
+
+# Check new value
+sto$get("mykey")
+
+# Check 'notes' metadata
+sto$get_keymeta_notes("mykey")
+```
+
+### 4. Async methods
 
 Set keys without blocking R session:
 
@@ -177,7 +193,7 @@ sto$set_async("abc2", 2)
 
 
 
-### 4. Fragments Management
+### 5. Fragments Management
 
 When writing data to TileDB, it generates multiple array fragments on disk.
 Over time, these files need to be consolidated in order to improve query

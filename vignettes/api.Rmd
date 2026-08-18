@@ -1,6 +1,6 @@
 ---
 title: API Usage
-date: "2026-08-13"
+date: "2026-08-18"
 vignette: >
   %\VignetteIndexEntry{API Usage}
   %\VignetteEngine{litedown::vignette}
@@ -125,14 +125,14 @@ Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 # $expires_at
-# [1] "2026-08-13 09:24:25 EEST"
+# [1] "2026-08-18 13:07:01 EEST"
 # 
 # $notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # [[1]]
 # [[1]]$expires_at
-# [1] "2026-08-13 09:24:25 EEST"
+# [1] "2026-08-18 13:07:01 EEST"
 # 
 # [[1]]$notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
@@ -140,7 +140,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # 
 # [[2]]
 # [[2]]$expires_at
-# [1] "2026-08-13 09:19:26 EEST"
+# [1] "2026-08-18 13:02:02 EEST"
 # 
 # [[2]]$notes
 # [1] NA
@@ -149,7 +149,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 sto$set_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
 # $expires_at
-# [1] "2026-08-13 09:19:26 EEST"
+# [1] "2026-08-18 13:02:02 EEST"
 # 
 # $notes
 # [1] "Updated Note"
@@ -188,7 +188,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 # [1] NA
 # 
 # [[2]]
-# [1] "2026-08-13 09:19:26 EEST"
+# [1] "2026-08-18 13:02:02 EEST"
 ```
 
 **Expiration management**
@@ -199,7 +199,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-13 09:19:26
+# 1:   objects     bb 2026-08-18 13:02:02
 
 Sys.sleep(1)
 
@@ -207,7 +207,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-13 09:19:26
+# 1:   objects     bb 2026-08-18 13:02:02
 
 # Remove expired keys
 sto$clear_expired_keys()
@@ -232,9 +232,28 @@ sto$get_keymeta("aa")
 # $notes
 # [1] NA
 ```
+### 3. update
+
+Use `update()` and `mupdate()` to replace  key-values and retain their key-metadata.
 
 
-### 3. Async methods
+``` r
+# Add new key
+sto$set("mykey", 1, notes = "mykey")
+
+# Update "mykey"
+sto$update("mykey", 10)
+
+# Check new value
+sto$get("mykey")
+# [1] 10
+
+# Check 'notes' metadata
+sto$get_keymeta_notes("mykey")
+# [1] "mykey"
+```
+
+### 4. Async methods
 
 Set keys without blocking R session:
 
@@ -247,7 +266,7 @@ sto$set_async("abc2", 2)
 
 
 
-### 4. Fragments Management
+### 5. Fragments Management
 
 When writing data to TileDB, it generates multiple array fragments on disk.
 Over time, these files need to be consolidated in order to improve query
