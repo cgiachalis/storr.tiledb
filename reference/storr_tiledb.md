@@ -222,18 +222,6 @@ For complete definitions, see **Methods** section in
 - **`mget_all()`** - Retrieve multiple objects and its metadata by
   key-namespace pairs
 
-**Asynchronous Operations**
-
-- **`set_async()`** - Set a key-value pair asynchronously using mirai
-
-- **`mset_async()`** - Set multiple key-value pairs asynchronously
-
-- **`set_by_value_async()`** - Set key-value pair using hash,
-  asynchronously
-
-- **`mset_by_value_async()`** - Set multiple key-value pairs using
-  hashes, asynchronously
-
 **Metadata Operations**
 
 - **`set_keymeta()`** - Set metadata (expires_at, notes) for a key
@@ -254,13 +242,31 @@ For complete definitions, see **Methods** section in
 
 - **`mget_keymeta_notes()`** - Retrieve notes metadata for multiple keys
 
-- **`set_keymeta_async()`** - Set metadata asynchronously
-
-- **`mset_keymeta_async()`** - Set multiple metadata asynchronously
-
 - **`clear_keymeta()`** - Clear metadata (set to NA) for key(s)
 
-- **`clear_keymeta_async()`** - Clear metadata asynchronously
+**Asynchronous Operations**
+
+- **`set_async()`** - Set a key-value pair, asynchronously
+
+- **`mset_async()`** - Set multiple key-value pairs, asynchronously
+
+- **`set_by_value_async()`** - Set a key-value pair using hash,
+  asynchronously
+
+- **`mset_by_value_async()`** - Set multiple key-value pairs using
+  hashes, asynchronously
+
+- **`update_async()`** - Update a key-value pair and retain
+  key-metadata, asynchronously
+
+- **`mupdate_async()`** - Update multiple key-value pairs and retain
+  key-metadata, asynchronously
+
+- **`set_keymeta_async()`** - Set metadata, asynchronously
+
+- **`mset_keymeta_async()`** - Set multiple metadata, asynchronously
+
+- **`clear_keymeta_async()`** - Clear metadata, asynchronously
 
 **Object Hash Management**
 

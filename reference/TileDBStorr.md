@@ -109,6 +109,10 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mupdate()`](#method-TileDBStorr-mupdate)
 
+- [`TileDBStorr$update_async()`](#method-TileDBStorr-update_async)
+
+- [`TileDBStorr$mupdate_async()`](#method-TileDBStorr-mupdate_async)
+
 - [`TileDBStorr$set_keymeta()`](#method-TileDBStorr-set_keymeta)
 
 - [`TileDBStorr$mset_keymeta()`](#method-TileDBStorr-mset_keymeta)
@@ -1046,6 +1050,139 @@ with warning.
 #### Returns
 
 A vector of hash values, invisibly.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$update_async()`
+
+Update a key value pair asynchronously.
+
+#### Usage
+
+    TileDBStorr$update_async(key, value, namespace = self$default_namespace,
+      create = FALSE, expires_at, notes,
+      use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `value`:
+
+  An R object to store.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `create`:
+
+  Should the key be created, if not found. Default is `FALSE` raising an
+  `KeyError`. Otherwise, create a new key.
+
+- `expires_at, notes`:
+
+  A scalar string of notes and/or a date-time object of class
+  `POSIXct`(optional). Applies only if `create = TRUE`.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `cfg`:
+
+  Pass a
+  [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
+  object to override context's configuration.
+
+#### Details
+
+This method updates a key-namespace value while retaining its
+key-metadata. If a key is not found, it raises an error by default;
+otherwise, set `create` argument to `TRUE` to set a new key and
+optionally add key metadata with `expires_at,notes` arguments.
+
+#### Returns
+
+Invisibly, a named list with two elements:
+
+- `mirai`: a named list of two
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
+
+- `hash`: the hash value
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$mupdate_async()`
+
+Update multiple key value pairs asynchronously.
+
+#### Usage
+
+    TileDBStorr$mupdate_async(key, value, namespace = self$default_namespace,
+      create = FALSE, fail_fast = TRUE, expires_at, notes,
+      use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)
+
+#### Arguments
+
+- `key`:
+
+  A scalar character of key name.
+
+- `value`:
+
+  An R object to store.
+
+- `namespace`:
+
+  A scalar character of namespace name.
+
+- `create`:
+
+  Should the key be created, if not found. Default is `FALSE` raising an
+  `KeyError`. Otherwise, create a new key.
+
+- `fail_fast`:
+
+  Should abort on missing keys, default is `TRUE`. Use `FALSE` for
+  skipping keys and emit a warning for missing items. The argument has
+  no effect when upsert is used via `create = TRUE`.
+
+- `expires_at, notes`:
+
+  A scalar string of notes and/or a date-time object of class
+  `POSIXct`(optional). Applies only if `create = TRUE`.
+
+- `use_cache`:
+
+  Should the cache be used? Default is `TRUE`.
+
+- `cfg`:
+
+  Pass a
+  [`tiledb::config()`](https://tiledb-inc.github.io/TileDB-R/reference/generics.html)
+  object to override context's configuration.
+
+#### Details
+
+This works similar to `$update` but for multiple key pairs and with more
+control about missing keys; use `fail_fast` to abort (default) or skip
+with warning.
+
+#### Returns
+
+Invisibly, a named list with two elements:
+
+- `mirai`: a named list of two
+  [`mirai()`](https://mirai.r-lib.org/reference/mirai.html) objects,
+  `obj` and `key`; `obj` refers to object table and `key` to key table.
+  Both return logical `TRUE` if an evaluation is successful.
+
+- `hash`: a vector with hash values
 
 ------------------------------------------------------------------------
 

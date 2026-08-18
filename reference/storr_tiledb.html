@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -212,10 +212,6 @@ control.</p>
 <li><p><strong><code>mset_by_value()</code></strong> - Set multiple key-value pairs using their hashes as keys</p></li>
 <li><p><strong><code>mget_value()</code></strong> - Get multiple objects by their hashes</p></li>
 <li><p><strong><code>mget_all()</code></strong> - Retrieve multiple objects and its metadata by key-namespace pairs</p></li>
-</ul><p><strong>Asynchronous Operations</strong></p><ul><li><p><strong><code>set_async()</code></strong> - Set a key-value pair asynchronously using mirai</p></li>
-<li><p><strong><code>mset_async()</code></strong> - Set multiple key-value pairs asynchronously</p></li>
-<li><p><strong><code>set_by_value_async()</code></strong> - Set key-value pair using hash, asynchronously</p></li>
-<li><p><strong><code>mset_by_value_async()</code></strong> - Set multiple key-value pairs using hashes, asynchronously</p></li>
 </ul><p><strong>Metadata Operations</strong></p><ul><li><p><strong><code>set_keymeta()</code></strong> - Set metadata (expires_at, notes) for a key</p></li>
 <li><p><strong><code>mset_keymeta()</code></strong> - Set metadata for multiple keys</p></li>
 <li><p><strong><code>get_keymeta()</code></strong> - Retrieve metadata for a key</p></li>
@@ -224,10 +220,16 @@ control.</p>
 <li><p><strong><code>get_keymeta_notes()</code></strong> - Retrieve notes metadata for a key</p></li>
 <li><p><strong><code>mget_keymeta_expires_at()</code></strong> - Retrieve expiration metadata for multiple keys</p></li>
 <li><p><strong><code>mget_keymeta_notes()</code></strong> - Retrieve notes metadata for multiple keys</p></li>
-<li><p><strong><code>set_keymeta_async()</code></strong> - Set metadata asynchronously</p></li>
-<li><p><strong><code>mset_keymeta_async()</code></strong> - Set multiple metadata asynchronously</p></li>
 <li><p><strong><code>clear_keymeta()</code></strong> - Clear metadata (set to NA) for key(s)</p></li>
-<li><p><strong><code>clear_keymeta_async()</code></strong> - Clear metadata asynchronously</p></li>
+</ul><p><strong>Asynchronous Operations</strong></p><ul><li><p><strong><code>set_async()</code></strong> - Set a key-value pair, asynchronously</p></li>
+<li><p><strong><code>mset_async()</code></strong> - Set multiple key-value pairs, asynchronously</p></li>
+<li><p><strong><code>set_by_value_async()</code></strong> - Set a key-value pair using hash, asynchronously</p></li>
+<li><p><strong><code>mset_by_value_async()</code></strong> - Set multiple key-value pairs using hashes, asynchronously</p></li>
+<li><p><strong><code>update_async()</code></strong> - Update a key-value pair and retain key-metadata, asynchronously</p></li>
+<li><p><strong><code>mupdate_async()</code></strong> - Update multiple key-value pairs and retain key-metadata, asynchronously</p></li>
+<li><p><strong><code>set_keymeta_async()</code></strong> - Set metadata, asynchronously</p></li>
+<li><p><strong><code>mset_keymeta_async()</code></strong> - Set multiple metadata, asynchronously</p></li>
+<li><p><strong><code>clear_keymeta_async()</code></strong> - Clear metadata, asynchronously</p></li>
 </ul><p><strong>Object Hash Management</strong></p><ul><li><p><strong><code>set_value()</code></strong> - Add an R object and return its hash (internal use)</p></li>
 <li><p><strong><code>mset_value()</code></strong> - Add multiple R objects and return their hashes (internal use)</p></li>
 <li><p><strong><code>get_hash()</code></strong> - Get hash value for a key-namespace pair</p></li>
