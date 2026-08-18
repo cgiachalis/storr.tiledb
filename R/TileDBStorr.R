@@ -1518,12 +1518,20 @@ TileDBStorr <- R6::R6Class(
       # use_cache is FALSE, as it happens with $set() method; because the idea
       # of 'update' is to retain the key-metadata.
 
-      keyns <- paste(key, namespace, sep = ":")
-      envir <- self$envir_metadata
+      if (use_cache) {
 
-      if (use_cache && !exists1(keyns, envir)) {
-        sethash(envir, keyns, list(expires_at = dat$expires_at,
-                                   notes = dat$notes))
+        # cache hash key
+        sethash(self$envir, hash, value)
+
+        keyns <- paste(key, namespace, sep = ":")
+        envir <- self$envir_metadata
+
+        # cache key-metadata if needed
+        if (!exists1(keyns, envir)) {
+          sethash(envir, keyns, list(expires_at = dat$expires_at,
+                                     notes = dat$notes))
+        }
+
       }
 
       invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
@@ -1680,12 +1688,6 @@ TileDBStorr <- R6::R6Class(
       }, uri = uri, hash = hash, values_ser = values_ser, .compute = ns)
 
 
-      if (use_cache) {
-        for (i in seq_along(hash)) {
-          sethash(self$envir, hash[[i]], value[[i]])
-        }
-      }
-
       # END: 'mset_value' logic for async ---
 
       # Step 2: set key:namespace data to key table, cache if needed
@@ -1701,10 +1703,14 @@ TileDBStorr <- R6::R6Class(
       # use_cache is FALSE, as it happens with $set() method; because the idea
       # of 'update' is to retain the key-metadata.
 
-      keyns <- paste(key, namespace, sep = ":")
-      envir <- self$envir_metadata
-
       if (use_cache) {
+
+        for (i in seq_along(hash)) {
+          sethash(self$envir, hash[[i]], value[[i]])
+        }
+
+        keyns <- paste(key, namespace, sep = ":")
+        envir <- self$envir_metadata
 
         for(i in seq_along(keyns)) {
           if(exists1(keyns[i], envir)) {
