@@ -1289,6 +1289,7 @@ TileDBStorr <- R6::R6Class(
       key <- p$key
       namespace <- p$namespace
 
+      private$check_input(value, n, "value")
 
       dat <- private$DRIVER$filter_keys(key, namespace)
 
@@ -1371,7 +1372,7 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
 
         for(i in seq_along(keyns)) {
-          if(exists1(keyns[i], envir)) {
+          if(!exists1(keyns[i], envir)) {
             sethash(envir, keyns[i], list(expires_at = dat$expires_at[i],
                                           notes = dat$notes[i]))
           }
@@ -1380,6 +1381,347 @@ TileDBStorr <- R6::R6Class(
       }
 
       invisible(hash)
+
+    },
+
+    #' @description Update a key value pair asynchronously.
+    #'
+    #' @details
+    #'
+    #' This method updates a key-namespace value while retaining
+    #' its key-metadata. If a key is not found, it raises an error by default;
+    #' otherwise, set `create` argument to  `TRUE` to set a new key and optionally
+    #' add key metadata with `expires_at,notes` arguments.
+    #'
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param create Should the key be created, if not found. Default is `FALSE`
+    #' raising an `KeyError`. Otherwise, create a new key.
+    #' @param expires_at,notes A scalar string of notes and/or a date-time
+    #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
+    #'
+    #' @return Invisibly, a named list with two elements:
+    #'
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
+    #'  - `hash`: the hash value
+    #'
+    update_async = function(key,
+                            value,
+                            namespace = self$default_namespace,
+                            create = FALSE,
+                            expires_at,
+                            notes,
+                            use_cache = getOption("storr.tiledb.cache", TRUE),
+                            cfg = NULL) {
+
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        if (isFALSE(create)) {
+          stop(KeyError(key, namespace))
+        } else {
+
+          #  When 'create = TRUE' construct key-namespace index mapping and
+          #  add key-metadata (optional)
+          if (missing(expires_at)) {
+            expires_at <- as.POSIXct(NA_real_)
+          }
+
+          if (missing(notes)) {
+            notes <- NA_character_
+          }
+
+          private$check_input(notes, n = 1, type = "character")
+          private$check_input(expires_at, n = 1, type = "datetime")
+
+
+          dat <- data.table::as.data.table(
+            list(
+              namespace = namespace,
+              key = key,
+              hash = NA_character_,
+              # Will be populated later
+              expires_at = expires_at,
+              notes = notes
+            )
+          )
+        }
+      }
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(private$DRIVER$ctx)
+      }
+
+      check_tiledb_config(cfg)
+
+      ns <- private$MIRAI_PROFILE
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      },
+      config_params = as.vector(cfg), .compute = ns)
+
+      value_ser <- self$serialize_object(value)
+      hash <- self$hash_raw(value_ser)
+
+      # Update hash index only
+      dat$hash <- hash
+
+      # Step 1: store and cache object if needed
+      m1 <- TRUE
+
+      uri <- private$DRIVER$uri
+      m1 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Store object if needed
+        if (!driver$exists_object(hash)) {
+          driver$set_object(hash, value_ser)
+        }
+
+      }, uri = uri, hash = hash, value_ser = value_ser, .compute = ns)
+
+
+      # Cache value using its hash
+      if (use_cache) {
+        sethash(self$envir, hash, value)
+      }
+
+      # Step 2: set key:namespace data to key table, cache if needed
+      m2 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Set info to keys table
+        driver$mset_hash(dat$key,
+                         dat$namespace,
+                         dat$hash,
+                         dat$expires_at,
+                         dat$notes)
+      }, uri = uri, dat = dat, .compute = ns)
+
+
+      # NB: Here, we need only to set metadata cache and not to remove it when
+      # use_cache is FALSE, as it happens with $set() method; because the idea
+      # of 'update' is to retain the key-metadata.
+
+      if (use_cache) {
+
+        # cache hash key
+        sethash(self$envir, hash, value)
+
+        keyns <- paste(key, namespace, sep = ":")
+        envir <- self$envir_metadata
+
+        # cache key-metadata if needed
+        if (!exists1(keyns, envir)) {
+          sethash(envir, keyns, list(expires_at = dat$expires_at,
+                                     notes = dat$notes))
+        }
+
+      }
+
+      invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
+
+    },
+
+    #' @description Update multiple key value pairs asynchronously.
+    #'
+    #' @details
+    #'
+    #' This works similar to `$update` but for multiple key pairs and with
+    #' more control about missing keys; use `fail_fast` to abort (default) or
+    #' skip with warning.
+    #'
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param create Should the key be created, if not found. Default is `FALSE`
+    #' raising an `KeyError`. Otherwise, create a new key.
+    #' @param fail_fast Should abort on missing keys, default is `TRUE`. Use
+    #' `FALSE` for skipping keys and emit a warning for missing items. The
+    #' argument has no effect when upsert is used via `create = TRUE`.
+    #' @param expires_at,notes A scalar string of notes and/or a date-time
+    #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
+    #'
+    #' @return Invisibly, a named list with two elements:
+    #'
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
+    #'  - `hash`: a vector with hash values
+    #'
+    mupdate_async = function(key,
+                             value,
+                             namespace = self$default_namespace,
+                             create = FALSE,
+                             fail_fast = TRUE,
+                             expires_at,
+                             notes,
+                             use_cache = getOption("storr.tiledb.cache", TRUE),
+                             cfg = NULL) {
+
+      p <- storr::join_key_namespace(key, namespace)
+      n <- p$n
+      key <- p$key
+      namespace <- p$namespace
+
+      private$check_input(value, n, "value")
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      # Check for no hash in given key:namespace
+      data.table::setkeyv(dat, c("namespace", "key"))
+
+      dat <- dat[.(namespace, key), env = list(namespace = I(namespace),
+                                               key = I(key))][]
+      hash_isna <- is.na(dat[["hash"]])
+
+
+      if (any(hash_isna)) {
+        # NB: Case 1 - key(s) missing, no key(s) creation and fail
+        #     Case 2 - key(s) missing, no key(s) creation and no-fail but warn
+        #     Case 3 - key(s) missing, key(s) creation
+        if (isFALSE(create) && isTRUE(fail_fast)) {
+
+          stop(KeyError(paste(dat$key[hash_isna], collapse = ","),
+                        paste(dat$namespace[hash_isna], collapse = ",")))
+
+        } else if (isFALSE(create) && isFALSE(fail_fast)) {
+
+          cli::cli_warn("Skipping the following missing key indexes: {.val {which(hash_isna)}}")
+          dat <- dat[!hash_isna]
+          value <- value[!hash_isna]
+
+        } else {
+
+          #  When 'create = TRUE' construct key-namespace index mapping and
+          #  add key-metadata (optional)
+
+          num_no_hash <- sum(hash_isna)
+
+          if (missing(expires_at)) {
+            expires_at <- as.POSIXct(rep_len(NA, num_no_hash))
+          } else {
+            private$check_input(expires_at, n = 1, type = "datetime")
+            expires_at <- rep_len(expires_at, num_no_hash)
+          }
+
+          if (missing(notes)) {
+            notes <- rep_len(NA_character_, num_no_hash)
+          } else {
+            private$check_input(notes, n = 1, type = "character")
+            notes <- rep_len(notes, num_no_hash)
+          }
+
+          dat$expires_at[hash_isna] <- expires_at
+          dat$notes[hash_isna] <- notes
+
+          dat <- data.table::as.data.table(
+            list(
+              namespace = dat$namespace,
+              key = dat$key,
+              hash = NA_character_, # Will be populated later
+              expires_at = dat$expires_at,
+              notes = dat$notes
+            )
+          )
+        }
+      }
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(private$DRIVER$ctx)
+      }
+
+      check_tiledb_config(cfg)
+
+      # mirai namespace compute profile
+      ns <- private$MIRAI_PROFILE
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      }, config_params = as.vector(cfg), .compute = ns)
+
+      uri <- private$DRIVER$uri
+
+      # START: 'mset_value' logic for async ---
+
+      values_ser <- lapply(value, self$serialize_object)
+      hash <- vcapply(values_ser, self$hash_raw)
+
+      # Update hash index only
+      dat$hash <- hash
+
+      # Step 1: store and cache object if needed
+      m1 <- TRUE
+
+      m1 <- mirai::mirai({
+
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        upload <- !driver$exists_object(hash)
+
+        if (any(upload)) {
+          driver$mset_object(hash[upload], values_ser[upload])
+        }
+
+      }, uri = uri, hash = hash, values_ser = values_ser, .compute = ns)
+
+
+      # END: 'mset_value' logic for async ---
+
+      # Step 2: set key:namespace data to key table, cache if needed
+      m2 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Set info to keys table
+        driver$mset_hash(dat$key, dat$namespace, dat$hash, dat$expires_at, dat$notes)
+
+      }, uri = uri, dat = dat, .compute = ns)
+
+      # NB: Here, we need only to set metadata cache and not to remove it when
+      # use_cache is FALSE, as it happens with $set() method; because the idea
+      # of 'update' is to retain the key-metadata.
+
+      if (use_cache) {
+
+        for (i in seq_along(hash)) {
+          sethash(self$envir, hash[[i]], value[[i]])
+        }
+
+        keyns <- paste(key, namespace, sep = ":")
+        envir <- self$envir_metadata
+
+        for(i in seq_along(keyns)) {
+          if(!exists1(keyns[i], envir)) {
+            sethash(envir, keyns[i], list(expires_at = dat$expires_at[i],
+                                          notes = dat$notes[i]))
+          }
+        }
+
+      }
+
+      invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
 
     },
 
