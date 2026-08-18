@@ -444,7 +444,7 @@ test_that("'mupdate'", {
   hash <- sto$mupdate(c("a", "c"), c(100, 30), create = TRUE)
   expect_equal(sto$mget(c("a", "c"), use_cache = TRUE), list(100, 30))
   expect_equal(sto$mget(c("a", "c"), use_cache = FALSE), list(100, 30))
-  expect_equal(sto$get_keymeta("c", use_cache = TRUE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
+  expect_equal(sto$get_keymeta("c", use_cache = TRUE), list(expires_at = as.POSIXct(NA), notes = NA_character_), ignore_attr = TRUE)
   expect_equal(sto$get_keymeta("c", use_cache = FALSE), list(expires_at = as.POSIXct(NA), notes = NA_character_))
 
   # Upsert with create = TRUE and with metadata

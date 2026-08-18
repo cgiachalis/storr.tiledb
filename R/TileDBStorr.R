@@ -1372,7 +1372,7 @@ TileDBStorr <- R6::R6Class(
       if (use_cache) {
 
         for(i in seq_along(keyns)) {
-          if(exists1(keyns[i], envir)) {
+          if(!exists1(keyns[i], envir)) {
             sethash(envir, keyns[i], list(expires_at = dat$expires_at[i],
                                           notes = dat$notes[i]))
           }
@@ -1713,7 +1713,7 @@ TileDBStorr <- R6::R6Class(
         envir <- self$envir_metadata
 
         for(i in seq_along(keyns)) {
-          if(exists1(keyns[i], envir)) {
+          if(!exists1(keyns[i], envir)) {
             sethash(envir, keyns[i], list(expires_at = dat$expires_at[i],
                                           notes = dat$notes[i]))
           }
