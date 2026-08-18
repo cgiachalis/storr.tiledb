@@ -1383,6 +1383,152 @@ TileDBStorr <- R6::R6Class(
 
     },
 
+    #' @description Update a key value pair asynchronously.
+    #'
+    #' @details
+    #'
+    #' This method updates a key-namespace value while retaining
+    #' its key-metadata. If a key is not found, it raises an error by default;
+    #' otherwise, set `create` argument to  `TRUE` to set a new key and optionally
+    #' add key metadata with `expires_at,notes` arguments.
+    #'
+    #' @param key `r sto_key()`
+    #' @param value `r sto_value()`
+    #' @param namespace `r sto_namespace()`
+    #' @param create Should the key be created, if not found. Default is `FALSE`
+    #' raising an `KeyError`. Otherwise, create a new key.
+    #' @param expires_at,notes A scalar string of notes and/or a date-time
+    #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
+    #' @param use_cache `r sto_cache`
+    #' @param cfg `r sto_cfg`
+    #'
+    #' @return Invisibly, a named list with two elements:
+    #'
+    #'  - `mirai`: a named list of two [mirai()] objects, `obj` and `key`;
+    #'  `obj` refers to object table and `key` to key table. Both return
+    #'  logical `TRUE` if an evaluation is successful.
+    #'  - `hash`: the hash value
+    #'
+    update_async = function(key,
+                            value,
+                            namespace = self$default_namespace,
+                            create = FALSE,
+                            expires_at,
+                            notes,
+                            use_cache = getOption("storr.tiledb.cache", TRUE),
+                            cfg = NULL) {
+
+
+      private$check_input(key, n = 1, type = "character")
+      private$check_input(namespace, n = 1, type = "character")
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        if (isFALSE(create)) {
+          stop(KeyError(key, namespace))
+        } else {
+
+          #  When 'create = TRUE' construct key-namespace index mapping and
+          #  add key-metadata (optional)
+          if (missing(expires_at)) {
+            expires_at <- as.POSIXct(NA_real_)
+          }
+
+          if (missing(notes)) {
+            notes <- NA_character_
+          }
+
+          private$check_input(notes, n = 1, type = "character")
+          private$check_input(expires_at, n = 1, type = "datetime")
+
+
+          dat <- data.table::as.data.table(
+            list(
+              namespace = namespace,
+              key = key,
+              hash = NA_character_,
+              # Will be populated later
+              expires_at = expires_at,
+              notes = notes
+            )
+          )
+        }
+      }
+
+      private$set_daemons()
+
+      if (is.null(cfg)) {
+        cfg <- tiledb::config(private$DRIVER$ctx)
+      }
+
+      check_tiledb_config(cfg)
+
+      ns <- private$MIRAI_PROFILE
+
+      # Export TileDB context on all connected daemons for 'storr.tiledb' profile
+      #
+      mirai::everywhere({
+        cfg <- tiledb::tiledb_config(config_params)
+        ctx <<- R6.tiledb::new_context(cfg)
+      },
+      config_params = as.vector(cfg), .compute = ns)
+
+      value_ser <- self$serialize_object(value)
+      hash <- self$hash_raw(value_ser)
+
+      # Update hash index only
+      dat$hash <- hash
+
+      # Step 1: store and cache object if needed
+      m1 <- TRUE
+
+      uri <- private$DRIVER$uri
+      m1 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Store object if needed
+        if (!driver$exists_object(hash)) {
+          driver$set_object(hash, value_ser)
+        }
+
+      }, uri = uri, hash = hash, value_ser = value_ser, .compute = ns)
+
+
+      # Cache value using its hash
+      if (use_cache) {
+        sethash(self$envir, hash, value)
+      }
+
+      # Step 2: set key:namespace data to key table, cache if needed
+      m2 <- mirai::mirai({
+        driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
+
+        # Set info to keys table
+        driver$mset_hash(dat$key,
+                         dat$namespace,
+                         dat$hash,
+                         dat$expires_at,
+                         dat$notes)
+      }, uri = uri, dat = dat, .compute = ns)
+
+
+      # NB: Here, we need only to set metadata cache and not to remove it when
+      # use_cache is FALSE, as it happens with $set() method; because the idea
+      # of 'update' is to retain the key-metadata.
+
+      keyns <- paste(key, namespace, sep = ":")
+      envir <- self$envir_metadata
+
+      if (use_cache && !exists1(keyns, envir)) {
+        sethash(envir, keyns, list(expires_at = dat$expires_at,
+                                   notes = dat$notes))
+      }
+
+      invisible(list(mirai = list(obj = m1, key = m2), hash = hash))
+
+    },
+
     #' @description Set key metadata.
     #'
     #' @details

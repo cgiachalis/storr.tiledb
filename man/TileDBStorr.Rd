@@ -78,6 +78,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-mget_all}{\code{TileDBStorr$mget_all()}}
     \item \href{#method-TileDBStorr-update}{\code{TileDBStorr$update()}}
     \item \href{#method-TileDBStorr-mupdate}{\code{TileDBStorr$mupdate()}}
+    \item \href{#method-TileDBStorr-update_async}{\code{TileDBStorr$update_async()}}
     \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
     \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
     \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
@@ -794,6 +795,50 @@ skip with warning.
   }
   \subsection{Returns}{
     A vector of hash values, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-update_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-update_async}{}}}
+\subsection{\code{TileDBStorr$update_async()}}{
+  Update a key value pair asynchronously.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$update_async(key, value, namespace = self$default_namespace,
+  create = FALSE, expires_at, notes,
+  use_cache = getOption("storr.tiledb.cache", TRUE), cfg = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{A scalar character of key name.}
+      \item{\code{value}}{An R object to store.}
+      \item{\code{namespace}}{A scalar character of namespace name.}
+      \item{\code{create}}{Should the key be created, if not found. Default is \code{FALSE}
+raising an \code{KeyError}. Otherwise, create a new key.}
+      \item{\code{expires_at, notes}}{A scalar string of notes and/or a date-time
+object of class \code{POSIXct}(optional). Applies only if \code{create = TRUE}.}
+      \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
+      \item{\code{cfg}}{Pass a \code{\link[tiledb:config]{tiledb::config()}} object to override context's configuration.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Details}{
+    This method updates a key-namespace value while retaining
+its key-metadata. If a key is not found, it raises an error by default;
+otherwise, set \code{create} argument to  \code{TRUE} to set a new key and optionally
+add key metadata with \verb{expires_at,notes} arguments.
+  }
+  \subsection{Returns}{
+    Invisibly, a named list with two elements:
+\itemize{
+\item \code{mirai}: a named list of two \code{\link[mirai:mirai]{mirai()}} objects, \code{obj} and \code{key};
+\code{obj} refers to object table and \code{key} to key table. Both return
+logical \code{TRUE} if an evaluation is successful.
+\item \code{hash}: the hash value
+}
   }
 }
 
