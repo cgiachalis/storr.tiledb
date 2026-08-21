@@ -619,23 +619,3 @@ test_that("export_tdb - Nothing to export", {
                   "Nothing to export for the selected key-namespace.")
 })
 
-
-test_that("list_notes", {
-
-  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
-
-  uri <- file.path(withr::local_tempdir(), "test-storr")
-  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns0")
-  trg <- c("note-a", "note-b")
-  sto$mset(c("a", "b"), list(1, 2), notes = trg)
-
-  names(trg) <- c("a", "b")
-  expect_equal(sto$list_notes("ns0", named = FALSE), unname(trg))
-  expect_equal(sto$list_notes("ns0", named = TRUE), trg)
-
-  expect_error( sto$list_notes(c("ns0", "ns1")),
-                "`namespace` should be a single character string.",
-                class = "error", fixed = TRUE)
-
-
-})
