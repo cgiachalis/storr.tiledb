@@ -76,6 +76,8 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$list()`](#method-StorrTimeTravel-list)
 
+- [`StorrTimeTravel$list_notes()`](#method-StorrTimeTravel-list_notes)
+
 - [`StorrTimeTravel$list_hashes()`](#method-StorrTimeTravel-list_hashes)
 
 - [`StorrTimeTravel$list_unused_hashes()`](#method-StorrTimeTravel-list_unused_hashes)
@@ -710,6 +712,30 @@ List all keys stored in a namespace.
 #### Returns
 
 A sorted character vector with keys.
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$list_notes()`
+
+List notes given a namespace.
+
+#### Usage
+
+    StorrTimeTravel$list_notes(namespace, named = FALSE)
+
+#### Arguments
+
+- `namespace`:
+
+  A single character namespace.
+
+- `named`:
+
+  Should the output be named with keys? Default is `FALSE`.
+
+#### Returns
+
+A vector with notes metadata values.
 
 ------------------------------------------------------------------------
 

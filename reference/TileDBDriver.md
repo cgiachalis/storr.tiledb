@@ -81,6 +81,8 @@ A `TileDBDriver`, `R6` object.
 
 - [`TileDBDriver$list_unused_hashes()`](#method-TileDBDriver-list_unused_hashes)
 
+- [`TileDBDriver$list_notes()`](#method-TileDBDriver-list_notes)
+
 - [`TileDBDriver$delete_unused_hashes()`](#method-TileDBDriver-delete_unused_hashes)
 
 - [`TileDBDriver$delete_namespaces()`](#method-TileDBDriver-delete_namespaces)
@@ -710,6 +712,30 @@ List unused hashes.
 #### Returns
 
 A vector of hash values.
+
+------------------------------------------------------------------------
+
+### `TileDBDriver$list_notes()`
+
+List notes given a namespace.
+
+#### Usage
+
+    TileDBDriver$list_notes(namespace, named = FALSE)
+
+#### Arguments
+
+- `namespace`:
+
+  A single character namespace.
+
+- `named`:
+
+  Should the output be named with keys? Default is `FALSE`.
+
+#### Returns
+
+A vector with notes metadata values.
 
 ------------------------------------------------------------------------
 

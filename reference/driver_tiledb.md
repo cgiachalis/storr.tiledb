@@ -153,6 +153,8 @@ and its parent class
 - **`get_keymeta_unit()`** and **`mget_keymeta_unit()`** - Fetch single
   metadata such as expiry times or notes
 
+- **`list_notes()`** - Retrieve all notes for a given namespace
+
 **Expiration Management**
 
 - **`keys_with_expiration`** and **`keys_without_expiration`** -

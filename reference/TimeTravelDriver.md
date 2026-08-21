@@ -81,6 +81,8 @@ A `TimeTravelDriver`, `R6` object.
 
 - [`TimeTravelDriver$list_unused_hashes()`](#method-TimeTravelDriver-list_unused_hashes)
 
+- [`TimeTravelDriver$list_notes()`](#method-TimeTravelDriver-list_notes)
+
 - [`TimeTravelDriver$keys_with_expiration()`](#method-TimeTravelDriver-keys_with_expiration)
 
 - [`TimeTravelDriver$keys_without_expiration()`](#method-TimeTravelDriver-keys_without_expiration)
@@ -553,6 +555,30 @@ List unused hashes.
 #### Returns
 
 A vector of hash values.
+
+------------------------------------------------------------------------
+
+### `TimeTravelDriver$list_notes()`
+
+List notes given a namespace.
+
+#### Usage
+
+    TimeTravelDriver$list_notes(namespace, named = FALSE)
+
+#### Arguments
+
+- `namespace`:
+
+  A single character namespace.
+
+- `named`:
+
+  Should the output be named with keys? Default is `FALSE`.
+
+#### Returns
+
+A vector with notes metadata values.
 
 ------------------------------------------------------------------------
 

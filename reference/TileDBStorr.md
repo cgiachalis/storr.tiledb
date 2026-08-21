@@ -161,6 +161,8 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$list()`](#method-TileDBStorr-list)
 
+- [`TileDBStorr$list_notes()`](#method-TileDBStorr-list_notes)
+
 - [`TileDBStorr$list_hashes()`](#method-TileDBStorr-list_hashes)
 
 - [`TileDBStorr$list_unused_hashes()`](#method-TileDBStorr-list_unused_hashes)
@@ -2073,6 +2075,30 @@ List all keys stored in a namespace.
 #### Returns
 
 A sorted character vector with keys.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$list_notes()`
+
+List notes given a namespace.
+
+#### Usage
+
+    TileDBStorr$list_notes(namespace, named = FALSE)
+
+#### Arguments
+
+- `namespace`:
+
+  A single character namespace.
+
+- `named`:
+
+  Should the output be named with keys? Default is `FALSE`.
+
+#### Returns
+
+A vector with notes metadata values.
 
 ------------------------------------------------------------------------
 
