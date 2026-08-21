@@ -56,6 +56,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-has_expired_keys}{\code{StorrTimeTravel$has_expired_keys()}}
     \item \href{#method-StorrTimeTravel-is_key_expired}{\code{StorrTimeTravel$is_key_expired()}}
     \item \href{#method-StorrTimeTravel-list}{\code{StorrTimeTravel$list()}}
+    \item \href{#method-StorrTimeTravel-list_notes}{\code{StorrTimeTravel$list_notes()}}
     \item \href{#method-StorrTimeTravel-list_hashes}{\code{StorrTimeTravel$list_hashes()}}
     \item \href{#method-StorrTimeTravel-list_unused_hashes}{\code{StorrTimeTravel$list_unused_hashes()}}
     \item \href{#method-StorrTimeTravel-list_namespaces}{\code{StorrTimeTravel$list_namespaces()}}
@@ -643,6 +644,30 @@ or (c) \code{check = FALSE} and no key is found
   }
   \subsection{Returns}{
     A sorted character vector with keys.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-list_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-list_notes}{}}}
+\subsection{\code{StorrTimeTravel$list_notes()}}{
+  List notes given a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$list_notes(namespace, named = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{named}}{Should the output be named with keys?
+Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector with notes metadata values.
   }
 }
 

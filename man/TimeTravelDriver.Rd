@@ -57,6 +57,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-TimeTravelDriver-list_namespaces}{\code{TimeTravelDriver$list_namespaces()}}
     \item \href{#method-TimeTravelDriver-list_keys}{\code{TimeTravelDriver$list_keys()}}
     \item \href{#method-TimeTravelDriver-list_unused_hashes}{\code{TimeTravelDriver$list_unused_hashes()}}
+    \item \href{#method-TimeTravelDriver-list_notes}{\code{TimeTravelDriver$list_notes()}}
     \item \href{#method-TimeTravelDriver-keys_with_expiration}{\code{TimeTravelDriver$keys_with_expiration()}}
     \item \href{#method-TimeTravelDriver-keys_without_expiration}{\code{TimeTravelDriver$keys_without_expiration()}}
     \item \href{#method-TimeTravelDriver-expired_keys}{\code{TimeTravelDriver$expired_keys()}}
@@ -505,6 +506,30 @@ pair. For not found pairs will return the nomatch value.
   }
   \subsection{Returns}{
     A vector of hash values.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-list_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-list_notes}{}}}
+\subsection{\code{TimeTravelDriver$list_notes()}}{
+  List notes given a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$list_notes(namespace, named = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{named}}{Should the output be named with keys?
+Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector with notes metadata values.
   }
 }
 
