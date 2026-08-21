@@ -543,11 +543,13 @@ TileDBDriver <- R6::R6Class(
 
       qc1 <- tiledb::tiledb_query_condition_create(name = "namespace",
                                                    values = namespace,
-                                                   op = "IN")
+                                                   op = "IN",
+                                                   ctx = self$ctx)
 
       qc2 <- tiledb::tiledb_query_condition_create(name = "key",
                                                    values = key,
-                                                   op = "IN")
+                                                   op = "IN",
+                                                   ctx = self$ctx)
 
       qc <- tiledb::tiledb_query_condition_combine(qc1, qc2, "AND")
 
@@ -587,7 +589,8 @@ TileDBDriver <- R6::R6Class(
 
       qc <- tiledb::tiledb_query_condition_create(name = "hash",
                                                   values = hash,
-                                                  op = "IN")
+                                                  op = "IN",
+                                                  ctx = self$ctx)
 
       arr <- arrobj$tiledb_array(attrs = NA_character_,
                                  query_condition = qc,
@@ -629,11 +632,13 @@ TileDBDriver <- R6::R6Class(
 
         qc1 <- tiledb::tiledb_query_condition_create(name = "namespace",
                                                     values = namespace,
-                                                    op = "IN")
+                                                    op = "IN",
+                                                    ctx = self$ctx)
 
         qc2 <- tiledb::tiledb_query_condition_create(name = "key",
                                                      values = key,
-                                                     op = "IN")
+                                                     op = "IN",
+                                                     ctx = self$ctx)
 
         qc <- tiledb::tiledb_query_condition_combine(qc1, qc2, "AND")
 
@@ -679,8 +684,9 @@ TileDBDriver <- R6::R6Class(
         }
 
         qc <- tiledb::tiledb_query_condition_create(name = "hash",
-                                                     values = hash_del,
-                                                     op = "IN")
+                                                    values = hash_del,
+                                                    op = "IN",
+                                                    ctx = self$ctx)
 
         tiledb::query_condition(arr) <- qc
 
@@ -825,7 +831,8 @@ TileDBDriver <- R6::R6Class(
 
         qc <- tiledb::tiledb_query_condition_create(name = "hash",
                                                     values = unused,
-                                                    op = "IN")
+                                                    op = "IN",
+                                                    ctx = self$ctx)
 
         tiledb::query_condition(arr) <- qc
 
@@ -878,7 +885,8 @@ TileDBDriver <- R6::R6Class(
 
      qc <- tiledb::tiledb_query_condition_create(name = "namespace",
                                                  values = namespaces,
-                                                 op = "IN")
+                                                 op = "IN",
+                                                 ctx = self$ctx)
 
      tiledb::query_condition(arr) <- qc
 
@@ -917,7 +925,8 @@ TileDBDriver <- R6::R6Class(
       qc <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                 value = as.POSIXct(NA),
                                                 dtype = "DATETIME_MS",
-                                                op = "NE")
+                                                op = "NE",
+                                                qc = tiledb::tiledb_query_condition(self$ctx))
 
       sp <- list()
 
@@ -955,7 +964,8 @@ TileDBDriver <- R6::R6Class(
       qc <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                 value = as.POSIXct(NA),
                                                 dtype = "DATETIME_MS",
-                                                op = "EQ")
+                                                op = "EQ",
+                                                qc = tiledb::tiledb_query_condition(self$ctx))
 
       sp <- list()
 
@@ -1062,7 +1072,8 @@ TileDBDriver <- R6::R6Class(
 
         qc_ns <- tiledb::tiledb_query_condition_create(name = "namespace",
                                                        values = namespace,
-                                                       op = "IN")
+                                                       op = "IN",
+                                                       ctx = self$ctx)
 
         qc <- tiledb::tiledb_query_condition_combine(qc_ns, qc, "AND")
       }

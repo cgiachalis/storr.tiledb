@@ -402,12 +402,14 @@ CAS <- R6::R6Class(
       qc_dttm1 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                       value = as.POSIXct(NA),
                                                       dtype = "DATETIME_MS",
-                                                      op = "NE")
+                                                      op = "NE",
+                                                      qc = tiledb::tiledb_query_condition(self$ctx))
       # Expired datetimes ('expires_at' <= now)
       qc_dttm2 <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                       value = Sys.time(),
                                                       dtype = "DATETIME_MS",
-                                                      op = op)
+                                                      op = op,
+                                                      qc = tiledb::tiledb_query_condition(self$ctx))
 
       qc <- tiledb::tiledb_query_condition_combine(qc_dttm1, qc_dttm2, "AND")
 
