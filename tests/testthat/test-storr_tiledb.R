@@ -1,4 +1,68 @@
 
+
+test_that("'TileDBStorr'", {
+
+  TileDBStorrMock <- R6::R6Class(
+    cloneable = FALSE,
+    "Mocked",
+    inherit = TileDBStorr,
+    public = list(
+      getdriver = function() {
+        private$DRIVER
+      }
+    ),
+  )
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  dr <- driver_tiledb(uri, init = TRUE)
+  sto <- TileDBStorrMock$new(dr, "ns1")
+
+  expect_s3_class(sto, c("Mocked", "TileDBStorr", "R6"), exact = TRUE)
+
+  # hash tables initialised correctly
+  expect_true(is.hashtab(sto$envir))
+  expect_equal(numhash(sto$envir), 0)
+
+  expect_true(is.hashtab(sto$envir_metadata))
+  expect_equal(numhash(sto$envir_metadata), 0)
+
+  # Active fields
+  expect_s3_class(sto$size, "vfs_size")
+  expect_error(sto$size <- 1)
+
+  expect_no_error(sto$async_info)
+  expect_error(sto$async_info <- 1)
+
+  # Test for TileDB driver
+  expect_error(TileDBStorrMock$new("not_valid", "objects"))
+
+  dr <- driver_tiledb(uri)
+  sto2 <- TileDBStorrMock$new(dr, default_namespace = "objects")
+  cl <- c("TileDBDriver", "CAS", "TileDBGroup", "TileDBObject", "R6")
+  expect_s3_class(sto2$getdriver(), cl, exact = TRUE)
+
+  # driver is modified in place inside TileDBStorr,
+  # because we instantiate members if needed
+  expect_true(dr$is_open())
+  expect_true(sto$getdriver()$members_instantiated)
+  expect_true(dr$members_instantiated)
+
+
+  dr$reopen()
+  expect_false(dr$members_instantiated)
+
+  # case: driver is opened but members are not cached,
+  # TileDBStorr will have to reopen and instantiate members
+  sto3 <- TileDBStorrMock$new(dr, "objects")
+  expect_s3_class(sto3$getdriver(), cl, exact = TRUE)
+
+  expect_true(dr$is_open())
+  expect_true(sto3$getdriver()$members_instantiated)
+  expect_true(dr$members_instantiated)
+
+})
+
+
 test_that("storr_tiledb", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
@@ -505,6 +569,26 @@ test_that("'mupdate'", {
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
+
+
+})
+
+test_that("list_notes", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns0")
+  trg <- c("note-a", "note-b")
+  sto$mset(c("a", "b"), list(1, 2), notes = trg)
+
+  names(trg) <- c("a", "b")
+  expect_equal(sto$list_notes("ns0", named = FALSE), unname(trg))
+  expect_equal(sto$list_notes("ns0", named = TRUE), trg)
+
+  expect_error( sto$list_notes(c("ns0", "ns1")),
+                "`namespace` should be a single character string.",
+                class = "error", fixed = TRUE)
 
 
 })
