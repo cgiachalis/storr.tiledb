@@ -8,7 +8,9 @@
 [![repo-status](https://img.shields.io/badge/repo%20status-stable-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-003366.svg)](https://opensource.org/licenses/MIT) 
 [![R CMD Check](https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml/badge.svg?branch=master)](https://github.com/cgiachalis/storr.tiledb/actions/workflows/R-CMD-check.yaml) 
-[![Last Commit](https://img.shields.io/github/last-commit/cgiachalis/storr.tiledb)](https://github.com/cgiachalis/storr.tiledb) [![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://cgiachalis.github.io/storr.tiledb/)
+[![Codecov test coverage](https://codecov.io/gh/cgiachalis/storr.tiledb/graph/badge.svg)](https://app.codecov.io/gh/cgiachalis/storr.tiledb)
+[![Last Commit](https://img.shields.io/github/last-commit/cgiachalis/storr.tiledb)](https://github.com/cgiachalis/storr.tiledb) 
+[![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://cgiachalis.github.io/storr.tiledb/)
 
 <!-- badges: end -->
 
