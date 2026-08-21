@@ -104,6 +104,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-is_key_expired}{\code{TileDBStorr$is_key_expired()}}
     \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
     \item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
+    \item \href{#method-TileDBStorr-list_notes}{\code{TileDBStorr$list_notes()}}
     \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
     \item \href{#method-TileDBStorr-list_unused_hashes}{\code{TileDBStorr$list_unused_hashes()}}
     \item \href{#method-TileDBStorr-list_namespaces}{\code{TileDBStorr$list_namespaces()}}
@@ -1651,6 +1652,30 @@ or (c) \code{check = FALSE} and no key is found
   }
   \subsection{Returns}{
     A sorted character vector with keys.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-list_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-list_notes}{}}}
+\subsection{\code{TileDBStorr$list_notes()}}{
+  List notes given a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$list_notes(namespace, named = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{named}}{Should the output be named with keys?
+Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector with notes metadata values.
   }
 }
 

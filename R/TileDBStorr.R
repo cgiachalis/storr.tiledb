@@ -2668,6 +2668,19 @@ TileDBStorr <- R6::R6Class(
       sort(private$DRIVER$list_keys(namespace))
     },
 
+    #' @description List notes given a namespace.
+    #'
+    #' @param namespace A single character namespace.
+    #' @param named Should the output be named with keys?
+    #' Default is `FALSE`.
+    #'
+    #' @return A vector with notes metadata values.
+    #'
+    list_notes = function(namespace, named = FALSE) {
+
+      private$DRIVER$list_notes(namespace, named)
+    },
+
     #' @description List all hashes stored in the storr.
     #'
     #'

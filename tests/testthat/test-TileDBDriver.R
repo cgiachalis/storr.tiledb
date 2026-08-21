@@ -448,6 +448,8 @@ test_that("mset_object with dupes", {
 
 test_that("mget_object", {
 
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
   uri <- file.path(withr::local_tempdir(), "test-storr")
   st <- storr_tiledb(uri, init = TRUE)
   dr <- driver_tiledb(uri)
@@ -466,6 +468,8 @@ test_that("mget_object", {
 
 
 test_that("export_tdb - identical hash algo", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
 
   # Temp URIs
   uri <- file.path(withr::local_tempdir(), "test-storr")
@@ -536,6 +540,8 @@ test_that("export_tdb - identical hash algo", {
 
 
 test_that("export_tdb - different hash algo", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
 
   # Temp URIs
   uri <- file.path(withr::local_tempdir(), "test-storr")
@@ -612,3 +618,4 @@ test_that("export_tdb - Nothing to export", {
   expect_warning(st$export_tdb(uri_dest = uri_dest, namespace = NULL),
                   "Nothing to export for the selected key-namespace.")
 })
+

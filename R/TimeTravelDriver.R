@@ -618,6 +618,33 @@ TimeTravelDriver <- R6::R6Class(
 
    },
 
+   #' @description List notes given a namespace.
+   #'
+   #' @param namespace A single character namespace.
+   #' @param named Should the output be named with keys?
+   #' Default is `FALSE`.
+   #'
+   #' @return A vector with notes metadata values.
+   #'
+   list_notes = function(namespace, named = FALSE) {
+
+     private$check_scalar_character(namespace)
+     arrobj <- private$keys_array()
+
+     arr <- arrobj$object
+     tiledb::attrs(arr) <- "notes"
+     tiledb::selected_points(arr) <- list(namespace = namespace)
+     tiledb::return_as(arr) <- "arrow"
+
+     out <- arr[]$GetColumnByName("notes")$as_vector()
+
+     if (named) {
+       names(out) <- arr[]$GetColumnByName("key")$as_vector()
+     }
+
+     out
+   },
+
    #' @description Get the key-namespace pairs with expiration timestamps.
    #'
    #' @param namespace `r sto_namespaces_or_null`
