@@ -191,6 +191,7 @@
 #' **Listing**
 #'
 #' - **`list()`** - List all keys in a namespace
+#' - **`list_notes()`** - List all notes in a namespace
 #' - **`list_hashes()`** - List all stored object hashes
 #' - **`list_unused_hashes()`** - List all stored object unused hashes
 #' - **`list_namespaces()`** - List all namespaces

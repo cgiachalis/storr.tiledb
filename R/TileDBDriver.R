@@ -780,6 +780,32 @@ TileDBDriver <- R6::R6Class(
 
     },
 
+    #' @description List notes given a namespace.
+    #'
+    #' @param namespace A single character namespace.
+    #' @param named Should the output be named with keys?
+    #' Default is `FALSE`.
+    #'
+    #' @return A vector with notes metadata values.
+    #'
+    list_notes = function(namespace, named = FALSE) {
+
+      private$check_scalar_character(namespace)
+      arrobj <- private$keys_array()
+
+        arr <- arrobj$tiledb_array(attrs = "notes",
+                                   selected_points = list(namespace = namespace),
+                                   return_as = "arrow")
+
+        out <- arr[]$GetColumnByName("notes")$as_vector()
+
+        if (named) {
+         names(out) <- arr[]$GetColumnByName("key")$as_vector()
+        }
+
+        out
+    },
+
     #' @description Delete unused hashes.
     #'
     #'

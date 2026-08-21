@@ -53,6 +53,7 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \item \href{#method-TileDBDriver-list_namespaces}{\code{TileDBDriver$list_namespaces()}}
     \item \href{#method-TileDBDriver-list_keys}{\code{TileDBDriver$list_keys()}}
     \item \href{#method-TileDBDriver-list_unused_hashes}{\code{TileDBDriver$list_unused_hashes()}}
+    \item \href{#method-TileDBDriver-list_notes}{\code{TileDBDriver$list_notes()}}
     \item \href{#method-TileDBDriver-delete_unused_hashes}{\code{TileDBDriver$delete_unused_hashes()}}
     \item \href{#method-TileDBDriver-delete_namespaces}{\code{TileDBDriver$delete_namespaces()}}
     \item \href{#method-TileDBDriver-keys_with_expiration}{\code{TileDBDriver$keys_with_expiration()}}
@@ -627,6 +628,30 @@ pair. For not found pairs will return the nomatch value.
   }
   \subsection{Returns}{
     A vector of hash values.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-list_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-list_notes}{}}}
+\subsection{\code{TileDBDriver$list_notes()}}{
+  List notes given a namespace.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$list_notes(namespace, named = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A single character namespace.}
+      \item{\code{named}}{Should the output be named with keys?
+Default is \code{FALSE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A vector with notes metadata values.
   }
 }
 
