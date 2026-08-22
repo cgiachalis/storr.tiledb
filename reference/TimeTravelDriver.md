@@ -101,6 +101,8 @@ A `TimeTravelDriver`, `R6` object.
 
 - [`TimeTravelDriver$is_key_expired()`](#method-TimeTravelDriver-is_key_expired)
 
+- [`TimeTravelDriver$keys_with_notes()`](#method-TimeTravelDriver-keys_with_notes)
+
 - [`TimeTravelDriver$export_tdb()`](#method-TimeTravelDriver-export_tdb)
 
 Inherited methods
@@ -780,6 +782,30 @@ Check a key-namespace for expiration.
 
 `TRUE` for expired key-namespace pair, `FALSE` if key has not expired
 yet or has not expiration timestamp.
+
+------------------------------------------------------------------------
+
+### `TimeTravelDriver$keys_with_notes()`
+
+Get the key-namespace pairs with notes.
+
+#### Usage
+
+    TimeTravelDriver$keys_with_notes(namespace, notes = TRUE)
+
+#### Arguments
+
+- `namespace`:
+
+  A character vector of namespaces or `NULL` for all namespaces.
+
+- `notes`:
+
+  Should the `notes` column be returned? Default is `TRUE`.
+
+#### Returns
+
+An `ArrowObject` object.
 
 ------------------------------------------------------------------------
 

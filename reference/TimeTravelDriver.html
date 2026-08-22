@@ -11,7 +11,7 @@ This class is intended for usage into StorrTimeTravel."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +122,7 @@ the resource will be opened at. Effective in <code>"READ"</code> mode only.</p><
 <li><p><a href="#method-TimeTravelDriver-has_expired_keys"><code>TimeTravelDriver$has_expired_keys()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-has_unexpired_keys"><code>TimeTravelDriver$has_unexpired_keys()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-is_key_expired"><code>TimeTravelDriver$is_key_expired()</code></a></p></li>
+<li><p><a href="#method-TimeTravelDriver-keys_with_notes"><code>TimeTravelDriver$keys_with_notes()</code></a></p></li>
 <li><p><a href="#method-TimeTravelDriver-export_tdb"><code>TimeTravelDriver$export_tdb()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-class"><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-exists"><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
@@ -743,13 +744,36 @@ expired yet or has not expiration timestamp.</p>
 
 </div>
 
+<p></p><hr><a id="method-TimeTravelDriver-keys_with_notes"></a><div class="section">
+<h3 id="timetraveldriver-keys-with-notes-"><code>TimeTravelDriver$keys_with_notes()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-keys-with-notes-"></a></h3>
+<p>Get the key-namespace pairs with notes.</p><div class="section">
+<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">keys_with_notes</span><span class="op">(</span><span class="va">namespace</span>, notes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+      <dt><code>notes</code></dt>
+<dd><p>Should the <code>notes</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-28">Returns<a class="anchor" aria-label="anchor" href="#returns-28"></a></h4>
+<p>An <code>ArrowObject</code> object.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-TimeTravelDriver-export_tdb"></a><div class="section">
 <h3 id="timetraveldriver-export-tdb-"><code>TimeTravelDriver$export_tdb()</code><a class="anchor" aria-label="anchor" href="#timetraveldriver-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TimeTravelDriver</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, <span class="va">dest_driver</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
+<h4 id="arguments-25">Arguments<a class="anchor" aria-label="anchor" href="#arguments-25"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -762,7 +786,7 @@ expired yet or has not expiration timestamp.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-28">Returns<a class="anchor" aria-label="anchor" href="#returns-28"></a></h4>
+<h4 id="returns-29">Returns<a class="anchor" aria-label="anchor" href="#returns-29"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

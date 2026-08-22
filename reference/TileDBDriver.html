@@ -13,7 +13,7 @@ This class is intended for usage in storr or TileDBStorr."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,6 +120,7 @@ back-end.</p>
 <li><p><a href="#method-TileDBDriver-has_expired_keys"><code>TileDBDriver$has_expired_keys()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-has_unexpired_keys"><code>TileDBDriver$has_unexpired_keys()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-is_key_expired"><code>TileDBDriver$is_key_expired()</code></a></p></li>
+<li><p><a href="#method-TileDBDriver-keys_with_notes"><code>TileDBDriver$keys_with_notes()</code></a></p></li>
 <li><p><a href="#method-TileDBDriver-export_tdb"><code>TileDBDriver$export_tdb()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="class"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-class"><code>R6.tiledb::TileDBObject$class()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="R6.tiledb" data-topic="TileDBObject" data-id="exists"><a href="https://cgiachalis.github.io/R6.tiledb/reference/TileDBObject.html#method-exists"><code>R6.tiledb::TileDBObject$exists()</code></a></span></li>
@@ -928,13 +929,36 @@ expired yet or has not expiration timestamp.</p>
 
 </div>
 
+<p></p><hr><a id="method-TileDBDriver-keys_with_notes"></a><div class="section">
+<h3 id="tiledbdriver-keys-with-notes-"><code>TileDBDriver$keys_with_notes()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-keys-with-notes-"></a></h3>
+<p>Get the key-namespace pairs with notes.</p><div class="section">
+<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">keys_with_notes</span><span class="op">(</span><span class="va">namespace</span>, notes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-32">Arguments<a class="anchor" aria-label="anchor" href="#arguments-32"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>namespace</code></dt>
+<dd><p>A character vector of namespaces or <code>NULL</code> for all namespaces.</p></dd>
+
+      <dt><code>notes</code></dt>
+<dd><p>Should the <code>notes</code> column be returned?
+Default is <code>TRUE</code>.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
+<p>An <code>ArrowObject</code> object.</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-TileDBDriver-export_tdb"></a><div class="section">
 <h3 id="tiledbdriver-export-tdb-"><code>TileDBDriver$export_tdb()</code><a class="anchor" aria-label="anchor" href="#tiledbdriver-export-tdb-"></a></h3>
 <p>Export objects from storr to another TileDB storr.</p><div class="section">
-<h4 id="usage-37">Usage<a class="anchor" aria-label="anchor" href="#usage-37"></a></h4>
+<h4 id="usage-38">Usage<a class="anchor" aria-label="anchor" href="#usage-38"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TileDBDriver</span><span class="op">$</span><span class="fu">export_tdb</span><span class="op">(</span><span class="va">key</span>, <span class="va">namespace</span>, <span class="va">dest_driver</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-32">Arguments<a class="anchor" aria-label="anchor" href="#arguments-32"></a></h4>
+<h4 id="arguments-33">Arguments<a class="anchor" aria-label="anchor" href="#arguments-33"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>key</code></dt>
 <dd><p>A character vector of source keys.</p></dd>
 
@@ -947,7 +971,7 @@ expired yet or has not expiration timestamp.</p>
 
 </dl><p></p></div>
 </div><p></p><div class="section">
-<h4 id="returns-36">Returns<a class="anchor" aria-label="anchor" href="#returns-36"></a></h4>
+<h4 id="returns-37">Returns<a class="anchor" aria-label="anchor" href="#returns-37"></a></h4>
 <p>A logical <code>TRUE</code> indicating successful export, invisibly.</p>
 </div>
 

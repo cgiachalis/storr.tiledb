@@ -121,10 +121,16 @@ For complete definitions, see **Methods** section in
 
 - **`is_key_expired()`** - Check if a key is expired
 
+**Notes Management**
+
+- **`keys_with_notes()`** - List keys that have notes
+
 **Listing**
 
 - **[`list()`](https://rdrr.io/r/base/list.html)** - List all keys in a
   namespace
+
+- **`list_notes()`** - List all notes in a namespace
 
 - **`list_hashes()`** - List all stored object hashes
 

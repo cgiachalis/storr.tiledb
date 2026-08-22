@@ -174,6 +174,10 @@ and its parent class
 
 - **`is_key_expired()`** - Check if a key is expired
 
+**Notes Management**
+
+- **`keys_with_notes()`** - Retrieve the key namespace pairs with notes
+
 **Export Utilities**
 
 - **`export_tdb()`** - Export objects to another TileDB storr

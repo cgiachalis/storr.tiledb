@@ -74,6 +74,8 @@ A `StorrTimeTravel`, `R6` object.
 
 - [`StorrTimeTravel$is_key_expired()`](#method-StorrTimeTravel-is_key_expired)
 
+- [`StorrTimeTravel$keys_with_notes()`](#method-StorrTimeTravel-keys_with_notes)
+
 - [`StorrTimeTravel$list()`](#method-StorrTimeTravel-list)
 
 - [`StorrTimeTravel$list_notes()`](#method-StorrTimeTravel-list_notes)
@@ -692,6 +694,31 @@ Check a key-namespace for expiration.
 
 - `FALSE` - (a) key has not expired, (b) has not expiration time-stamp
   or (c) `check = FALSE` and no key is found
+
+------------------------------------------------------------------------
+
+### `StorrTimeTravel$keys_with_notes()`
+
+Get the key-namespace pairs with notes.
+
+#### Usage
+
+    StorrTimeTravel$keys_with_notes(namespace = self$default_namespace,
+      notes = TRUE)
+
+#### Arguments
+
+- `namespace`:
+
+  A character vector of namespaces or `NULL` for all namespaces.
+
+- `notes`:
+
+  Should the `notes` column be returned? Default is `TRUE`.
+
+#### Returns
+
+An object of class `data.table`.
 
 ------------------------------------------------------------------------
 

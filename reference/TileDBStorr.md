@@ -159,6 +159,8 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$clear_expired_keys()`](#method-TileDBStorr-clear_expired_keys)
 
+- [`TileDBStorr$keys_with_notes()`](#method-TileDBStorr-keys_with_notes)
+
 - [`TileDBStorr$list()`](#method-TileDBStorr-list)
 
 - [`TileDBStorr$list_notes()`](#method-TileDBStorr-list_notes)
@@ -2055,6 +2057,31 @@ Remove the expired key-namespace pairs.
 #### Returns
 
 A boolean value `TRUE` indicating success, invisibly.
+
+------------------------------------------------------------------------
+
+### `TileDBStorr$keys_with_notes()`
+
+Get the key-namespace pairs with notes.
+
+#### Usage
+
+    TileDBStorr$keys_with_notes(namespace = self$default_namespace,
+      notes = TRUE)
+
+#### Arguments
+
+- `namespace`:
+
+  A character vector of namespaces or `NULL` for all namespaces.
+
+- `notes`:
+
+  Should the `notes` column be returned? Default is `TRUE`.
+
+#### Returns
+
+An object of class `data.table`.
 
 ------------------------------------------------------------------------
 

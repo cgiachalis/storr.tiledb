@@ -307,6 +307,10 @@ For complete definitions, see **Methods** section in
 
 - **`clear_expired_keys()`** - Remove expired key-namespace pairs
 
+**Notes Management**
+
+- **`keys_with_notes()`** - List keys that have notes
+
 **Listing**
 
 - **[`list()`](https://rdrr.io/r/base/list.html)** - List all keys in a
