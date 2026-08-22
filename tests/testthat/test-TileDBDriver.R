@@ -467,6 +467,45 @@ test_that("mget_object", {
 })
 
 
+
+test_that("keys_with_notes", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+  dr <- driver_tiledb(uri)
+
+  keys <- c("a", "b", "c", "d", "e")
+  notes <- paste("note", "-", keys[1:3])
+  notes <- c(notes, NA_character_, "NA")
+  sto$mset(keys, 1:5, namespace = c("ns1", "ns2", "ns3", "ns4", "ns5"), notes = notes)
+
+  # keys with expiration
+  expect_error(dr$keys_with_notes(1),
+               "`namespace` should be a character vector or NULL.",
+               fixed = TRUE,
+               class = "error")
+  expect_no_error(arrw <- dr$keys_with_notes(NULL, notes = TRUE))
+  expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
+
+  expect_equal(arrw$num_rows, 3)
+  expect_equal(arrw$num_columns, 3)
+  expect_equal(arrw$GetColumnByName("key")$as_vector(), c("a", "b", "c"))
+  expect_equal(arrw$ColumnNames(), c("namespace", "key", "notes"))
+
+  # Without 'notes' column
+  expect_no_error(arrw <- dr$keys_with_notes(NULL, notes = FALSE))
+  expect_s3_class(arrw, c("Table", "ArrowTabular", "ArrowObject", "R6"), exact = TRUE)
+
+  expect_equal(arrw$num_rows, 3)
+  expect_equal(arrw$num_columns, 2)
+  expect_equal(arrw$GetColumnByName("key")$as_vector(), c("a", "b", "c"))
+  expect_equal(arrw$ColumnNames(), c("namespace", "key"))
+
+})
+
+
+# NB: Testing via storr_tiledb()
 test_that("export_tdb - identical hash algo", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
@@ -538,7 +577,7 @@ test_that("export_tdb - identical hash algo", {
 
 })
 
-
+# NB: Testing via storr_tiledb()
 test_that("export_tdb - different hash algo", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
@@ -603,6 +642,7 @@ test_that("export_tdb - different hash algo", {
   expect_equal(std$mget(c("aa", "bb"), "ns4", use_cache = F), list("aa", 200))
 })
 
+# NB: Testing via storr_tiledb()
 test_that("export_tdb - Nothing to export", {
 
   # Temp URIs

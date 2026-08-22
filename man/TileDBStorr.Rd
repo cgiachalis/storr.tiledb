@@ -103,6 +103,7 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-has_expired_keys}{\code{TileDBStorr$has_expired_keys()}}
     \item \href{#method-TileDBStorr-is_key_expired}{\code{TileDBStorr$is_key_expired()}}
     \item \href{#method-TileDBStorr-clear_expired_keys}{\code{TileDBStorr$clear_expired_keys()}}
+    \item \href{#method-TileDBStorr-keys_with_notes}{\code{TileDBStorr$keys_with_notes()}}
     \item \href{#method-TileDBStorr-list}{\code{TileDBStorr$list()}}
     \item \href{#method-TileDBStorr-list_notes}{\code{TileDBStorr$list_notes()}}
     \item \href{#method-TileDBStorr-list_hashes}{\code{TileDBStorr$list_hashes()}}
@@ -1630,6 +1631,31 @@ or (c) \code{check = FALSE} and no key is found
   }
   \subsection{Returns}{
     A boolean value \code{TRUE} indicating success, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBStorr-keys_with_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-keys_with_notes}{}}}
+\subsection{\code{TileDBStorr$keys_with_notes()}}{
+  Get the key-namespace pairs with notes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBStorr$keys_with_notes(namespace = self$default_namespace,
+  notes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{notes}}{Should the \code{notes} column be returned?
+Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{data.table}.
   }
 }
 

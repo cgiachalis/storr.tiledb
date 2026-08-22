@@ -684,10 +684,6 @@ TimeTravelDriver <- R6::R6Class(
      tiledb::query_condition(arr) <- qc
      tiledb::return_as(arr) <- "arrow"
      arr[]
-     # arrobj$tiledb_array(attrs = attrs,
-     #                     selected_points = sp,
-     #                     query_condition = qc,
-     #                     return_as = "arrow")[]
    },
 
    #' @description Get the key-namespace pairs without expiration timestamps.
@@ -770,10 +766,6 @@ TimeTravelDriver <- R6::R6Class(
      tiledb::return_as(arr) <- "arrow"
      arr[]
 
-     # arrobj$tiledb_array(attrs = attrs,
-     #                     selected_points = sp,
-     #                     query_condition = qc,
-     #                     return_as = "arrow")[]
    },
 
    #' @description Get the unexpired key-namespace pairs.
@@ -810,10 +802,6 @@ TimeTravelDriver <- R6::R6Class(
      tiledb::return_as(arr) <- "arrow"
      arr[]
 
-     # arrobj$tiledb_array(attrs = attrs,
-     #                     selected_points = sp,
-     #                     query_condition = qc,
-     #                     return_as = "arrow")[]
    },
 
    #' @description Get the number of expired key-namespace pairs.
@@ -885,6 +873,48 @@ TimeTravelDriver <- R6::R6Class(
      tiledb::return_as(arr) <- "arrow"
 
      arr[]$num_rows != 0
+   },
+
+   #' @description Get the key-namespace pairs with notes.
+   #'
+   #' @param namespace `r sto_namespaces_or_null`
+   #' @param notes Should the `notes` column be returned?
+   #' Default is `TRUE`.
+   #'
+   #' @return An `ArrowObject` object.
+   #'
+   keys_with_notes = function(namespace, notes = TRUE) {
+
+     check_character_or_null(namespace)
+
+     arrobj <- private$keys_array()
+     arr <- arrobj$object
+
+     # Ignore NA notes
+     qc <- tiledb::tiledb_query_condition_init(attr = "notes",
+                                               value = NA_character_,
+                                               dtype = "UTF8",
+                                               op = "NE",
+                                               qc = tiledb::tiledb_query_condition(self$ctx))
+
+     sp <- list()
+
+     if (!is.null(namespace)) {
+       sp <- list(namespace = namespace)
+     }
+
+     if (notes) {
+       attrs <- "notes"
+     } else {
+       attrs <- NA_character_
+     }
+
+     tiledb::attrs(arr) <- attrs
+     tiledb::selected_points(arr) <- sp
+     tiledb::query_condition(arr) <- qc
+     tiledb::return_as(arr) <- "arrow"
+     arr[]
+
    },
 
    #' @description Export objects from storr to another TileDB storr.

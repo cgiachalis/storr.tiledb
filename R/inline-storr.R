@@ -1,3 +1,5 @@
+# nocov start
+
 .base_export <- utils::getFromNamespace("storr_copy", "storr")
 storr_traits <- utils::getFromNamespace("storr_traits", "storr")
 make_hash_serialized_object <- utils::getFromNamespace("make_hash_serialized_object", "storr")
@@ -68,3 +70,5 @@ ConfigError <- function(name, prev, requested) {
                  call = NULL),
             class = c("ConfigError", "error", "condition"))
 }
+
+# nocov end

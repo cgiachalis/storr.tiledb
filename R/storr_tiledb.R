@@ -188,6 +188,10 @@
 #' - **`is_key_expired()`** - Check if a key is expired
 #' - **`clear_expired_keys()`** - Remove expired key-namespace pairs
 #'
+#' **Notes Management**
+#'
+#' - **`keys_with_notes()`** - List keys that have notes
+#'
 #' **Listing**
 #'
 #' - **`list()`** - List all keys in a namespace

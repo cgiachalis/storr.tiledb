@@ -55,6 +55,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-StorrTimeTravel-expired_keys}{\code{StorrTimeTravel$expired_keys()}}
     \item \href{#method-StorrTimeTravel-has_expired_keys}{\code{StorrTimeTravel$has_expired_keys()}}
     \item \href{#method-StorrTimeTravel-is_key_expired}{\code{StorrTimeTravel$is_key_expired()}}
+    \item \href{#method-StorrTimeTravel-keys_with_notes}{\code{StorrTimeTravel$keys_with_notes()}}
     \item \href{#method-StorrTimeTravel-list}{\code{StorrTimeTravel$list()}}
     \item \href{#method-StorrTimeTravel-list_notes}{\code{StorrTimeTravel$list_notes()}}
     \item \href{#method-StorrTimeTravel-list_hashes}{\code{StorrTimeTravel$list_hashes()}}
@@ -622,6 +623,31 @@ only matters to user.}
 \item \code{FALSE} - (a) key has not expired, (b) has not expiration time-stamp
 or (c) \code{check = FALSE} and no key is found
 }
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StorrTimeTravel-keys_with_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-StorrTimeTravel-keys_with_notes}{}}}
+\subsection{\code{StorrTimeTravel$keys_with_notes()}}{
+  Get the key-namespace pairs with notes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StorrTimeTravel$keys_with_notes(namespace = self$default_namespace,
+  notes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{notes}}{Should the \code{notes} column be returned?
+Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{data.table}.
   }
 }
 

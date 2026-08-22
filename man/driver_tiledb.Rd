@@ -114,6 +114,11 @@ for specific namespaces
 \item \strong{\code{is_key_expired()}} - Check if a key is expired
 }
 
+\strong{Notes Management}
+\itemize{
+\item \strong{\code{keys_with_notes()}} - Retrieve the key namespace pairs with notes
+}
+
 \strong{Export Utilities}
 \itemize{
 \item \strong{\code{export_tdb()}} - Export objects to another TileDB storr
