@@ -67,6 +67,7 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
     \item \href{#method-TimeTravelDriver-has_expired_keys}{\code{TimeTravelDriver$has_expired_keys()}}
     \item \href{#method-TimeTravelDriver-has_unexpired_keys}{\code{TimeTravelDriver$has_unexpired_keys()}}
     \item \href{#method-TimeTravelDriver-is_key_expired}{\code{TimeTravelDriver$is_key_expired()}}
+    \item \href{#method-TimeTravelDriver-keys_with_notes}{\code{TimeTravelDriver$keys_with_notes()}}
     \item \href{#method-TimeTravelDriver-export_tdb}{\code{TimeTravelDriver$export_tdb()}}
   }
 }
@@ -738,6 +739,30 @@ Default is \code{TRUE}.}
   \subsection{Returns}{
     \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
 expired yet or has not expiration timestamp.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TimeTravelDriver-keys_with_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TimeTravelDriver-keys_with_notes}{}}}
+\subsection{\code{TimeTravelDriver$keys_with_notes()}}{
+  Get the key-namespace pairs with notes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TimeTravelDriver$keys_with_notes(namespace, notes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{notes}}{Should the \code{notes} column be returned?
+Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
   }
 }
 
