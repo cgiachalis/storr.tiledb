@@ -430,3 +430,57 @@ test_that("list_notes", {
 
 
 })
+
+
+
+test_that("keys_with_notes", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+
+  t0 <- Sys.time()
+  sto$set("a", 1, notes = "note-a")
+  t1 <- Sys.time()
+
+  sto$set("b", 2, notes = "note-b")
+  sto$set("c", 2)
+  t2 <- Sys.time()
+
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  df_trg <- structure(list(namespace = character(0), key = character(0),
+                           notes = character(0)), row.names = integer(0),
+                           class = c("data.table", "data.frame"
+                           ))
+  expect_equal(stott$keys_with_notes("ns1"), df_trg)
+
+  # Open at t1
+  stott$timestamp <- t1
+
+  expect_no_error(dt1 <- sto$keys_with_notes(NULL, notes = TRUE))
+  expect_s3_class(dt1, c("data.table"))
+
+  expect_equal(dim(dt1), c(2, 3))
+  expect_equal(dt1$key, c("a", "b"))
+  expect_equal(colnames(dt1), c("namespace", "key", "notes"))
+  expect_equal(stott$list_notes("ns1", named = TRUE), c(a = "note-a"))
+
+  # Without 'notes' field
+  expect_no_error(dt1 <- sto$keys_with_notes(NULL, notes = FALSE))
+  expect_s3_class(dt1, c("data.table"))
+  expect_equal(dim(dt1), c(2, 2))
+  expect_equal(dt1$key, c("a", "b"))
+  expect_equal(colnames(dt1), c("namespace", "key"))
+
+  expect_error(stott$list_notes(c("ns0", "ns1")),
+               "`namespace` should be a single character string.",
+               class = "error", fixed = TRUE)
+
+
+})
