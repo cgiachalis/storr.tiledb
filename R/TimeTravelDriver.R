@@ -888,6 +888,7 @@ TimeTravelDriver <- R6::R6Class(
      check_character_or_null(namespace)
 
      arrobj <- private$keys_array()
+     arr <- arrobj$object
 
      # Ignore NA notes
      qc <- tiledb::tiledb_query_condition_init(attr = "notes",
