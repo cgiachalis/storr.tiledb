@@ -1,6 +1,8 @@
 # NOTE: This file has utilities for R6 documentation inheritance and
 #       will not be included in the R package (i.e., listed in .Rbuildignore)
 
+# nocov start
+
 # TileDBDriver
 roxy_key <- "A character vector of keys."
 roxy_namespace <- "A character vector of namespaces."
@@ -77,3 +79,5 @@ sch_uri <- "Optional URI path to array for extracting its schema from. If not gi
 sch_ctx <- "Optional \\link[tiledb:tiledb_ctx]{tiledb_ctx} object."
 sch_none_filter <- "`TRUE` for no filters, `FALSE` for default filters.
 Applied on default schemas and not on schemas extracted from a URI path."
+
+# nocov end
