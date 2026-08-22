@@ -26,15 +26,6 @@ jobs:
         with:
           extra-packages: any::covr, any::xml2
           needs: coverage
-          cache-version: 2
-
-      - name: Clean coverage cache
-        run: |
-          cache_dir <- file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "Library", "_cache")
-          if (dir.exists(cache_dir)) {
-            unlink(cache_dir, recursive = TRUE)
-          }
-        shell: Rscript {0}
 
       - name: Test coverage
         run: |
