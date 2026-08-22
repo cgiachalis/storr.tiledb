@@ -197,6 +197,38 @@ test_that("expired_keys and has_expired_keys", {
 
 })
 
+# NB: methods for key notes management is tested with TileDBDriver;
+# Here, we test again those we expose to storr.
+
+test_that("keys_with_notes", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  keys <- c("a", "b", "c", "d", "e")
+  notes <- paste("note", "-", keys[1:3])
+  notes <- c(notes, NA_character_, "NA")
+  sto$mset(keys, 1:5, namespace = c("ns1", "ns2", "ns3", "ns4", "ns5"), notes = notes)
+
+  # keys with notes
+  expect_no_error(arrw <- sto$keys_with_notes(NULL, notes = TRUE))
+  expect_s3_class(arrw, c("data.table"))
+
+  expect_equal(dim(arrw), c(3, 3))
+  expect_equal(arrw$key, c("a", "b", "c"))
+  expect_equal(colnames(arrw), c("namespace", "key", "notes"))
+
+  # Without 'notes' column
+  expect_no_error(arrw <- sto$keys_with_notes(NULL, notes = FALSE))
+  expect_s3_class(arrw, c("data.table"))
+
+  expect_equal(dim(arrw), c(3, 2))
+  expect_equal(arrw$key, c("a", "b", "c"))
+  expect_equal(colnames(arrw), c("namespace", "key"))
+
+})
+
 test_that("clear_expired_keys", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
