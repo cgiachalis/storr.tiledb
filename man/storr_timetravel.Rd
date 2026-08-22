@@ -86,9 +86,15 @@ For complete definitions, see \strong{Methods} section in \link{StorrTimeTravel}
 \item \strong{\code{is_key_expired()}} - Check if a key is expired
 }
 
+\strong{Notes Management}
+\itemize{
+\item \strong{\code{keys_with_notes()}} - List keys that have notes
+}
+
 \strong{Listing}
 \itemize{
 \item \strong{\code{list()}} - List all keys in a namespace
+\item \strong{\code{list_notes()}} - List all notes in a namespace
 \item \strong{\code{list_hashes()}} - List all stored object hashes
 \item \strong{\code{list_unused_hashes()}} - List all stored object unused hashes
 \item \strong{\code{list_namespaces()}} - List all namespaces

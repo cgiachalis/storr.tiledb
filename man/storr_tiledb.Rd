@@ -229,6 +229,11 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{clear_expired_keys()}} - Remove expired key-namespace pairs
 }
 
+\strong{Notes Management}
+\itemize{
+\item \strong{\code{keys_with_notes()}} - List keys that have notes
+}
+
 \strong{Listing}
 \itemize{
 \item \strong{\code{list()}} - List all keys in a namespace
