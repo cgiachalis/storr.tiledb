@@ -960,7 +960,6 @@ TileDBDriver <- R6::R6Class(
 
       arrobj <- private$keys_array()
 
-      # Ignore NA datetimes
       qc <- tiledb::tiledb_query_condition_init(attr = "expires_at",
                                                 value = as.POSIXct(NA),
                                                 dtype = "DATETIME_MS",
@@ -1172,6 +1171,45 @@ TileDBDriver <- R6::R6Class(
                           query_condition = qc,
                           return_as = "arrow")
       out[]$num_rows != 0
+    },
+
+    #' @description Get the key-namespace pairs with notes.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param notes Should the `notes` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An `ArrowObject` object.
+    #'
+    keys_with_notes = function(namespace, notes = TRUE) {
+
+      check_character_or_null(namespace)
+
+      arrobj <- private$keys_array()
+
+      # Ignore NA notes
+      qc <- tiledb::tiledb_query_condition_init(attr = "notes",
+                                                value = NA_character_,
+                                                dtype = "UTF8",
+                                                op = "NE",
+                                                qc = tiledb::tiledb_query_condition(self$ctx))
+
+      sp <- list()
+
+      if (!is.null(namespace)) {
+        sp <- list(namespace = namespace)
+      }
+
+      if (notes) {
+        attrs <- "notes"
+      } else {
+        attrs <- NA_character_
+      }
+
+      arrobj$tiledb_array(attrs = attrs,
+                          selected_points = sp,
+                          query_condition = qc,
+                          return_as = "arrow")[]
     },
 
     #' @description Export objects from storr to another TileDB storr.

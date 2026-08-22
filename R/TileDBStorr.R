@@ -2657,6 +2657,19 @@ TileDBStorr <- R6::R6Class(
       out
     },
 
+    #' @description Get the key-namespace pairs with notes.
+    #'
+    #' @param namespace `r sto_namespaces_or_null`
+    #' @param notes Should the `notes` column be returned?
+    #' Default is `TRUE`.
+    #'
+    #' @return An object of class `data.table`.
+    #'
+    keys_with_notes = function(namespace = self$default_namespace, notes = TRUE) {
+      out <- private$DRIVER$keys_with_notes(namespace, notes = notes)
+      data.table::as.data.table(out)
+    },
+
     #' @description List all keys stored in a namespace.
     #'
     #' @param namespace `r sto_namespace()`

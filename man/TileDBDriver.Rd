@@ -66,6 +66,7 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \item \href{#method-TileDBDriver-has_expired_keys}{\code{TileDBDriver$has_expired_keys()}}
     \item \href{#method-TileDBDriver-has_unexpired_keys}{\code{TileDBDriver$has_unexpired_keys()}}
     \item \href{#method-TileDBDriver-is_key_expired}{\code{TileDBDriver$is_key_expired()}}
+    \item \href{#method-TileDBDriver-keys_with_notes}{\code{TileDBDriver$keys_with_notes()}}
     \item \href{#method-TileDBDriver-export_tdb}{\code{TileDBDriver$export_tdb()}}
   }
 }
@@ -920,6 +921,30 @@ Default is \code{TRUE}.}
   \subsection{Returns}{
     \code{TRUE} for expired key-namespace pair, \code{FALSE} if key has not
 expired yet or has not expiration timestamp.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TileDBDriver-keys_with_notes"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBDriver-keys_with_notes}{}}}
+\subsection{\code{TileDBDriver$keys_with_notes()}}{
+  Get the key-namespace pairs with notes.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TileDBDriver$keys_with_notes(namespace, notes = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{namespace}}{A character vector of namespaces or \code{NULL} for all namespaces.}
+      \item{\code{notes}}{Should the \code{notes} column be returned?
+Default is \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An \code{ArrowObject} object.
   }
 }
 
