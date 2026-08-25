@@ -34,7 +34,7 @@ StorrTimeTravel <- R6::R6Class(
     initialize = function(driver, default_namespace) {
 
       if (!inherits(driver, "TimeTravelDriver")) {
-        stop("Not a valid Time-Travel 'driver'. Please use a 'TTDriver' object.",
+        stop("Not valid driver. Please use a 'TimeTravelDriver' object.",
              call. = FALSE)
       }
 
@@ -666,22 +666,6 @@ StorrTimeTravel <- R6::R6Class(
     # @field driver The TileDB driver.
     #
     DRIVER = NULL,
-
-  # NOTE: extracted from storr:::check_length
-  check_length = function(key, namespace) {
-
-    n_key <- length(key)
-    n_namespace <- length(namespace)
-    if (n_key == n_namespace || n_namespace == 1) {
-      n_key
-    }
-    else if (n_key == 1) {
-      n_namespace
-    }
-    else {
-      stop("Incompatible lengths for key and namespace", call. = FALSE)
-    }
-  },
 
   check_input = function(x, n, type = NULL) {
     name <- deparse(substitute(x))
