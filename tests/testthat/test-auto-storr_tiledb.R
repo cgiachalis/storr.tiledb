@@ -583,3 +583,56 @@ test_that("invalid import", {
                "Column not character: 'key'")
 })
 
+# $export and $import are exact replication as storr interface because
+# we import from storr namespace 'storr_copy'. This is done after we decided
+# not to inherit directly from storr class.
+#
+# Therefore, the test cases here are minimal as they've been tested in storr
+# package
+
+## Test cases from: https://github.com/richfitz/storr/blob/master/inst/spec/test-export.R
+
+test_that("export", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE)
+  # dr <- driver_tiledb(uri, init = TRUE)
+  # cache <- storr::storr(dr)
+  ## This could be any old thing, but for now we'll use an environment storr:
+  cache2 <- storr::storr(storr::driver_environment())
+
+  ## Need a function to generate a bunch of objects
+  cache$set("d", mtcars)
+  e <- cache$export(new.env())
+  expect_identical(ls(e), "d")
+  expect_equal(e[["d"]], mtcars)
+
+  cache$export(cache2)
+  expect_identical(cache2$list(), "d")
+  expect_equal(cache2$get("d"), mtcars)
+
+  e$dat <- iris
+  nms <- cache$import(e)
+  expect_identical(nms[, "name"], c("d", "dat"))
+  expect_equal(cache$get("dat"), iris)
+
+  env <- cache$export(new.env(parent = emptyenv()))
+  expect_identical(ls(e), c("d", "dat"))
+  expect_equal(env$d, mtcars)
+  expect_equal(env$dat, iris)
+})
+
+
+
+test_that("import", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE)
+
+  cache2 <- storr::storr(storr::driver_environment())
+  cache2$set("d", mtcars)
+
+  cache$import(cache2)
+  expect_identical(cache$list(), "d")
+  expect_equal(cache$get("d"), mtcars)
+})
+
