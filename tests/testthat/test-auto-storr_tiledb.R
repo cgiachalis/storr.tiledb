@@ -606,9 +606,11 @@ test_that("export", {
   expect_identical(ls(e), "d")
   expect_equal(e[["d"]], mtcars)
 
-  cache$export(cache2)
+
+  expect_no_error(cache$export(cache2))
   expect_identical(cache2$list(), "d")
   expect_equal(cache2$get("d"), mtcars)
+  expect_no_error(cache$export(cache2, namespace = NULL))
 
   e$dat <- iris
   nms <- cache$import(e)
@@ -631,8 +633,11 @@ test_that("import", {
   cache2 <- storr::storr(storr::driver_environment())
   cache2$set("d", mtcars)
 
-  cache$import(cache2)
+
+  expect_no_error(cache$import(cache2))
   expect_identical(cache$list(), "d")
   expect_equal(cache$get("d"), mtcars)
+
+  expect_no_error(cache$import(cache2, namespace = NULL))
 })
 
