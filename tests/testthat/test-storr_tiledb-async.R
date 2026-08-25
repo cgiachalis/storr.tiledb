@@ -92,6 +92,49 @@ test_that("set_async", {
 })
 
 
+test_that("set_async (cache = FALSE)", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  t0 <- Sys.time()
+  sto$mset(c("a", "b"), value = c(0, 0), expires_at = c(t0, t0), notes = c("no-async1", "no-async2"))
+
+  t1 <- Sys.time()
+  expect_no_error(m1 <- sto$set_async("a", value = 1, use_cache = FALSE, expires_at = t0, notes = "async"))
+  expect_no_error(m2 <- sto$set_async("b", value = 2, use_cache = FALSE,))
+
+  expect_named(m1, c("mirai", "hash"))
+  expect_all_true(sapply(m1$mirai, mirai::is_mirai))
+  expect_equal(m1$hash, "38e42db36c4414f7bbc19d750f71a721")
+
+
+  # wait mirai elements to be resolved
+  m1$mirai$obj[]
+  m1$mirai$key[]
+  m2$mirai$obj[]
+  m2$mirai$key[]
+
+  # cached keymeta are available immediately
+  trg <- list(list(expires_at = t1, notes = "async"),
+              list(expires_at = as.POSIXct(NA),
+                   notes = NA_character_))
+
+  expect_equal(sto$mget_keymeta(c("a", "b")), trg, ignore_attr = TRUE)
+
+
+  # test cached values (note mget/get always goes on db to check if hash exists
+  # so we wait async to complete)
+  expect_equal(sto$mget(c("a", "b")), list(1, 2))
+
+  # test key/keymeta are saved on disk
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(1, 2))
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = FALSE),
+               trg, ignore_attr = TRUE)
+
+})
+
+
 test_that("mset_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-driver")
@@ -158,9 +201,47 @@ test_that("mset_async", {
 })
 
 
+test_that("mset_async (cache = FALSE)", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  t0 <- Sys.time()
+  sto$mset(c("a", "b"), value = c(0, 0), namespace = c("ns1", "ns2"),
+  expires_at = c(t0, t0), notes = c("no-async1", "no-async2"))
+
+  t2 <- Sys.time()
+  expect_no_error(m1 <- sto$mset_async(c("a", "b"), value = c(1, 2),
+                                       namespace = c("ns1", "ns2"),
+                                       use_cache = FALSE,
+                                       expires_at = c(t2, t2),
+                                       notes = c("async1", "async2")))
+
+  expect_named(m1, c("mirai", "hash"))
+  expect_all_true(sapply(m1$mirai, mirai::is_mirai))
+
+  # wait mirai elements to be resolved
+  m1$mirai$obj[]
+  m1$mirai$key[]
+
+  # test cached keymeta
+  trg <- list(list(expires_at = t2, notes = "async1"),
+              list(expires_at = t2, notes = "async2"))
+
+  expect_equal(sto$mget_keymeta(c("a", "b"), c("ns1", "ns2")), trg)
+
+  # test cached values
+  expect_equal(sto$mget(c("a", "b"), c("ns1", "ns2")), list(1, 2))
+
+  # test key/keymeta are saved on disk
+  expect_equal(sto$mget(c("a", "b"), c("ns1", "ns2"), use_cache = FALSE), list(1, 2))
+  expect_equal(sto$mget_keymeta(c("a", "b"), c("ns1", "ns2"), use_cache = FALSE),
+               trg, ignore_attr = TRUE)
+
+})
+
 test_that("set_by_value_async", {
 
-  Sys.sleep(2)
   uri <- file.path(withr::local_tempdir(), "test-driver")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
 
@@ -380,8 +461,6 @@ test_that("mset_keymeta_async", {
 
   # wait mirai elements to be resolved
   miall <- m1$mirai[]
-
-  Sys.sleep(1)
 
   expect_named(m1, c("mirai", "keyns"))
   expect_true( mirai::is_mirai(m1$mirai))
