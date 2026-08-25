@@ -502,6 +502,7 @@ test_that("index - empty", {
 
   expect_silent(st$index_import(st$index_export()))
   expect_equal(st$list_hashes(), character(0))
+
 })
 
 
@@ -559,8 +560,8 @@ test_that("index multiple namespaces", {
 
   d1 <- st$index_export("n1")
   d2 <- st$index_export("n2")
-  expect_equal(d1,  subset(trg, namespace == "n1"), ignore_attr = TRUE)
-  expect_equal(d2,  subset(trg, namespace == "n2"), ignore_attr = TRUE)
+  expect_equal(d1, subset(trg, namespace == "n1"), ignore_attr = TRUE)
+  expect_equal(d2, subset(trg, namespace == "n2"), ignore_attr = TRUE)
 })
 
 
@@ -576,11 +577,44 @@ test_that("invalid import", {
     st$index_import(mtcars),
     "Missing required columns for index: 'namespace', 'key', 'hash'",
     fixed = TRUE)
+
   expect_error(st$index_import(d),
                "Missing 1 / 1 hashes - can't import")
   d$key <- factor(d$key)
+
   expect_error(st$index_import(d),
-               "Column not character: 'key'")
+               "Column not a character: 'key'")
+
+
+  # Test when 'expires_at' and 'notes'
+  d <- data.frame(namespace = "objects",
+                  key = "foo",
+                  hash = st$hash_object(1),
+                  stringsAsFactors = FALSE)
+  d$expires_at <- character(1)
+  d$notes <- character(1)
+
+  d_no_datetime <- data.table::as.data.table(d)
+  expect_error(st$index_import(d),
+               "Column not a datetime: 'expires_at'",
+               class = "error", fixed = TRUE)
+
+  d <- data.frame(namespace = "objects",
+                  key = "foo",
+                  hash = st$hash_object(1),
+                  stringsAsFactors = FALSE)
+  d$expires_at <- as.POSIXct(NA)
+  d$notes <- 1
+
+  d_no_datetime <- data.table::as.data.table(d)
+  expect_error(st$index_import(d),
+               "Column not a character: 'notes'",
+               class = "error", fixed = TRUE)
+
+  expect_error(st$index_import(d[, 1:4]),
+               "TileDB Storr index requires additional columns: 'expires_at', 'notes'",
+               class = "error", fixed = TRUE)
+
 })
 
 # $export and $import are exact replication as storr interface because

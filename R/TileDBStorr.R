@@ -2863,8 +2863,23 @@ TileDBStorr <- R6::R6Class(
 
       ok <- vlapply(index[, c("namespace", "key", "hash")], is.character)
       if (!all(ok)) {
-        stop("Column not character: ", paste(squote(cols[!ok]),
+        stop("Column not a character: ", paste(squote(cols[!ok]),
                                              collapse = ", "), call. = FALSE)
+      }
+
+      if (ncol(index) > 3) {
+        if (!all(c("expires_at", "notes") %in% nms)) {
+          stop("TileDB Storr index requires additional columns: 'expires_at', 'notes'", call. = FALSE)
+        }
+
+        if (!inherits(index[["expires_at"]], "POSIXct")) {
+          stop("Column not a datetime: ", sQuote("expires_at"), call. = FALSE)
+        }
+
+        if (!is.character(index[["notes"]])) {
+          stop("Column not a character: ", sQuote("notes"), call. = FALSE)
+        }
+
       }
 
       msg <- setdiff(index$hash, self$list_hashes())
@@ -2873,17 +2888,6 @@ TileDBStorr <- R6::R6Class(
                      length(msg), nrow(index)), call. = FALSE)
       }
 
-
-      if (all(c("expires_at", "notes") %in% nms)) {
-        if (!inherits(index[["expires_at"]], "POSIXct")) {
-          stop("Column not datetime: ", sQuote("expires_at"), call. = FALSE)
-        }
-
-        if (!is.character(index[["notes"]])) {
-          stop("Column not character: ", sQuote("notes"), call. = FALSE)
-        }
-
-      }
 
       private$DRIVER$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     },
