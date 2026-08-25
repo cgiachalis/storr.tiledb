@@ -1688,7 +1688,7 @@ Default is \code{TRUE}.}
   List notes given a namespace.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$list_notes(namespace, named = FALSE)}
+    \preformatted{TileDBStorr$list_notes(namespace = self$default_namespace, named = FALSE)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{

@@ -2689,7 +2689,7 @@ TileDBStorr <- R6::R6Class(
     #'
     #' @return A vector with notes metadata values.
     #'
-    list_notes = function(namespace, named = FALSE) {
+    list_notes = function(namespace = self$default_namespace, named = FALSE) {
 
       private$DRIVER$list_notes(namespace, named)
     },

@@ -9,7 +9,7 @@
 #'
 #' # Class Methods Summary
 #'
-#' For full definitions see the **Methods** section in [StorrFragments].
+#' For complete definitions see the **Methods** section in [StorrFragments].
 #'
 #' **Active Fields**
 #'

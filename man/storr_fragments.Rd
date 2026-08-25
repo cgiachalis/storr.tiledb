@@ -24,7 +24,7 @@ provides access to \link[R6.tiledb:TileDBFragments]{TileDBFragments} instances f
 where you can further inspect and manage the fragments for the specify arrays.
 }
 \section{Class Methods Summary}{
-For full definitions see the \strong{Methods} section in \link{StorrFragments}.
+For complete definitions see the \strong{Methods} section in \link{StorrFragments}.
 
 \strong{Active Fields}
 \itemize{
