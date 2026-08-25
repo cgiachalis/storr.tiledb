@@ -136,11 +136,59 @@ test_that("set_by_value", {
   st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(10)
-  h <- st$set_by_value(x)
+  expect_no_error(h <- st$set_by_value(x))
   expect_identical(h, st$hash_object(x))
   expect_identical(st$list_hashes(), h)
   expect_identical(st$list(), h)
   expect_equal(st$get(h), x)
+  expect_all_true(is.na(unlist(st$get_keymeta(h))))
+
+  # use_cache = FALSE ---
+
+  # add keymeta that we expect to BE removed when adding
+  # new keys with cache = FALSE
+  st$set_keymeta(h, notes = "temp-note")
+  expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
+
+  expect_no_error(h <- st$set_by_value(x, use_cache = FALSE))
+  expect_identical(h, st$hash_object(x))
+  expect_identical(st$list_hashes(), h)
+  expect_identical(st$list(), h)
+  expect_equal(st$get(h, use_cache = FALSE), x)
+  expect_all_true(is.na(unlist(st$get_keymeta(h))))
+})
+
+test_that("mset_by_value", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  x <- runif(10)
+  expect_no_error(h <- st$mset_by_value(x))
+  expect_identical(h, sapply(x, \(.x) st$hash_object(.x)))
+  expect_identical(st$list_hashes(), sort(h))
+  expect_identical(st$list(), sort(h))
+  expect_equal(unlist(st$mget(h)), x)
+
+ expect_all_true(is.na(unlist(st$mget_keymeta(h))))
+
+ # use_cache = FALSE ---
+
+ # add some keymeta that we expect to BE removed when adding
+ # new keys with cache = FALSE
+ st$set_keymeta(h[1], notes = "temp-note")
+ st$set_keymeta(h[2], notes = "temp-note")
+ expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
+
+ expect_no_error(h <- st$mset_by_value(x, use_cache = FALSE))
+ expect_identical(h, sapply(x, \(.x) st$hash_object(.x)))
+ expect_identical(st$list_hashes(), sort(h))
+ expect_identical(st$list(), sort(h))
+
+ expect_equal(unlist(st$mget(h, use_cache = FALSE)), x)
+
+ expect_all_true(is.na(unlist(st$mget_keymeta(h))))
+
 })
 
 
@@ -166,6 +214,9 @@ test_that("clear", {
   expect_equal(st$clear(NULL), c(TRUE, TRUE))
   expect_equal(st$clear(NULL), NULL)
   expect_equal(st$clear("no_such_namespace"), NULL)
+  expect_error(st$clear(list()),
+               "'namespace' should be a character vector, not list",
+               class = "error", fixed = TRUE)
 })
 
 
@@ -531,3 +582,4 @@ test_that("invalid import", {
   expect_error(st$index_import(d),
                "Column not character: 'key'")
 })
+
