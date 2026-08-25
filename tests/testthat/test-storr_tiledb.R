@@ -427,7 +427,11 @@ test_that("'get_all' and 'mget_all'", {
   expect_equal(sto$get_all("b"), trg1)
   expect_equal(sto$get_all("b", use_cache = FALSE), trg1)
 
+  sto$flush_cache()
+  trg1a <- list(keyval = 1, keymeta = list(expires_at = dt, notes = "Yeah"))
+  expect_equal(sto$get_all("a", use_cache = FALSE), trg1a, ignore_attr = TRUE)
 
+  # Check 'mget_all'
   trg2 <- list(list(
     keyval = 1,
     keymeta = list(expires_at = dt, notes = "Yeah")
@@ -445,7 +449,8 @@ test_that("'get_all' and 'mget_all'", {
   ),
   NULL)
 
-  expect_equal(sto$mget_all(c("a", "b", "c")), trg2)
+  sto$flush_cache()
+  expect_equal(sto$mget_all(c("a", "b", "c")), trg2, ignore_attr = TRUE)
   expect_equal(sto$mget_all(c("a", "b", "c"), use_cache = FALSE), trg2, ignore_attr = TRUE)
 
   expect_equal(sto$mget_all("nope"), list(NULL))
