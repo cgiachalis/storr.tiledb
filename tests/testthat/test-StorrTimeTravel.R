@@ -289,7 +289,7 @@ test_that("'export' with time-travel", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
-
+  dr <- driver_tiledb(uri); sto1 <- storr::storr(dr)
   t0 <- Sys.time()
   sto$set("a", 1)
   t1 <- Sys.time()
@@ -302,20 +302,26 @@ test_that("'export' with time-travel", {
 
   # Expect nothing at t0
   expect_no_error(dest_t0 <- stott$export(list()))
-  expect_error(dest_t0$get("a"), class = "error", "key 'a' ('ns1') not found", fixed = TRUE)
-  expect_equal(dest_t0$list(namespace = "ns1"), character(0))
 
   # Open at t1
   stott$timestamp <- t1
   expect_no_error(dest_t1 <- stott$export(list()))
-  expect_equal(dest_t1$get("a"), 1)
-  expect_equal(dest_t1$list(namespace = "ns1"), "a")
+  expect_named(dest_t1, "a")
+  expect_equal(dest_t1$a, 1)
 
   # Open at t2
   stott$timestamp <- t2
   expect_no_error(dest_t2 <- stott$export(list()))
-  expect_equal(dest_t2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
-  expect_equal(dest_t2$list_namespaces(), c("ns1", "ns2"))
+  expect_error(stott$export(list(),  namespace = NULL),
+               "If exporting multiple namespaces, both dest and src must be storrs",
+               class = "error", fixed = TRUE)
+
+  expect_named(dest_t2, "a")
+  expect_equal(dest_t2$a, 2)
+
+  dest_t2 <- stott$export(list(), namespace = "ns2")
+  expect_named(dest_t2, "b")
+  expect_equal(dest_t2$b, 3)
 
 })
 

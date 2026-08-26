@@ -758,7 +758,8 @@ Use list() to export to a brand new list, or use as.list(object) for a shorthand
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{dest}}{A destination to export objects to. It can be a storr, list, or environment.}
+      \item{\code{dest}}{A destination to export objects to. It can be a storr, list, or environment.
+\strong{NOTE}: for TileDB storrs use \code{storr(driver_tiledb())} instead of \code{strorr_tiledb()}.}
       \item{\code{list}}{Names of objects to import (or \code{NULL} for all objects) . If given it must be a character vector.
 If named, the names of the character vector will be the names of the objects as created in the storr.}
       \item{\code{namespace}}{Namespace to get objects from, and to put objects into.  If \code{NULL},

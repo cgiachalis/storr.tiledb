@@ -574,6 +574,7 @@ StorrTimeTravel <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
+    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
@@ -593,7 +594,9 @@ StorrTimeTravel <- R6::R6Class(
         namespace <- self$list_namespaces()
       }
 
-      invisible(.base_export(dest, self, list, namespace, skip_missing)$dest)
+      sto <- storr::storr(private$DRIVER)
+
+      invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 
     #' @description Generate a `data.table` with an index of objects
