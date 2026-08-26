@@ -348,6 +348,11 @@ test_that("'export_tdb' with time-travel", {
   expect_warning(stott$export_tdb(uri_dest = uri2), class = "warning",
                  "Nothing to export for the selected key-namespace.")
 
+  expect_error(stott$export_tdb(uri_dest = uri),
+               "Destination URI can not be the same as source.",
+               class = "error",
+               fixed = TRUE)
+
   # Open at t1
   stott$timestamp <- t1
   expect_no_error(stott$export_tdb(uri_dest = uri2))
@@ -362,6 +367,44 @@ test_that("'export_tdb' with time-travel", {
   expect_equal(sto2$list_namespaces(), c("ns1", "ns2"))
 
 })
+
+test_that("'export_tdb' with time-travel (diff hash)", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1", hash_algorithm = "sha1")
+
+  uri2 <- file.path(withr::local_tempdir(), "test-storr2")
+  sto2 <- storr_tiledb(uri2, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1)
+  t1 <- Sys.time()
+  sto$set("a", 2)
+  sto$set("b", 3, namespace = "ns2")
+  t2 <- Sys.time()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_warning(stott$export_tdb(uri_dest = uri2), class = "warning",
+                 "Nothing to export for the selected key-namespace.")
+
+  # Open at t1
+  stott$timestamp <- t1
+  expect_no_error(stott$export_tdb(uri_dest = uri2))
+  expect_equal(sto2$get("a"), 1)
+  expect_equal(sto2$list(namespace = "ns1"), "a")
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_no_error(stott$export_tdb(uri_dest = uri2, namespace = NULL)) # all namespaces
+  expect_equal(sto2$get("a"), 2)
+  expect_equal(sto2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
+  expect_equal(sto2$list_namespaces(), c("ns1", "ns2"))
+
+})
+
 
 test_that("'get_all' and 'mget_all' with time-travel", {
 
