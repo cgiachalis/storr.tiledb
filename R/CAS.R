@@ -123,7 +123,7 @@ CAS <- R6::R6Class(
          self$close()
          super$open("WRITE")
        }
-       warning("Hash algorithm not found, defaulting to 'md5'", call. = FALSE)
+       cli::cli_warn("Hash algorithm not found, defaulting to 'md5'", call. = NULL)
        self$set_metadata(list(hash_algo = algo))
 
        # Flush metadata
