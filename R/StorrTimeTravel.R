@@ -162,19 +162,7 @@ StorrTimeTravel <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
-          stop(KeyError(key,namespace))
-        })
-      }
-      else {
-        if (self$exists(key, namespace)) {
-          private$DRIVER$get_hash(key, namespace)
-        }
-        else {
-          stop(KeyError(key, namespace))
-        }
-      }
+      private$DRIVER$get_hash(key, namespace)
     },
 
     #' @description Get hash values.
@@ -192,7 +180,6 @@ StorrTimeTravel <- R6::R6Class(
       private$DRIVER$mget_hash(key, namespace)
     },
 
-
     #' @description Get an object given its hash.
     #'
     #'
@@ -202,21 +189,8 @@ StorrTimeTravel <- R6::R6Class(
     #'
     get_value = function(hash) {
 
-      # TODO: no need for traits
-      if (self$traits$throw_missing) {
-        value <- tryCatch(
-          private$DRIVER$get_object(hash),
-          error = function(e)
-            stop(HashError(hash))
-        )
-      } else {
-        if (!private$DRIVER$exists_object(hash)) {
-          stop(HashError(hash))
-        }
-        value <- private$DRIVER$get_object(hash)
-      }
+      private$DRIVER$get_object(hash)
 
-      value
     },
 
     #' @description Get multiple objects given their hashes.

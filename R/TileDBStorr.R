@@ -979,19 +979,8 @@ TileDBStorr <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
-          stop(KeyError(key, namespace))
-        })
-      }
-      else {
-        if (self$exists(key, namespace)) {
-          private$DRIVER$get_hash(key, namespace)
-        }
-        else {
-          stop(KeyError(key, namespace))
-        }
-      }
+      private$DRIVER$get_hash(key, namespace)
+
     },
 
     #' @description Get hash values.
@@ -1034,16 +1023,9 @@ TileDBStorr <- R6::R6Class(
       if (use_cache && exists1(hash, envir)) {
         value <- gethash(envir, hash)
       } else {
-        # TODO: no need for traits
-        if (self$traits$throw_missing) {
-          value <- tryCatch(private$DRIVER$get_object(hash),
-                            error = function(e) stop(HashError(hash)))
-        } else {
-          if (!private$DRIVER$exists_object(hash)) {
-            stop(HashError(hash))
-          }
-          value <- private$DRIVER$get_object(hash)
-        }
+
+        value <- private$DRIVER$get_object(hash)
+
         if (use_cache) {
           sethash(envir, hash, value)
         }

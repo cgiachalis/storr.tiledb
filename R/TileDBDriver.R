@@ -46,7 +46,7 @@ TileDBDriver <- R6::R6Class(
 
       self$binary <- FALSE
       self$traits <- list(accept = "string",
-                          throw_missing = TRUE)
+                          throw_missing = TRUE) # NB: throw_missing is not used
 
       lockBinding("binary", self)
       lockBinding("traits", self)
