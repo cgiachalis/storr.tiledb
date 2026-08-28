@@ -581,7 +581,7 @@ StorrTimeTravel <- R6::R6Class(
     #' then this will export namespaces from this (source) storr into the destination;
     #' if there is more than one namespace, this is only possible if `dest`
     #' is a storr (otherwise there will be an error).
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
