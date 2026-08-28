@@ -17,6 +17,30 @@ test_that("'TimeTravelBDriver'", {
   # Nothing to retrieve - <TimeDriver> object does not exist
   expect_error(dr$tiledb_timestamp)
   expect_error(dr$members_instantiated)
+  expect_error(dr$hash_algorithm)
+
+  # create a storr
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE)
+
+  dr <- TimeTravelDriver$new(uri)
+
+  expect_equal(dr$tiledb_timestamp, R6.tiledb::set_tiledb_timestamp())
+  expect_true(dr$members_instantiated)
+  expect_equal(dr$hash_algorithm, "md5")
+
+  # Cannot change hash algo
+  expect_error(dr$hash_algorithm <- "sha1")
+
+  # Cannot open a TimeTravel when 'hash_algo' is missing (broken storr)
+  dr$close()
+  grp <- R6.tiledb::tdb_group(uri)
+  R6.tiledb::delete_metadata(grp, "hash_algo")
+  expect_null(R6.tiledb::metadata(grp, "hash_algo"))
+
+  expect_error(dr$open(),
+               "Hash algorithm not found, cannot open TileDB 'storr'",
+               class = "error", fixed = TRUE)
 
 })
 
