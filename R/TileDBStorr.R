@@ -455,12 +455,6 @@ TileDBStorr <- R6::R6Class(
         }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
       }
 
-      if (use_cache) {
-        for (i in which(!cached)) {
-          sethash(self$envir, hash[[i]], value[[i]])
-        }
-      }
-
       # END: 'mset_value' logic for async ---
 
       # Step 2: set key:namespace data to key table, cache if needed
@@ -482,6 +476,10 @@ TileDBStorr <- R6::R6Class(
       km <- paste(p$key, p$namespace, sep = ":")
 
       if (use_cache) {
+
+        for (i in which(!cached)) {
+          sethash(self$envir, hash[[i]], value[[i]])
+        }
 
         for(i in seq_along(km)) {
           sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
