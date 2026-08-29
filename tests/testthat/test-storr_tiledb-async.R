@@ -694,8 +694,8 @@ test_that("mupdate_async", {
   expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = TRUE), trg_meta0, ignore_attr = TRUE)
 
   # test key/keymeta are saved on disk
-  expect_equal(sto$mget(c("a", "b"),  use_cache = FALSE), list(3, 4))
-  expect_equal(sto$mget_keymeta(c("a", "b"),use_cache = FALSE), trg_meta0, ignore_attr = TRUE)
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(3, 4))
+  expect_equal(sto$mget_keymeta(c("a", "b"), use_cache = FALSE), trg_meta0, ignore_attr = TRUE)
 
   # Upsert with create = TRUE and metadata
   expect_no_error(m2 <- sto$mupdate_async(c("a", "b"),
@@ -717,6 +717,12 @@ test_that("mupdate_async", {
   # test key/keymeta are saved on disk
   expect_equal(sto$mget(c("a", "b"), namespace = c("ns1", "ns2"), use_cache = FALSE), list(1, 2))
   expect_equal(sto$mget_keymeta(c("a", "b"),namespace = c("ns1", "ns2"),  use_cache = FALSE), trg_meta, ignore_attr = TRUE)
+
+
+  # Missing keys with fail_fast = FALSE (warning + skip)
+  expect_warning(m3 <- sto$mupdate_async(c("d", "z"), c(12, 99), create = FALSE, fail_fast = FALSE))
+  # One object was stored
+  expect_equal(m3$hash, character(0))
 
 
   # Missing keys with fail_fast = TRUE (error)
