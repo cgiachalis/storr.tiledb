@@ -116,7 +116,7 @@ active field, i.e., using `<member>$object` element.
 
 #### Usage
 
-    CAS$open(mode = c("READ", "WRITE"), instantiate = FALSE)
+    CAS$open(mode = "READ", instantiate = FALSE)
 
 #### Arguments
 

@@ -36,7 +36,7 @@ manage the fragments for the specify arrays.
 
 ## Class Methods Summary
 
-For full definitions see the **Methods** section in
+For complete definitions see the **Methods** section in
 [StorrFragments](https://cgiachalis.github.io/storr.tiledb/reference/StorrFragments.md).
 
 **Active Fields**

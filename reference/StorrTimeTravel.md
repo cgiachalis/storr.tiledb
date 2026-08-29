@@ -825,7 +825,8 @@ shorthand.
 - `dest`:
 
   A destination to export objects to. It can be a storr, list, or
-  environment.
+  environment. **NOTE**: for TileDB storrs use `storr(driver_tiledb())`
+  instead of `strorr_tiledb()`.
 
 - `list`:
 

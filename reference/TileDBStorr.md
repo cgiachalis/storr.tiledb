@@ -1083,7 +1083,7 @@ Update a key value pair asynchronously.
 
 - `create`:
 
-  Should the key be created, if not found. Default is `FALSE` raising an
+  Should the key be created, if not found. Default is `FALSE` raising a
   `KeyError`. Otherwise, create a new key.
 
 - `expires_at, notes`:
@@ -1147,7 +1147,7 @@ Update multiple key value pairs asynchronously.
 
 - `create`:
 
-  Should the key be created, if not found. Default is `FALSE` raising an
+  Should the key be created, if not found. Default is `FALSE` raising a
   `KeyError`. Otherwise, create a new key.
 
 - `fail_fast`:
@@ -2111,7 +2111,7 @@ List notes given a namespace.
 
 #### Usage
 
-    TileDBStorr$list_notes(namespace, named = FALSE)
+    TileDBStorr$list_notes(namespace = self$default_namespace, named = FALSE)
 
 #### Arguments
 
@@ -2210,7 +2210,8 @@ Import objects to storr.
 - `src`:
 
   A source to import objects from. It can be a storr, list, or
-  environment.
+  environment. **NOTE**: for TileDB storrs use `storr(driver_tiledb())`
+  instead of `strorr_tiledb()`.
 
 - `list`:
 
@@ -2253,7 +2254,8 @@ shorthand.
 - `dest`:
 
   A destination to export objects to. It can be a storr, list, or
-  environment.
+  environment. **NOTE**: for TileDB storrs use `storr(driver_tiledb())`
+  instead of `strorr_tiledb()`.
 
 - `list`:
 

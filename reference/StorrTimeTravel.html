@@ -13,7 +13,7 @@ usage is through storr_timetravel()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -768,7 +768,8 @@ Default is <code>FALSE</code>.</p></dd>
 </div><p></p><div class="section">
 <h4 id="arguments-24">Arguments<a class="anchor" aria-label="anchor" href="#arguments-24"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>dest</code></dt>
-<dd><p>A destination to export objects to. It can be a storr, list, or environment.</p></dd>
+<dd><p>A destination to export objects to. It can be a storr, list, or environment.
+<strong>NOTE</strong>: for TileDB storrs use <code>storr(driver_tiledb())</code> instead of <code>strorr_tiledb()</code>.</p></dd>
 
       <dt><code>list</code></dt>
 <dd><p>Names of objects to import (or <code>NULL</code> for all objects) . If given it must be a character vector.
