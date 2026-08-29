@@ -820,7 +820,7 @@ skip with warning.
       \item{\code{value}}{An R object to store.}
       \item{\code{namespace}}{A scalar character of namespace name.}
       \item{\code{create}}{Should the key be created, if not found. Default is \code{FALSE}
-raising an \code{KeyError}. Otherwise, create a new key.}
+raising a \code{KeyError}. Otherwise, create a new key.}
       \item{\code{expires_at, notes}}{A scalar string of notes and/or a date-time
 object of class \code{POSIXct}(optional). Applies only if \code{create = TRUE}.}
       \item{\code{use_cache}}{Should the cache be used? Default is \code{TRUE}.}
@@ -864,7 +864,7 @@ logical \code{TRUE} if an evaluation is successful.
       \item{\code{value}}{An R object to store.}
       \item{\code{namespace}}{A scalar character of namespace name.}
       \item{\code{create}}{Should the key be created, if not found. Default is \code{FALSE}
-raising an \code{KeyError}. Otherwise, create a new key.}
+raising a \code{KeyError}. Otherwise, create a new key.}
       \item{\code{fail_fast}}{Should abort on missing keys, default is \code{TRUE}. Use
 \code{FALSE} for skipping keys and emit a warning for missing items. The
 argument has no effect when upsert is used via \code{create = TRUE}.}

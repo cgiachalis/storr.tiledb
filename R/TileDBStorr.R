@@ -1379,7 +1379,7 @@ TileDBStorr <- R6::R6Class(
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param create Should the key be created, if not found. Default is `FALSE`
-    #' raising an `KeyError`. Otherwise, create a new key.
+    #' raising a `KeyError`. Otherwise, create a new key.
     #' @param expires_at,notes A scalar string of notes and/or a date-time
     #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
     #' @param use_cache `r sto_cache`
@@ -1532,7 +1532,7 @@ TileDBStorr <- R6::R6Class(
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param create Should the key be created, if not found. Default is `FALSE`
-    #' raising an `KeyError`. Otherwise, create a new key.
+    #' raising a `KeyError`. Otherwise, create a new key.
     #' @param fail_fast Should abort on missing keys, default is `TRUE`. Use
     #' `FALSE` for skipping keys and emit a warning for missing items. The
     #' argument has no effect when upsert is used via `create = TRUE`.
