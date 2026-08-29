@@ -97,7 +97,7 @@ and cached on opening. They can be accessed via \code{members} active field, i.e
 \verb{<member>$object} element.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{CAS$open(mode = c("READ", "WRITE"), instantiate = FALSE)}
+    \preformatted{CAS$open(mode = "READ", instantiate = FALSE)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
