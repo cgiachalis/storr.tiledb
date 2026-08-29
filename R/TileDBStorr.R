@@ -455,12 +455,6 @@ TileDBStorr <- R6::R6Class(
         }, uri = uri, hash = hash, values_ser = values_ser, cached = cached, .compute = ns)
       }
 
-      if (use_cache) {
-        for (i in which(!cached)) {
-          sethash(self$envir, hash[[i]], value[[i]])
-        }
-      }
-
       # END: 'mset_value' logic for async ---
 
       # Step 2: set key:namespace data to key table, cache if needed
@@ -482,6 +476,10 @@ TileDBStorr <- R6::R6Class(
       km <- paste(p$key, p$namespace, sep = ":")
 
       if (use_cache) {
+
+        for (i in which(!cached)) {
+          sethash(self$envir, hash[[i]], value[[i]])
+        }
 
         for(i in seq_along(km)) {
           sethash(self$envir_metadata, km[i], list(expires_at = expires_at[i],
@@ -560,7 +558,9 @@ TileDBStorr <- R6::R6Class(
                              use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       # TODO: review length and km recycling..
-      n <- length(value)
+      p <- storr::join_key_namespace(value, namespace)
+      n <- p$n
+      namespace <- p$namespace
 
       if (missing(expires_at)) {
         expires_at <- as.POSIXct(rep_len(NA, n))
@@ -977,19 +977,8 @@ TileDBStorr <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
-          stop(KeyError(key, namespace))
-        })
-      }
-      else {
-        if (self$exists(key, namespace)) {
-          private$DRIVER$get_hash(key, namespace)
-        }
-        else {
-          stop(KeyError(key, namespace))
-        }
-      }
+      private$DRIVER$get_hash(key, namespace)
+
     },
 
     #' @description Get hash values.
@@ -1032,16 +1021,9 @@ TileDBStorr <- R6::R6Class(
       if (use_cache && exists1(hash, envir)) {
         value <- gethash(envir, hash)
       } else {
-        # TODO: no need for traits
-        if (self$traits$throw_missing) {
-          value <- tryCatch(private$DRIVER$get_object(hash),
-                            error = function(e) stop(HashError(hash)))
-        } else {
-          if (!private$DRIVER$exists_object(hash)) {
-            stop(HashError(hash))
-          }
-          value <- private$DRIVER$get_object(hash)
-        }
+
+        value <- private$DRIVER$get_object(hash)
+
         if (use_cache) {
           sethash(envir, hash, value)
         }
@@ -1397,7 +1379,7 @@ TileDBStorr <- R6::R6Class(
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param create Should the key be created, if not found. Default is `FALSE`
-    #' raising an `KeyError`. Otherwise, create a new key.
+    #' raising a `KeyError`. Otherwise, create a new key.
     #' @param expires_at,notes A scalar string of notes and/or a date-time
     #' object of class `POSIXct`(optional). Applies only if `create = TRUE`.
     #' @param use_cache `r sto_cache`
@@ -1550,7 +1532,7 @@ TileDBStorr <- R6::R6Class(
     #' @param value `r sto_value()`
     #' @param namespace `r sto_namespace()`
     #' @param create Should the key be created, if not found. Default is `FALSE`
-    #' raising an `KeyError`. Otherwise, create a new key.
+    #' raising a `KeyError`. Otherwise, create a new key.
     #' @param fail_fast Should abort on missing keys, default is `TRUE`. Use
     #' `FALSE` for skipping keys and emit a warning for missing items. The
     #' argument has no effect when upsert is used via `create = TRUE`.
@@ -2757,6 +2739,7 @@ TileDBStorr <- R6::R6Class(
     #' @description Import objects to storr.
     #'
     #' @param src A source to import objects from. It can be a storr, list, or environment.
+    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.
@@ -2779,7 +2762,8 @@ TileDBStorr <- R6::R6Class(
           stop("If src is not a storr, namespace can't be NULL")
         }
       }
-      invisible(.base_export(self, src, list, namespace, skip_missing)$info)
+      sto <- storr::storr(private$DRIVER)
+      invisible(.base_export(sto, src, list, namespace, skip_missing)$info)
     },
 
     #' @description Export objects from storr.
@@ -2787,6 +2771,7 @@ TileDBStorr <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
+    #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
     #' @param list Names of objects to export (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
@@ -2805,8 +2790,8 @@ TileDBStorr <- R6::R6Class(
       if (is.null(namespace)) {
         namespace <- self$list_namespaces()
       }
-
-      invisible(.base_export(dest, self, list, namespace, skip_missing)$dest)
+      sto <- storr::storr(private$DRIVER)
+      invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 
     #' @description Generate a `data.table` with an index of objects
@@ -2858,8 +2843,23 @@ TileDBStorr <- R6::R6Class(
 
       ok <- vlapply(index[, c("namespace", "key", "hash")], is.character)
       if (!all(ok)) {
-        stop("Column not character: ", paste(squote(cols[!ok]),
+        stop("Column not a character: ", paste(squote(cols[!ok]),
                                              collapse = ", "), call. = FALSE)
+      }
+
+      if (ncol(index) > 3) {
+        if (!all(c("expires_at", "notes") %in% nms)) {
+          stop("TileDB Storr index requires additional columns: 'expires_at', 'notes'", call. = FALSE)
+        }
+
+        if (!inherits(index[["expires_at"]], "POSIXct")) {
+          stop("Column not a datetime: ", sQuote("expires_at"), call. = FALSE)
+        }
+
+        if (!is.character(index[["notes"]])) {
+          stop("Column not a character: ", sQuote("notes"), call. = FALSE)
+        }
+
       }
 
       msg <- setdiff(index$hash, self$list_hashes())
@@ -2868,17 +2868,6 @@ TileDBStorr <- R6::R6Class(
                      length(msg), nrow(index)), call. = FALSE)
       }
 
-
-      if (all(c("expires_at", "notes") %in% nms)) {
-        if (!inherits(index[["expires_at"]], "POSIXct")) {
-          stop("Column not datetime: ", sQuote("expires_at"), call. = FALSE)
-        }
-
-        if (!is.character(index[["notes"]])) {
-          stop("Column not character: ", sQuote("notes"), call. = FALSE)
-        }
-
-      }
 
       private$DRIVER$mset_hash(index$key, index$namespace, index$hash, index$expires_at, index$notes)
     },

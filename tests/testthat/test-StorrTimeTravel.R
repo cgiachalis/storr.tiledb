@@ -13,6 +13,48 @@ test_that("'storr_timetravel()' and 'StorrTimeTravel'", {
   # 'StorrTimeTravel'
   expect_no_error(sto <- StorrTimeTravel$new(dr, "ns1"))
   expect_r6_class(sto, "StorrTimeTravel")
+  expect_error(StorrTimeTravel$new("invalid-driver", "ns1"),
+               "Not valid driver. Please use a 'TimeTravelDriver' object.",
+               class = "error",
+               fixed = TRUE)
+
+
+  # Driver is open and members not instantiated, 'StorrTimeTravel' should
+  # instantiate members
+  StorrTimeTravelMock <- R6::R6Class(
+    cloneable = FALSE,
+    "Mocked",
+    inherit = StorrTimeTravel,
+    public = list(
+      getdriver = function() {
+        private$DRIVER
+      }
+    ),
+  )
+
+  sto2 <- StorrTimeTravelMock$new(dr, default_namespace = "objects")
+  cl <- c("TimeTravelDriver", "TileDBGroup", "TileDBObject", "R6")
+  expect_s3_class(sto2$getdriver(), cl, exact = TRUE)
+
+
+  # driver is modified in place inside TileDBStorr,
+  # because we instantiate members if needed
+  expect_true(dr$is_open())
+  expect_true(sto2$getdriver()$members_instantiated)
+  expect_true(dr$members_instantiated)
+
+  dr$reopen()
+  expect_false(dr$members_instantiated)
+
+  # case: driver is opened but members are not cached,
+  # TileDBStorr will have to reopen and instantiate members
+  sto3 <- StorrTimeTravelMock$new(dr, "objects")
+  expect_s3_class(sto3$getdriver(), cl, exact = TRUE)
+
+  expect_true(dr$is_open())
+  expect_true(sto3$getdriver()$members_instantiated)
+  expect_true(dr$members_instantiated)
+
 
   # 'storr_timetravel' wrapper
   expect_no_error(sto <- storr_timetravel(uri))
@@ -53,6 +95,8 @@ test_that("'get'/'mget' with time-travel", {
   expect_equal(stott$mget(c("a", "b")), structure(list(NULL, NULL), missing = 1:2))
 
   expect_all_false(stott$exists(c("a", "b")))
+  expect_all_false(stott$exists_object(hashes))
+
   expect_equal(stott$list(), character())
   expect_equal(stott$list_hashes(), character())
   expect_equal(stott$list_namespaces(), character())
@@ -73,6 +117,7 @@ test_that("'get'/'mget' with time-travel", {
   expect_equal(stott$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
 
   expect_all_true(stott$exists(c("a", "b"), namespace = c("ns1", "ns2")))
+  expect_all_true(stott$exists_object(hashes))
   expect_equal(stott$list("ns2"), "b")
   expect_equal(stott$list_hashes(), hashes)
   expect_equal(stott$list_namespaces(), c("ns1", "ns2"))
@@ -244,7 +289,7 @@ test_that("'export' with time-travel", {
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
-
+  dr <- driver_tiledb(uri); sto1 <- storr::storr(dr)
   t0 <- Sys.time()
   sto$set("a", 1)
   t1 <- Sys.time()
@@ -257,20 +302,26 @@ test_that("'export' with time-travel", {
 
   # Expect nothing at t0
   expect_no_error(dest_t0 <- stott$export(list()))
-  expect_error(dest_t0$get("a"), class = "error", "key 'a' ('ns1') not found", fixed = TRUE)
-  expect_equal(dest_t0$list(namespace = "ns1"), character(0))
 
   # Open at t1
   stott$timestamp <- t1
   expect_no_error(dest_t1 <- stott$export(list()))
-  expect_equal(dest_t1$get("a"), 1)
-  expect_equal(dest_t1$list(namespace = "ns1"), "a")
+  expect_named(dest_t1, "a")
+  expect_equal(dest_t1$a, 1)
 
   # Open at t2
   stott$timestamp <- t2
   expect_no_error(dest_t2 <- stott$export(list()))
-  expect_equal(dest_t2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
-  expect_equal(dest_t2$list_namespaces(), c("ns1", "ns2"))
+  expect_error(stott$export(list(),  namespace = NULL),
+               "If exporting multiple namespaces, both dest and src must be storrs",
+               class = "error", fixed = TRUE)
+
+  expect_named(dest_t2, "a")
+  expect_equal(dest_t2$a, 2)
+
+  dest_t2 <- stott$export(list(), namespace = "ns2")
+  expect_named(dest_t2, "b")
+  expect_equal(dest_t2$b, 3)
 
 })
 
@@ -279,6 +330,48 @@ test_that("'export_tdb' with time-travel", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1")
+
+  uri2 <- file.path(withr::local_tempdir(), "test-storr2")
+  sto2 <- storr_tiledb(uri2, init = TRUE, default_namespace = "ns1")
+
+  t0 <- Sys.time()
+  sto$set("a", 1)
+  t1 <- Sys.time()
+  sto$set("a", 2)
+  sto$set("b", 3, namespace = "ns2")
+  t2 <- Sys.time()
+
+  # Open at t0 ---
+  stott <- storr_timetravel(uri, timestamp = t0, default_namespace = "ns1")
+
+  # Expect nothing at t0
+  expect_warning(stott$export_tdb(uri_dest = uri2), class = "warning",
+                 "Nothing to export for the selected key-namespace.")
+
+  expect_error(stott$export_tdb(uri_dest = uri),
+               "Destination URI can not be the same as source.",
+               class = "error",
+               fixed = TRUE)
+
+  # Open at t1
+  stott$timestamp <- t1
+  expect_no_error(stott$export_tdb(uri_dest = uri2))
+  expect_equal(sto2$get("a"), 1)
+  expect_equal(sto2$list(namespace = "ns1"), "a")
+
+  # Open at t2
+  stott$timestamp <- t2
+  expect_no_error(stott$export_tdb(uri_dest = uri2, namespace = NULL)) # all namespaces
+  expect_equal(sto2$get("a"), 2)
+  expect_equal(sto2$mget(c("a", "b"), namespace = c("ns1", "ns2")), list(2, 3))
+  expect_equal(sto2$list_namespaces(), c("ns1", "ns2"))
+
+})
+
+test_that("'export_tdb' with time-travel (diff hash)", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, default_namespace = "ns1", hash_algorithm = "sha1")
 
   uri2 <- file.path(withr::local_tempdir(), "test-storr2")
   sto2 <- storr_tiledb(uri2, init = TRUE, default_namespace = "ns1")
@@ -312,6 +405,7 @@ test_that("'export_tdb' with time-travel", {
 
 })
 
+
 test_that("'get_all' and 'mget_all' with time-travel", {
 
   tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
@@ -340,10 +434,10 @@ test_that("'get_all' and 'mget_all' with time-travel", {
                                                                                           "POSIXt"), tzone = ""), notes = "Good")), list(keyval = 3, keymeta = list(
                                                                                             expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
                                                                                             ), tzone = ""), notes = NA_character_)), NULL)
-  expect_equal(sto$mget_all(c("a", "b", "c")), trg2)
+  expect_equal(stott$mget_all(c("a", "b", "c")), trg2, ignore_attr = TRUE)
 
-  expect_equal(sto$mget_all("nope"), list(NULL))
-  expect_equal(sto$mget_all("nope", missing = "noval"), list(list(keyval = "noval", keymeta = "noval")))
+  expect_equal(stott$mget_all("nope"), list(NULL))
+  expect_equal(stott$mget_all("nope", missing = "noval"), list(list(keyval = "noval", keymeta = "noval")))
 
 })
 

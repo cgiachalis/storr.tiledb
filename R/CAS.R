@@ -98,7 +98,7 @@ CAS <- R6::R6Class(
    #'
    #' @return The object, invisibly.
    #'
-   open = function(mode = c("READ", "WRITE"), instantiate = FALSE) {
+   open = function(mode = "READ", instantiate = FALSE) {
 
      super$open(mode = mode)
 
@@ -106,7 +106,8 @@ CAS <- R6::R6Class(
 
      if (type != "storr" || is.null(type)) {
 
-       cli::cli_abort("Not a {.arg TileDB Storr} at URI: {.url {self$uri}}", call = NULL)
+       cli::cli_abort("Not a {.arg TileDB Storr} at URI: {.url {self$uri}}",
+                      call = NULL)
 
      }
 
@@ -116,13 +117,13 @@ CAS <- R6::R6Class(
      #
      if (is.null(algo)) {
 
-       warning("Hash algorithm not found, defaulting to 'md5'")
        algo <- "md5"
 
        if (mode != "WRITE") {
-         self$reopen("WRITE")
+         self$close()
+         super$open("WRITE")
        }
-
+       cli::cli_warn("Hash algorithm not found, defaulting to 'md5'", call. = NULL)
        self$set_metadata(list(hash_algo = algo))
 
        # Flush metadata

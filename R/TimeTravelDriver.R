@@ -81,13 +81,13 @@ TimeTravelDriver <- R6::R6Class(
 
      }
 
+     # NB: It is not used by TimeTravel driver, but 'hash_algo' cannot be NULL
      algo <- self$get_metadata("hash_algo")
 
      # Case where 'hash_algo' key is not present
      #
      if (is.null(algo)) {
-
-       stop("Hash algorithm not found, defaulting to 'md5'")
+       cli::cli_abort("Hash algorithm not found, cannot open TileDB 'storr'", call = NULL)
      }
 
      private$.hash_algo <- algo
@@ -246,9 +246,8 @@ TimeTravelDriver <- R6::R6Class(
      status_nona <- status_nona$as_vector()
 
      if (status_nona) {
-       result <- lapply(arr[]$value$as_vector(),  {
-         function(.s) unserialize(charToRaw(.s)) }
-       )
+       result <- lapply(arr[]$value$as_vector(),
+                        function(.s) { unserialize(charToRaw(.s)) })
      } else {
        result <- vector("list", length(hash))
 

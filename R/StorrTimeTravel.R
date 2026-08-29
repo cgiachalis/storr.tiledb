@@ -34,7 +34,7 @@ StorrTimeTravel <- R6::R6Class(
     initialize = function(driver, default_namespace) {
 
       if (!inherits(driver, "TimeTravelDriver")) {
-        stop("Not a valid Time-Travel 'driver'. Please use a 'TTDriver' object.",
+        stop("Not valid driver. Please use a 'TimeTravelDriver' object.",
              call. = FALSE)
       }
 
@@ -162,19 +162,7 @@ StorrTimeTravel <- R6::R6Class(
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
 
-      if (self$traits$throw_missing) {
-        tryCatch(private$DRIVER$get_hash(key, namespace), error = function(e) {
-          stop(KeyError(key,namespace))
-        })
-      }
-      else {
-        if (self$exists(key, namespace)) {
-          private$DRIVER$get_hash(key, namespace)
-        }
-        else {
-          stop(KeyError(key, namespace))
-        }
-      }
+      private$DRIVER$get_hash(key, namespace)
     },
 
     #' @description Get hash values.
@@ -192,7 +180,6 @@ StorrTimeTravel <- R6::R6Class(
       private$DRIVER$mget_hash(key, namespace)
     },
 
-
     #' @description Get an object given its hash.
     #'
     #'
@@ -202,21 +189,8 @@ StorrTimeTravel <- R6::R6Class(
     #'
     get_value = function(hash) {
 
-      # TODO: no need for traits
-      if (self$traits$throw_missing) {
-        value <- tryCatch(
-          private$DRIVER$get_object(hash),
-          error = function(e)
-            stop(HashError(hash))
-        )
-      } else {
-        if (!private$DRIVER$exists_object(hash)) {
-          stop(HashError(hash))
-        }
-        value <- private$DRIVER$get_object(hash)
-      }
+      private$DRIVER$get_object(hash)
 
-      value
     },
 
     #' @description Get multiple objects given their hashes.
@@ -574,13 +548,14 @@ StorrTimeTravel <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
+    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
     #' then this will export namespaces from this (source) storr into the destination;
     #' if there is more than one namespace, this is only possible if `dest`
     #' is a storr (otherwise there will be an error).
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
@@ -593,7 +568,9 @@ StorrTimeTravel <- R6::R6Class(
         namespace <- self$list_namespaces()
       }
 
-      invisible(.base_export(dest, self, list, namespace, skip_missing)$dest)
+      sto <- storr::storr(private$DRIVER)
+
+      invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 
     #' @description Generate a `data.table` with an index of objects
@@ -666,22 +643,6 @@ StorrTimeTravel <- R6::R6Class(
     # @field driver The TileDB driver.
     #
     DRIVER = NULL,
-
-  # NOTE: extracted from storr:::check_length
-  check_length = function(key, namespace) {
-
-    n_key <- length(key)
-    n_namespace <- length(namespace)
-    if (n_key == n_namespace || n_namespace == 1) {
-      n_key
-    }
-    else if (n_key == 1) {
-      n_namespace
-    }
-    else {
-      stop("Incompatible lengths for key and namespace", call. = FALSE)
-    }
-  },
 
   check_input = function(x, n, type = NULL) {
     name <- deparse(substitute(x))

@@ -24,6 +24,7 @@ test_that("set_keymeta", {
 
   # update note only
   expect_equal(sto$set_keymeta("x", notes = intToUtf8("0x1f608")), trg)
+
   # test note update
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😈")
   expect_equal(sto$get_keymeta("x"), trgval)
@@ -55,6 +56,15 @@ test_that("set_keymeta", {
 
   # test again the datetime update but dont use cache
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval_new)
+
+  # # With use_cache = TRUE, on clean cache
+  # sto$flush_cache()
+  # expect_equal(numhash(sto$envir_metadata), 0)
+  # expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(NA), use_cache = TRUE), trg)
+  # # 'notes' are not overridden
+  # expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval)
+  # expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
+
 
   # check assertions
   expect_error(sto$set_keymeta("y",namespace = "ns2", notes = "nokey"),

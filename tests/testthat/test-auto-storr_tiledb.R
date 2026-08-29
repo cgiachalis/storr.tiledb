@@ -136,11 +136,59 @@ test_that("set_by_value", {
   st <- storr_tiledb(uri, init = TRUE)
 
   x <- runif(10)
-  h <- st$set_by_value(x)
+  expect_no_error(h <- st$set_by_value(x))
   expect_identical(h, st$hash_object(x))
   expect_identical(st$list_hashes(), h)
   expect_identical(st$list(), h)
   expect_equal(st$get(h), x)
+  expect_all_true(is.na(unlist(st$get_keymeta(h))))
+
+  # use_cache = FALSE ---
+
+  # add keymeta that we expect to BE removed when adding
+  # new keys with cache = FALSE
+  st$set_keymeta(h, notes = "temp-note")
+  expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
+
+  expect_no_error(h <- st$set_by_value(x, use_cache = FALSE))
+  expect_identical(h, st$hash_object(x))
+  expect_identical(st$list_hashes(), h)
+  expect_identical(st$list(), h)
+  expect_equal(st$get(h, use_cache = FALSE), x)
+  expect_all_true(is.na(unlist(st$get_keymeta(h))))
+})
+
+test_that("mset_by_value", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  st <- storr_tiledb(uri, init = TRUE)
+
+  x <- runif(10)
+  expect_no_error(h <- st$mset_by_value(x))
+  expect_identical(h, sapply(x, \(.x) st$hash_object(.x)))
+  expect_identical(st$list_hashes(), sort(h))
+  expect_identical(st$list(), sort(h))
+  expect_equal(unlist(st$mget(h)), x)
+
+ expect_all_true(is.na(unlist(st$mget_keymeta(h))))
+
+ # use_cache = FALSE ---
+
+ # add some keymeta that we expect to BE removed when adding
+ # new keys with cache = FALSE
+ st$set_keymeta(h[1], notes = "temp-note")
+ st$set_keymeta(h[2], notes = "temp-note")
+ expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
+
+ expect_no_error(h <- st$mset_by_value(x, use_cache = FALSE))
+ expect_identical(h, sapply(x, \(.x) st$hash_object(.x)))
+ expect_identical(st$list_hashes(), sort(h))
+ expect_identical(st$list(), sort(h))
+
+ expect_equal(unlist(st$mget(h, use_cache = FALSE)), x)
+
+ expect_all_true(is.na(unlist(st$mget_keymeta(h))))
+
 })
 
 
@@ -166,6 +214,9 @@ test_that("clear", {
   expect_equal(st$clear(NULL), c(TRUE, TRUE))
   expect_equal(st$clear(NULL), NULL)
   expect_equal(st$clear("no_such_namespace"), NULL)
+  expect_error(st$clear(list()),
+               "'namespace' should be a character vector, not list",
+               class = "error", fixed = TRUE)
 })
 
 
@@ -451,6 +502,7 @@ test_that("index - empty", {
 
   expect_silent(st$index_import(st$index_export()))
   expect_equal(st$list_hashes(), character(0))
+
 })
 
 
@@ -508,8 +560,8 @@ test_that("index multiple namespaces", {
 
   d1 <- st$index_export("n1")
   d2 <- st$index_export("n2")
-  expect_equal(d1,  subset(trg, namespace == "n1"), ignore_attr = TRUE)
-  expect_equal(d2,  subset(trg, namespace == "n2"), ignore_attr = TRUE)
+  expect_equal(d1, subset(trg, namespace == "n1"), ignore_attr = TRUE)
+  expect_equal(d2, subset(trg, namespace == "n2"), ignore_attr = TRUE)
 })
 
 
@@ -525,9 +577,101 @@ test_that("invalid import", {
     st$index_import(mtcars),
     "Missing required columns for index: 'namespace', 'key', 'hash'",
     fixed = TRUE)
+
   expect_error(st$index_import(d),
                "Missing 1 / 1 hashes - can't import")
   d$key <- factor(d$key)
+
   expect_error(st$index_import(d),
-               "Column not character: 'key'")
+               "Column not a character: 'key'")
+
+
+  # Test when 'expires_at' and 'notes'
+  d <- data.frame(namespace = "objects",
+                  key = "foo",
+                  hash = st$hash_object(1),
+                  stringsAsFactors = FALSE)
+  d$expires_at <- character(1)
+  d$notes <- character(1)
+
+  d_no_datetime <- data.table::as.data.table(d)
+  expect_error(st$index_import(d),
+               "Column not a datetime: 'expires_at'",
+               class = "error", fixed = TRUE)
+
+  d <- data.frame(namespace = "objects",
+                  key = "foo",
+                  hash = st$hash_object(1),
+                  stringsAsFactors = FALSE)
+  d$expires_at <- as.POSIXct(NA)
+  d$notes <- 1
+
+  d_no_datetime <- data.table::as.data.table(d)
+  expect_error(st$index_import(d),
+               "Column not a character: 'notes'",
+               class = "error", fixed = TRUE)
+
+  expect_error(st$index_import(d[, 1:4]),
+               "TileDB Storr index requires additional columns: 'expires_at', 'notes'",
+               class = "error", fixed = TRUE)
+
 })
+
+# $export and $import are exact replication as storr interface because
+# we import from storr namespace 'storr_copy'. This is done after we decided
+# not to inherit directly from storr class.
+#
+# Therefore, the test cases here are minimal as they've been tested in storr
+# package
+
+## Test cases from: https://github.com/richfitz/storr/blob/master/inst/spec/test-export.R
+
+test_that("export", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE)
+  # dr <- driver_tiledb(uri, init = TRUE)
+  # cache <- storr::storr(dr)
+  ## This could be any old thing, but for now we'll use an environment storr:
+  cache2 <- storr::storr(storr::driver_environment())
+
+  ## Need a function to generate a bunch of objects
+  cache$set("d", mtcars)
+  e <- cache$export(new.env())
+  expect_identical(ls(e), "d")
+  expect_equal(e[["d"]], mtcars)
+
+
+  expect_no_error(cache$export(cache2))
+  expect_identical(cache2$list(), "d")
+  expect_equal(cache2$get("d"), mtcars)
+  expect_no_error(cache$export(cache2, namespace = NULL))
+
+  e$dat <- iris
+  nms <- cache$import(e)
+  expect_identical(nms[, "name"], c("d", "dat"))
+  expect_equal(cache$get("dat"), iris)
+
+  env <- cache$export(new.env(parent = emptyenv()))
+  expect_identical(ls(e), c("d", "dat"))
+  expect_equal(env$d, mtcars)
+  expect_equal(env$dat, iris)
+})
+
+
+
+test_that("import", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE)
+
+  cache2 <- storr::storr(storr::driver_environment())
+  cache2$set("d", mtcars)
+
+
+  expect_no_error(cache$import(cache2))
+  expect_identical(cache$list(), "d")
+  expect_equal(cache$get("d"), mtcars)
+
+  expect_no_error(cache$import(cache2, namespace = NULL))
+})
+

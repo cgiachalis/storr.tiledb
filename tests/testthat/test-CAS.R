@@ -52,6 +52,12 @@ test_that("'CAS' basic methods", {
   expect_no_error(cas$hash_algorithm <- "blake3")
   expect_equal(cas$hash_algorithm, "blake3")
 
+  # Set new hash algo, cas is read mode
+  cas$reopen("READ")
+  expect_no_error(cas$hash_algorithm <- "sha1")
+  expect_equal(cas$hash_algorithm, "sha1")
+  expect_equal(cas$mode, "READ")
+
   expect_error(cas$size <- "immutable")
   expect_s3_class(cas$size, "vfs_size")
 
@@ -80,6 +86,36 @@ test_that("'CAS' basic methods", {
 
   })
 
+
+test_that("CAS with NULL 'hash_algo' config defaults to 'md5' on open", {
+
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+  ctx <- new_context()
+  cas <- CAS$new(uri,ctx = ctx)
+  cas$create(algo = "sha1")
+  cas$close()
+
+  # delete hash metadata from group (we could do it on CAS directly)
+  grp <- R6.tiledb::tdb_group(uri)
+  R6.tiledb::delete_metadata(grp, "hash_algo")
+  expect_null(R6.tiledb::metadata(grp, "hash_algo"))
+
+  # Hash algorithm not found, defaulting to 'md5' - open("READ")
+  expect_warning(cas$open("READ"), class = "warning")
+  expect_equal(cas$hash_algorithm, "md5")
+
+
+  R6.tiledb::delete_metadata(grp, "hash_algo")
+  expect_null(R6.tiledb::metadata(grp, "hash_algo"))
+  cas$close()
+
+  # Hash algorithm not found, defaulting to 'md5' - open("WRITE")
+  expect_warning(cas$open("WRITE"), class = "warning")
+  expect_equal(cas$hash_algorithm, "md5")
+
+
+})
+
 test_that("'CAS' with custom schemas", {
 
   uri <- file.path(withr::local_tempdir(), "test-cas")
@@ -95,7 +131,6 @@ test_that("'CAS' with custom schemas", {
 
   dr_custom$SchemaData$attr_value <- fl_list
 
-  # Invalid hash algo
   expect_no_error(cas$create(driver_schemas = dr_custom))
 
   # Check created driver
@@ -156,3 +191,14 @@ test_that("ctx is unique and not cached", {
 
 })
 
+
+test_that("'$dump()' and '$dir_tree()'", {
+
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+  ctx <- new_context()
+  cas <- CAS$new(uri,ctx = ctx)
+  cas$create()
+
+  expect_no_error(capture_output(cas$dump()))
+  expect_no_error(capture_output(cas$dir_tree()))
+})

@@ -131,7 +131,7 @@ StorrFragments <- R6::R6Class(
       } else {
 
         m <- mirai::mirai({
-
+          # nocov start
           cfg <- tiledb::tiledb_config(config_params)
           ctx <- R6.tiledb::new_context(cfg)
           ctxptr <- ctx@ptr
@@ -174,7 +174,7 @@ StorrFragments <- R6::R6Class(
                  })
 
           return(TRUE)
-
+          # nocov end
         }, uris = private$.storr_uris,
            config_params = as.vector(cfg),
            what = what,
@@ -253,7 +253,7 @@ StorrFragments <- R6::R6Class(
       } else {
 
         m <- mirai::mirai({
-
+          # nocov start
           cfg <- tiledb::tiledb_config(config_params)
 
           ctx <- R6.tiledb::new_context(cfg)
@@ -286,7 +286,7 @@ StorrFragments <- R6::R6Class(
                 })
 
           return(TRUE)
-
+          # nocov end
         }, uris = private$.storr_uris,
         config_params = as.vector(cfg),
         what = what,
