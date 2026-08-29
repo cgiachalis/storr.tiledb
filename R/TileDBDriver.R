@@ -46,7 +46,7 @@ TileDBDriver <- R6::R6Class(
 
       self$binary <- FALSE
       self$traits <- list(accept = "string",
-                          throw_missing = TRUE) # NB: throw_missing is not used
+                          throw_missing = TRUE) # NB: For 'storr' interface
 
       lockBinding("binary", self)
       lockBinding("traits", self)
