@@ -246,9 +246,8 @@ TimeTravelDriver <- R6::R6Class(
      status_nona <- status_nona$as_vector()
 
      if (status_nona) {
-       result <- lapply(arr[]$value$as_vector(),  {
-         function(.s) unserialize(charToRaw(.s)) }
-       )
+       result <- lapply(arr[]$value$as_vector(),
+                        function(.s) { unserialize(charToRaw(.s)) })
      } else {
        result <- vector("list", length(hash))
 
