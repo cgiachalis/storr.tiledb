@@ -53,10 +53,6 @@ A `TileDBDriver`, `R6` object.
 
 - [`TileDBDriver$mset_object()`](#method-TileDBDriver-mset_object)
 
-- [`TileDBDriver$set_keymeta()`](#method-TileDBDriver-set_keymeta)
-
-- [`TileDBDriver$mset_keymeta()`](#method-TileDBDriver-mset_keymeta)
-
 - [`TileDBDriver$get_keymeta()`](#method-TileDBDriver-get_keymeta)
 
 - [`TileDBDriver$mget_keymeta()`](#method-TileDBDriver-mget_keymeta)
@@ -375,74 +371,6 @@ Store serialised R objects.
 - `value`:
 
   A vector with serialised values.
-
-#### Returns
-
-`TRUE` for successful operation, invisibly.
-
-------------------------------------------------------------------------
-
-### `TileDBDriver$set_keymeta()`
-
-Set key-namespace metadata.
-
-Sets a pair of expiry date-time and notes.
-
-#### Usage
-
-    TileDBDriver$set_keymeta(key, namespace, expires_at, notes)
-
-#### Arguments
-
-- `key`:
-
-  A character vector of keys.
-
-- `namespace`:
-
-  A character vector of namespaces.
-
-- `expires_at`:
-
-  A vector of expiration datetimes.
-
-- `notes`:
-
-  A character vector of notes.
-
-#### Returns
-
-`TRUE` for successful operation, invisibly.
-
-------------------------------------------------------------------------
-
-### `TileDBDriver$mset_keymeta()`
-
-Set multiple key-namespace metadata.
-
-Sets a pair of expiry date-time and notes.
-
-#### Usage
-
-    TileDBDriver$mset_keymeta(key, namespace, expires_at, notes)
-
-#### Arguments
-
-- `key`:
-
-  A character vector of keys.
-
-- `namespace`:
-
-  A character vector of namespaces.
-
-- `expires_at`:
-
-  A vector of expiration datetimes.
-
-- `notes`:
-
-  A character vector of notes.
 
 #### Returns
 

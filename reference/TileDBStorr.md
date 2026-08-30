@@ -113,13 +113,13 @@ A `TileDBStorr`, `R6` object.
 
 - [`TileDBStorr$mupdate_async()`](#method-TileDBStorr-mupdate_async)
 
-- [`TileDBStorr$set_keymeta()`](#method-TileDBStorr-set_keymeta)
+- [`TileDBStorr$update_keymeta()`](#method-TileDBStorr-update_keymeta)
 
-- [`TileDBStorr$mset_keymeta()`](#method-TileDBStorr-mset_keymeta)
+- [`TileDBStorr$mupdate_keymeta()`](#method-TileDBStorr-mupdate_keymeta)
 
-- [`TileDBStorr$set_keymeta_async()`](#method-TileDBStorr-set_keymeta_async)
+- [`TileDBStorr$update_keymeta_async()`](#method-TileDBStorr-update_keymeta_async)
 
-- [`TileDBStorr$mset_keymeta_async()`](#method-TileDBStorr-mset_keymeta_async)
+- [`TileDBStorr$mupdate_keymeta_async()`](#method-TileDBStorr-mupdate_keymeta_async)
 
 - [`TileDBStorr$get_keymeta()`](#method-TileDBStorr-get_keymeta)
 
@@ -1190,14 +1190,14 @@ Invisibly, a named list with two elements:
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$set_keymeta()`
+### `TileDBStorr$update_keymeta()`
 
-Set key metadata.
+Update key metadata.
 
 #### Usage
 
-    TileDBStorr$set_keymeta(key, namespace = self$default_namespace, expires_at,
-      notes, use_cache = getOption("storr.tiledb.cache", TRUE))
+    TileDBStorr$update_keymeta(key, namespace = self$default_namespace,
+      expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))
 
 #### Arguments
 
@@ -1238,14 +1238,14 @@ character vector is returned.
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$mset_keymeta()`
+### `TileDBStorr$mupdate_keymeta()`
 
-Set multiple key metadata.
+Update multiple key metadata.
 
 #### Usage
 
-    TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
-      notes, use_cache = getOption("storr.tiledb.cache", TRUE))
+    TileDBStorr$mupdate_keymeta(key, namespace = self$default_namespace,
+      expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))
 
 #### Arguments
 
@@ -1290,13 +1290,13 @@ is set and a zero length character vector is returned.
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$set_keymeta_async()`
+### `TileDBStorr$update_keymeta_async()`
 
-Set key metadata asynchronously.
+Update key metadata asynchronously.
 
 #### Usage
 
-    TileDBStorr$set_keymeta_async(key, namespace = self$default_namespace,
+    TileDBStorr$update_keymeta_async(key, namespace = self$default_namespace,
       expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
       cfg = NULL)
 
@@ -1350,13 +1350,13 @@ is set and a zero length character vector is returned.
 
 ------------------------------------------------------------------------
 
-### `TileDBStorr$mset_keymeta_async()`
+### `TileDBStorr$mupdate_keymeta_async()`
 
-Set multiple key metadata.
+Update multiple key metadata asynchronously.
 
 #### Usage
 
-    TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
+    TileDBStorr$mupdate_keymeta_async(key, namespace = self$default_namespace,
       expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
       cfg = NULL)
 

@@ -224,9 +224,9 @@ For complete definitions, see **Methods** section in
 
 **Metadata Operations**
 
-- **`set_keymeta()`** - Set metadata (expires_at, notes) for a key
+- **`update_keymeta()`** - Set metadata (expires_at, notes) for a key
 
-- **`mset_keymeta()`** - Set metadata for multiple keys
+- **`mupdate_keymeta()`** - Set metadata for multiple keys
 
 - **`get_keymeta()`** - Retrieve metadata for a key
 
@@ -262,9 +262,9 @@ For complete definitions, see **Methods** section in
 - **`mupdate_async()`** - Update multiple key-value pairs and retain
   key-metadata, asynchronously
 
-- **`set_keymeta_async()`** - Set metadata, asynchronously
+- **`update_keymeta_async()`** - Set metadata, asynchronously
 
-- **`mset_keymeta_async()`** - Set multiple metadata, asynchronously
+- **`mupdate_keymeta_async()`** - Set multiple metadata, asynchronously
 
 - **`clear_keymeta_async()`** - Clear metadata, asynchronously
 
