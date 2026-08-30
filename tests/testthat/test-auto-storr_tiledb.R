@@ -147,7 +147,7 @@ test_that("set_by_value", {
 
   # add keymeta that we expect to BE removed when adding
   # new keys with cache = FALSE
-  st$set_keymeta(h, notes = "temp-note")
+  st$update_keymeta(h, notes = "temp-note")
   expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
 
   expect_no_error(h <- st$set_by_value(x, use_cache = FALSE))
@@ -174,10 +174,10 @@ test_that("mset_by_value", {
 
  # use_cache = FALSE ---
 
- # add some keymeta that we expect to BE removed when adding
+ # add some keymeta that we expect to be removed when adding
  # new keys with cache = FALSE
- st$set_keymeta(h[1], notes = "temp-note")
- st$set_keymeta(h[2], notes = "temp-note")
+ st$update_keymeta(h[1], notes = "temp-note")
+ st$update_keymeta(h[2], notes = "temp-note")
  expect_false(all(is.na(unlist(st$mget_keymeta(h)))))
 
  expect_no_error(h <- st$mset_by_value(x, use_cache = FALSE))

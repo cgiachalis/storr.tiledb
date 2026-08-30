@@ -454,7 +454,7 @@ test_that("mset_by_value_async (cache = FALSE)", {
 })
 
 
-test_that("set_keymeta_async", {
+test_that("update_keymeta_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
@@ -462,9 +462,12 @@ test_that("set_keymeta_async", {
   # set a key with default metadata
   sto$set("x", 1)
 
+  # Passing NULL or missing has no effect
+  expect_equal(sto$update_keymeta_async("x"), character(0))
+
   # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
-  expect_no_error(m1 <- sto$set_keymeta_async("x", expires_at = trgval$expires_at,
+  expect_no_error(m1 <- sto$update_keymeta_async("x", expires_at = trgval$expires_at,
                                               notes = trgval$notes
   ))
 
@@ -479,48 +482,61 @@ test_that("set_keymeta_async", {
 
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
+  # Update only datetimes
+  expect_no_error(m2 <- sto$update_keymeta_async("x",
+                  expires_at = as.POSIXct(NA),
+                  use_cache = FALSE))
+
+  miall <- m2$mirai[]
+  expect_named(m2, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m2$mirai))
+  expect_equal(m1$keyns, c("x:objects"))
+
+  trgval <- list(expires_at = as.POSIXct(NA, tz = NULL), notes = "😀")
+  expect_equal(sto$get_keymeta("x"), trgval, ignore_attr = TRUE)
+
 
   # check assertions
-  expect_error(sto$set_keymeta_async("y", namespace = "ns2", notes = "nokey"),
+  expect_error(sto$update_keymeta_async("y", namespace = "ns2", notes = "nokey"),
                "key 'y' ('ns2') not found",
                fixed = TRUE,
                class = "KeyError")
 
 
-  expect_error(sto$set_keymeta_async(c("x", "y")),
+  expect_error(sto$update_keymeta_async(c("x", "y")),
                "'key' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", c("ns1", "ns2")),
+  expect_error(sto$update_keymeta_async("x", c("ns1", "ns2")),
                "'namespace' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
 
-  expect_error(sto$set_keymeta_async("x", expires_at = 1),
+  expect_error(sto$update_keymeta_async("x", expires_at = 1),
                "'expires_at' should be a date-time object, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
+  expect_error(sto$update_keymeta_async("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
                "'expires_at' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", notes = 1),
+  expect_error(sto$update_keymeta_async("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", notes = c("a", "v")),
+  expect_error(sto$update_keymeta_async("x", notes = c("a", "v")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
   })
 
 
-test_that("mset_keymeta_async", {
+test_that("mupdate_keymeta_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
@@ -530,11 +546,15 @@ test_that("mset_keymeta_async", {
 
   trg <- "x:objects"
 
+  # Passing NULL or missing has no effect
+  expect_equal(sto$mupdate_keymeta_async(c("x", "y")), character(0))
+
+
   # set keymeta (update both expires_at and notes)
   trgval <- list(list(expires_at = as.POSIXct(1), notes = "😀"),
                  list(expires_at = as.POSIXct(NA), notes = NA_character_))
 
-  expect_no_error(m1 <- sto$mset_keymeta_async(c("x", "y"),
+  expect_no_error(m1 <- sto$mupdate_keymeta_async(c("x", "y"),
                                               expires_at = c(as.POSIXct(1),
                                                              as.POSIXct(NA)),
                                               notes = c("😀", NA_character_)))
@@ -551,45 +571,90 @@ test_that("mset_keymeta_async", {
   expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trgval,
                ignore_attr = TRUE)
 
+  # Update only datetimes
+  expect_no_error(m2 <- sto$mupdate_keymeta_async(c("x", "y"),
+                                                  expires_at = c(as.POSIXct(NA),
+                                                                 as.POSIXct(1)), use_cache = FALSE))
+
+  miall <- m2$mirai[]
+  expect_named(m2, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m2$mirai))
+  expect_equal(m2$keyns, c("x:objects", "y:objects"))
+
+  trgval <- list(list(expires_at = as.POSIXct(NA), notes = "😀"),
+                 list(expires_at = as.POSIXct(1), notes = NA_character_))
+  expect_equal(sto$mget_keymeta(c("x", "y")), trgval, ignore_attr = TRUE)
 
   # check assertions
-  expect_error(sto$mset_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
+  expect_error(sto$mupdate_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
                "key 'v' ('objects') not found",
                fixed = TRUE,
                class = "KeyError")
 
 
   # test key-namespace not found
-  expect_error(sto$mset_keymeta_async(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
+  expect_error(sto$mupdate_keymeta_async(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
                "key 'x1,v' ('obj1,obj2') not found",
                fixed = TRUE,
                class = "error")
 
   # check key-namespace for incompatibility
-  expect_error(sto$mset_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
+  expect_error(sto$mupdate_keymeta_async(c("x", "y", "z"), namespace = c("objects", "objects")),
                "Incompatible lengths for key and namespace",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", notes = 1),
+  expect_error(sto$mupdate_keymeta_async("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", notes = c("a", "b")),
+  expect_error(sto$mupdate_keymeta_async("x", notes = c("a", "b")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", expires_at = "a"),
+  expect_error(sto$mupdate_keymeta_async("x", expires_at = "a"),
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", expires_at = rep(as.POSIXct(NA), 3)),
+  expect_error(sto$mupdate_keymeta_async("x", expires_at = rep(as.POSIXct(NA), 3)),
                "'expires_at' must have 1 elements (recieved 3)",
                fixed = TRUE,
                class = "error")
+
+})
+
+test_that("clear_keymeta_async", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
+
+  sto$mset(key = c("x", "y", "z"),
+           list(1, 2, 3),
+           namespace = c("ns1", "ns2", "ns2"),
+           notes =  c("xnote", "ynote", "znote"),
+           expires_at = rep(Sys.time(), 3))
+
+
+  # Clear single value ---
+  expect_no_error(xres <-sto$clear_keymeta_async("x", "ns1"))
+  expect_equal(xres$keyns, "x:ns1")
+
+  trg <- list(expires_at = structure(NA_real_, class = c("POSIXct", "POSIXt"
+  ), tzone = ""), notes = NA_character_)
+
+  xres$mirai[] # block until resolves
+  expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
+
+  # Clear in bulk ---
+  expect_no_error(xres <-sto$clear_keymeta_async(c("y", "z"), c("ns2", "ns2")))
+  expect_equal(xres$keyns, c("y:ns2", "z:ns2"))
+
+  xres$mirai[] # block until resolves
+  expect_equal(sto$mget_keymeta(c("y", "z"), c("ns2", "ns2"), use_cache = FALSE),
+               list(trg, trg), ignore_attr = TRUE)
 
 })
 

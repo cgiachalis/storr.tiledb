@@ -80,10 +80,10 @@ usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
     \item \href{#method-TileDBStorr-mupdate}{\code{TileDBStorr$mupdate()}}
     \item \href{#method-TileDBStorr-update_async}{\code{TileDBStorr$update_async()}}
     \item \href{#method-TileDBStorr-mupdate_async}{\code{TileDBStorr$mupdate_async()}}
-    \item \href{#method-TileDBStorr-set_keymeta}{\code{TileDBStorr$set_keymeta()}}
-    \item \href{#method-TileDBStorr-mset_keymeta}{\code{TileDBStorr$mset_keymeta()}}
-    \item \href{#method-TileDBStorr-set_keymeta_async}{\code{TileDBStorr$set_keymeta_async()}}
-    \item \href{#method-TileDBStorr-mset_keymeta_async}{\code{TileDBStorr$mset_keymeta_async()}}
+    \item \href{#method-TileDBStorr-update_keymeta}{\code{TileDBStorr$update_keymeta()}}
+    \item \href{#method-TileDBStorr-mupdate_keymeta}{\code{TileDBStorr$mupdate_keymeta()}}
+    \item \href{#method-TileDBStorr-update_keymeta_async}{\code{TileDBStorr$update_keymeta_async()}}
+    \item \href{#method-TileDBStorr-mupdate_keymeta_async}{\code{TileDBStorr$mupdate_keymeta_async()}}
     \item \href{#method-TileDBStorr-get_keymeta}{\code{TileDBStorr$get_keymeta()}}
     \item \href{#method-TileDBStorr-mget_keymeta}{\code{TileDBStorr$mget_keymeta()}}
     \item \href{#method-TileDBStorr-get_keymeta_expires_at}{\code{TileDBStorr$get_keymeta_expires_at()}}
@@ -892,14 +892,14 @@ logical \code{TRUE} if an evaluation is successful.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-set_keymeta"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta}{}}}
-\subsection{\code{TileDBStorr$set_keymeta()}}{
-  Set key metadata.
+\if{html}{\out{<a id="method-TileDBStorr-update_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-update_keymeta}{}}}
+\subsection{\code{TileDBStorr$update_keymeta()}}{
+  Update key metadata.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$set_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \preformatted{TileDBStorr$update_keymeta(key, namespace = self$default_namespace,
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -930,14 +930,14 @@ a zero length character vector is returned.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-mset_keymeta"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta}{}}}
-\subsection{\code{TileDBStorr$mset_keymeta()}}{
-  Set multiple key metadata.
+\if{html}{\out{<a id="method-TileDBStorr-mupdate_keymeta"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mupdate_keymeta}{}}}
+\subsection{\code{TileDBStorr$mupdate_keymeta()}}{
+  Update multiple key metadata.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$mset_keymeta(key, namespace = self$default_namespace, expires_at,
-  notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
+    \preformatted{TileDBStorr$mupdate_keymeta(key, namespace = self$default_namespace,
+  expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE))}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -971,13 +971,13 @@ then nothing is set and a zero length character vector is returned.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-set_keymeta_async"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-set_keymeta_async}{}}}
-\subsection{\code{TileDBStorr$set_keymeta_async()}}{
-  Set key metadata asynchronously.
+\if{html}{\out{<a id="method-TileDBStorr-update_keymeta_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-update_keymeta_async}{}}}
+\subsection{\code{TileDBStorr$update_keymeta_async()}}{
+  Update key metadata asynchronously.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$set_keymeta_async(key, namespace = self$default_namespace,
+    \preformatted{TileDBStorr$update_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
   cfg = NULL)}
     \if{html}{\out{</div>}}
@@ -1016,13 +1016,13 @@ then nothing is set and a zero length character vector is returned.
 }
 
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBStorr-mset_keymeta_async"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBStorr-mset_keymeta_async}{}}}
-\subsection{\code{TileDBStorr$mset_keymeta_async()}}{
-  Set multiple key metadata.
+\if{html}{\out{<a id="method-TileDBStorr-mupdate_keymeta_async"></a>}}
+\if{latex}{\out{\hypertarget{method-TileDBStorr-mupdate_keymeta_async}{}}}
+\subsection{\code{TileDBStorr$mupdate_keymeta_async()}}{
+  Update multiple key metadata asynchronously.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBStorr$mset_keymeta_async(key, namespace = self$default_namespace,
+    \preformatted{TileDBStorr$mupdate_keymeta_async(key, namespace = self$default_namespace,
   expires_at, notes, use_cache = getOption("storr.tiledb.cache", TRUE),
   cfg = NULL)}
     \if{html}{\out{</div>}}
