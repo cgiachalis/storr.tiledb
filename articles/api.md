@@ -70,7 +70,8 @@ sto$list_namespaces()
 
 # list hashes
 sto$list_hashes()
-# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
+# [1] "c184c6034d956360b5bb682fcd4b6cb8"
+# [2] "fd441562b6f1ec33e42a4369820cb0ae"
 
 # del
 sto$del("a")
@@ -82,7 +83,8 @@ sto$exists("a")
 sto$list_namespaces()
 # [1] "ns1"
 sto$list_hashes()
-# [1] "c184c6034d956360b5bb682fcd4b6cb8" "fd441562b6f1ec33e42a4369820cb0ae"
+# [1] "c184c6034d956360b5bb682fcd4b6cb8"
+# [2] "fd441562b6f1ec33e42a4369820cb0ae"
 
 # Delete unused hash
 sto$gc()
@@ -96,7 +98,7 @@ sto$list("ns1")
 # character(0)
 ```
 
-### 2. get_keymeta, set_keymeta
+### 2. get_keymeta, update_keymeta
 
 With a key-namespace pair, you can attached notes and expiration
 metadata. Worth noting that setting key-metadata will update/replace
@@ -114,21 +116,22 @@ sto$set("aa", 1, expires_at = Sys.time() + 60 * 5,
 sto$set("bb", 1, expires_at = Sys.time() + 1)
 ```
 
-Or update/retrieve with `$set_keymeta()` and `$get_keymeta()` methods:
+Or update/retrieve with `$update_keymeta()` and `$get_keymeta()`
+methods:
 
 ``` r
 
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 # $expires_at
-# [1] "2026-08-18 13:07:01 EEST"
+# [1] "2026-08-30 08:54:03 EEST"
 # 
 # $notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # [[1]]
 # [[1]]$expires_at
-# [1] "2026-08-18 13:07:01 EEST"
+# [1] "2026-08-30 08:54:03 EEST"
 # 
 # [[1]]$notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
@@ -136,16 +139,16 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # 
 # [[2]]
 # [[2]]$expires_at
-# [1] "2026-08-18 13:02:02 EEST"
+# [1] "2026-08-30 08:49:04 EEST"
 # 
 # [[2]]$notes
 # [1] NA
 
 # Update key metadata
-sto$set_keymeta("bb", notes = "Updated Note")
+sto$update_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
 # $expires_at
-# [1] "2026-08-18 13:02:02 EEST"
+# [1] "2026-08-30 08:49:04 EEST"
 # 
 # $notes
 # [1] "Updated Note"
@@ -156,7 +159,7 @@ Updating ‘expires_at’ metadata for key ‘aa’ will not overwrite ‘notes�
 ``` r
 
 # Update 'expires_at'  
-sto$set_keymeta("aa", expires_at = as.POSIXct(NA))
+sto$update_keymeta("aa", expires_at = as.POSIXct(NA))
 
 # Retains 'notes' value
 sto$get_keymeta("aa")
@@ -184,7 +187,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 # [1] NA
 # 
 # [[2]]
-# [1] "2026-08-18 13:02:02 EEST"
+# [1] "2026-08-30 08:49:04 EEST"
 ```
 
 **Expiration management**
@@ -195,7 +198,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-18 13:02:02
+# 1:   objects     bb 2026-08-30 08:49:04
 
 Sys.sleep(1)
 
@@ -203,7 +206,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-18 13:02:02
+# 1:   objects     bb 2026-08-30 08:49:04
 
 # Remove expired keys
 sto$clear_expired_keys()

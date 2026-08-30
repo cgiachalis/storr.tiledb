@@ -67,7 +67,8 @@ We saved three keys, but only two `R` objects. Check for deduplication:
 # 2 hashes for 3 keys
 hashes <- sto$list_hashes()
 hashes
-# [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"
+# [1] "38e42db36c4414f7bbc19d750f71a721"
+# [2] "c184c6034d956360b5bb682fcd4b6cb8"
 
 # get R object for this hash
 sto$get_value(hashes[1])
@@ -87,7 +88,8 @@ sto$get("b")
 
 # NB: none object has been deleted, only the index
 sto$list_hashes()
-# [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"
+# [1] "38e42db36c4414f7bbc19d750f71a721"
+# [2] "c184c6034d956360b5bb682fcd4b6cb8"
 
 # Now, delete the unused hashes
 sto$gc()
@@ -112,7 +114,7 @@ sto$set("key2", 10, expires_at = as.POSIXct(Sys.time() + 100))
 # Retrieve 'notes' and 'expiration'
 sto$get_keymeta("key1")
 # $expires_at
-# [1] "2026-05-23 09:46:16 EEST"
+# [1] "2026-08-30 08:48:49 EEST"
 # 
 # $notes
 # [1] "my notes"
@@ -126,8 +128,8 @@ sto$get_keymeta("key1")
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-05-23 09:46:16
-# 2:   objects   key2 2026-05-23 09:47:55
+# 1:   objects   key1 2026-08-30 08:48:49
+# 2:   objects   key2 2026-08-30 08:50:29
 
 Sys.sleep(2)
 
@@ -137,9 +139,10 @@ sto$has_expired_keys()
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key1 2026-05-23 09:46:16
+# 1:   objects   key1 2026-08-30 08:48:49
 
 sto$clear_expired_keys()
+# [1] TRUE
 
 # Also, you can clear expired keys with gc()
 sto$gc(clear_expired = TRUE)
@@ -153,10 +156,10 @@ sto$expired_keys()
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects   key2 2026-05-23 09:47:55
+# 1:   objects   key2 2026-08-30 08:50:29
 
 # Reset expiration timestamp
-sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
+sto$update_keymeta("key2", expires_at = as.POSIXct(NA))
 
 # No key with expiration time-stamp
 sto$keys_with_expiration()
@@ -174,7 +177,7 @@ framework.
 # Set asynchronously (non-blocking)
 sto$set_async("key3", 2, namespace = "_session")
 sto$set_async("key1", 1, namespace = "ns1")
-sto$set_keymeta_async("key2", notes = "key1-note")
+sto$update_keymeta_async("key2", notes = "key1-note")
 
 Sys.sleep(2)
 

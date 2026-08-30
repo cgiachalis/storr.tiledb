@@ -67,7 +67,7 @@
 
       <h1>Quick Reference</h1>
             
-            <h4 data-toc-skip class="date">2026-05-23</h4>
+            <h4 data-toc-skip class="date">2026-08-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/storr-tiledb.Rmd" class="external-link"><code>vignettes/storr-tiledb.Rmd</code></a></small>
       <div class="d-none name"><code>storr-tiledb.Rmd</code></div>
@@ -136,7 +136,8 @@ deduplication:</p>
 <code class="sourceCode R"><span><span class="co"># 2 hashes for 3 keys</span></span>
 <span><span class="va">hashes</span> <span class="op">&lt;-</span> <span class="va">sto</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">hashes</span></span>
-<span><span class="co"># [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"</span></span>
+<span><span class="co"># [1] "38e42db36c4414f7bbc19d750f71a721"</span></span>
+<span><span class="co"># [2] "c184c6034d956360b5bb682fcd4b6cb8"</span></span>
 <span></span>
 <span><span class="co"># get R object for this hash</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_value</span><span class="op">(</span><span class="va">hashes</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
@@ -155,7 +156,8 @@ deduplication:</p>
 <span></span>
 <span><span class="co"># NB: none object has been deleted, only the index</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">list_hashes</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># [1] "38e42db36c4414f7bbc19d750f71a721" "c184c6034d956360b5bb682fcd4b6cb8"</span></span>
+<span><span class="co"># [1] "38e42db36c4414f7bbc19d750f71a721"</span></span>
+<span><span class="co"># [2] "c184c6034d956360b5bb682fcd4b6cb8"</span></span>
 <span></span>
 <span><span class="co"># Now, delete the unused hashes</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">gc</span><span class="op">(</span><span class="op">)</span></span>
@@ -178,7 +180,7 @@ timestamps to key-namespace pairs.</p>
 <span><span class="co"># Retrieve 'notes' and 'expiration'</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">get_keymeta</span><span class="op">(</span><span class="st">"key1"</span><span class="op">)</span></span>
 <span><span class="co"># $expires_at</span></span>
-<span><span class="co"># [1] "2026-05-23 09:46:16 EEST"</span></span>
+<span><span class="co"># [1] "2026-08-30 08:48:49 EEST"</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># $notes</span></span>
 <span><span class="co"># [1] "my notes"</span></span></code></pre></div>
@@ -190,8 +192,8 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key1 2026-05-23 09:46:16</span></span>
-<span><span class="co"># 2:   objects   key2 2026-05-23 09:47:55</span></span>
+<span><span class="co"># 1:   objects   key1 2026-08-30 08:48:49</span></span>
+<span><span class="co"># 2:   objects   key2 2026-08-30 08:50:29</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
@@ -201,9 +203,10 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">expired_keys</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key1 2026-05-23 09:46:16</span></span>
+<span><span class="co"># 1:   objects   key1 2026-08-30 08:48:49</span></span>
 <span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">clear_expired_keys</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># [1] TRUE</span></span>
 <span></span>
 <span><span class="co"># Also, you can clear expired keys with gc()</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">gc</span><span class="op">(</span>clear_expired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -217,10 +220,10 @@ timestamps to key-namespace pairs.</p>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#    namespace    key          expires_at</span></span>
 <span><span class="co">#       &lt;char&gt; &lt;char&gt;              &lt;POSc&gt;</span></span>
-<span><span class="co"># 1:   objects   key2 2026-05-23 09:47:55</span></span>
+<span><span class="co"># 1:   objects   key2 2026-08-30 08:50:29</span></span>
 <span></span>
 <span><span class="co"># Reset expiration timestamp</span></span>
-<span><span class="va">sto</span><span class="op">$</span><span class="fu">set_keymeta</span><span class="op">(</span><span class="st">"key2"</span>, expires_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sto</span><span class="op">$</span><span class="fu">update_keymeta</span><span class="op">(</span><span class="st">"key2"</span>, expires_at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># No key with expiration time-stamp</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">keys_with_expiration</span><span class="op">(</span><span class="op">)</span></span>
@@ -236,7 +239,7 @@ in parallel via <code>mirai</code> framework.</p>
 <code class="sourceCode R"><span><span class="co"># Set asynchronously (non-blocking)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_async</span><span class="op">(</span><span class="st">"key3"</span>, <span class="fl">2</span>, namespace <span class="op">=</span> <span class="st">"_session"</span><span class="op">)</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set_async</span><span class="op">(</span><span class="st">"key1"</span>, <span class="fl">1</span>, namespace <span class="op">=</span> <span class="st">"ns1"</span><span class="op">)</span></span>
-<span><span class="va">sto</span><span class="op">$</span><span class="fu">set_keymeta_async</span><span class="op">(</span><span class="st">"key2"</span>, notes <span class="op">=</span> <span class="st">"key1-note"</span><span class="op">)</span></span>
+<span><span class="va">sto</span><span class="op">$</span><span class="fu">update_keymeta_async</span><span class="op">(</span><span class="st">"key2"</span>, notes <span class="op">=</span> <span class="st">"key1-note"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
