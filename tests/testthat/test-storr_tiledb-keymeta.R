@@ -3,7 +3,7 @@ tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
 on.exit(tiledb::set_allocation_size_preference(oldsize))
 
 
-test_that("set_keymeta", {
+test_that("update_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE)
@@ -15,22 +15,23 @@ test_that("set_keymeta", {
 
   # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
-  expect_equal(sto$set_keymeta("x",
-                               expires_at = trgval$expires_at, notes = trgval$notes), trg)
+  expect_equal(sto$update_keymeta("x",
+                               expires_at = trgval$expires_at,
+                               notes = trgval$notes), trg)
 
   # test that were saved
   expect_equal(sto$get_keymeta("x"), trgval)
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
   # update note only
-  expect_equal(sto$set_keymeta("x", notes = intToUtf8("0x1f608")), trg)
+  expect_equal(sto$update_keymeta("x", notes = intToUtf8("0x1f608")), trg)
 
   # test note update
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😈")
   expect_equal(sto$get_keymeta("x"), trgval)
 
   # update datetime only
-  expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(NA)), trg)
+  expect_equal(sto$update_keymeta("x", expires_at = as.POSIXct(NA)), trg)
 
   trgval <- list(expires_at = as.POSIXct(NA), notes = "😈")
 
@@ -39,10 +40,10 @@ test_that("set_keymeta", {
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
   # nothing to update, return empty character()
-  expect_equal(sto$set_keymeta("x"), character())
+  expect_equal(sto$update_keymeta("x"), character())
 
   # test we don't copy to cache
-  expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), trg)
+  expect_equal(sto$update_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), trg)
   trgval_new <- list(expires_at = as.POSIXct(100, tz = NULL), notes = "😈")
 
   # test cache is empty for this pair (use_cache = FASLE always removes key)
@@ -57,49 +58,49 @@ test_that("set_keymeta", {
   # test again the datetime update but dont use cache
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval_new)
 
-  # # With use_cache = TRUE, on clean cache
-  # sto$flush_cache()
-  # expect_equal(numhash(sto$envir_metadata), 0)
-  # expect_equal(sto$set_keymeta("x", expires_at = as.POSIXct(NA), use_cache = TRUE), trg)
-  # # 'notes' are not overridden
-  # expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval)
-  # expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
+  # With use_cache = TRUE, on clean cache
+  sto$flush_cache()
+  expect_equal(numhash(sto$envir_metadata), 0)
+  expect_equal(sto$update_keymeta("x", expires_at = as.POSIXct(NA), use_cache = TRUE), trg)
+  # 'notes' are not overridden
+  expect_equal(sto$get_keymeta("x", use_cache = TRUE), trgval)
+  expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
 
 
   # check assertions
-  expect_error(sto$set_keymeta("y",namespace = "ns2", notes = "nokey"),
+  expect_error(sto$update_keymeta("y",namespace = "ns2", notes = "nokey"),
                "key 'y' ('ns2') not found",
                fixed = TRUE,
                class = "KeyError")
 
 
-  expect_error(sto$set_keymeta(c("x", "y")),
+  expect_error(sto$update_keymeta(c("x", "y")),
                "'key' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta("x", c("ns1", "ns2")),
+  expect_error(sto$update_keymeta("x", c("ns1", "ns2")),
                "'namespace' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
 
-  expect_error(sto$set_keymeta("x", expires_at = 1),
+  expect_error(sto$update_keymeta("x", expires_at = 1),
                "'expires_at' should be a date-time object, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
+  expect_error(sto$update_keymeta("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
                "'expires_at' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta("x", notes = 1),
+  expect_error(sto$update_keymeta("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta("x", notes = c("a", "v")),
+  expect_error(sto$update_keymeta("x", notes = c("a", "v")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
@@ -304,7 +305,7 @@ test_that("mget_keymeta_expires_at and mget_keymeta_notes", {
 
 })
 
-test_that("mset_keymeta", {
+test_that("mupdate_keymeta", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE)
@@ -316,10 +317,10 @@ test_that("mset_keymeta", {
   sto$mset(c("x", "y", "z"), c(1, 2, 3))
 
   # now set only notes
-  expect_equal(sto$mset_keymeta(c("x", "y", "z"),
-                                notes =  c("xnote", "ynote", "znote")),
-                                km)
-
+  expect_equal(sto$mupdate_keymeta(c("x", "y", "z"), notes =  c("xnote", "ynote", "znote")), km)
+  # check metadata cache is filled up
+  expect_equal(numhash(sto$envir_metadata), 3)
+  expect_setequal(hashkeys(sto$envir_metadata), km)
 
   # test that notes were stored
   notes <- c("xnote", "ynote", "znote")
@@ -328,14 +329,14 @@ test_that("mset_keymeta", {
     trg[[i]] <- list(expires_at = as.POSIXct(NA), notes = notes[i])
   }
 
-  expect_equal(sto$mget_keymeta(keys), trg)
+  expect_equal(sto$mget_keymeta(keys), trg, ignore_attr = TRUE)
 
   # note: use ignore_attr return val includes tzone attr with value ''
   expect_equal(sto$mget_keymeta(keys, use_cache = FALSE), trg, ignore_attr = TRUE)
 
-  # continue with settling expiries only
+  # continue with setting expires_at only
   expires_at <-  as.POSIXct(1:3, tz = NULL)
-  expect_equal(sto$mset_keymeta(keys, expires_at = expires_at), km)
+  expect_equal(sto$mupdate_keymeta(keys, expires_at = expires_at), km)
 
   # test datetimes were stored
   for(i in seq_along(expires_at)) {
@@ -347,7 +348,7 @@ test_that("mset_keymeta", {
   # check cache --
 
   # test we don't copy to cache
-  expect_equal(sto$mset_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), km[1])
+  expect_equal(sto$mupdate_keymeta("x", expires_at = as.POSIXct(100), use_cache = FALSE), km[1])
   trgval_new <- list(expires_at = as.POSIXct(100, tz = NULL), notes = "xnote")
 
   # test cache is empty for this pair (use_cache = FASLE always removes keys)
@@ -365,7 +366,7 @@ test_that("mset_keymeta", {
   # --
 
   # reset x, y to default keymeta
-  expect_equal(sto$mset_keymeta(c("x", "z"), expires_at = rep(as.POSIXct(NA, tz = NULL), 2),
+  expect_equal(sto$mupdate_keymeta(c("x", "z"), expires_at = rep(as.POSIXct(NA, tz = NULL), 2),
                                 notes = c(NA_character_, NA_character_)),
                c("x:objects", "z:objects"))
 
@@ -381,33 +382,33 @@ test_that("mset_keymeta", {
 
 
   # nothing to set
-  expect_equal(sto$mset_keymeta(c("x", "y")), character())
+  expect_equal(sto$mupdate_keymeta(c("x", "y")), character())
 
   # test key-namespace not found
-  expect_error(sto$mset_keymeta(c("x", "v"), notes = c(NA_character_, NA_character_)),
+  expect_error(sto$mupdate_keymeta(c("x", "v"), notes = c(NA_character_, NA_character_)),
                "key 'v' ('objects') not found",
                fixed = TRUE,
                class = "error")
 
   # test key-namespace not found
-  expect_error(sto$mset_keymeta(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
+  expect_error(sto$mupdate_keymeta(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
                "key 'x1,v' ('obj1,obj2') not found",
                fixed = TRUE,
                class = "error")
 
   # check key-namespace for incompatibility
-  expect_error(sto$mset_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
+  expect_error(sto$mupdate_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
                "Incompatible lengths for key and namespace",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta("x", notes = 1),
+  expect_error(sto$mupdate_keymeta("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
 
-  expect_error(sto$mset_keymeta("x", expires_at = "a"),
+  expect_error(sto$mupdate_keymeta("x", expires_at = "a"),
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
@@ -437,7 +438,7 @@ test_that("clear_keymeta", {
   expect_equal(sto$get_keymeta("x", "ns1", use_cache = FALSE), trg)
 
   # Clear in bulk ---
-  expect_no_error(xres <-sto$clear_keymeta(c("y", "z"), c("ns2", "ns2")))
+  expect_no_error(xres <- sto$clear_keymeta(c("y", "z"), c("ns2", "ns2")))
   expect_equal(xres, c("y:ns2", "z:ns2"))
 
 

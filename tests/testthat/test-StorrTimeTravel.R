@@ -174,7 +174,7 @@ test_that("'get_keymeta'/'mget_keymeta' and friends with time-travel", {
   t0 <- Sys.time()
   sto$set("a", 1, notes = "a1")
   t1 <- Sys.time()
-  sto$set_keymeta("a", notes = "a2", expires_at = as.POSIXct(t1))
+  sto$update_keymeta("a", notes = "a2", expires_at = as.POSIXct(t1))
   sto$set("b", 3, namespace = "ns2", notes = "b3")
   t2 <- Sys.time()
 
@@ -451,7 +451,7 @@ test_that("'get_keymeta_expires_at/notes' and 'mget_keymeta_expires_at/notes' wi
   t0 <- Sys.time()
   sto$set("a", 1, notes = "a1")
   t1 <- Sys.time()
-  sto$set_keymeta("a", notes = "a2", expires_at = as.POSIXct(t1))
+  sto$update_keymeta("a", notes = "a2", expires_at = as.POSIXct(t1))
   sto$set("b", 3, namespace = "ns2", notes = "b3")
   t2 <- Sys.time()
 

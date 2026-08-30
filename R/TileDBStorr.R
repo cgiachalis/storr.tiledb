@@ -1707,7 +1707,7 @@ TileDBStorr <- R6::R6Class(
 
     },
 
-    #' @description Set key metadata.
+    #' @description Update key metadata.
     #'
     #' @details
     #' `r sto_keymeta_note`
@@ -1723,11 +1723,11 @@ TileDBStorr <- R6::R6Class(
     #' `"expires_at"` and `"notes"` are missing, then nothing is set and
     #'  a zero length character vector is returned.
     #'
-    set_keymeta = function(key,
-                           namespace = self$default_namespace,
-                           expires_at,
-                           notes,
-                           use_cache = getOption("storr.tiledb.cache", TRUE)) {
+    update_keymeta = function(key,
+                              namespace = self$default_namespace,
+                              expires_at,
+                              notes,
+                              use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       private$check_input(key, n = 1, type = "character")
       private$check_input(namespace, n = 1, type = "character")
@@ -1748,26 +1748,30 @@ TileDBStorr <- R6::R6Class(
         return(invisible(character()))
       }
 
-      private$DRIVER$set_keymeta(key, namespace, expires_at, notes)
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      if (nrow(dat) == 0) {
+        stop(KeyError(key, namespace))
+      }
+
+      if (!is.null(notes)) {
+        dat$notes <- notes
+      }
+
+      if (!is.null(expires_at)) {
+        dat$expires_at <- expires_at
+      }
+
+      arr <- private$DRIVER$members$tbl_keys$object$tiledb_array()
+      arr[] <- dat
+
+      val <- list(expires_at = dat$expires_at,
+                  notes = dat$notes)
 
       km <- paste(key, namespace, sep = ":")
 
       if (use_cache) {
-
-        # Update what has changed
-        val <- gethash(self$envir_metadata, km)
-
-        if (is.null(val)) {
-          val <- list(expires_at = as.POSIXct(NA),
-                      notes = NA_character_)
-        }
-
-        if(!is.null(expires_at)) {
-          val[[1]] <- expires_at
-        }
-        if(!is.null(notes)) {
-          val[[2]] <- notes
-        }
 
         sethash(self$envir_metadata, km, val)
       } else {
@@ -1780,7 +1784,7 @@ TileDBStorr <- R6::R6Class(
       invisible(km)
     },
 
-    #' @description Set multiple key metadata.
+    #' @description Update multiple key metadata.
     #'
     #' @details
     #' `r sto_keymeta_note`
@@ -1798,11 +1802,11 @@ TileDBStorr <- R6::R6Class(
     #' invisibly. If both arguments `"expires_at"` and `"notes"` are missing,
     #' then nothing is set and a zero length character vector is returned.
     #'
-    mset_keymeta = function(key,
-                            namespace = self$default_namespace,
-                            expires_at,
-                            notes,
-                            use_cache = getOption("storr.tiledb.cache", TRUE)) {
+    mupdate_keymeta = function(key,
+                               namespace = self$default_namespace,
+                               expires_at,
+                               notes,
+                               use_cache = getOption("storr.tiledb.cache", TRUE)) {
 
       p <-  storr::join_key_namespace(key, namespace)
       n <- p$n
@@ -1823,43 +1827,54 @@ TileDBStorr <- R6::R6Class(
         return(invisible(character()))
       }
 
-      private$DRIVER$mset_keymeta(p$key, p$namespace, expires_at, notes)
+
+      dat <- private$DRIVER$filter_keys(key, namespace)
+
+      # Check for no hash in given key:namespace
+      data.table::setkeyv(dat, c("namespace", "key"))
+
+      dat <- dat[.(namespace, key), env = list(namespace = I(namespace),
+                                               key = I(key))][]
+      hash_isna <- is.na(dat[["hash"]])
+
+      if (any(hash_isna)) {
+        stop(KeyError(paste(dat$key[hash_isna], collapse = ","),
+                      paste(dat$namespace[hash_isna], collapse = ",")))
+      }
+
+      if (!is.null(notes)) {
+        dat[,notes := vals, env = list(vals = I(notes))]
+      }
+
+      if (!is.null(expires_at)) {
+        dat[,expires_at := vals, env = list(vals = I(expires_at))]
+      }
+
+      arr <- private$DRIVER$members$tbl_keys$object$tiledb_array()
+      arr[] <- dat
+
       km <- paste(p$key, p$namespace, sep = ":")
+      envir <- self$envir_metadata
 
       if (use_cache) {
 
-        lapply(seq_along(km), function(i) {
+        for (i in seq_along(km)) {
+            sethash(envir, km[i],list(expires_at = dat$expires_at[i],
+                                      notes = dat$notes[i]))
+        }
 
-          # Update what has changed
-          val <- gethash(self$envir_metadata, km[i])
-
-          if (is.null(val)) {
-            val <- list(expires_at = as.POSIXct(NA),
-                        notes = NA_character_)
-          }
-
-          if(!is.null(expires_at)) {
-            val[[1]] <- expires_at[i]
-          }
-          if(!is.null(notes)) {
-            val[[2]] <- notes[i]
-          }
-
-          sethash(self$envir_metadata, km[i], val)
-
-        })
       } else{
         # ensure cache for km pairs is removed.
-        # See comments in set_keymeta
+        # See comments in update_keymeta
         lapply(seq_along(km), function(i) {
-           remhash(self$envir_metadata, km[i])
+           remhash(envir, km[i])
         })
       }
 
       invisible(km)
     },
 
-    #' @description Set key metadata asynchronously.
+    #' @description Update key metadata asynchronously.
     #'
     #' @details
     #' `r sto_keymeta_note`
@@ -1880,12 +1895,12 @@ TileDBStorr <- R6::R6Class(
     #' If both arguments `"expires_at"` and `"notes"` are missing,
     #' then nothing is set and a zero length character vector is returned.
     #'
-    set_keymeta_async = function(key,
-                                 namespace = self$default_namespace,
-                                 expires_at,
-                                 notes,
-                                 use_cache = getOption("storr.tiledb.cache", TRUE),
-                                 cfg = NULL) {
+    update_keymeta_async = function(key,
+                                    namespace = self$default_namespace,
+                                    expires_at,
+                                    notes,
+                                    use_cache = getOption("storr.tiledb.cache", TRUE),
+                                    cfg = NULL) {
 
 
       private$check_input(key, n = 1, type = "character")
@@ -2344,19 +2359,19 @@ TileDBStorr <- R6::R6Class(
 
       if (n > 1) {
 
-        self$mset_keymeta(key,
-                          namespace = namespace,
-                          notes = rep(NA_character_, n),
-                          expires_at = rep(as.POSIXct(NA), n),
-                          use_cache = use_cache)
+        self$mupdate_keymeta(key,
+                            namespace = namespace,
+                            notes = rep(NA_character_, n),
+                            expires_at = rep(as.POSIXct(NA), n),
+                            use_cache = use_cache)
 
       } else {
 
-        self$set_keymeta(key,
-                         namespace = namespace,
-                         notes = NA_character_,
-                         expires_at = as.POSIXct(NA),
-                         use_cache = use_cache)
+        self$update_keymeta(key,
+                            namespace = namespace,
+                            notes = NA_character_,
+                            expires_at = as.POSIXct(NA),
+                            use_cache = use_cache)
       }
 
     },
