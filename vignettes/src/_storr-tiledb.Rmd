@@ -130,7 +130,7 @@ sto$expired_keys()
 sto$keys_with_expiration()
 
 # Reset expiration timestamp
-sto$set_keymeta("key2", expires_at = as.POSIXct(NA))
+sto$update_keymeta("key2", expires_at = as.POSIXct(NA))
 
 # No key with expiration time-stamp
 sto$keys_with_expiration()
@@ -145,7 +145,7 @@ via `mirai` framework.
 # Set asynchronously (non-blocking)
 sto$set_async("key3", 2, namespace = "_session")
 sto$set_async("key1", 1, namespace = "ns1")
-sto$set_keymeta_async("key2", notes = "key1-note")
+sto$update_keymeta_async("key2", notes = "key1-note")
 
 Sys.sleep(2)
 
