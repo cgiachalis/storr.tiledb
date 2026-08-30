@@ -454,7 +454,7 @@ test_that("mset_by_value_async (cache = FALSE)", {
 })
 
 
-test_that("set_keymeta_async", {
+test_that("update_keymeta_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
@@ -464,7 +464,7 @@ test_that("set_keymeta_async", {
 
   # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
-  expect_no_error(m1 <- sto$set_keymeta_async("x", expires_at = trgval$expires_at,
+  expect_no_error(m1 <- sto$update_keymeta_async("x", expires_at = trgval$expires_at,
                                               notes = trgval$notes
   ))
 
@@ -481,46 +481,46 @@ test_that("set_keymeta_async", {
 
 
   # check assertions
-  expect_error(sto$set_keymeta_async("y", namespace = "ns2", notes = "nokey"),
+  expect_error(sto$update_keymeta_async("y", namespace = "ns2", notes = "nokey"),
                "key 'y' ('ns2') not found",
                fixed = TRUE,
                class = "KeyError")
 
 
-  expect_error(sto$set_keymeta_async(c("x", "y")),
+  expect_error(sto$update_keymeta_async(c("x", "y")),
                "'key' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", c("ns1", "ns2")),
+  expect_error(sto$update_keymeta_async("x", c("ns1", "ns2")),
                "'namespace' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
 
-  expect_error(sto$set_keymeta_async("x", expires_at = 1),
+  expect_error(sto$update_keymeta_async("x", expires_at = 1),
                "'expires_at' should be a date-time object, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
+  expect_error(sto$update_keymeta_async("x", expires_at = c(as.POSIXct(1), as.POSIXct(2))),
                "'expires_at' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", notes = 1),
+  expect_error(sto$update_keymeta_async("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$set_keymeta_async("x", notes = c("a", "v")),
+  expect_error(sto$update_keymeta_async("x", notes = c("a", "v")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
   })
 
 
-test_that("mset_keymeta_async", {
+test_that("mupdate_keymeta_async", {
 
   uri <- file.path(withr::local_tempdir(), "test-storr")
   sto <- storr_tiledb(uri, init = TRUE, async = TRUE)
@@ -534,7 +534,7 @@ test_that("mset_keymeta_async", {
   trgval <- list(list(expires_at = as.POSIXct(1), notes = "😀"),
                  list(expires_at = as.POSIXct(NA), notes = NA_character_))
 
-  expect_no_error(m1 <- sto$mset_keymeta_async(c("x", "y"),
+  expect_no_error(m1 <- sto$mupdate_keymeta_async(c("x", "y"),
                                               expires_at = c(as.POSIXct(1),
                                                              as.POSIXct(NA)),
                                               notes = c("😀", NA_character_)))
@@ -553,40 +553,40 @@ test_that("mset_keymeta_async", {
 
 
   # check assertions
-  expect_error(sto$mset_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
+  expect_error(sto$mupdate_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
                "key 'v' ('objects') not found",
                fixed = TRUE,
                class = "KeyError")
 
 
   # test key-namespace not found
-  expect_error(sto$mset_keymeta_async(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
+  expect_error(sto$mupdate_keymeta_async(c("x1", "v"), c("obj1", "obj2"), notes = rep(NA_character_, 2)),
                "key 'x1,v' ('obj1,obj2') not found",
                fixed = TRUE,
                class = "error")
 
   # check key-namespace for incompatibility
-  expect_error(sto$mset_keymeta(c("x", "y", "z"), namespace = c("objects", "objects")),
+  expect_error(sto$mupdate_keymeta_async(c("x", "y", "z"), namespace = c("objects", "objects")),
                "Incompatible lengths for key and namespace",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", notes = 1),
+  expect_error(sto$mupdate_keymeta_async("x", notes = 1),
                "'notes' should be a character string, not numeric",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", notes = c("a", "b")),
+  expect_error(sto$mupdate_keymeta_async("x", notes = c("a", "b")),
                "'notes' must have 1 elements (recieved 2)",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", expires_at = "a"),
+  expect_error(sto$mupdate_keymeta_async("x", expires_at = "a"),
                "'expires_at' should be a date-time object, not character",
                fixed = TRUE,
                class = "error")
 
-  expect_error(sto$mset_keymeta_async("x", expires_at = rep(as.POSIXct(NA), 3)),
+  expect_error(sto$mupdate_keymeta_async("x", expires_at = rep(as.POSIXct(NA), 3)),
                "'expires_at' must have 1 elements (recieved 3)",
                fixed = TRUE,
                class = "error")
