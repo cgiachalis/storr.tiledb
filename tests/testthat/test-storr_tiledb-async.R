@@ -462,6 +462,9 @@ test_that("update_keymeta_async", {
   # set a key with default metadata
   sto$set("x", 1)
 
+  # Passing NULL or missing has no effect
+  expect_equal(sto$update_keymeta_async("x"), character(0))
+
   # set keymeta (update both expires_at and notes)
   trgval <- list(expires_at = as.POSIXct(1, tz = NULL), notes = "😀")
   expect_no_error(m1 <- sto$update_keymeta_async("x", expires_at = trgval$expires_at,
@@ -478,6 +481,19 @@ test_that("update_keymeta_async", {
   m1$mirai[]
 
   expect_equal(sto$get_keymeta("x", use_cache = FALSE), trgval)
+
+  # Update only datetimes
+  expect_no_error(m2 <- sto$update_keymeta_async("x",
+                  expires_at = as.POSIXct(NA),
+                  use_cache = FALSE))
+
+  miall <- m2$mirai[]
+  expect_named(m2, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m2$mirai))
+  expect_equal(m1$keyns, c("x:objects"))
+
+  trgval <- list(expires_at = as.POSIXct(NA, tz = NULL), notes = "😀")
+  expect_equal(sto$get_keymeta("x"), trgval, ignore_attr = TRUE)
 
 
   # check assertions
@@ -530,6 +546,10 @@ test_that("mupdate_keymeta_async", {
 
   trg <- "x:objects"
 
+  # Passing NULL or missing has no effect
+  expect_equal(sto$mupdate_keymeta_async(c("x", "y")), character(0))
+
+
   # set keymeta (update both expires_at and notes)
   trgval <- list(list(expires_at = as.POSIXct(1), notes = "😀"),
                  list(expires_at = as.POSIXct(NA), notes = NA_character_))
@@ -551,6 +571,19 @@ test_that("mupdate_keymeta_async", {
   expect_equal(sto$mget_keymeta(c("x", "y"), use_cache = FALSE), trgval,
                ignore_attr = TRUE)
 
+  # Update only datetimes
+  expect_no_error(m2 <- sto$mupdate_keymeta_async(c("x", "y"),
+                                                  expires_at = c(as.POSIXct(NA),
+                                                                 as.POSIXct(1)), use_cache = FALSE))
+
+  miall <- m2$mirai[]
+  expect_named(m2, c("mirai", "keyns"))
+  expect_true( mirai::is_mirai(m2$mirai))
+  expect_equal(m2$keyns, c("x:objects", "y:objects"))
+
+  trgval <- list(list(expires_at = as.POSIXct(NA), notes = "😀"),
+                 list(expires_at = as.POSIXct(1), notes = NA_character_))
+  expect_equal(sto$mget_keymeta(c("x", "y")), trgval, ignore_attr = TRUE)
 
   # check assertions
   expect_error(sto$mupdate_keymeta_async(c("x", "v"), notes = c(NA_character_, NA_character_)),
