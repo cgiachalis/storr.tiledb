@@ -92,10 +92,10 @@ parent class \link{CAS}.
 
 \strong{Key-Namespace Metadata}
 \itemize{
-\item \strong{\code{get_keymeta()}} and \strong{\code{set_keymeta()}} - Manage metadata such as
-expiry times and notes for single key-namespace pairs
-\item \strong{\code{mget_keymeta()}} and \strong{\code{mset_keymeta()}} - Manage metadata such as
-expiry times and notes for multiple key-namespace pairs
+\item \strong{\code{get_keymeta()}} - Retrieve metadata such as expiry times and notes for
+single key-namespace pairs
+\item \strong{\code{mget_keymeta()}}  Retrieve metadata such as expiry times and notes for
+multiple key-namespace pairs
 \item \strong{\code{get_keymeta_unit()}} and \strong{\code{mget_keymeta_unit()}} - Fetch single
 metadata such as expiry times or notes
 \item \strong{\code{list_notes()}} - Retrieve all notes for a given namespace

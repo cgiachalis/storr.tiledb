@@ -39,8 +39,6 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \item \href{#method-TileDBDriver-mget_object}{\code{TileDBDriver$mget_object()}}
     \item \href{#method-TileDBDriver-set_object}{\code{TileDBDriver$set_object()}}
     \item \href{#method-TileDBDriver-mset_object}{\code{TileDBDriver$mset_object()}}
-    \item \href{#method-TileDBDriver-set_keymeta}{\code{TileDBDriver$set_keymeta()}}
-    \item \href{#method-TileDBDriver-mset_keymeta}{\code{TileDBDriver$mset_keymeta()}}
     \item \href{#method-TileDBDriver-get_keymeta}{\code{TileDBDriver$get_keymeta()}}
     \item \href{#method-TileDBDriver-mget_keymeta}{\code{TileDBDriver$mget_keymeta()}}
     \item \href{#method-TileDBDriver-get_keymeta_unit}{\code{TileDBDriver$get_keymeta_unit()}}
@@ -311,60 +309,6 @@ This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBSto
     \describe{
       \item{\code{hash}}{A vector of hash values.}
       \item{\code{value}}{A vector with serialised values.}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    \code{TRUE} for successful operation, invisibly.
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-set_keymeta"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-set_keymeta}{}}}
-\subsection{\code{TileDBDriver$set_keymeta()}}{
-  Set key-namespace metadata.
-
-Sets a pair of expiry date-time and notes.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBDriver$set_keymeta(key, namespace, expires_at, notes)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{key}}{A character vector of keys.}
-      \item{\code{namespace}}{A character vector of namespaces.}
-      \item{\code{expires_at}}{A vector of expiration datetimes.}
-      \item{\code{notes}}{A character vector of notes.}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    \code{TRUE} for successful operation, invisibly.
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TileDBDriver-mset_keymeta"></a>}}
-\if{latex}{\out{\hypertarget{method-TileDBDriver-mset_keymeta}{}}}
-\subsection{\code{TileDBDriver$mset_keymeta()}}{
-  Set multiple key-namespace metadata.
-
-Sets a pair of expiry date-time and notes.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{TileDBDriver$mset_keymeta(key, namespace, expires_at, notes)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{key}}{A character vector of keys.}
-      \item{\code{namespace}}{A character vector of namespaces.}
-      \item{\code{expires_at}}{A vector of expiration datetimes.}
-      \item{\code{notes}}{A character vector of notes.}
     }
     \if{html}{\out{</div>}}
   }

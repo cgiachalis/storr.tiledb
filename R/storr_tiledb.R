@@ -142,8 +142,8 @@
 #'
 #' **Metadata Operations**
 #'
-#' - **`set_keymeta()`** - Set metadata (expires_at, notes) for a key
-#' - **`mset_keymeta()`** - Set metadata for multiple keys
+#' - **`update_keymeta()`** - Set metadata (expires_at, notes) for a key
+#' - **`mupdate_keymeta()`** - Set metadata for multiple keys
 #' - **`get_keymeta()`** - Retrieve metadata for a key
 #' - **`mget_keymeta()`** - Retrieve metadata for multiple keys
 #' - **`get_keymeta_expires_at()`** - Retrieve expiration metadata for a key
@@ -160,8 +160,8 @@
 #' - **`mset_by_value_async()`** - Set multiple key-value pairs using hashes, asynchronously
 #' - **`update_async()`** - Update a key-value pair and retain key-metadata, asynchronously
 #' - **`mupdate_async()`** - Update multiple key-value pairs and retain key-metadata, asynchronously
-#' - **`set_keymeta_async()`** - Set metadata, asynchronously
-#' - **`mset_keymeta_async()`** - Set multiple metadata, asynchronously
+#' - **`update_keymeta_async()`** - Set metadata, asynchronously
+#' - **`mupdate_keymeta_async()`** - Set multiple metadata, asynchronously
 #' - **`clear_keymeta_async()`** - Clear metadata, asynchronously
 #'
 #' **Object Hash Management**

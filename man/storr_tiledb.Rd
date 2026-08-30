@@ -178,8 +178,8 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 
 \strong{Metadata Operations}
 \itemize{
-\item \strong{\code{set_keymeta()}} - Set metadata (expires_at, notes) for a key
-\item \strong{\code{mset_keymeta()}} - Set metadata for multiple keys
+\item \strong{\code{update_keymeta()}} - Set metadata (expires_at, notes) for a key
+\item \strong{\code{mupdate_keymeta()}} - Set metadata for multiple keys
 \item \strong{\code{get_keymeta()}} - Retrieve metadata for a key
 \item \strong{\code{mget_keymeta()}} - Retrieve metadata for multiple keys
 \item \strong{\code{get_keymeta_expires_at()}} - Retrieve expiration metadata for a key
@@ -197,8 +197,8 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 \item \strong{\code{mset_by_value_async()}} - Set multiple key-value pairs using hashes, asynchronously
 \item \strong{\code{update_async()}} - Update a key-value pair and retain key-metadata, asynchronously
 \item \strong{\code{mupdate_async()}} - Update multiple key-value pairs and retain key-metadata, asynchronously
-\item \strong{\code{set_keymeta_async()}} - Set metadata, asynchronously
-\item \strong{\code{mset_keymeta_async()}} - Set multiple metadata, asynchronously
+\item \strong{\code{update_keymeta_async()}} - Set metadata, asynchronously
+\item \strong{\code{mupdate_keymeta_async()}} - Set multiple metadata, asynchronously
 \item \strong{\code{clear_keymeta_async()}} - Clear metadata, asynchronously
 }
 
