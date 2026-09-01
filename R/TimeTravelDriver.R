@@ -81,6 +81,21 @@ TimeTravelDriver <- R6::R6Class(
 
      }
 
+     # Retrieve serialisation format
+     serial_format <- self$get_metadata("serial_format")
+
+     if (is.null(serial_format)) {
+       cli::cli_abort("Serialisation format not found.", call = NULL)
+     }
+
+     if ((serial_format == "qs2" || serial_format == "qdata") && !requireNamespace("qs2", quietly = TRUE)) {
+       cli::cli_abort("Serialization format: {.val {serial_format}} requires {.pkg qs2} package.", call = NULL)
+     }
+
+     private$.serial_format <- serial_format
+     # Pick the right un-serialise function
+     private$unserialize <- make_unserialize_object(serial_format)
+
      # NB: It is not used by TimeTravel driver, but 'hash_algo' cannot be NULL
      algo <- self$get_metadata("hash_algo")
 
@@ -247,7 +262,7 @@ TimeTravelDriver <- R6::R6Class(
 
      if (status_nona) {
        result <- lapply(arr[]$value$as_vector(),
-                        function(.s) { unserialize(charToRaw(.s)) })
+                        function(.s) { private$unserialize(.s) })
      } else {
        result <- vector("list", length(hash))
 
@@ -255,7 +270,7 @@ TimeTravelDriver <- R6::R6Class(
 
        vals <- arr[]$value$as_vector()
        for (i in seq_along(idx)) {
-         result[idx[i]] <- unserialize(charToRaw(vals[i]))
+         result[idx[i]] <- private$unserialize(vals[i])
        }
      }
 
@@ -1106,6 +1121,12 @@ TimeTravelDriver <- R6::R6Class(
     # @field Hash algorithm to be used
     #
     .hash_algo = NULL,
+
+    # Cache serialization format: 'rds', 'qs2' or 'qdata'
+    .serial_format = NULL,
+
+    # Unserialise function given the serialization format
+    unserialize = NULL,
 
     # @description Instantiate group members.
     #

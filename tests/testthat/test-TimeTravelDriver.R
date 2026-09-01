@@ -44,6 +44,25 @@ test_that("'TimeTravelBDriver'", {
 
 })
 
+
+test_that("'TimeTravelBDriver' with missing 'serial_format'", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qdata")
+
+  # delete serial_format metadata from group (we could do it on CAS directly)
+  grp <- R6.tiledb::tdb_group(uri)
+  expect_equal(grp$get_metadata("serial_format"), "qdata")
+  R6.tiledb::delete_metadata(grp, "serial_format")
+  expect_null(R6.tiledb::metadata(grp, "serial_format"))
+
+  # 'serial_format' is not found, error
+  expect_error( TimeTravelDriver$new(uri), "Serialisation format not found.",
+               class = "error", fixed = TRUE)
+
+})
+
+
 # NB: 'TimeTravelBDriver' is a subset (copy) of 'TileDBDriver'. Here, we're
 # performing basic testing in order catch / isolate any issue early.
 # Time-travel testing will be carried out with 'StorrTimeTravel' class.
@@ -93,6 +112,48 @@ test_that("'get_object'/'mget_object'", {
 
 })
 
+test_that("'get_object'/'mget_object' with 'qs2' and 'qdata' serialization format", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
+  # 'qs2' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qs2")
+  sto$mset(c("a", "b"), c("a", "b"))
+  hashes <- sto$mget_hash(c("a", "b"))
+
+  dr <- TimeTravelDriver$new(uri)
+
+  expect_equal(dr$mget_object(hashes), list("a", "b"))
+  expect_equal(dr$mget_object(c(hashes, "no-hash")), list("a", "b", NULL))
+  expect_equal(dr$get_object(hashes[1]), "a")
+
+  # exists_object
+  expect_all_true(dr$exists_object(hashes))
+  expect_equal(dr$exists_object(c(hashes, "no-hash")), c(TRUE, TRUE, FALSE))
+
+
+  sto$destroy()
+
+
+  # 'qdata' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qdata")
+  sto$mset(c("a", "b"), c("a", "b"))
+  hashes <- sto$mget_hash(c("a", "b"))
+
+  dr <- TimeTravelDriver$new(uri)
+
+  expect_equal(dr$mget_object(hashes), list("a", "b"))
+  expect_equal(dr$mget_object(c(hashes, "no-hash")), list("a", "b", NULL))
+  expect_equal(dr$get_object(hashes[1]), "a")
+
+  # exists_object
+  expect_all_true(dr$exists_object(hashes))
+  expect_equal(dr$exists_object(c(hashes, "no-hash")), c(TRUE, TRUE, FALSE))
+
+
+})
 
 test_that("'get_keymeta'/'mget_keymeta' and friends", {
 
