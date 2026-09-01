@@ -96,8 +96,9 @@ TileDBStorr <- R6::R6Class(
       self$traits <- storr_traits(driver$traits)
 
       self$hash_raw <- make_hash_serialized_object(driver$hash_algorithm, !self$traits$drop_r_version)
-      self$serialize_object <- make_serialize_object(self$traits$drop_r_version, self$traits$accept == "string")
-    },
+      self$serialize_object <- make_serialize_object(self$traits, serial_format = driver$serial_format)
+
+      },
 
     #' @description Destroy (delete) 'storr'.
     #'
@@ -1963,7 +1964,7 @@ TileDBStorr <- R6::R6Class(
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
-        arr <- driver$members$tbl_keys$object$tiledb_array()
+        arr <- driver$get_member("tbl_keys")$tiledb_array()
         arr[] <- dat
         }, uri = uri, dat = dat,.compute = ns)
 
@@ -2079,7 +2080,7 @@ TileDBStorr <- R6::R6Class(
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
-        arr <- driver$members$tbl_keys$object$tiledb_array()
+        arr <- driver$get_member("tbl_keys")$tiledb_array()
         arr[] <- dat
       },uri = uri, dat = dat, .compute = ns)
 
