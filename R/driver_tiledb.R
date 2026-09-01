@@ -20,6 +20,7 @@
 #' - **`hash_algorithm`** - Property for managing the hash algorithm (read/write)
 #' - **`members_instantiated`** - Property indicating instantiation status (read-only)
 #' - **`size`** - Get storr size (read-only)
+#' - **`serial_format`** - Get serialization format (read-only)
 #'
 #' **Lifecycle**
 #'
@@ -195,7 +196,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 #' @param hash_algorithm Select a hash algorithm supported by \link[digest:digest]{digest}:
 #'  `r sQuote(.hash_choices())`. If not given, the  default is 'md5'.
 #' @param serial_format Select serialization format: `"rds"` (default), `"qs2"`
-#' or `"qdata"`.
+#' or `"qdata"`. For the latter two, `'qs2'` package is required.
 #' @param compression_level Set an integer value for ZSTD compression level.
 #' If `NULL` value is given, no compression filters will be applied to data tiles.
 #' @param driver_schemas An object of class [TileDBDriverSchemas] with user

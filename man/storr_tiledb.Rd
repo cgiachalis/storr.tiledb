@@ -18,7 +18,7 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 \item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
 \item{serial_format}{Select serialization format: \code{"rds"} (default), \code{"qs2"}
-or \code{"qdata"}.}
+or \code{"qdata"}. For the latter two, \code{'qs2'} package is required.}
 
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
