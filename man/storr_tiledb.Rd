@@ -5,7 +5,8 @@
 \title{A Storr using TileDB Engine}
 \usage{
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
-  init = FALSE, hash_algorithm = NULL, async = FALSE, ...)
+  init = FALSE, serial_format = "rds", hash_algorithm = NULL,
+  async = FALSE, ...)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -16,11 +17,14 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 \item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
+\item{serial_format}{Select serialization format: \code{"rds"} (default), \code{"qs2"}
+or \code{"qdata"}.}
+
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
 \item{async}{Should the \link[mirai:mirai]{mirai} daemons be enabled for async
-functions? Default is  \code{FALSE}. Each storr instance has its own
+functions? Default is \code{FALSE}. Each storr instance has its own
 independent set of daemons. See Details.}
 
 \item{...}{Other arguments passed to driver when \code{init = TRUE}.
