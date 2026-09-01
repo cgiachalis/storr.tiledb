@@ -279,8 +279,7 @@ test_that("hash_algorithm", {
 ## However, it's required so that we don't rely on md5 being the
 ## default hash algorithm!
 hmd5 <- make_hash_serialized_object("md5", !traits$drop_r_version)(
-    make_serialize_object(traits$drop_r_version, traits$accept == "string")(
-      x))
+    make_serialize_object(traits, serial_format = "rds")(x))
 
 for (h in hash_algos) {
 

@@ -629,3 +629,25 @@ test_that("list_notes", {
 
 
 })
+
+
+test_that("set/get with 'qs2' and 'qdata' serialization format", {
+
+  # 'qs2' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qs2")
+
+  expect_no_error(sto$mset(c("a", "b"), list(1, 2), use_cache = FALSE))
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(1, 2))
+
+  sto$destroy()
+
+  # 'qdata' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qdata")
+
+  expect_no_error(sto$mset(c("a", "b"), list(1, 2), use_cache = FALSE))
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(1, 2))
+
+})
+
