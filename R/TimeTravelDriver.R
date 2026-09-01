@@ -88,6 +88,10 @@ TimeTravelDriver <- R6::R6Class(
        cli::cli_abort("Serialisation format not found.", call = NULL)
      }
 
+     if (!serial_format %in% c("rds", "qs2", "qdata")) {
+       cli::cli_abort("Unknown serialisation format {.val {serial_format}}.", call = NULL)
+     }
+
      if ((serial_format == "qs2" || serial_format == "qdata") && !requireNamespace("qs2", quietly = TRUE)) {
        cli::cli_abort("Serialization format: {.val {serial_format}} requires {.pkg qs2} package.", call = NULL)
      }

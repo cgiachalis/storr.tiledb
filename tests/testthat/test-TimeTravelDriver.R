@@ -63,6 +63,25 @@ test_that("'TimeTravelBDriver' with missing 'serial_format'", {
 })
 
 
+
+test_that("'TimeTravelBDriver' with invalid 'serial_format'", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qdata")
+
+  # delete serial_format metadata from group (we could do it on CAS directly)
+  grp <- R6.tiledb::tdb_group(uri)
+  expect_equal(grp$get_metadata("serial_format"), "qdata")
+  grp$reopen("WRITE")
+  grp$set_metadata(list(serial_format = "invalid"))
+  grp$close()
+
+  # Unknown serialization format, error
+  expect_error(TimeTravelDriver$new(uri))
+
+})
+
+
 # NB: 'TimeTravelBDriver' is a subset (copy) of 'TileDBDriver'. Here, we're
 # performing basic testing in order catch / isolate any issue early.
 # Time-travel testing will be carried out with 'StorrTimeTravel' class.

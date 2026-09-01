@@ -108,8 +108,17 @@ test_that("CAS with missing 'serial_format'", {
   expect_null(R6.tiledb::metadata(grp, "serial_format"))
 
   # 'serial_format' is not found, error
-  expect_error(cas$open("READ"), "Serialisation format not found.",
+  expect_error(cas$open("READ"), "Serialization format not found.",
                class = "error", fixed = TRUE)
+
+  # Now, set an invalied format
+  cas$close()
+  grp$reopen("WRITE")
+  grp$set_metadata(list(serial_format = "invalid"))
+  grp$close()
+
+  # Unknown serialization format, error
+  expect_error(cas$open("READ"))
 
 })
 

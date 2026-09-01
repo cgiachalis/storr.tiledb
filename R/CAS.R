@@ -128,7 +128,11 @@ CAS <- R6::R6Class(
      serial_format <- self$get_metadata("serial_format")
 
      if (is.null(serial_format)) {
-       cli::cli_abort("Serialisation format not found.", call = NULL)
+       cli::cli_abort("Serialization format not found.", call = NULL)
+     }
+
+     if (!serial_format %in% c("rds", "qs2", "qdata")) {
+       cli::cli_abort("Unknown serialization format {.val {serial_format}}.", call = NULL)
      }
 
      if ((serial_format == "qs2" || serial_format == "qdata") && !requireNamespace("qs2", quietly = TRUE)) {
