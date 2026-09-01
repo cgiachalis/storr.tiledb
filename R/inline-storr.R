@@ -5,27 +5,6 @@ storr_traits <- utils::getFromNamespace("storr_traits", "storr")
 make_hash_serialized_object <- utils::getFromNamespace("make_hash_serialized_object", "storr")
 
 
-make_serialize_object <- function(drop_r_version, string, xdr = TRUE,
-                                  r_version = getRversion()) {
-  if (string) {
-    if (drop_r_version) {
-      stop("Can't combine drop_r_version and string serialization")
-    }
-    ## I really want the ascii = NA form of string serialization
-    ## because it is safer with respect to precision loss in doubles.
-    ## It's the only thing I know of that depends on R between 3.1 and
-    ## 3.2 and affects only the dbi driver at present.
-    if (r_version < numeric_version("3.2.0")) {
-      stop("Please upgrade R to at least 3.2.0")
-    }
-    function(object) rawToChar(serialize_to_raw(object, NA, xdr))
-  } else if (drop_r_version) {
-    function(object) serialize_object_drop_r_version(object, xdr)
-  } else {
-    function(object) serialize_to_raw(object, FALSE, xdr)
-  }
-}
-
 
 ## This is needed to support the case where the hash must apply to the
 ## *entire* structure, just the relevant bytes.

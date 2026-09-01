@@ -40,13 +40,15 @@ TileDBDriver <- R6::R6Class(
 
       super$initialize(uri, ctx = ctx)
 
+
       if (self$exists()) {
         self$open(instantiate = TRUE)
       }
 
       self$binary <- FALSE
       self$traits <- list(accept = "string",
-                          throw_missing = TRUE) # NB: For 'storr' interface
+                          # NB: For 'storr' interface
+                          throw_missing = TRUE)
 
       lockBinding("binary", self)
       lockBinding("traits", self)
@@ -211,7 +213,7 @@ TileDBDriver <- R6::R6Class(
 
      if (status_nona) {
        result <- lapply(arr[]$value$as_vector(),
-         function(.s) {unserialize(charToRaw(.s)) }
+         function(.s) { private$unserialize(.s) }
        )
      } else {
        result <- vector("list", length(hash))
@@ -220,7 +222,7 @@ TileDBDriver <- R6::R6Class(
 
        vals <- arr[]$value$as_vector()
        for (i in seq_along(idx)) {
-         result[idx[i]] <- unserialize(charToRaw(vals[i]))
+         result[idx[i]] <- private$unserialize(vals[i])
        }
      }
 
@@ -1215,7 +1217,7 @@ TileDBDriver <- R6::R6Class(
 
         # Inline helpers
         .traits <- storr_traits(dest_driver$traits)
-        .hash_raw <-  make_hash_serialized_object(dest_driver$hash_algorithm, !.traits$drop_r_version)
+        .hash_raw <- make_hash_serialized_object(dest_driver$hash_algorithm, !.traits$drop_r_version)
 
         # Get data from source
         arrobj <- private$data_array()

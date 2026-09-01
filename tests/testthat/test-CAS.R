@@ -9,6 +9,7 @@ test_that("Test 'CAS' object", {
   expect_error(cas$hash_algorithm, label = "CAS object does not exist")
   expect_error(cas$size, label = "CAS object does not exist")
   expect_error(cas$members_instantiated, label = "CAS object does not exist")
+  expect_error(cas$serial_format, label = "CAS object does not exist")
 
 })
 
@@ -24,6 +25,8 @@ test_that("'CAS' basic methods", {
 
   # Invalid hash algo
   expect_error(cas$create(algo = "nope"))
+
+  expect_error(cas$create(serial_format = "nope"))
 
   # Create CAS
   expect_invisible(cas$create())
@@ -44,6 +47,9 @@ test_that("'CAS' basic methods", {
   # Check active fields
   expect_error(cas$hash_algorithm <- "invalid")
   expect_equal(cas$hash_algorithm, "md5")
+
+  expect_error(cas$serial_format <- "immutable")
+  expect_equal(cas$serial_format, "rds")
 
   # Check type
   expect_equal(cas$get_metadata("type"), "storr")
@@ -87,7 +93,27 @@ test_that("'CAS' basic methods", {
   })
 
 
-test_that("CAS with NULL 'hash_algo' config defaults to 'md5' on open", {
+test_that("CAS with missing 'serial_format'", {
+
+  uri <- file.path(withr::local_tempdir(), "test-cas")
+  ctx <- new_context()
+  cas <- CAS$new(uri,ctx = ctx)
+  cas$create(serial_format = "qs2")
+  cas$close()
+
+  # delete serial_format metadata from group (we could do it on CAS directly)
+  grp <- R6.tiledb::tdb_group(uri)
+  expect_equal(grp$get_metadata("serial_format"), "qs2")
+  R6.tiledb::delete_metadata(grp, "serial_format")
+  expect_null(R6.tiledb::metadata(grp, "serial_format"))
+
+  # 'serial_format' is not found, error
+  expect_error(cas$open("READ"), "Serialisation format not found.",
+               class = "error", fixed = TRUE)
+
+})
+
+test_that("CAS with NULL 'hash_algo' config, defaults to 'md5' on open", {
 
   uri <- file.path(withr::local_tempdir(), "test-cas")
   ctx <- new_context()

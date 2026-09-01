@@ -33,7 +33,8 @@ Imports:
 Suggests: 
     litedown,
     testthat (>= 3.0.0),
-    withr
+    withr,
+    qs2
 VignetteBuilder: 
     litedown
 Remotes: 
