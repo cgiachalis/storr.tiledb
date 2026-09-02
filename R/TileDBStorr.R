@@ -2752,7 +2752,7 @@ TileDBStorr <- R6::R6Class(
     #' If `NULL`, all namespaces from `src` will be imported. If named,
     #' then the same rule is followed as `list`; `namespace = c(a = b)` will import the
     #' contents of namespace `b` as namespace `a`.
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
@@ -2788,11 +2788,11 @@ TileDBStorr <- R6::R6Class(
     #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` or [storr_tdb0()] instead of [storr_tiledb()].
     #' @param list Names of objects to export (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
-    #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
+    #' @param namespace Namespace to get objects from, and to put objects into.  If `NULL`,
     #' then this will export namespaces from this (source) storr into the destination;
     #' if there is more than one namespace, this is only possible if `dest`
     #' is a storr (otherwise there will be an error).
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
