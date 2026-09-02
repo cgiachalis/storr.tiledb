@@ -8,21 +8,22 @@ message: 'To cite package "storr.tiledb" in publications use:'
 type: software
 license: MIT
 title: 'storr.tiledb: A TileDB Storage Driver for Storr'
-version: 0.1.13
+version: 0.1.14
 abstract: Provides a TileDB driver for 'storr' interface. A 'storr' is a content addressed
   key value store with an optional caching layer; this package contributes a new driver
   using TileDB Embedded storage engine as a backend. In addition, storr.tiledb introduces
   a specialized TileDBStorr class that replicates 'storr' API in order to improve
-  speed and efficiency while enhancing 'storr' with additional features, i.e., per-key
+  speed and efficiency while enhancing 'storr' with additional features, e.g., per-key
   notes and Time-To-Live (TTL) expiration timestamps as well as support for asynchronous
-  and in parallel writes.
+  and in parallel writes. Optionally, it offers alternative and faster serialisation
+  formats through `qs2` package, suitable for saving large R objects.
 authors:
 - family-names: Giachalis
   given-names: Constantinos
   email: 26255858+cgiachalis@users.noreply.github.com
 repository-code: https://github.com/cgiachalis/storr.tiledb
 url: https://cgiachalis.github.io/storr.tiledb/
-date-released: '2026-08-30'
+date-released: '2026-09-02'
 contact:
 - family-names: Giachalis
   given-names: Constantinos
@@ -226,6 +227,19 @@ references:
     orcid: https://orcid.org/0000-0003-0645-5666
   year: '2026'
   doi: 10.32614/CRAN.package.litedown
+- type: software
+  title: qs2
+  abstract: 'qs2: Efficient Serialization of R Objects'
+  notes: Suggests
+  url: https://github.com/qsbase/qs2
+  repository: https://CRAN.R-project.org/package=qs2
+  authors:
+  - family-names: Ching
+    given-names: Travers
+    email: traversc@gmail.com
+  year: '2026'
+  doi: 10.32614/CRAN.package.qs2
+  version: '>= 0.3.1'
 - type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'

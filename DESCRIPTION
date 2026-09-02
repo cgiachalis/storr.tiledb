@@ -1,7 +1,7 @@
 Package: storr.tiledb
 Title: A TileDB Storage Driver for Storr
-Version: 0.1.13
-Date: 2026-08-30
+Version: 0.1.14
+Date: 2026-09-02
 Authors@R: 
     person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis
@@ -12,8 +12,10 @@ Description: Provides a TileDB driver for 'storr' interface. A 'storr' is
     engine as a backend. In addition, storr.tiledb introduces a
     specialized TileDBStorr class that replicates 'storr' API in order to
     improve speed and efficiency while enhancing 'storr' with additional
-    features, i.e., per-key notes and Time-To-Live (TTL) expiration
+    features, e.g., per-key notes and Time-To-Live (TTL) expiration
     timestamps as well as support for asynchronous and in parallel writes.
+    Optionally, it offers alternative and faster serialisation formats through `qs2`
+    package, suitable for saving large R objects.
 License: MIT + file LICENSE
 URL: https://github.com/cgiachalis/storr.tiledb,
     https://cgiachalis.github.io/storr.tiledb/
@@ -32,9 +34,9 @@ Imports:
     tiledb (>= 0.33.0)
 Suggests: 
     litedown,
+    qs2 (>= 0.3.1),
     testthat (>= 3.0.0),
-    withr,
-    qs2
+    withr
 VignetteBuilder: 
     litedown
 Remotes: 
