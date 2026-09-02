@@ -1149,113 +1149,125 @@ TileDBDriver <- R6::R6Class(
                           namespace,
                           dest_driver) {
 
-
       if (self$uri == dest_driver$uri) {
         cli::cli_abort("Destination URI can not be the same as source.",
                        call = NULL)
       }
 
-      # Two cases:
-      #   1. Storrs with identical hash algorithms
-      #   2. Storrs with different hash algorithms
-
       # Get index data.frame (tbl_keys)
-      idx <- self$filter_keys(key, namespace = namespace)[]
+      idx <- self$filter_keys(key, namespace)[]
 
       if (nrow(idx) == 0) {
         cli::cli_warn("Nothing to export for the selected key-namespace.")
         return(invisible(NULL))
       }
 
-      hashes <- unique(idx$hash)
+      if (self$serial_format != dest_driver$serial_format) {
 
-      if (self$hash_algorithm == dest_driver$hash_algorithm) {
+        values <- self$mget_object(idx$hash)
+        dsto <- TileDBStorr$new(dest_driver, "objects")
+        dsto$mset(idx$key, idx$namespace,
+                  value = values,
+                  expires_at = idx$expires_at,
+                  notes = idx$notes, use_cache = FALSE)
 
-        # Check hashes exists in destination
-        exist_hash_in_dest <- dest_driver$exists_object(hashes)
 
-        # Hashes to be copied over to destination
-        new_hash <- hashes[!exist_hash_in_dest]
+      } else {
 
-        # Export new data only
-        if (length(new_hash) != 0) {
+        # Two cases:
+        #   1. Storrs with identical hash algorithms
+        #   2. Storrs with different hash algorithms
+
+        hashes <- unique(idx$hash)
+
+        if (self$hash_algorithm == dest_driver$hash_algorithm) {
+
+          # Check hashes exists in destination
+          exist_hash_in_dest <- dest_driver$exists_object(hashes)
+
+          # Hashes to be copied over to destination
+          new_hash <- hashes[!exist_hash_in_dest]
+
+          # Export new data only
+          if (length(new_hash) != 0) {
+
+            # Get data from source
+            arrobj <- private$data_array()
+            sp <- list(hash = new_hash)
+            arr_data_src <- arrobj$tiledb_array(selected_points = sp, return_as = "arrow")
+
+            # Copy data to destination storr
+            arr_data_dest <- dest_driver$get_member("tbl_data")$tiledb_array()
+            arr_data_dest[] <- arr_data_src[]
+
+            # TODO: Use arrow the arrow buffer is fixed
+            # qry <- tiledb::tiledb_query(arr_data_dest, "WRITE")
+            #
+            # naHash <- nanoarrow::as_nanoarrow_array(arr_data_src[][["hash"]])
+            # naValue <- nanoarrow::as_nanoarrow_array(arr_data_src[][["value"]])
+            #
+            # qry <- tiledb::tiledb_query_import_buffer(qry, "hash", naHash, ctx = dest_driver$ctx)
+            # qry <- tiledb::tiledb_query_import_buffer(qry, "value", naValue, ctx = dest_driver$ctx)
+            #
+            # tiledb::tiledb_query_set_layout(qry, "UNORDERED")
+            # tiledb::tiledb_query_submit(qry)
+            # tiledb::tiledb_query_finalize(qry)
+
+          }
+
+          # Copy keys to destination storr
+          # NB: We can not do it with arrow because of:
+          #     https://github.com/TileDB-Inc/TileDB-R/issues/847
+          arr <- dest_driver$get_member("tbl_keys")$tiledb_array()
+          arr[] <- idx
+
+        } else { # Diff hash algos
+
+          # Fetch objects, re-hash, check exist in dest and then
+          # save them in dest
+
+          # Inline helpers
+          .traits <- storr_traits(dest_driver$traits)
+          .hash_raw <- make_hash_serialized_object(dest_driver$hash_algorithm, !.traits$drop_r_version)
 
           # Get data from source
           arrobj <- private$data_array()
-          sp <- list(hash = new_hash)
-          arr_data_src <- arrobj$tiledb_array(selected_points = sp, return_as = "arrow")
+          sp <- list(hash = hashes)
+          arr_data_src <- arrobj$tiledb_array(selected_points = sp,
+                                              return_as = "arrow")
+
+          dta <- data.table::as.data.table(arr_data_src[], key = "hash")
+
+          # Get them in order we requested
+          dta <- dta[.(hash), env = list(hash = I(hashes))]
+
+          # Re-hash serialised objects
+          dta[, `:=` (new_hashes = vcapply(value, .hash_raw))]
+
+          # out <<- dta
+          # print(dta[, "new_hashes"])
+
+          # Find hashes to send over
+          upload <- !dest_driver$exists_object(dta$new_hashes)
 
           # Copy data to destination storr
-          arr_data_dest <- dest_driver$get_member("tbl_data")$tiledb_array()
-          arr_data_dest[] <- arr_data_src[]
+          if (any(upload)) {
+            arr_data_dest <- dest_driver$get_member("tbl_data")$tiledb_array()
+            rehashed_objects <- data.frame(hash = dta$new_hashes[upload], value = dta$value[upload])
+            arr_data_dest[] <- rehashed_objects
+          }
 
-          # TODO: Use arrow the arrow buffer is fixed
-          # qry <- tiledb::tiledb_query(arr_data_dest, "WRITE")
-          #
-          # naHash <- nanoarrow::as_nanoarrow_array(arr_data_src[][["hash"]])
-          # naValue <- nanoarrow::as_nanoarrow_array(arr_data_src[][["value"]])
-          #
-          # qry <- tiledb::tiledb_query_import_buffer(qry, "hash", naHash, ctx = dest_driver$ctx)
-          # qry <- tiledb::tiledb_query_import_buffer(qry, "value", naValue, ctx = dest_driver$ctx)
-          #
-          # tiledb::tiledb_query_set_layout(qry, "UNORDERED")
-          # tiledb::tiledb_query_submit(qry)
-          # tiledb::tiledb_query_finalize(qry)
+          # Replace index with new hashes and copy
+          new_hashes <- dta$new_hashes
+          names(new_hashes) <- dta$hash
+          idx$hash <- new_hashes[idx$hash] # map to new hashes
 
+          # Copy keys to destination storr
+          # NB: We can not do it with arrow because of:
+          #     https://github.com/TileDB-Inc/TileDB-R/issues/847
+          arr <- dest_driver$get_member("tbl_keys")$tiledb_array()
+          arr[] <- idx
         }
-
-        # Copy keys to destination storr
-        # NB: We can not do it with arrow because of:
-        #     https://github.com/TileDB-Inc/TileDB-R/issues/847
-        arr <- dest_driver$get_member("tbl_keys")$tiledb_array()
-        arr[] <- idx
-
-      } else { # Diff hash algos
-
-        # Fetch objects, re-hash, check exist in dest and then
-        # save them in dest
-
-        # Inline helpers
-        .traits <- storr_traits(dest_driver$traits)
-        .hash_raw <- make_hash_serialized_object(dest_driver$hash_algorithm, !.traits$drop_r_version)
-
-        # Get data from source
-        arrobj <- private$data_array()
-        sp <- list(hash = hashes)
-        arr_data_src <- arrobj$tiledb_array(selected_points = sp,
-                                            return_as = "arrow")
-
-        dta <- data.table::as.data.table(arr_data_src[], key = "hash")
-
-        # Get them in order we requested
-        dta <- dta[.(hash), env = list(hash = I(hashes))]
-
-        # Re-hash serialised objects
-        dta[, `:=` (new_hashes = vcapply(value, .hash_raw))]
-
-        # out <<- dta
-        # print(dta[, "new_hashes"])
-
-        # Find hashes to send over
-        upload <- !dest_driver$exists_object(dta$new_hashes)
-
-        # Copy data to destination storr
-        if (any(upload)) {
-          arr_data_dest <- dest_driver$get_member("tbl_data")$tiledb_array()
-          rehashed_objects <- data.frame(hash = dta$new_hashes[upload], value = dta$value[upload])
-          arr_data_dest[] <- rehashed_objects
-        }
-
-        # Replace index with new hashes and copy
-        new_hashes <- dta$new_hashes
-        names(new_hashes) <- dta$hash
-        idx$hash <- new_hashes[idx$hash] # map to new hashes
-
-        # Copy keys to destination storr
-        # NB: We can not do it with arrow because of:
-        #     https://github.com/TileDB-Inc/TileDB-R/issues/847
-        arr <- dest_driver$get_member("tbl_keys")$tiledb_array()
-        arr[] <- idx
       }
 
       invisible(TRUE)
