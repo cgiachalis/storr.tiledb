@@ -347,5 +347,5 @@ stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
 
 }
 \seealso{
-\code{\link[=driver_tiledb]{driver_tiledb()}}
+\code{\link[=driver_tiledb]{driver_tiledb()}} and \code{\link[=storr_tdb0]{storr_tdb0()}} for standard interface.
 }

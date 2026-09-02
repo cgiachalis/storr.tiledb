@@ -223,7 +223,7 @@
 #'
 #' @returns An object of class [TileDBStorr], R6.
 #'
-#' @seealso [driver_tiledb()]
+#' @seealso [driver_tiledb()] and [storr_tdb0()] for standard interface.
 #'
 #' @export
 #'

@@ -121,7 +121,7 @@ make_serialize_object <- function(x, serial_format = "rds", xdr = TRUE, r_versio
    #     'storr.tiledb' uses only string serialization
     drop_r_version <- x$drop_r_version
     string <- x$accept == "string"
-
+    # TODO: Review cases: we don't need all
     if (string) {
       if (drop_r_version) {
         stop("Can't combine drop_r_version and string serialization")
@@ -149,6 +149,7 @@ make_serialize_object <- function(x, serial_format = "rds", xdr = TRUE, r_versio
     function(object) qs2::base91_encode(qs2::qd_serialize(object))
 
   } else {
+    # NB: It's not reachable; in case it does, something is broken at driver
     stop(sprintf("Unknown serialization format %s", serial_format), call. = FALSE)
   }
 
