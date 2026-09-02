@@ -2745,7 +2745,7 @@ TileDBStorr <- R6::R6Class(
     #' @description Import objects to storr.
     #'
     #' @param src A source to import objects from. It can be a storr, list, or environment.
-    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
+    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` or [storr_tdb0()] instead of [storr_tiledb()].
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.
@@ -2768,7 +2768,15 @@ TileDBStorr <- R6::R6Class(
           stop("If src is not a storr, namespace can't be NULL")
         }
       }
-      sto <- storr::storr(private$DRIVER)
+
+      dr <- private$DRIVER
+      sto <- storr::storr(dr)
+
+      if (dr$serial_format != "rds") {
+        sto$serialize_object <- make_serialize_object(sto$traits,
+                                                      serial_format = dr$serial_format)
+      }
+
       invisible(.base_export(sto, src, list, namespace, skip_missing)$info)
     },
 
@@ -2777,7 +2785,7 @@ TileDBStorr <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
-    #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
+    #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` or [storr_tdb0()] instead of [storr_tiledb()].
     #' @param list Names of objects to export (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
@@ -2796,7 +2804,14 @@ TileDBStorr <- R6::R6Class(
       if (is.null(namespace)) {
         namespace <- self$list_namespaces()
       }
-      sto <- storr::storr(private$DRIVER)
+
+      dr <- private$DRIVER
+      sto <- storr::storr(dr)
+
+      if (dr$serial_format != "rds") {
+      sto$serialize_object <- make_serialize_object(sto$traits,
+                                                    serial_format = dr$serial_format)
+      }
       invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 
