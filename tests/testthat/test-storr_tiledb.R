@@ -91,6 +91,17 @@ test_that("storr_tiledb", {
 
 })
 
+test_that("storr_tdb0()", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  driver_tiledb_create(uri, serial_format = "qs2")
+
+  expect_no_error(sto <- storr_tdb0(uri))
+  expect_s3_class(sto, c("storr", "R6"), exact = TRUE)
+
+  expect_equal(body(sto$serialize_object), str2lang("qs2::base91_encode(qs2::qs_serialize(object))"))
+
+})
 
 test_that("storr_tiledb with custom schemas", {
 
