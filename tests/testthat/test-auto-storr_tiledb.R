@@ -657,6 +657,36 @@ test_that("export", {
 })
 
 
+test_that("export (source has 'qs2' serial format)", {
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE, serial_format = "qs2")
+  # dr <- driver_tiledb(uri, init = TRUE)
+  # cache <- storr::storr(dr)
+  ## This could be any old thing, but for now we'll use an environment storr:
+  cache2 <- storr::storr(storr::driver_environment())
+
+  ## Need a function to generate a bunch of objects
+  cache$set("d", mtcars)
+  e <- cache$export(new.env())
+  expect_identical(ls(e), "d")
+  expect_equal(e[["d"]], mtcars)
+
+
+  expect_no_error(cache$export(cache2))
+  expect_identical(cache2$list(), "d")
+  expect_equal(cache2$get("d"), mtcars)
+  expect_no_error(cache$export(cache2, namespace = NULL))
+
+  e$dat <- iris
+  nms <- cache$import(e)
+  expect_identical(nms[, "name"], c("d", "dat"))
+  expect_equal(cache$get("dat"), iris)
+
+  env <- cache$export(new.env(parent = emptyenv()))
+  expect_identical(ls(e), c("d", "dat"))
+  expect_equal(env$d, mtcars)
+  expect_equal(env$dat, iris)
+})
 
 test_that("import", {
 
@@ -674,3 +704,19 @@ test_that("import", {
   expect_no_error(cache$import(cache2, namespace = NULL))
 })
 
+
+test_that("import (source has 'qs2' serial format)", {
+
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  cache <- storr_tiledb(uri, init = TRUE, serial_format = "qs2")
+
+  cache2 <- storr::storr(storr::driver_environment())
+  cache2$set("d", mtcars)
+
+
+  expect_no_error(cache$import(cache2))
+  expect_identical(cache$list(), "d")
+  expect_equal(cache$get("d"), mtcars)
+
+  expect_no_error(cache$import(cache2, namespace = NULL))
+})
