@@ -100,3 +100,57 @@ check_read_only = function(x) {
 
 }
 
+# Get function to un-serialize from string ('rds', 'qs2' or 'qdata')
+make_unserialize_object <- function(x) {
+
+  switch (x,
+    rds = function(.s) {unserialize(charToRaw(.s)) },
+    qs2 = function(.s) {qs2::qs_deserialize(qs2::base91_decode(.s)) },
+    qdata = function(.s) {qs2::qd_deserialize(qs2::base91_decode(.s)) },
+  )
+
+}
+
+# Get function to serialize to string ('rds', 'qs2' or 'qdata')
+# param x A list objects with  traits
+make_serialize_object <- function(x, serial_format = "rds", xdr = TRUE, r_version = getRversion()) {
+
+
+  if (serial_format == "rds") {
+   # NB: storr's original 'make_serialize_object' helper function
+   #     'storr.tiledb' uses only string serialization
+    drop_r_version <- x$drop_r_version
+    string <- x$accept == "string"
+    # TODO: Review cases: we don't need all
+    if (string) {
+      if (drop_r_version) {
+        stop("Can't combine drop_r_version and string serialization")
+      }
+      ## I really want the ascii = NA form of string serialization
+      ## because it is safer with respect to precision loss in doubles.
+      ## It's the only thing I know of that depends on R between 3.1 and
+      ## 3.2 and affects only the dbi driver at present.
+      if (r_version < numeric_version("3.2.0")) {
+        stop("Please upgrade R to at least 3.2.0")
+      }
+      function(object) rawToChar(serialize_to_raw(object, NA, xdr))
+    } else if (drop_r_version) {
+      function(object) serialize_object_drop_r_version(object, xdr)
+    } else {
+      function(object) serialize_to_raw(object, FALSE, xdr)
+    }
+
+  } else if (serial_format == "qs2") {
+
+    function(object) qs2::base91_encode(qs2::qs_serialize(object))
+
+  } else if (serial_format == "qdata") {
+
+    function(object) qs2::base91_encode(qs2::qd_serialize(object))
+
+  } else {
+    # NB: It's not reachable; in case it does, something is broken at driver
+    stop(sprintf("Unknown serialization format %s", serial_format), call. = FALSE)
+  }
+
+}

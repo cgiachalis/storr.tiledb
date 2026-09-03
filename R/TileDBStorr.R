@@ -96,8 +96,9 @@ TileDBStorr <- R6::R6Class(
       self$traits <- storr_traits(driver$traits)
 
       self$hash_raw <- make_hash_serialized_object(driver$hash_algorithm, !self$traits$drop_r_version)
-      self$serialize_object <- make_serialize_object(self$traits$drop_r_version, self$traits$accept == "string")
-    },
+      self$serialize_object <- make_serialize_object(self$traits, serial_format = driver$serial_format)
+
+      },
 
     #' @description Destroy (delete) 'storr'.
     #'
@@ -1963,7 +1964,7 @@ TileDBStorr <- R6::R6Class(
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
-        arr <- driver$members$tbl_keys$object$tiledb_array()
+        arr <- driver$get_member("tbl_keys")$tiledb_array()
         arr[] <- dat
         }, uri = uri, dat = dat,.compute = ns)
 
@@ -2079,7 +2080,7 @@ TileDBStorr <- R6::R6Class(
 
       m1 <- mirai::mirai({
         driver <- storr.tiledb::driver_tiledb(uri, context = ctx)
-        arr <- driver$members$tbl_keys$object$tiledb_array()
+        arr <- driver$get_member("tbl_keys")$tiledb_array()
         arr[] <- dat
       },uri = uri, dat = dat, .compute = ns)
 
@@ -2744,14 +2745,14 @@ TileDBStorr <- R6::R6Class(
     #' @description Import objects to storr.
     #'
     #' @param src A source to import objects from. It can be a storr, list, or environment.
-    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
+    #' **NOTE**: for TileDB storrs use `storr(driver_tiledb())` or [storr_tdb0()] instead of [storr_tiledb()].
     #' @param list Names of objects to import (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
     #' @param namespace  Namespace to get objects from, and to put objects into.
     #' If `NULL`, all namespaces from `src` will be imported. If named,
     #' then the same rule is followed as `list`; `namespace = c(a = b)` will import the
     #' contents of namespace `b` as namespace `a`.
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
@@ -2767,7 +2768,15 @@ TileDBStorr <- R6::R6Class(
           stop("If src is not a storr, namespace can't be NULL")
         }
       }
-      sto <- storr::storr(private$DRIVER)
+
+      dr <- private$DRIVER
+      sto <- storr::storr(dr)
+
+      if (dr$serial_format != "rds") {
+        sto$serialize_object <- make_serialize_object(sto$traits,
+                                                      serial_format = dr$serial_format)
+      }
+
       invisible(.base_export(sto, src, list, namespace, skip_missing)$info)
     },
 
@@ -2776,14 +2785,14 @@ TileDBStorr <- R6::R6Class(
     #' Use list() to export to a brand new list, or use as.list(object) for a shorthand.
     #'
     #' @param dest A destination to export objects to. It can be a storr, list, or environment.
-    #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` instead of `strorr_tiledb()`.
+    #'  **NOTE**: for TileDB storrs use `storr(driver_tiledb())` or [storr_tdb0()] instead of [storr_tiledb()].
     #' @param list Names of objects to export (or `NULL` for all objects) . If given it must be a character vector.
     #'  If named, the names of the character vector will be the names of the objects as created in the storr.
-    #' @param namespace  Namespace to get objects from, and to put objects into.  If `NULL`,
+    #' @param namespace Namespace to get objects from, and to put objects into.  If `NULL`,
     #' then this will export namespaces from this (source) storr into the destination;
     #' if there is more than one namespace, this is only possible if `dest`
     #' is a storr (otherwise there will be an error).
-    #' @param skip_missing  Logical, indicating if missing keys (specified in `list`)
+    #' @param skip_missing Logical, indicating if missing keys (specified in `list`)
     #' should be skipped over, rather than being treated as an error (the default).
     #'
     #'
@@ -2795,7 +2804,14 @@ TileDBStorr <- R6::R6Class(
       if (is.null(namespace)) {
         namespace <- self$list_namespaces()
       }
-      sto <- storr::storr(private$DRIVER)
+
+      dr <- private$DRIVER
+      sto <- storr::storr(dr)
+
+      if (dr$serial_format != "rds") {
+      sto$serialize_object <- make_serialize_object(sto$traits,
+                                                    serial_format = dr$serial_format)
+      }
       invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 

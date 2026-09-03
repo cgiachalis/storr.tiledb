@@ -22,6 +22,14 @@
 #'  `storr_tiledb`'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 #'  environments.
 #'
+#'  ## Serialization
+#'
+#'  `R` objects are saved to the storage engine as string representation of the
+#'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
+#'  function. For storing large objects efficiently, the package supports `"qs2"`
+#'  and `"qdata"` formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+#'  package; `qs2` should be installed in the system to use these formats.
+#'
 #'  ## Cache option
 #'
 #'  The in-memory caching layer is enabled by default and is controlled via
@@ -214,7 +222,7 @@
 #' @inheritParams driver_tiledb
 #' @param default_namespace The default namespace: `"objects"`.
 #' @param async Should the [mirai] daemons be enabled for async
-#'  functions? Default is  `FALSE`. Each storr instance has its own
+#'  functions? Default is `FALSE`. Each storr instance has its own
 #'  independent set of daemons. See Details.
 #' @param ... Other arguments passed to driver when `init = TRUE`.
 #'  Valid arguments: `compression_level` and `driver_schemas`. If `driver_schemas`
@@ -223,7 +231,7 @@
 #'
 #' @returns An object of class [TileDBStorr], R6.
 #'
-#' @seealso [driver_tiledb()]
+#' @seealso [driver_tiledb()] and [storr_tdb0()] for standard interface.
 #'
 #' @export
 #'
@@ -317,11 +325,16 @@ storr_tiledb <- function(uri,
                          default_namespace = "objects",
                          context = NULL,
                          init = FALSE,
+                         serial_format = "rds",
                          hash_algorithm = NULL,
                          async = FALSE, ...) {
 
-  # check scalar namespace
-  dr <- driver_tiledb(uri, context = context, init = init, hash_algorithm = hash_algorithm,...)
+  dr <- driver_tiledb(uri,
+                      context = context,
+                      init = init,
+                      serial_format = serial_format,
+                      hash_algorithm = hash_algorithm,...)
+
   TileDBStorr$new(dr, default_namespace = default_namespace, async = async)
 
 }

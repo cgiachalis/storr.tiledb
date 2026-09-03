@@ -13,7 +13,9 @@ test_that("driver_tiledb", {
   expect_s3_class(dr, "TileDBDriver")
   expect_false(dr$is_open())
   expect_equal(dr$hash_algorithm, "sha1")
+  expect_equal(dr$serial_format, "rds")
   expect_false(dr$members_instantiated)
+  expect_equal(dr$traits, list(accept = "string", throw_missing = TRUE))
 
 })
 

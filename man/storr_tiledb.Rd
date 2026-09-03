@@ -5,7 +5,8 @@
 \title{A Storr using TileDB Engine}
 \usage{
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
-  init = FALSE, hash_algorithm = NULL, async = FALSE, ...)
+  init = FALSE, serial_format = "rds", hash_algorithm = NULL,
+  async = FALSE, ...)
 }
 \arguments{
 \item{uri}{The URI path of storr.}
@@ -16,11 +17,14 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 
 \item{init}{Should the driver be created if not exist? Default is  \code{FALSE}.}
 
+\item{serial_format}{Select serialization format: \code{"rds"} (default), \code{"qs2"}
+or \code{"qdata"}. For the latter two, \code{'qs2'} package is required.}
+
 \item{hash_algorithm}{Select a hash algorithm supported by \link[digest:digest]{digest}:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.}
 
 \item{async}{Should the \link[mirai:mirai]{mirai} daemons be enabled for async
-functions? Default is  \code{FALSE}. Each storr instance has its own
+functions? Default is \code{FALSE}. Each storr instance has its own
 independent set of daemons. See Details.}
 
 \item{...}{Other arguments passed to driver when \code{init = TRUE}.
@@ -52,6 +56,15 @@ that replicates the storr interface with additional features.
 Another difference, but not visible to the user, is that the
 \code{storr_tiledb}'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 environments.
+\subsection{Serialization}{
+
+\code{R} objects are saved to the storage engine as string representation of the
+raw vector. The default serialization format (\code{"rds"}) uses the \code{\link[=serialize]{serialize()}}
+function. For storing large objects efficiently, the package supports \code{"qs2"}
+and \code{"qdata"} formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+package; \code{qs2} should be installed in the system to use these formats.
+}
+
 \subsection{Cache option}{
 
 The in-memory caching layer is enabled by default and is controlled via
@@ -343,5 +356,5 @@ stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
 
 }
 \seealso{
-\code{\link[=driver_tiledb]{driver_tiledb()}}
+\code{\link[=driver_tiledb]{driver_tiledb()}} and \code{\link[=storr_tdb0]{storr_tdb0()}} for standard interface.
 }

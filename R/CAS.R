@@ -22,6 +22,8 @@ CAS <- R6::R6Class(
    #' @param algo Select a hash algorithm to be used.
    #' @param keep_open Should `CAS` be kept opened after creation? Default is
    #' `TRUE`; the mode will be `"WRITE"`.
+   #' @param serial_format Select serialization format: `"rds"` (default), `"qs2"`
+   #' or `"qdata"`. For the latter two, the `qs2` package is required.
    #' @param driver_schemas An object of class [TileDBDriverSchemas] with user
    #' defined storage schemas; See [driver_schemas()]. If given, the `compression_level`
    #'  argument will be ignored.
@@ -30,6 +32,7 @@ CAS <- R6::R6Class(
    #'
    create = function(compression_level = -7,
                      algo = NULL,
+                     serial_format = c("rds", "qs2", "qdata"),
                      keep_open = TRUE,
                      driver_schemas = NULL) {
 
@@ -47,6 +50,12 @@ CAS <- R6::R6Class(
      }
 
      algo <- validate_hash_algo(algo)
+
+     serial_format <- match.arg(serial_format)
+
+     if ((serial_format == "qs2" || serial_format == "qdata") && !requireNamespace("qs2", quietly = TRUE)) {
+       cli::cli_abort("Serialization format: {.val {serial_format}} requires {.pkg qs2} package.", call = NULL)
+     }
 
      if (is.null(driver_schemas)) {
        .schema_keys <- schema_keys(compression_level, ctx = self$ctx)
@@ -73,8 +82,12 @@ CAS <- R6::R6Class(
      self$set_member(arr1)
      self$set_member(arr2)
 
-     self$set_metadata(list(type = "storr", hash_algo = algo))
+     self$set_metadata(list(type = "storr",
+                            hash_algo = algo,
+                            serial_format = serial_format))
+
      private$.hash_algo <- algo
+     private$.serial_format <- serial_format
 
      if (keep_open) {
        self$close()
@@ -111,6 +124,25 @@ CAS <- R6::R6Class(
 
      }
 
+     # Retrieve serialisation format
+     serial_format <- self$get_metadata("serial_format")
+
+     if (is.null(serial_format)) {
+       cli::cli_abort("Serialization format not found.", call = NULL)
+     }
+
+     if (!serial_format %in% c("rds", "qs2", "qdata")) {
+       cli::cli_abort("Unknown serialization format {.val {serial_format}}.", call = NULL)
+     }
+
+     if ((serial_format == "qs2" || serial_format == "qdata") && !requireNamespace("qs2", quietly = TRUE)) {
+       cli::cli_abort("Serialization format: {.val {serial_format}} requires {.pkg qs2} package.", call = NULL)
+     }
+
+     private$.serial_format <- serial_format
+     # Pick the right un-serialise function
+     private$unserialize <- make_unserialize_object(serial_format)
+
      algo <- self$get_metadata("hash_algo")
 
      # Case where 'hash_algo' key is not present
@@ -123,7 +155,7 @@ CAS <- R6::R6Class(
          self$close()
          super$open("WRITE")
        }
-       cli::cli_warn("Hash algorithm not found, defaulting to 'md5'", call. = NULL)
+       cli::cli_warn("Hash algorithm not found, defaulting to 'md5'", call = NULL)
        self$set_metadata(list(hash_algo = algo))
 
        # Flush metadata
@@ -267,6 +299,19 @@ CAS <- R6::R6Class(
       private$.hash_algo
     },
 
+    #' @field serial_format Serialization format
+    #'
+    serial_format = function(value) {
+
+      private$check_object_exists()
+
+      if (!missing(value)) {
+        private$check_read_only("serial_format")
+      }
+
+      private$.serial_format
+    },
+
     #' @field members_instantiated Have the members been instantiated?
     #'
     members_instantiated = function(value) {
@@ -321,6 +366,12 @@ CAS <- R6::R6Class(
       }
       private$.vfs
     },
+
+    # Cache serialization format: 'rds', 'qs2' or 'qdata'
+    .serial_format = NULL,
+
+    # Unserialise function given the serialization format
+    unserialize = NULL,
 
     # @description Instantiate group members.
     #

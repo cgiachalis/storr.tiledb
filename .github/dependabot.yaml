@@ -12,4 +12,8 @@ updates:
     groups:
       r-actions:
         patterns:
-          - "r-lib"
+          - "r-lib/actions/*"
+          - "r-lib/actions/setup-pandoc"
+          - "r-lib/actions/setup-r"
+          - "r-lib/actions/check-r-package"
+          - "r-lib/actions/setup-r-dependencies"

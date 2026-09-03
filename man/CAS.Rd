@@ -18,6 +18,8 @@ An R6 class for creating a content addressable storage.
   \describe{
     \item{\code{hash_algorithm}}{Hash algorithm}
 
+    \item{\code{serial_format}}{Serialization format}
+
     \item{\code{members_instantiated}}{Have the members been instantiated?}
 
     \item{\code{size}}{Return directory size}
@@ -64,8 +66,8 @@ An R6 class for creating a content addressable storage.
   Create CAS.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE,
-  driver_schemas = NULL)}
+    \preformatted{CAS$create(compression_level = -7, algo = NULL, serial_format = c("rds",
+  "qs2", "qdata"), keep_open = TRUE, driver_schemas = NULL)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -73,6 +75,8 @@ An R6 class for creating a content addressable storage.
     \describe{
       \item{\code{compression_level}}{Set an integer value for ZSTD compression level.}
       \item{\code{algo}}{Select a hash algorithm to be used.}
+      \item{\code{serial_format}}{Select serialization format: \code{"rds"} (default), \code{"qs2"}
+or \code{"qdata"}. For the latter two, the \code{qs2} package is required.}
       \item{\code{keep_open}}{Should \code{CAS} be kept opened after creation? Default is
 \code{TRUE}; the mode will be \code{"WRITE"}.}
       \item{\code{driver_schemas}}{An object of class \link{TileDBDriverSchemas} with user

@@ -1,6 +1,6 @@
 ---
 title: Storr Data Models
-date: "2026-08-01"
+date: "2026-09-03"
 vignette: >
   %\VignetteIndexEntry{Storr Data Models}
   %\VignetteEngine{litedown::vignette}
@@ -11,62 +11,81 @@ vignette: >
 
 ## Overview
 
-The **Content Addressable Storage (CAS)** system using TileDB as the underlying 
-storage consists of collection two Sparse Arrays: one that maps keys to hashes
-and another that maps hashes to objects.
+This vignette describes the **Content-Addressable Storage (CAS)** data model used by
+the storr.tiledb driver. The driver stores storr data inside a TileDB Group that contains
+two Sparse Arrays:
 
-Specifically, the driver storage is a TileDB Group with two member TileDB Arrays
-which are stored relative to Group's URI path.
+- `tbl_keys` maps key-namespace pairs to hashes and optional key metadata
+- `tbl_data` maps content hashes to serialized object values
 
-## CAS 
+The arrays are stored as members inside a TileDB Group at the driver's URI. The Group also contains metadata about the storage format.
 
-### Group Structure
+---
 
-**`Members`**
+## CAS: Group Structure
 
-1. `tbl_keys` (array): maps key-namespace pairs to hashes (and to expiry and/or
-notes, optional)
-2. `tbl_data` (array): maps hashes to values (serialised R objects)
+### Members
 
-**`Metadata`**
+1. `tbl_keys` (array) maps key/namespace pairs to hashes and can store expiry and notes.
+2. `tbl_data` (array) maps content hashes to serialized R objects.
 
- - `hash_algo`: The name of hash algorithm.
- - `type`: Group identifier, `"storr"`
+### Metadata
 
-### Array Data Models
+ - `hash_algo` - name of the hash algorithm used (e.g., `"sha256"`).
+ - `type` - group identifier string `"storr"`.
+ - `serial_format` - name of the serialization format used (e.g., `"rds"`).
 
-**`tbl_keys`** - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.
+---
 
- - **Dimensions**: `namespace` (*ASCII*) and `key` (*ASCII*)
- - **Attributes**: `hash` (*ASCII*), `expires_at` (*DATETIME_MS*) and `notes` (*UTF8*)
+## Array data models
+
+### tbl_keys
+
+A 2-dimensional sparse array that maps key-namespace pairs to hashes and key-metadata.
+
+**Dimensions** 
+  - `namespace` (*ASCII*) 
+  - `key` (*ASCII*)
+  
+**Attributes**
+  - `hash` (*ASCII*)
+  - `expires_at` (*DATETIME_MS*)
+  - `notes` (*UTF8*)
 
 
-**`tbl_data`** - A 1D sparse array that maps hashes to object values.
+### tbl_data
 
- - **Dimensions**: `hash` (*ASCII*)
- - **Attributes**: `value` (*ASCII*)
+A 1-dimensional sparse array that maps hash to serialized value.
 
- TileDB datatypes in parentheses.
+**Dimensions**
+ - `hash` (*ASCII*)
+ 
+**Attributes** 
+ - `value` (*ASCII*)
+
+TileDB datatypes shown in parentheses.
 
 ### Example
 
+Below is a short example that shows creating a TileDB-backed driver and inspecting its layout.
+
 
 ``` r
-# URI path
+# Create a temporary URI
 uri <- tempfile()
 
-# Create a driver
+# Create a driver (initializes the TileDB Group and member arrays)
 dr <- driver_tiledb(uri, init = TRUE)
 ```
 
-CAS Structure:
+Inspecting the driver directory tree:
 
 ``` r
 dr$dir_tree()
 ```
 
 ```
-# C:/Users/cgiac/AppData/Local/Temp/RtmpIV06wB/file94c457086b3
+# C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4375b332f
 # ├── tbl_data
 # │   ├── __commits
 # │   ├── __fragments
@@ -74,7 +93,7 @@ dr$dir_tree()
 # │   ├── __labels
 # │   ├── __meta
 # │   └── __schema
-# │       ├── __1785580886312_1785580886312_6e1c593b059254f5934a5a6a2d6be9a2
+# │       ├── __1788415129347_1788415129347_50ce401d8cc4db75a8af2e6d98539e6e
 # │       └── __enumerations
 # ├── tbl_keys
 # │   ├── __commits
@@ -83,14 +102,14 @@ dr$dir_tree()
 # │   ├── __labels
 # │   ├── __meta
 # │   └── __schema
-# │       ├── __1785580886310_1785580886310_5971e8efd915ba42ccd52498694e1f1e
+# │       ├── __1788415129346_1788415129346_4225a90b565bb247eb3c1ae13e986035
 # │       └── __enumerations
 # ├── __group
-# │   └── __1785580886373_1785580886373_624f949cbf9498982f953fe4cb5dc0d1_2
+# │   └── __1788415129407_1788415129407_0bea4289a74f2441af0181a4c6de7d91_2
 # ├── __meta
-# │   └── __1785580886318_1785580886318_5971e8ee81f51a500417aa72204ebfbc
+# │   └── __1788415129350_1788415129350_186008825b295f24dff7a3bcfd74c5ed
 # └── __tiledb_group.tdb
 # 
-# ❯ directories (7) • total size (647 B)
+# ❯ directories (7) • total size (667 B)
 ```
 

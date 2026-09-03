@@ -405,6 +405,70 @@ test_that("keys_with_notes", {
 
 })
 
+# NB: Testing via storr_tiledb()
+test_that("export_tdb - different serialization formats", {
+
+  tiledb::set_allocation_size_preference(0.5 * 1024 * 1024)
+
+  # Temp URIs
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  uri_dest <- file.path(withr::local_tempdir(), "test-storr_dest")
+
+  # Create storr source
+  st <- storr_tiledb(uri, init = TRUE, default_namespace = "ns0")
+
+  # Create storr destination
+  driver_tiledb_create(uri_dest, hash_algorithm = "md5", serial_format = "qs2")
+
+  st$set("a", 1)
+  st$set("a", 1, namespace = "ns1")
+  st$set("b", 3, namespace = "ns1")
+  st$set("c", 2, namespace = "ns2")
+
+  # Export all to destination
+  expect_no_error(out <- st$export_tdb(uri_dest = uri_dest, namespace = NULL))
+  expect_true(out)
+
+  # Test export was successful
+  std <- storr_tiledb(uri_dest)
+  expect_equal(std$mget(c("a", "a", "b", "c"),
+                        c("ns0", "ns1", "ns1", "ns2"), use_cache = F),
+               list(1, 1, 3, 2))
+
+
+  ##
+  # Create new storr destination ---
+  ##
+  uri_dest <- file.path(withr::local_tempdir(), "test-storr_dest2")
+  driver_tiledb_create(uri_dest, hash_algorithm = "md5", serial_format = "qdata")
+
+  # Export namespace "ns1" to destination
+  expect_no_error(st$export_tdb(uri_dest = uri_dest, namespace = "ns1"))
+
+  # Test they're copied over
+  std <- storr_tiledb(uri_dest)
+  expect_equal(std$mget(c("a", "b"), "ns1", use_cache = F), list(1, 3))
+
+  # Export a key from namespace "ns0" to destination
+  expect_no_error(st$export_tdb(key = c("a"), namespace = "ns0", uri_dest = uri_dest))
+  # Test it is exported as expected
+  expect_equal(std$get(c("a"), "ns0", use_cache = F), 1)
+  # Test that dest has 2 hashes
+  expect_length(std$list_hashes(), 2)
+  # Need to test that process didn't write the object as it exists in 'tbl_data'
+  sfo <- storr_fragments(uri_dest)
+  expect_equal(sfo$fob_data$frag_num(), 1)
+  # But it always writes the index even if data exists
+  expect_equal(sfo$fob_keys$frag_num(), 2)
+
+  # Write new namespace to source
+  st$mset(c("aa", "bb"), list("aa", 200), namespace = "ns4")
+
+  # Export namespace "ns4" to destination
+  st$export_tdb(uri_dest = uri_dest, namespace = "ns4")
+  expect_equal(std$mget(c("aa", "bb"), "ns4", use_cache = F), list("aa", 200))
+
+})
 
 # NB: Testing via storr_tiledb()
 test_that("export_tdb - identical hash algo", {

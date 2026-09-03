@@ -20,6 +20,7 @@
 #' - **`hash_algorithm`** - Property for managing the hash algorithm (read/write)
 #' - **`members_instantiated`** - Property indicating instantiation status (read-only)
 #' - **`size`** - Get storr size (read-only)
+#' - **`serial_format`** - Get serialization format (read-only)
 #'
 #' **Lifecycle**
 #'
@@ -124,7 +125,7 @@
 #' @param context Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.
 #' @param init Should the driver be created if not exist? Default is  `FALSE`.
 #' @param ... Other arguments passed to driver's create method when `init = TRUE`.
-#'  Valid arguments: `hash_algorithm`, `compression_level`, `keep_open` and
+#'  Valid arguments: `hash_algorithm`, `serial_format`, `compression_level`, `keep_open` and
 #'  `driver_schemas`. If `driver_schemas` argument is given, the `compression_level`
 #'  argument will be ignored.
 #'
@@ -171,10 +172,16 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
     if (is.null(l$keep_open)) {
       l$keep_open <- TRUE
     }
+
+    if (is.null(l$serial_format)) {
+      l$serial_format <- "rds"
+    }
+
     force(l)
     dr$create(compression_level = l$compression_level,
               algo = l$hash_algorithm,
               keep_open = l$keep_open,
+              serial_format = l$serial_format,
               driver_schemas = l$driver_schemas)
 
   } else {
@@ -188,6 +195,8 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 
 #' @param hash_algorithm Select a hash algorithm supported by \link[digest:digest]{digest}:
 #'  `r sQuote(.hash_choices())`. If not given, the  default is 'md5'.
+#' @param serial_format Select serialization format: `"rds"` (default), `"qs2"`
+#' or `"qdata"`. For the latter two, `'qs2'` package is required.
 #' @param compression_level Set an integer value for ZSTD compression level.
 #' If `NULL` value is given, no compression filters will be applied to data tiles.
 #' @param driver_schemas An object of class [TileDBDriverSchemas] with user
@@ -198,6 +207,7 @@ driver_tiledb <- function(uri, context = NULL, init = FALSE, ...) {
 #' @rdname driver_tiledb
 driver_tiledb_create <- function(uri,
                                  hash_algorithm = NULL,
+                                 serial_format = "rds",
                                  compression_level = -7,
                                  driver_schemas = NULL,
                                  context = NULL) {
@@ -205,6 +215,7 @@ driver_tiledb_create <- function(uri,
   dr <- TileDBDriver$new(uri, ctx = context)
   dr$create(compression_level = compression_level,
             algo = hash_algorithm,
+            serial_format = serial_format,
             keep_open = FALSE,
             driver_schemas = driver_schemas)
 

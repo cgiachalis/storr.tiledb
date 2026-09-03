@@ -91,6 +91,17 @@ test_that("storr_tiledb", {
 
 })
 
+test_that("storr_tdb0()", {
+
+  uri <- file.path(withr::local_tempdir(), "test-driver")
+  driver_tiledb_create(uri, serial_format = "qs2")
+
+  expect_no_error(sto <- storr_tdb0(uri))
+  expect_s3_class(sto, c("storr", "R6"), exact = TRUE)
+
+  expect_equal(body(sto$serialize_object), str2lang("qs2::base91_encode(qs2::qs_serialize(object))"))
+
+})
 
 test_that("storr_tiledb with custom schemas", {
 
@@ -629,3 +640,25 @@ test_that("list_notes", {
 
 
 })
+
+
+test_that("set/get with 'qs2' and 'qdata' serialization format", {
+
+  # 'qs2' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qs2")
+
+  expect_no_error(sto$mset(c("a", "b"), list(1, 2), use_cache = FALSE))
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(1, 2))
+
+  sto$destroy()
+
+  # 'qdata' format
+  uri <- file.path(withr::local_tempdir(), "test-storr")
+  sto <- storr_tiledb(uri, init = TRUE, serial_format = "qdata")
+
+  expect_no_error(sto$mset(c("a", "b"), list(1, 2), use_cache = FALSE))
+  expect_equal(sto$mget(c("a", "b"), use_cache = FALSE), list(1, 2))
+
+})
+
