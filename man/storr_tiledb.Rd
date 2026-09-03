@@ -56,6 +56,15 @@ that replicates the storr interface with additional features.
 Another difference, but not visible to the user, is that the
 \code{storr_tiledb}'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 environments.
+\subsection{Serialization}{
+
+\code{R} objects are saved to the storage engine as string representation of the
+raw vector. The default serialization format (\code{"rds"}) uses the \code{\link[=serialize]{serialize()}}
+function. For storing large objects efficiently, the package supports \code{"qs2"}
+and \code{"qdata"} formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+package; \code{qs2} should be installed in the system to use these formats.
+}
+
 \subsection{Cache option}{
 
 The in-memory caching layer is enabled by default and is controlled via

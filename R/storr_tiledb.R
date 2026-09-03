@@ -22,6 +22,14 @@
 #'  `storr_tiledb`'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
 #'  environments.
 #'
+#'  ## Serialization
+#'
+#'  `R` objects are saved to the storage engine as string representation of the
+#'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
+#'  function. For storing large objects efficiently, the package supports `"qs2"`
+#'  and `"qdata"` formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+#'  package; `qs2` should be installed in the system to use these formats.
+#'
 #'  ## Cache option
 #'
 #'  The in-memory caching layer is enabled by default and is controlled via
