@@ -31,6 +31,8 @@ the resource will be opened at. Effective in \code{"READ"} mode only.}
 
     \item{\code{hash_algorithm}}{Hash algorithm}
 
+    \item{\code{serial_format}}{Serialization format}
+
     \item{\code{members_instantiated}}{Have the members been instantiated?}
   }
   \if{html}{\out{</div>}}
