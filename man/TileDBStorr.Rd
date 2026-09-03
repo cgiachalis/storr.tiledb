@@ -1912,6 +1912,9 @@ for destination storr.}
     }
     \if{html}{\out{</div>}}
   }
+  \subsection{Details}{
+    Note that this method skips missing keys without warning.
+  }
   \subsection{Returns}{
     A logical \code{TRUE} indicating successful export, invisibly.
   }

@@ -45,28 +45,32 @@ The arrays are stored as members inside a TileDB Group at the driver's URI. The 
 
 ## Array data models
 
-### tbl_keys
+### **`tbl_keys`** array 
 
 A 2-dimensional sparse array that maps key-namespace pairs to hashes and key-metadata.
 
 **Dimensions** 
+
   - `namespace` (*ASCII*) 
   - `key` (*ASCII*)
   
 **Attributes**
+
   - `hash` (*ASCII*)
   - `expires_at` (*DATETIME_MS*)
   - `notes` (*UTF8*)
 
 
-### tbl_data
+### **`tbl_data`** array 
 
 A 1-dimensional sparse array that maps content hashes to serialized values.
 
 **Dimensions**
+
  - `hash` (*ASCII*)
  
 **Attributes** 
+
  - `value` (*ASCII*)
 
 TileDB datatypes shown in parentheses.

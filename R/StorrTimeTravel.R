@@ -602,6 +602,9 @@ StorrTimeTravel <- R6::R6Class(
 
     #' @description Export objects from storr to another TileDB storr.
     #'
+    #' @details
+    #' Note that this method skips missing keys without warning.
+    #'
     #' @param key A character vector of source keys.
     #' @param namespace `r sto_namespaces_or_null`
     #' @param uri_dest The URI path of destination storr.
