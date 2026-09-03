@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,22 +131,44 @@ objects.</li>
 <h2 id="array-data-models">Array data models<a class="anchor" aria-label="anchor" href="#array-data-models"></a>
 </h2>
 <div class="section level3">
-<h3 id="tbl_keys">tbl_keys<a class="anchor" aria-label="anchor" href="#tbl_keys"></a>
+<h3 id="tbl_keys-array">
+<strong><code>tbl_keys</code></strong> array<a class="anchor" aria-label="anchor" href="#tbl_keys-array"></a>
 </h3>
 <p>A 2-dimensional sparse array that maps key-namespace pairs to hashes
 and key-metadata.</p>
-<p><strong>Dimensions</strong> - <code>namespace</code> (<em>ASCII</em>)
-- <code>key</code> (<em>ASCII</em>)</p>
-<p><strong>Attributes</strong> - <code>hash</code> (<em>ASCII</em>) -
-<code>expires_at</code> (<em>DATETIME_MS</em>) - <code>notes</code>
-(<em>UTF8</em>)</p>
+<p><strong>Dimensions</strong></p>
+<ul>
+<li>
+<code>namespace</code> (<em>ASCII</em>)</li>
+<li>
+<code>key</code> (<em>ASCII</em>)</li>
+</ul>
+<p><strong>Attributes</strong></p>
+<ul>
+<li>
+<code>hash</code> (<em>ASCII</em>)</li>
+<li>
+<code>expires_at</code> (<em>DATETIME_MS</em>)</li>
+<li>
+<code>notes</code> (<em>UTF8</em>)</li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="tbl_data">tbl_data<a class="anchor" aria-label="anchor" href="#tbl_data"></a>
+<h3 id="tbl_data-array">
+<strong><code>tbl_data</code></strong> array<a class="anchor" aria-label="anchor" href="#tbl_data-array"></a>
 </h3>
-<p>A 1-dimensional sparse array that maps hash to serialized value.</p>
-<p><strong>Dimensions</strong> - <code>hash</code> (<em>ASCII</em>)</p>
-<p><strong>Attributes</strong> - <code>value</code> (<em>ASCII</em>)</p>
+<p>A 1-dimensional sparse array that maps content hashes to serialized
+values.</p>
+<p><strong>Dimensions</strong></p>
+<ul>
+<li>
+<code>hash</code> (<em>ASCII</em>)</li>
+</ul>
+<p><strong>Attributes</strong></p>
+<ul>
+<li>
+<code>value</code> (<em>ASCII</em>)</li>
+</ul>
 <p>TileDB datatypes shown in parentheses.</p>
 </div>
 <div class="section level3">
@@ -163,7 +185,7 @@ and inspecting its layout.</p>
 <p>Inspecting the driver directory tree:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dr</span><span class="op">$</span><span class="fu">dir_tree</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4375b332f</span></span>
+<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4634c2198</span></span>
 <span><span class="co"># ├── tbl_data</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
 <span><span class="co"># │   ├── __fragments</span></span>
@@ -171,7 +193,7 @@ and inspecting its layout.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1788415129347_1788415129347_50ce401d8cc4db75a8af2e6d98539e6e</span></span>
+<span><span class="co"># │       ├── __1788419331967_1788419331967_74b1721886a26ec2193126881f9dbb8c</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── tbl_keys</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
@@ -180,12 +202,12 @@ and inspecting its layout.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1788415129346_1788415129346_4225a90b565bb247eb3c1ae13e986035</span></span>
+<span><span class="co"># │       ├── __1788419331966_1788419331966_0e09559a95f4ec77500deec0c06f103e</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── __group</span></span>
-<span><span class="co"># │   └── __1788415129407_1788415129407_0bea4289a74f2441af0181a4c6de7d91_2</span></span>
+<span><span class="co"># │   └── __1788419332028_1788419332028_1f56eaee7d9f55ceb8eb3340202782d9_2</span></span>
 <span><span class="co"># ├── __meta</span></span>
-<span><span class="co"># │   └── __1788415129350_1788415129350_186008825b295f24dff7a3bcfd74c5ed</span></span>
+<span><span class="co"># │   └── __1788419331971_1788419331971_5c4223e71cb4e86ec491b1ad188091ae</span></span>
 <span><span class="co"># └── __tiledb_group.tdb</span></span>
 <span><span class="co"># </span></span>
 <span><span class="co"># ❯ directories (7) • total size (667 B)</span></span></code></pre>

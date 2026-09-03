@@ -901,6 +901,10 @@ Export objects from storr to another TileDB storr.
   [tiledb_ctx](https://tiledb-inc.github.io/TileDB-R/reference/tiledb_ctx.html)
   object for destination storr.
 
+#### Details
+
+Note that this method skips missing keys without warning.
+
 #### Returns
 
 A logical `TRUE` indicating successful export, invisibly.

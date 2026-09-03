@@ -34,23 +34,34 @@ URI. The Group also contains metadata about the storage format.
 
 ## Array data models
 
-### tbl_keys
+### **`tbl_keys`** array
 
 A 2-dimensional sparse array that maps key-namespace pairs to hashes and
 key-metadata.
 
-**Dimensions** - `namespace` (*ASCII*) - `key` (*ASCII*)
+**Dimensions**
 
-**Attributes** - `hash` (*ASCII*) - `expires_at` (*DATETIME_MS*) -
-`notes` (*UTF8*)
+- `namespace` (*ASCII*)
+- `key` (*ASCII*)
 
-### tbl_data
+**Attributes**
 
-A 1-dimensional sparse array that maps hash to serialized value.
+- `hash` (*ASCII*)
+- `expires_at` (*DATETIME_MS*)
+- `notes` (*UTF8*)
 
-**Dimensions** - `hash` (*ASCII*)
+### **`tbl_data`** array
 
-**Attributes** - `value` (*ASCII*)
+A 1-dimensional sparse array that maps content hashes to serialized
+values.
+
+**Dimensions**
+
+- `hash` (*ASCII*)
+
+**Attributes**
+
+- `value` (*ASCII*)
 
 TileDB datatypes shown in parentheses.
 
@@ -75,7 +86,7 @@ Inspecting the driver directory tree:
 dr$dir_tree()
 ```
 
-    # C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4375b332f
+    # C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4634c2198
     # ├── tbl_data
     # │   ├── __commits
     # │   ├── __fragments
@@ -83,7 +94,7 @@ dr$dir_tree()
     # │   ├── __labels
     # │   ├── __meta
     # │   └── __schema
-    # │       ├── __1788415129347_1788415129347_50ce401d8cc4db75a8af2e6d98539e6e
+    # │       ├── __1788419331967_1788419331967_74b1721886a26ec2193126881f9dbb8c
     # │       └── __enumerations
     # ├── tbl_keys
     # │   ├── __commits
@@ -92,12 +103,12 @@ dr$dir_tree()
     # │   ├── __labels
     # │   ├── __meta
     # │   └── __schema
-    # │       ├── __1788415129346_1788415129346_4225a90b565bb247eb3c1ae13e986035
+    # │       ├── __1788419331966_1788419331966_0e09559a95f4ec77500deec0c06f103e
     # │       └── __enumerations
     # ├── __group
-    # │   └── __1788415129407_1788415129407_0bea4289a74f2441af0181a4c6de7d91_2
+    # │   └── __1788419332028_1788419332028_1f56eaee7d9f55ceb8eb3340202782d9_2
     # ├── __meta
-    # │   └── __1788415129350_1788415129350_186008825b295f24dff7a3bcfd74c5ed
+    # │   └── __1788419331971_1788419331971_5c4223e71cb4e86ec491b1ad188091ae
     # └── __tiledb_group.tdb
     # 
     # ❯ directories (7) • total size (667 B)

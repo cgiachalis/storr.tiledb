@@ -35,6 +35,10 @@ A `TimeTravelDriver`, `R6` object.
 
   Hash algorithm
 
+- `serial_format`:
+
+  Serialization format
+
 - `members_instantiated`:
 
   Have the members been instantiated?
