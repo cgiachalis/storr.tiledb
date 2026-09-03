@@ -19,6 +19,10 @@ A `CAS` object.
 
   Hash algorithm
 
+- `serial_format`:
+
+  Serialization format
+
 - `members_instantiated`:
 
   Have the members been instantiated?
@@ -74,8 +78,8 @@ Create CAS.
 
 #### Usage
 
-    CAS$create(compression_level = -7, algo = NULL, keep_open = TRUE,
-      driver_schemas = NULL)
+    CAS$create(compression_level = -7, algo = NULL, serial_format = c("rds",
+      "qs2", "qdata"), keep_open = TRUE, driver_schemas = NULL)
 
 #### Arguments
 
@@ -86,6 +90,11 @@ Create CAS.
 - `algo`:
 
   Select a hash algorithm to be used.
+
+- `serial_format`:
+
+  Select serialization format: `"rds"` (default), `"qs2"` or `"qdata"`.
+  For the latter two, the `qs2` package is required.
 
 - `keep_open`:
 

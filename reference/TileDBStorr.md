@@ -2211,7 +2211,10 @@ Import objects to storr.
 
   A source to import objects from. It can be a storr, list, or
   environment. **NOTE**: for TileDB storrs use `storr(driver_tiledb())`
-  instead of `strorr_tiledb()`.
+  or
+  [`storr_tdb0()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tdb0.md)
+  instead of
+  [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md).
 
 - `list`:
 
@@ -2255,7 +2258,10 @@ shorthand.
 
   A destination to export objects to. It can be a storr, list, or
   environment. **NOTE**: for TileDB storrs use `storr(driver_tiledb())`
-  instead of `strorr_tiledb()`.
+  or
+  [`storr_tdb0()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tdb0.md)
+  instead of
+  [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md).
 
 - `list`:
 

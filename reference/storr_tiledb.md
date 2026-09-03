@@ -6,7 +6,8 @@ Create a 'storr' using TileDB driver for storage.
 
 ``` r
 storr_tiledb(uri, default_namespace = "objects", context = NULL,
-  init = FALSE, hash_algorithm = NULL, async = FALSE, ...)
+  init = FALSE, serial_format = "rds", hash_algorithm = NULL,
+  async = FALSE, ...)
 ```
 
 ## Arguments
@@ -28,6 +29,11 @@ storr_tiledb(uri, default_namespace = "objects", context = NULL,
 - init:
 
   Should the driver be created if not exist? Default is `FALSE`.
+
+- serial_format:
+
+  Select serialization format: `"rds"` (default), `"qs2"` or `"qdata"`.
+  For the latter two, `'qs2'` package is required.
 
 - hash_algorithm:
 
@@ -80,6 +86,15 @@ Another difference, but not visible to the user, is that the
 `storr_tiledb`'s cache layer uses hash tables via
 [hashtab()](https://rdrr.io/r/utils/hashtab.html) instead of
 environments.
+
+### Serialization
+
+`R` objects are saved to the storage engine as string representation of
+the raw vector. The default serialization format (`"rds"`) uses the
+[`serialize()`](https://rdrr.io/r/base/serialize.html) function. For
+storing large objects efficiently, the package supports `"qs2"` and
+`"qdata"` formats powered by ‘qs2’ package; `qs2` should be installed in
+the system to use these formats.
 
 ### Cache option
 
@@ -344,6 +359,9 @@ For complete definitions, see **Methods** section in
 ## See also
 
 [`driver_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/driver_tiledb.md)
+and
+[`storr_tdb0()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tdb0.md)
+for standard interface.
 
 ## Examples
 

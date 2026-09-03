@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">storr_tiledb</span><span class="op">(</span><span class="va">uri</span>, default_namespace <span class="op">=</span> <span class="st">"objects"</span>, context <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  init <span class="op">=</span> <span class="cn">FALSE</span>, hash_algorithm <span class="op">=</span> <span class="cn">NULL</span>, async <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>  init <span class="op">=</span> <span class="cn">FALSE</span>, serial_format <span class="op">=</span> <span class="st">"rds"</span>, hash_algorithm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  async <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,6 +75,11 @@
 <dd><p>Should the driver be created if not exist? Default is  <code>FALSE</code>.</p></dd>
 
 
+<dt id="arg-serial-format">serial_format<a class="anchor" aria-label="anchor" href="#arg-serial-format"></a></dt>
+<dd><p>Select serialization format: <code>"rds"</code> (default), <code>"qs2"</code>
+or <code>"qdata"</code>. For the latter two, <code>'qs2'</code> package is required.</p></dd>
+
+
 <dt id="arg-hash-algorithm">hash_algorithm<a class="anchor" aria-label="anchor" href="#arg-hash-algorithm"></a></dt>
 <dd><p>Select a hash algorithm supported by <a href="https://eddelbuettel.github.io/digest/man/digest.html" class="external-link">digest</a>:
 'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64', 'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'. If not given, the  default is 'md5'.</p></dd>
@@ -81,7 +87,7 @@
 
 <dt id="arg-async">async<a class="anchor" aria-label="anchor" href="#arg-async"></a></dt>
 <dd><p>Should the <a href="https://mirai.r-lib.org/reference/mirai.html" class="external-link">mirai</a> daemons be enabled for async
-functions? Default is  <code>FALSE</code>. Each storr instance has its own
+functions? Default is <code>FALSE</code>. Each storr instance has its own
 independent set of daemons. See Details.</p></dd>
 
 
@@ -112,6 +118,17 @@ that replicates the storr interface with additional features.</p>
 <p>Another difference, but not visible to the user, is that the
 <code>storr_tiledb</code>'s cache layer uses hash tables via <a href="https://rdrr.io/r/utils/hashtab.html" class="external-link">hashtab()</a> instead of
 environments.</p><div class="section">
+<h3 id="serialization">Serialization<a class="anchor" aria-label="anchor" href="#serialization"></a></h3>
+
+
+<p><code>R</code> objects are saved to the storage engine as string representation of the
+raw vector. The default serialization format (<code>"rds"</code>) uses the <code><a href="https://rdrr.io/r/base/serialize.html" class="external-link">serialize()</a></code>
+function. For storing large objects efficiently, the package supports <code>"qs2"</code>
+and <code>"qdata"</code> formats powered by ‘qs2’
+package; <code>qs2</code> should be installed in the system to use these formats.</p>
+</div>
+
+<div class="section">
 <h3 id="cache-option">Cache option<a class="anchor" aria-label="anchor" href="#cache-option"></a></h3>
 
 
@@ -261,7 +278,7 @@ control.</p>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="driver_tiledb.html">driver_tiledb()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="driver_tiledb.html">driver_tiledb()</a></code> and <code><a href="storr_tdb0.html">storr_tdb0()</a></code> for standard interface.</p></div>
     </div>
 
     <div class="section level2">

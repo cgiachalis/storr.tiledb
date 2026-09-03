@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
 
       <h1>Storr Data Models</h1>
             
-            <h4 data-toc-skip class="date">2026-08-01</h4>
+            <h4 data-toc-skip class="date">2026-09-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/data-model.Rmd" class="external-link"><code>vignettes/data-model.Rmd</code></a></small>
       <div class="d-none name"><code>data-model.Rmd</code></div>
@@ -78,75 +78,92 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The <strong>Content Addressable Storage (CAS)</strong> system using
-TileDB as the underlying storage consists of collection two Sparse
-Arrays: one that maps keys to hashes and another that maps hashes to
-objects.</p>
-<p>Specifically, the driver storage is a TileDB Group with two member
-TileDB Arrays which are stored relative to Group’s URI path.</p>
+<p>This vignette describes the <strong>Content-Addressable Storage
+(CAS)</strong> data model used by the storr.tiledb driver. The driver
+stores storr data inside a TileDB Group that contains two Sparse
+Arrays:</p>
+<ul>
+<li>
+<code>tbl_keys</code> maps key-namespace pairs to hashes and
+optional key metadata</li>
+<li>
+<code>tbl_data</code> maps content hashes to serialized object
+values</li>
+</ul>
+<p>The arrays are stored as members inside a TileDB Group at the
+driver’s URI. The Group also contains metadata about the storage
+format.</p>
+<hr>
 </div>
 <div class="section level2">
-<h2 id="cas">CAS<a class="anchor" aria-label="anchor" href="#cas"></a>
+<h2 id="cas-group-structure">CAS: Group Structure<a class="anchor" aria-label="anchor" href="#cas-group-structure"></a>
 </h2>
 <div class="section level3">
-<h3 id="group-structure">Group Structure<a class="anchor" aria-label="anchor" href="#group-structure"></a>
+<h3 id="members">Members<a class="anchor" aria-label="anchor" href="#members"></a>
 </h3>
-<p><strong><code>Members</code></strong></p>
 <ol style="list-style-type: decimal">
 <li>
-<code>tbl_keys</code> (array): maps key-namespace pairs to hashes
-(and to expiry and/or notes, optional)</li>
+<code>tbl_keys</code> (array) maps key/namespace pairs to hashes and
+can store expiry and notes.</li>
 <li>
-<code>tbl_data</code> (array): maps hashes to values (serialised R
-objects)</li>
+<code>tbl_data</code> (array) maps content hashes to serialized R
+objects.</li>
 </ol>
-<p><strong><code>Metadata</code></strong></p>
-<ul>
-<li>
-<code>hash_algo</code>: The name of hash algorithm.</li>
-<li>
-<code>type</code>: Group identifier, <code>"storr"</code>
-</li>
-</ul>
 </div>
 <div class="section level3">
-<h3 id="array-data-models">Array Data Models<a class="anchor" aria-label="anchor" href="#array-data-models"></a>
+<h3 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
 </h3>
-<p><strong><code>tbl_keys</code></strong> - A 2D sparse array that maps
-key-namespace pairs to hashes and key-metadata.</p>
 <ul>
 <li>
-<strong>Dimensions</strong>: <code>namespace</code> (<em>ASCII</em>)
-and <code>key</code> (<em>ASCII</em>)</li>
+<code>hash_algo</code> - name of the hash algorithm used (e.g.,
+<code>"sha256"</code>).</li>
 <li>
-<strong>Attributes</strong>: <code>hash</code> (<em>ASCII</em>),
-<code>expires_at</code> (<em>DATETIME_MS</em>) and <code>notes</code>
-(<em>UTF8</em>)</li>
+<code>type</code> - group identifier string
+<code>"storr"</code>.</li>
+<li>
+<code>serial_format</code> - name of the serialization format used
+(e.g., <code>"rds"</code>).</li>
 </ul>
-<p><strong><code>tbl_data</code></strong> - A 1D sparse array that maps
-hashes to object values.</p>
-<ul>
-<li>
-<strong>Dimensions</strong>: <code>hash</code> (<em>ASCII</em>)</li>
-<li>
-<strong>Attributes</strong>: <code>value</code>
-(<em>ASCII</em>)</li>
-</ul>
-<p>TileDB datatypes in parentheses.</p>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="array-data-models">Array data models<a class="anchor" aria-label="anchor" href="#array-data-models"></a>
+</h2>
+<div class="section level3">
+<h3 id="tbl_keys">tbl_keys<a class="anchor" aria-label="anchor" href="#tbl_keys"></a>
+</h3>
+<p>A 2-dimensional sparse array that maps key-namespace pairs to hashes
+and key-metadata.</p>
+<p><strong>Dimensions</strong> - <code>namespace</code> (<em>ASCII</em>)
+- <code>key</code> (<em>ASCII</em>)</p>
+<p><strong>Attributes</strong> - <code>hash</code> (<em>ASCII</em>) -
+<code>expires_at</code> (<em>DATETIME_MS</em>) - <code>notes</code>
+(<em>UTF8</em>)</p>
+</div>
+<div class="section level3">
+<h3 id="tbl_data">tbl_data<a class="anchor" aria-label="anchor" href="#tbl_data"></a>
+</h3>
+<p>A 1-dimensional sparse array that maps hash to serialized value.</p>
+<p><strong>Dimensions</strong> - <code>hash</code> (<em>ASCII</em>)</p>
+<p><strong>Attributes</strong> - <code>value</code> (<em>ASCII</em>)</p>
+<p>TileDB datatypes shown in parentheses.</p>
 </div>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
+<p>Below is a short example that shows creating a TileDB-backed driver
+and inspecting its layout.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># URI path</span></span>
+<code class="sourceCode R"><span><span class="co"># Create a temporary URI</span></span>
 <span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create a driver</span></span>
+<span><span class="co"># Create a driver (initializes the TileDB Group and member arrays)</span></span>
 <span><span class="va">dr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_tiledb.html">driver_tiledb</a></span><span class="op">(</span><span class="va">uri</span>, init <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>CAS Structure:</p>
+<p>Inspecting the driver directory tree:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dr</span><span class="op">$</span><span class="fu">dir_tree</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpIV06wB/file94c457086b3</span></span>
+<pre><code><span><span class="co"># C:/Users/cgiac/AppData/Local/Temp/RtmpCGgG9I/filea8c4375b332f</span></span>
 <span><span class="co"># ├── tbl_data</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
 <span><span class="co"># │   ├── __fragments</span></span>
@@ -154,7 +171,7 @@ hashes to object values.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1785580886312_1785580886312_6e1c593b059254f5934a5a6a2d6be9a2</span></span>
+<span><span class="co"># │       ├── __1788415129347_1788415129347_50ce401d8cc4db75a8af2e6d98539e6e</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── tbl_keys</span></span>
 <span><span class="co"># │   ├── __commits</span></span>
@@ -163,15 +180,15 @@ hashes to object values.</p>
 <span><span class="co"># │   ├── __labels</span></span>
 <span><span class="co"># │   ├── __meta</span></span>
 <span><span class="co"># │   └── __schema</span></span>
-<span><span class="co"># │       ├── __1785580886310_1785580886310_5971e8efd915ba42ccd52498694e1f1e</span></span>
+<span><span class="co"># │       ├── __1788415129346_1788415129346_4225a90b565bb247eb3c1ae13e986035</span></span>
 <span><span class="co"># │       └── __enumerations</span></span>
 <span><span class="co"># ├── __group</span></span>
-<span><span class="co"># │   └── __1785580886373_1785580886373_624f949cbf9498982f953fe4cb5dc0d1_2</span></span>
+<span><span class="co"># │   └── __1788415129407_1788415129407_0bea4289a74f2441af0181a4c6de7d91_2</span></span>
 <span><span class="co"># ├── __meta</span></span>
-<span><span class="co"># │   └── __1785580886318_1785580886318_5971e8ee81f51a500417aa72204ebfbc</span></span>
+<span><span class="co"># │   └── __1788415129350_1788415129350_186008825b295f24dff7a3bcfd74c5ed</span></span>
 <span><span class="co"># └── __tiledb_group.tdb</span></span>
 <span><span class="co"># </span></span>
-<span><span class="co"># ❯ directories (7) • total size (647 B)</span></span></code></pre>
+<span><span class="co"># ❯ directories (7) • total size (667 B)</span></span></code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

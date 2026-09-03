@@ -7,8 +7,8 @@ Storr driver using TileDB storage engine.
 ``` r
 driver_tiledb(uri, context = NULL, init = FALSE, ...)
 
-driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
-  driver_schemas = NULL, context = NULL)
+driver_tiledb_create(uri, hash_algorithm = NULL, serial_format = "rds",
+  compression_level = -7, driver_schemas = NULL, context = NULL)
 ```
 
 ## Arguments
@@ -30,9 +30,10 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
 - ...:
 
   Other arguments passed to driver's create method when `init = TRUE`.
-  Valid arguments: `hash_algorithm`, `compression_level`, `keep_open`
-  and `driver_schemas`. If `driver_schemas` argument is given, the
-  `compression_level` argument will be ignored.
+  Valid arguments: `hash_algorithm`, `serial_format`,
+  `compression_level`, `keep_open` and `driver_schemas`. If
+  `driver_schemas` argument is given, the `compression_level` argument
+  will be ignored.
 
 - hash_algorithm:
 
@@ -41,6 +42,11 @@ driver_tiledb_create(uri, hash_algorithm = NULL, compression_level = -7,
   'md5', 'sha1', 'crc32', 'sha256', 'sha512', 'xxhash32', 'xxhash64',
   'murmur32', 'spookyhash', 'blake3', 'crc32c', 'xxh3_64', 'xxh3_128'.
   If not given, the default is 'md5'.
+
+- serial_format:
+
+  Select serialization format: `"rds"` (default), `"qs2"` or `"qdata"`.
+  For the latter two, `'qs2'` package is required.
 
 - compression_level:
 
@@ -92,6 +98,8 @@ and its parent class
   (read-only)
 
 - **`size`** - Get storr size (read-only)
+
+- **`serial_format`** - Get serialization format (read-only)
 
 **Lifecycle**
 
