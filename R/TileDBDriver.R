@@ -1162,6 +1162,11 @@ TileDBDriver <- R6::R6Class(
         return(invisible(NULL))
       }
 
+      # Three cases:
+      #   1. Storrs with different serializations formats
+      #   2. Storrs with identical hash algorithms
+      #   3. Storrs with different hash algorithms
+
       if (self$serial_format != dest_driver$serial_format) {
 
         values <- self$mget_object(idx$hash)
@@ -1173,10 +1178,6 @@ TileDBDriver <- R6::R6Class(
 
 
       } else {
-
-        # Two cases:
-        #   1. Storrs with identical hash algorithms
-        #   2. Storrs with different hash algorithms
 
         hashes <- unique(idx$hash)
 
