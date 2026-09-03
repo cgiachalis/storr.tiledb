@@ -25,16 +25,15 @@ A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver for [stor
 ## Key features
 
 - Fast key-value operations using TileDB methods
-- Additional and faster serialization formats through [qs2](https://cran.r-project.org/web/packages/qs2/index.html)[^1]
-- Metadata support: notes and Time-To-Live (TTL) expiration timestamps next to key-value pairs
+- Additional faster serialization formats through [qs2](https://cran.r-project.org/web/packages/qs2/index.html) package[^1]
+- Per key metadata: notes and Time-To-Live (TTL) expiration timestamps next to key-value pairs
 - Async/parallel operations with [mirai](https://cran.rstudio.com/web/packages/mirai/)
 - In-memory caching layers with hash tables
 - Native cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)
-- Data version (time-travel)
-- Encryption support
-- Schema configuration for performance tuning
+- Data versioning (*time-traveling*) and encryption support
+- Flexible schema configuration for performance tuning
 
-[^1]: qs2](https://cran.r-project.org/web/packages/qs2/index.html) package is soft dependency, so
+[^1]: [qs2](https://cran.r-project.org/web/packages/qs2/index.html) package is soft dependency, so
 it has to be installed to use the 'qs2' or 'qdata' serialization formats.
 
 ## Installation
