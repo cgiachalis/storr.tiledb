@@ -2808,10 +2808,6 @@ TileDBStorr <- R6::R6Class(
       dr <- private$DRIVER
       sto <- storr::storr(dr)
 
-      if (dr$serial_format != "rds") {
-      sto$serialize_object <- make_serialize_object(sto$traits,
-                                                    serial_format = dr$serial_format)
-      }
       invisible(.base_export(dest, sto, list, namespace, skip_missing)$dest)
     },
 
@@ -2894,6 +2890,9 @@ TileDBStorr <- R6::R6Class(
     },
 
     #' @description Export objects from storr to another TileDB storr.
+    #'
+    #' @details
+    #' Note that this method skips missing keys without warning.
     #'
     #' @param key A character vector of source keys.
     #' @param namespace `r sto_namespaces_or_null`
