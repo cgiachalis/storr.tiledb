@@ -192,6 +192,13 @@ dr$print()
 # members
 dr$names()
 # "tbl_keys" "tbl_data"
+
+dr$get_metadata()
+# TileDB GROUP: <R6 Class: TileDBDriver>
+# Metadata: <key,value> • total 3
+# • hash_algo: ‘md5’
+# • serial_format: ‘rds’
+# • type: ‘storr’
 }
 
 }
