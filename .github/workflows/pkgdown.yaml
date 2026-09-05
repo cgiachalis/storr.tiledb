@@ -3,9 +3,8 @@
 on:
   push:
     branches:
-     - master
-    branches-ignore:
-     - "dependabot/**"
+     - "master"
+     - "!dependabot/**"
   # pull_request:
   #   branches: [master]
   release:
