@@ -34,10 +34,16 @@ dr <- driver_tiledb(uri2, init = TRUE)
 sto2 <- storr::storr(dr)
 ```
 
-The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality.
-The latter is the standard `storr` object.
+Or, use the convenient wrapper when the driver is configured with one of `qs2` 
+formats: 
+```{r}
+sto2 <- storr_tdb0(uri2)
+```
 
-For the following examples, we use the `storr_tiledb()` constructor.
+The first approach generates a `TileDBStorr` object that represents the storr interface optimised for TileDB storage and provides additional functionality. The latter 
+is the standard `storr` object.
+
+For the rest of the vignette, the `storr_tiledb()` constructor will be used.
 
 ## API Examples
 
