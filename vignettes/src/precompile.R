@@ -11,6 +11,7 @@ source("./vignettes/src/helpers.R")
 .precompile_vignette("api", render = TRUE)
 .precompile_vignette("data-model", render = TRUE)
 .precompile_vignette("faq", render = TRUE)
+.precompile_vignette("custom_schemas", render = TRUE)
 
 # Pre-compile all vignettes
 .precompile_all(render = TRUE)

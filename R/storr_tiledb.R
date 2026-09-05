@@ -24,11 +24,12 @@
 #'
 #'  ## Serialization
 #'
-#'  `R` objects are saved to the storage engine as string representation of the
+#'  `R` objects are saved to storage engine as string representation of the
 #'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
-#'  function. For storing large objects efficiently, the package supports `"qs2"`
-#'  and `"qdata"` formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
-#'  package; `qs2` should be installed in the system to use these formats.
+#'  function. Optionally, to store large objects efficiently, the package supports
+#'   `"qs2"`and `"qdata"` formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+#'  package (must be installed) using for string encoding/decoding the basE91 format.
+#'
 #'
 #'  ## Cache option
 #'
@@ -150,8 +151,8 @@
 #'
 #' **Metadata Operations**
 #'
-#' - **`update_keymeta()`** - Set metadata (expires_at, notes) for a key
-#' - **`mupdate_keymeta()`** - Set metadata for multiple keys
+#' - **`update_keymeta()`** - Update metadata (expires_at, notes) for a key
+#' - **`mupdate_keymeta()`** - Update metadata for multiple keys
 #' - **`get_keymeta()`** - Retrieve metadata for a key
 #' - **`mget_keymeta()`** - Retrieve metadata for multiple keys
 #' - **`get_keymeta_expires_at()`** - Retrieve expiration metadata for a key
@@ -168,8 +169,8 @@
 #' - **`mset_by_value_async()`** - Set multiple key-value pairs using hashes, asynchronously
 #' - **`update_async()`** - Update a key-value pair and retain key-metadata, asynchronously
 #' - **`mupdate_async()`** - Update multiple key-value pairs and retain key-metadata, asynchronously
-#' - **`update_keymeta_async()`** - Set metadata, asynchronously
-#' - **`mupdate_keymeta_async()`** - Set multiple metadata, asynchronously
+#' - **`update_keymeta_async()`** - Update metadata, asynchronously
+#' - **`mupdate_keymeta_async()`** - Update multiple metadata, asynchronously
 #' - **`clear_keymeta_async()`** - Clear metadata, asynchronously
 #'
 #' **Object Hash Management**
@@ -264,7 +265,7 @@
 #' config <- tiledb::tiledb_config()
 #' config["sm.encryption_type"] <- "AES_256_GCM";
 #' config["sm.encryption_key"] <- key
-#' ctx <- tiledb::tiledb_ctx(config)
+#' ctx <- new_context(config)
 #'
 #' # Create a storr with context that encapsulates encryption configuration
 #' uri_enc <- tempfile()

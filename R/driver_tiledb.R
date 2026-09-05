@@ -103,8 +103,9 @@
 #'
 #' *Metadata*
 #'
-#'  - `hash_algo`: The name of hash algorithm.
-#'  - `type`: Group identifier, `"storr"`
+#'  - `hash_algo`: the name of hash algorithm
+#'  - `type`: group identifier, `"storr"`
+#'  - `serial_format`: the name of serialization format
 #'
 #' **Arrays**
 #'
@@ -154,6 +155,13 @@
 #' # members
 #' dr$names()
 #' # "tbl_keys" "tbl_data"
+#'
+#' dr$get_metadata()
+#' # TileDB GROUP: <R6 Class: TileDBDriver>
+#' # Metadata: <key,value> • total 3
+#' # • hash_algo: ‘md5’
+#' # • serial_format: ‘rds’
+#' # • type: ‘storr’
 #'}
 #'
 #' @name driver_tiledb

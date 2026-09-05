@@ -99,7 +99,7 @@ test_that("storr_tdb0()", {
   expect_no_error(sto <- storr_tdb0(uri))
   expect_s3_class(sto, c("storr", "R6"), exact = TRUE)
 
-  expect_equal(body(sto$serialize_object), str2lang("qs2::base91_encode(qs2::qs_serialize(object))"))
+  expect_equal(body(sto$serialize_object), str2lang("qs2::base91_encode(qs2::qs_serialize(object), quote_character = \"'\")"))
 
 })
 

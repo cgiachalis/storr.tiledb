@@ -30,7 +30,7 @@ clr_cache_expired_keys <- function(namespace, h) {
   if (is.null(namespace)) {
     utils::maphash(h, function(k, v) {
       if (!(is.null(v$expires_at) || is.na(v$expires_at))) {
-        if (v$expires_at < Sys.time()) {
+        if (v$expires_at <= Sys.time()) {
           utils::remhash(h, k)
         }
       }
@@ -43,7 +43,7 @@ clr_cache_expired_keys <- function(namespace, h) {
 
       if (ns %in% namespace) {
         if (!(is.null(v$expires_at) || is.na(v$expires_at))) {
-          if (v$expires_at < Sys.time()) {
+          if (v$expires_at <= Sys.time()) {
             utils::remhash(h, k)
           }
         }

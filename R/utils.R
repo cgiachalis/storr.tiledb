@@ -142,14 +142,14 @@ make_serialize_object <- function(x, serial_format = "rds", xdr = TRUE, r_versio
 
   } else if (serial_format == "qs2") {
 
-    function(object) qs2::base91_encode(qs2::qs_serialize(object))
+    function(object) qs2::base91_encode(qs2::qs_serialize(object), quote_character = "'")
 
   } else if (serial_format == "qdata") {
 
-    function(object) qs2::base91_encode(qs2::qd_serialize(object))
+    function(object) qs2::base91_encode(qs2::qd_serialize(object), quote_character = "'")
 
   } else {
-    # NB: It's not reachable; in case it does, something is broken at driver
+    # NB: It's not reachable; in case it is, something is broken at driver
     stop(sprintf("Unknown serialization format %s", serial_format), call. = FALSE)
   }
 
