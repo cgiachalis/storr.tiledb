@@ -154,8 +154,9 @@ notes, optional)
 
 \emph{Metadata}
 \itemize{
-\item \code{hash_algo}: The name of hash algorithm.
-\item \code{type}: Group identifier, \code{"storr"}
+\item \code{hash_algo}: the name of hash algorithm
+\item \code{type}: group identifier, \code{"storr"}
+\item \code{serial_format}: the name of serialization format
 }
 
 \strong{Arrays}

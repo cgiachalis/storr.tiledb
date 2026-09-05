@@ -103,8 +103,9 @@
 #'
 #' *Metadata*
 #'
-#'  - `hash_algo`: The name of hash algorithm.
-#'  - `type`: Group identifier, `"storr"`
+#'  - `hash_algo`: the name of hash algorithm
+#'  - `type`: group identifier, `"storr"`
+#'  - `serial_format`: the name of serialization format
 #'
 #' **Arrays**
 #'
