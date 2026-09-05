@@ -27,7 +27,7 @@
 #'  `R` objects are saved to storage engine as string representation of the
 #'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
 #'  function. Optionally, to store large objects efficiently, the package supports
-#'   `"qs2"`and `"qdata"` formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+#'   `"qs2"`and `"qdata"` formats powered by [‘qs2’](https://cran.r-project.org/web/packages/qs2/)
 #'  package (must be installed) using for string encoding/decoding the basE91 format.
 #'
 #'
