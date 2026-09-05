@@ -61,7 +61,7 @@ environments.
 \code{R} objects are saved to storage engine as string representation of the
 raw vector. The default serialization format (\code{"rds"}) uses the \code{\link[=serialize]{serialize()}}
 function. Optionally, to store large objects efficiently, the package supports
-\code{"qs2"}and \code{"qdata"} formats powered by \link[https://cran.r-project.org/web/packages/qs2/index.html]{‘qs2’}
+\code{"qs2"}and \code{"qdata"} formats powered by \href{https://cran.r-project.org/web/packages/qs2/}{‘qs2’}
 package (must be installed) using for string encoding/decoding the basE91 format.
 }
 
