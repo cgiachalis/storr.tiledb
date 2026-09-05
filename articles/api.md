@@ -22,13 +22,21 @@ dr <- driver_tiledb(uri2, init = TRUE)
 sto2 <- storr::storr(dr)
 ```
 
+Or, use the convenient wrapper when the driver is configured with one of
+`qs2` formats:
+
+``` r
+
+sto2 <- storr_tdb0(uri2)
+```
+
 The first approach generates a `TileDBStorr` object that represents the
 storr interface optimised for TileDB storage and provides additional
 functionality. The latter is the standard `storr` object.
 
-For the following examples, we use the
+For the rest of the vignette, the
 [`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md)
-constructor.
+constructor will be used.
 
 ## API Examples
 
@@ -54,9 +62,12 @@ sto$mget(c("b", "b"), namespace = c("objects", "ns1"))
 # 
 # 
 # [[2]]
-#               mpg cyl disp  hp drat    wt  qsec vs am gear carb
-# Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
-# Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4
+#               mpg cyl disp  hp drat    wt  qsec vs am gear
+# Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4
+# Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4
+#               carb
+# Mazda RX4        4
+# Mazda RX4 Wag    4
 
 # list keys
 sto$list("objects")
@@ -124,14 +135,14 @@ methods:
 # Retrieve key metadata
 sto$get_keymeta("aa", use_cache = FALSE)
 # $expires_at
-# [1] "2026-08-30 08:54:03 EEST"
+# [1] "2026-09-05 12:38:22 EEST"
 # 
 # $notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
 sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # [[1]]
 # [[1]]$expires_at
-# [1] "2026-08-30 08:54:03 EEST"
+# [1] "2026-09-05 12:38:22 EEST"
 # 
 # [[1]]$notes
 # [1] "{\"name\":\"John\",\"id\":12345}"
@@ -139,7 +150,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 # 
 # [[2]]
 # [[2]]$expires_at
-# [1] "2026-08-30 08:49:04 EEST"
+# [1] "2026-09-05 12:33:23 EEST"
 # 
 # [[2]]$notes
 # [1] NA
@@ -148,7 +159,7 @@ sto$mget_keymeta(c("aa", "bb"), use_cache = TRUE)
 sto$update_keymeta("bb", notes = "Updated Note")
 sto$get_keymeta("bb")
 # $expires_at
-# [1] "2026-08-30 08:49:04 EEST"
+# [1] "2026-09-05 12:33:23 EEST"
 # 
 # $notes
 # [1] "Updated Note"
@@ -187,7 +198,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 # [1] NA
 # 
 # [[2]]
-# [1] "2026-08-30 08:49:04 EEST"
+# [1] "2026-09-05 12:33:23 EEST"
 ```
 
 **Expiration management**
@@ -198,7 +209,7 @@ sto$mget_keymeta_expires_at(c("aa", "bb"))
 sto$keys_with_expiration()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-30 08:49:04
+# 1:   objects     bb 2026-09-05 12:33:23
 
 Sys.sleep(1)
 
@@ -206,7 +217,7 @@ Sys.sleep(1)
 sto$expired_keys()
 #    namespace    key          expires_at
 #       <char> <char>              <POSc>
-# 1:   objects     bb 2026-08-30 08:49:04
+# 1:   objects     bb 2026-09-05 12:33:23
 
 # Remove expired keys
 sto$clear_expired_keys()

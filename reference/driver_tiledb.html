@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,8 +171,9 @@ the group structure and array data models.</p>
 <p><em>Members</em></p><ol><li><p><code>tbl_keys</code> (array): maps key-namespace pairs to hashes (and to expiry and/or
 notes, optional)</p></li>
 <li><p><code>tbl_data</code> (array): maps hashes to values (serialised R objects)</p></li>
-</ol><p><em>Metadata</em></p><ul><li><p><code>hash_algo</code>: The name of hash algorithm.</p></li>
-<li><p><code>type</code>: Group identifier, <code>"storr"</code></p></li>
+</ol><p><em>Metadata</em></p><ul><li><p><code>hash_algo</code>: the name of hash algorithm</p></li>
+<li><p><code>type</code>: group identifier, <code>"storr"</code></p></li>
+<li><p><code>serial_format</code>: the name of serialization format</p></li>
 </ul><p><strong>Arrays</strong></p>
 <p><em>tbl_keys</em> - A 2D sparse array that maps key-namespace pairs to hashes and key-metadata.</p><ul><li><p>Dimensions: <code>namespace</code> (<em>ASCII</em>) and <code>key</code> (<em>ASCII</em>)</p></li>
 <li><p>Attributes: <code>hash</code> (<em>ASCII</em>), <code>expires_at</code> (<em>DATETIME_MS</em>) and <code>notes</code> (<em>UTF8</em>)</p></li>
@@ -202,6 +203,13 @@ notes, optional)</p></li>
 <span class="r-in"><span><span class="co"># members</span></span></span>
 <span class="r-in"><span><span class="va">dr</span><span class="op">$</span><span class="fu">names</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># "tbl_keys" "tbl_data"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">dr</span><span class="op">$</span><span class="fu">get_metadata</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># TileDB GROUP: &lt;R6 Class: TileDBDriver&gt;</span></span></span>
+<span class="r-in"><span><span class="co"># Metadata: &lt;key,value&gt; • total 3</span></span></span>
+<span class="r-in"><span><span class="co"># • hash_algo: ‘md5’</span></span></span>
+<span class="r-in"><span><span class="co"># • serial_format: ‘rds’</span></span></span>
+<span class="r-in"><span><span class="co"># • type: ‘storr’</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

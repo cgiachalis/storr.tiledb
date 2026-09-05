@@ -2,9 +2,9 @@
 
 ## Overview
 
-To tune your storr’s performance and storage characteristics,
-`storr.tiledb` provides functionality to customise the TileDB schema
-configuration.
+To tune TileDB storr performance and storage characteristics,
+`storr.tiledb` provides R6 classes that abstracts the complexities when
+comes to schema configuration.
 
 This is useful for creating storage drivers optimized for different use
 cases:
@@ -16,7 +16,7 @@ cases:
 - **Balanced scenarios**: Apply selective compression strategies to
   different attributes
 
-You can customize compression algorithms, compression levels, tile
+What can be customised: compression algorithms, compression levels, tile
 capacity, cell order, and tile order settings for both the keys and data
 arrays.
 
@@ -68,6 +68,11 @@ schemas$SchemaData$attr_value <- flt_list
 
 #### Example: No Compression for Speed
 
+This is useful only if you wish to apply selectively compression to
+specific attributes and/or dimensions. Otherwise, prefer
+`compression_level = NULL` in
+[`storr_tiledb()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_tiledb.md).
+
 ``` r
 
 # Create schemas without any compression filters
@@ -89,7 +94,7 @@ flt_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 schemas$SchemaData$attr_value <- flt_list
 ```
 
-`SchemaKeys` remains uncompressed for fast lookups.
+Note that `SchemaKeys` remains uncompressed for fast lookups.
 
 #### Example: Adjust Tile Capacity
 
@@ -153,6 +158,9 @@ dr <- driver_tiledb(uri, init = TRUE, driver_schemas = schemas, context = ctx)
 
 # Create storr from driver
 sto <- storr::storr(dr)
+
+# Or instantiate a standard storr that picks the correct serialization (if needed)
+sto <- storr_tdb0(uri)
 
 # Use it
 sto$set("key1", 123)

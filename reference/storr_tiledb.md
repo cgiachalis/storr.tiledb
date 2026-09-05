@@ -89,12 +89,12 @@ environments.
 
 ### Serialization
 
-`R` objects are saved to the storage engine as string representation of
-the raw vector. The default serialization format (`"rds"`) uses the
-[`serialize()`](https://rdrr.io/r/base/serialize.html) function. For
-storing large objects efficiently, the package supports `"qs2"` and
-`"qdata"` formats powered by ‘qs2’ package; `qs2` should be installed in
-the system to use these formats.
+`R` objects are saved to storage engine as string representation of the
+raw vector. The default serialization format (`"rds"`) uses the
+[`serialize()`](https://rdrr.io/r/base/serialize.html) function.
+Optionally, to store large objects efficiently, the package supports
+`"qs2"`and `"qdata"` formats powered by ‘qs2’ package (must be
+installed) using for string encoding/decoding the basE91 format.
 
 ### Cache option
 
@@ -239,9 +239,9 @@ For complete definitions, see **Methods** section in
 
 **Metadata Operations**
 
-- **`update_keymeta()`** - Set metadata (expires_at, notes) for a key
+- **`update_keymeta()`** - Update metadata (expires_at, notes) for a key
 
-- **`mupdate_keymeta()`** - Set metadata for multiple keys
+- **`mupdate_keymeta()`** - Update metadata for multiple keys
 
 - **`get_keymeta()`** - Retrieve metadata for a key
 
@@ -277,9 +277,10 @@ For complete definitions, see **Methods** section in
 - **`mupdate_async()`** - Update multiple key-value pairs and retain
   key-metadata, asynchronously
 
-- **`update_keymeta_async()`** - Set metadata, asynchronously
+- **`update_keymeta_async()`** - Update metadata, asynchronously
 
-- **`mupdate_keymeta_async()`** - Set multiple metadata, asynchronously
+- **`mupdate_keymeta_async()`** - Update multiple metadata,
+  asynchronously
 
 - **`clear_keymeta_async()`** - Clear metadata, asynchronously
 
@@ -394,7 +395,7 @@ key <- "0123456789abcdeF0123456789abcdeF"
 config <- tiledb::tiledb_config()
 config["sm.encryption_type"] <- "AES_256_GCM";
 config["sm.encryption_key"] <- key
-ctx <- tiledb::tiledb_ctx(config)
+ctx <- new_context(config)
 
 # Create a storr with context that encapsulates encryption configuration
 uri_enc <- tempfile()

@@ -218,9 +218,11 @@ sub-sections describe the group structure and array data models.
 
 *Metadata*
 
-- `hash_algo`: The name of hash algorithm.
+- `hash_algo`: the name of hash algorithm
 
-- `type`: Group identifier, `"storr"`
+- `type`: group identifier, `"storr"`
+
+- `serial_format`: the name of serialization format
 
 **Arrays**
 
@@ -262,5 +264,12 @@ dr$print()
 # members
 dr$names()
 # "tbl_keys" "tbl_data"
+
+dr$get_metadata()
+# TileDB GROUP: <R6 Class: TileDBDriver>
+# Metadata: <key,value> • total 3
+# • hash_algo: ‘md5’
+# • serial_format: ‘rds’
+# • type: ‘storr’
 } # }
 ```

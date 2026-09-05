@@ -4,7 +4,7 @@
 
 ------------------------------------------------------------------------
 
-#### Can I change the storr’s hash algorithm?
+#### Q: Can I change the storr’s hash algorithm?
 
 Yes, by using driver’s active field `$hash_algorithm`:
 
@@ -54,7 +54,7 @@ sto$get_hash("a")
 # [1] "38e42db36c4414f7bbc19d750f71a721"
 ```
 
-#### How can I rehash the entire key-value storr?
+#### Q: How can I rehash the entire key-value storr?
 
 You need to create a new storr with the desired hash algorithm, and then
 export from source storr to the new one.

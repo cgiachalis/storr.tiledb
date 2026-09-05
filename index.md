@@ -21,7 +21,7 @@ DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr
   package[^1]
 - Per key metadata: notes and Time-To-Live (TTL) expiration timestamps
   next to key-value pairs
-- Async/parallel operations with
+- Asynchronous and parallel operations with
   [mirai](https://cran.rstudio.com/web/packages/mirai/)
 - In-memory caching layers with hash tables
 - Native cloud storage support (AWS S3, Azure Blob, Google Cloud
@@ -42,11 +42,11 @@ pak::pkg_install("cgiachalis/storr.tiledb")
 remotes::install_github("cgiachalis/storr.tiledb")
 ```
 
-From r-universe:
+From R-universe:
 
 ``` r
 
-# Install 'storr.tiledb' in R:
+# install 'storr.tiledb'
 install.packages('storr.tiledb', repos = c('https://cgiachalis.r-universe.dev'))
 ```
 
@@ -55,10 +55,10 @@ install.packages('storr.tiledb', repos = c('https://cgiachalis.r-universe.dev'))
 ``` r
 library(storr.tiledb)
 
-# Temp URI path
+# Create a temporary URI
 uri <- tempfile()
 
-# Set up storr
+# Create a TileDB storr
 sto <- storr_tiledb(uri, init = TRUE)
 
 # Set

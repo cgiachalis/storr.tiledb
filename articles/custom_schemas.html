@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
 
       <h1>Schema Configuration</h1>
             
-            <h4 data-toc-skip class="date">2026-08-13</h4>
+            <h4 data-toc-skip class="date">2026-09-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/cgiachalis/storr.tiledb/blob/master/vignettes/custom_schemas.Rmd" class="external-link"><code>vignettes/custom_schemas.Rmd</code></a></small>
       <div class="d-none name"><code>custom_schemas.Rmd</code></div>
@@ -78,9 +78,9 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>To tune your storr’s performance and storage characteristics,
-<code>storr.tiledb</code> provides functionality to customise the TileDB
-schema configuration.</p>
+<p>To tune TileDB storr performance and storage characteristics,
+<code>storr.tiledb</code> provides R6 classes that abstracts the
+complexities when comes to schema configuration.</p>
 <p>This is useful for creating storage drivers optimized for different
 use cases:</p>
 <ul>
@@ -94,9 +94,9 @@ and tune tile capacity for speed</li>
 <strong>Balanced scenarios</strong>: Apply selective compression
 strategies to different attributes</li>
 </ul>
-<p>You can customize compression algorithms, compression levels, tile
-capacity, cell order, and tile order settings for both the keys and data
-arrays.</p>
+<p>What can be customised: compression algorithms, compression levels,
+tile capacity, cell order, and tile order settings for both the keys and
+data arrays.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-custom-schemas">Creating Custom Schemas<a class="anchor" aria-label="anchor" href="#creating-custom-schemas"></a>
@@ -151,6 +151,10 @@ configuration:</p>
 <div class="section level4">
 <h4 id="example-no-compression-for-speed">Example: No Compression for Speed<a class="anchor" aria-label="anchor" href="#example-no-compression-for-speed"></a>
 </h4>
+<p>This is useful only if you wish to apply selectively compression to
+specific attributes and/or dimensions. Otherwise, prefer
+<code>compression_level = NULL</code> in
+<code><a href="../reference/storr_tiledb.html">storr_tiledb()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create schemas without any compression filters</span></span>
 <span><span class="va">schemas</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/driver_schemas.html">driver_schemas</a></span><span class="op">(</span>ctx <span class="op">=</span> <span class="va">ctx</span>, none_filter <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -168,7 +172,8 @@ configuration:</p>
 <span><span class="va">flt_list</span> <span class="op">&lt;-</span> <span class="fu">tiledb</span><span class="fu">::</span><span class="fu"><a href="https://tiledb-inc.github.io/TileDB-R/reference/tiledb_filter_list.html" class="external-link">tiledb_filter_list</a></span><span class="op">(</span><span class="va">flt</span>, ctx <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">schemas</span><span class="op">$</span><span class="va">SchemaData</span><span class="op">$</span><span class="va">attr_value</span> <span class="op">&lt;-</span> <span class="va">flt_list</span></span></code></pre></div>
-<p><code>SchemaKeys</code> remains uncompressed for fast lookups.</p>
+<p>Note that <code>SchemaKeys</code> remains uncompressed for fast
+lookups.</p>
 </div>
 <div class="section level4">
 <h4 id="example-adjust-tile-capacity">Example: Adjust Tile Capacity<a class="anchor" aria-label="anchor" href="#example-adjust-tile-capacity"></a>
@@ -224,6 +229,9 @@ tile:</p>
 <span></span>
 <span><span class="co"># Create storr from driver</span></span>
 <span><span class="va">sto</span> <span class="op">&lt;-</span> <span class="fu">storr</span><span class="fu">::</span><span class="fu"><a href="https://richfitz.github.io/storr/reference/storr.html" class="external-link">storr</a></span><span class="op">(</span><span class="va">dr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or instantiate a standard storr that picks the correct serialization (if needed)</span></span>
+<span><span class="va">sto</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/storr_tdb0.html">storr_tdb0</a></span><span class="op">(</span><span class="va">uri</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Use it</span></span>
 <span><span class="va">sto</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"key1"</span>, <span class="fl">123</span><span class="op">)</span></span>

@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,7 @@
 <li>Additional faster serialization formats through <a href="https://cran.r-project.org/web/packages/qs2/index.html" class="external-link">qs2</a> package<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://cran.r-project.org/web/packages/qs2/index.html" class="external-link"&gt;qs2&lt;/a&gt; package is soft dependency, so it has to be installed to use the ‘qs2’ or ‘qdata’ serialization formats.&lt;/p&gt;'><sup>1</sup></a>
 </li>
 <li>Per key metadata: notes and Time-To-Live (TTL) expiration timestamps next to key-value pairs</li>
-<li>Async/parallel operations with <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a>
+<li>Asynchronous and parallel operations with <a href="https://cran.rstudio.com/web/packages/mirai/" class="external-link">mirai</a>
 </li>
 <li>In-memory caching layers with hash tables</li>
 <li>Native cloud storage support (AWS S3, Azure Blob, Google Cloud Storage)</li>
@@ -100,9 +100,9 @@
 <span></span>
 <span><span class="co"># remotes</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"cgiachalis/storr.tiledb"</span><span class="op">)</span></span></code></pre></div>
-<p>From r-universe:</p>
+<p>From R-universe:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install 'storr.tiledb' in R:</span></span>
+<code class="sourceCode R"><span><span class="co"># install 'storr.tiledb'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'storr.tiledb'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://cgiachalis.r-universe.dev'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -110,10 +110,10 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(storr.tiledb)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Temp URI path</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Create a temporary URI</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>uri <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Set up storr</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Create a TileDB storr</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>sto <span class="ot">&lt;-</span> <span class="fu">storr_tiledb</span>(uri, <span class="at">init =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Set</span></span>
