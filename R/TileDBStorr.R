@@ -20,6 +20,15 @@
 #'
 #' @export
 #'
+#' @examples
+#'\dontrun{
+#' uri <- tempfile()
+#'
+#' dr <- driver_tiledb(uri, init = TRUE)
+#'
+#' sto <- TileDBStorr$new(dr, default_namespace = "ns1")
+#'}
+#'
 #' @keywords internal
 #'
 TileDBStorr <- R6::R6Class(

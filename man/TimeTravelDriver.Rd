@@ -12,6 +12,13 @@ time-travel support.
 
 This class is intended for usage into \link{StorrTimeTravel}.
 }
+\examples{
+uri <- tempfile()
+driver_tiledb_create(uri)
+
+dr <- TimeTravelDriver$new(uri)
+
+}
 \keyword{internal}
 \section{Super classes}{
 \code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{TimeTravelDriver}

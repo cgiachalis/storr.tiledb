@@ -10,6 +10,28 @@
 #'
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' t0 <- Sys.time()
+#' sto$set("a", 1)
+#'
+#' t1 <- Sys.time()
+#' sto$set("b", 2)
+#'
+#' t2 <- Sys.time()
+#'
+#' # Open storr with time-travel support at t1
+#' dr <- TimeTravelDriver$new(uri, timestamp = t1)
+#' stor <- StorrTimeTravel$new(dr, "objects")
+#'
+#' stor$get("a")
+#' stor$get("b") # key 'b' ('objects') not found
+#'
+#'}
 #' @keywords internal
 #'
 StorrTimeTravel <- R6::R6Class(

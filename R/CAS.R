@@ -9,6 +9,12 @@
 #'
 #' @export
 #'
+#' @examples
+#' uri <- tempfile()
+#'
+#' dr <- CAS$new(uri)
+#'
+#'
 #' @keywords internal
 #'
 CAS <- R6::R6Class(

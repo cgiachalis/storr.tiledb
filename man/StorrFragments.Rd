@@ -9,6 +9,18 @@ An object of class \code{StorrFragments}, \code{R6}.
 \description{
 A class for working with Storr TileDB Fragments.
 }
+\examples{
+\dontrun{
+uri <- tempfile()
+
+driver_tiledb_create(uri)
+
+sto <- StorrFragments$new(uri)
+
+sto$frag_num()
+}
+
+}
 \keyword{internal}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}

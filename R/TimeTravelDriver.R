@@ -9,6 +9,12 @@
 #'
 #' @export
 #'
+#' @examples
+#' uri <- tempfile()
+#' driver_tiledb_create(uri)
+#'
+#' dr <- TimeTravelDriver$new(uri)
+#'
 #' @keywords internal
 #'
 TimeTravelDriver <- R6::R6Class(
