@@ -6,9 +6,12 @@
 #' Internal low-level TileDB functions that are required to run asynchronous
 #' processes with `mirai` framework.
 #'
-#' @param ctx  TileDB context pointer.
-#' @param uri  TileDB URI path.
-#' @param cfgptr  TileDB configuration pointer.
+#' These functions are for internal use and exported to avoid `:::` usage
+#' within mirai calls.
+#'
+#' @param ctx TileDB context pointer.
+#' @param uri TileDB URI path.
+#' @param cfgptr TileDB configuration pointer.
 #'
 #' @export
 #' @keywords internal

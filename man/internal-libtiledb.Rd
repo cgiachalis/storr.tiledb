@@ -21,4 +21,8 @@
 Internal low-level TileDB functions that are required to run asynchronous
 processes with \code{mirai} framework.
 }
+\details{
+These functions are for internal use and exported to avoid \code{:::} usage
+within mirai calls.
+}
 \keyword{internal}
