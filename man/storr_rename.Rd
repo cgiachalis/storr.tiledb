@@ -20,7 +20,6 @@ The new uri path, invisibly.
 It renames the driver's basename, i.e., 'path/oldname' to 'path/newname'.
 }
 \examples{
-\dontrun{
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 
@@ -34,7 +33,6 @@ newuri <- storr_rename(uri, newname = "new-storr")
 sto2 <- storr_tiledb(newuri)
 
 sto2$list()
-}
 
 }
 \seealso{

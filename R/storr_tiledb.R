@@ -237,7 +237,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # URI path
 #' uri <- tempfile()
 #' sto <- storr_tiledb(uri, init = TRUE)
@@ -275,7 +274,7 @@
 #' stoe$get("a") # 1
 #'
 #' # No access without the key
-#' # stoe_new <- storr_tiledb(uri_enc) # This will fail
+#' ## stoe_new <- storr_tiledb(uri_enc) # This will fail
 #'
 #' # Pass the context with encryption parameters
 #' stoe_new <- storr_tiledb(uri_enc, context = ctx)
@@ -319,7 +318,6 @@
 #' uric <- tempfile()
 #'
 #' stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
-#'}
 #'
 #'
 storr_tiledb <- function(uri,
@@ -353,7 +351,6 @@ storr_tiledb <- function(uri,
 #' @family storr-utilities
 #'
 #' @examples
-#' \dontrun{
 #' uri <- tempfile()
 #' sto <- storr_tiledb(uri, init = TRUE)
 #'
@@ -368,7 +365,6 @@ storr_tiledb <- function(uri,
 #' sto2 <- storr_tiledb(to_uri)
 #'
 #' sto2$list()
-#' }
 #'
 #' @rdname storr_copy
 storr_copy <- function(uri, to_uri, context = NULL) {
@@ -402,7 +398,6 @@ storr_copy <- function(uri, to_uri, context = NULL) {
 #' @family storr-utilities
 #'
 #' @examples
-#' \dontrun{
 #' uri <- tempfile()
 #' sto <- storr_tiledb(uri, init = TRUE)
 #'
@@ -417,7 +412,6 @@ storr_copy <- function(uri, to_uri, context = NULL) {
 #' sto2 <- storr_tiledb(to_uri)
 #'
 #' sto2$list()
-#' }
 #'
 #' @rdname storr_move
 storr_move <- function(uri, newuri, context = NULL) {
@@ -452,7 +446,6 @@ storr_move <- function(uri, newuri, context = NULL) {
 #' @family storr-utilities
 #'
 #'@examples
-#' \dontrun{
 #' uri <- tempfile()
 #' sto <- storr_tiledb(uri, init = TRUE)
 #'
@@ -466,7 +459,6 @@ storr_move <- function(uri, newuri, context = NULL) {
 #' sto2 <- storr_tiledb(newuri)
 #'
 #' sto2$list()
-#'}
 #'
 #' @rdname storr_rename
 storr_rename <- function(uri, newname, context = NULL) {

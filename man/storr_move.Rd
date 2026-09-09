@@ -20,7 +20,6 @@ The new uri path, invisibly.
 Move Storr to another URI
 }
 \examples{
-\dontrun{
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
 
@@ -35,7 +34,6 @@ storr_move(uri, newuri = to_uri)
 sto2 <- storr_tiledb(to_uri)
 
 sto2$list()
-}
 
 }
 \seealso{

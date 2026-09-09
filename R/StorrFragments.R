@@ -10,7 +10,6 @@
 #' @keywords internal
 #'
 #' @examples
-#'\dontrun{
 #' uri <- tempfile()
 #'
 #' driver_tiledb_create(uri)
@@ -18,7 +17,6 @@
 #' sto <- StorrFragments$new(uri)
 #'
 #' sto$frag_num()
-#'}
 #'
 StorrFragments <- R6::R6Class(
   classname = "StorrFragments",

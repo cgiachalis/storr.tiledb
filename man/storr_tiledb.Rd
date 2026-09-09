@@ -269,7 +269,6 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 }
 
 \examples{
-\dontrun{
 # URI path
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
@@ -307,7 +306,7 @@ stoe$set("a", 1)
 stoe$get("a") # 1
 
 # No access without the key
-# stoe_new <- storr_tiledb(uri_enc) # This will fail
+## stoe_new <- storr_tiledb(uri_enc) # This will fail
 
 # Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
@@ -351,7 +350,6 @@ cds$SchemaData$attr_value <- fl_list
 uric <- tempfile()
 
 stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
-}
 
 
 }

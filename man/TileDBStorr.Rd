@@ -25,13 +25,11 @@ This class is not intended to be used directly and the preferred
 usage is through \code{\link[=storr_tiledb]{storr_tiledb()}}.
 }
 \examples{
-\dontrun{
 uri <- tempfile()
 
 dr <- driver_tiledb(uri, init = TRUE)
 
 sto <- TileDBStorr$new(dr, default_namespace = "ns1")
-}
 
 }
 \keyword{internal}

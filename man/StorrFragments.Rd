@@ -10,7 +10,6 @@ An object of class \code{StorrFragments}, \code{R6}.
 A class for working with Storr TileDB Fragments.
 }
 \examples{
-\dontrun{
 uri <- tempfile()
 
 driver_tiledb_create(uri)
@@ -18,7 +17,6 @@ driver_tiledb_create(uri)
 sto <- StorrFragments$new(uri)
 
 sto$frag_num()
-}
 
 }
 \keyword{internal}
