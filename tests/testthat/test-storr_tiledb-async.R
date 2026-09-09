@@ -818,3 +818,6 @@ test_that("mupdate_async", {
                class = "error")
 
 })
+
+gc()
+Sys.sleep(1)
