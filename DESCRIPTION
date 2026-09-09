@@ -3,7 +3,7 @@ Title: TileDB Storage Driver for Storr Interface
 Version: 0.1.16
 Date: 2026-09-04
 Authors@R: 
-    person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre", "cph"))
+    person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis
     <26255858+cgiachalis@users.noreply.github.com>
 Description: Provides a TileDB driver for 'storr' interface. 'storr' is

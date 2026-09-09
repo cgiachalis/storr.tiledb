@@ -18,11 +18,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Constantinos Giachalis \email{26255858+cgiachalis@users.noreply.github.com} [copyright holder]
+\strong{Maintainer}: Constantinos Giachalis \email{26255858+cgiachalis@users.noreply.github.com}
 
 Authors:
 \itemize{
-  \item Constantinos Giachalis \email{26255858+cgiachalis@users.noreply.github.com} [copyright holder]
+  \item Constantinos Giachalis \email{26255858+cgiachalis@users.noreply.github.com}
 }
 
 }
