@@ -352,6 +352,24 @@ storr_tiledb <- function(uri,
 #'
 #' @family storr-utilities
 #'
+#' @examples
+#' \dontrun{
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Copy storr to new URI
+#' to_uri <- tempfile()
+#' storr_copy(uri, to_uri)
+#'
+#' sto2 <- storr_tiledb(to_uri)
+#'
+#' sto2$list()
+#' }
+#'
 #' @rdname storr_copy
 storr_copy <- function(uri, to_uri, context = NULL) {
 
@@ -382,6 +400,24 @@ storr_copy <- function(uri, to_uri, context = NULL) {
 #' @returns The new uri path, invisibly.
 #'
 #' @family storr-utilities
+#'
+#' @examples
+#' \dontrun{
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Move storr to new URI
+#' to_uri <- tempfile()
+#' storr_move(uri, newuri = to_uri)
+#'
+#' sto2 <- storr_tiledb(to_uri)
+#'
+#' sto2$list()
+#' }
 #'
 #' @rdname storr_move
 storr_move <- function(uri, newuri, context = NULL) {
@@ -414,6 +450,23 @@ storr_move <- function(uri, newuri, context = NULL) {
 #' @returns The new uri path, invisibly.
 #'
 #' @family storr-utilities
+#'
+#'@examples
+#' \dontrun{
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Rename storr
+#' newuri <- storr_rename(uri, newname = "new-storr")
+#'
+#' sto2 <- storr_tiledb(newuri)
+#'
+#' sto2$list()
+#'}
 #'
 #' @rdname storr_rename
 storr_rename <- function(uri, newname, context = NULL) {

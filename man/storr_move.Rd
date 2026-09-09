@@ -19,6 +19,25 @@ The new uri path, invisibly.
 \description{
 Move Storr to another URI
 }
+\examples{
+\dontrun{
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# set key-values
+sto$set("a", 1)
+sto$set("b", 2)
+
+# Move storr to new URI
+to_uri <- tempfile()
+storr_move(uri, newuri = to_uri)
+
+sto2 <- storr_tiledb(to_uri)
+
+sto2$list()
+}
+
+}
 \seealso{
 Other storr-utilities:
 \code{\link[=storr_copy]{storr_copy()}},
