@@ -1,6 +1,29 @@
 .libtiledb_vfs_copy_dir <- utils::getFromNamespace("libtiledb_vfs_copy_dir", "tiledb")
+
+
+#' Low Level TileDB Utilities
+#'
+#' Internal low-level TileDB functions that are required to run asynchronous
+#' processes with `mirai` framework.
+#'
+#' @param ctx  TileDB context pointer.
+#' @param uri  TileDB URI path.
+#' @param cfgptr  TileDB configuration pointer.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @name internal-libtiledb
 .libtiledb_array_consolidate <- utils::getFromNamespace("libtiledb_array_consolidate", "tiledb")
+
+#' @export
+#' @keywords internal
+#'
+#' @rdname internal-libtiledb
 .libtiledb_array_vacuum <- utils::getFromNamespace("libtiledb_array_vacuum", "tiledb")
+
+
+
 file_path <- function(..., fsep = .Platform$file.sep) {
 
   paths <- list(...)

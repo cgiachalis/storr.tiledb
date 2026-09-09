@@ -152,12 +152,12 @@ StorrFragments <- R6::R6Class(
                    uri_keys <- uris$uri_keys
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
                    }
 
                  },
@@ -165,20 +165,20 @@ StorrFragments <- R6::R6Class(
 
                    uri_keys <- uris$uri_keys
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                    storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                    storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
                    }
                  },
                  data = {
 
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
                    }
                  })
 
@@ -275,22 +275,22 @@ StorrFragments <- R6::R6Class(
                    uri_keys <- uris$uri_keys
                    uri_data <- uris$uri_data
 
-                  storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                  storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                  storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                  storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                  },
                  keys = {
 
                    uri_keys <- uris$uri_keys
 
-                   storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
 
                  },
                  data = {
 
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                 })
 
