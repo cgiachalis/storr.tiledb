@@ -18,6 +18,14 @@ default templates.
 
 This class should not be used directly.
 }
+\examples{
+# Example via SchemaKeys because SchemaBase is virtual class
+sch_keys <- SchemaKeys$new()
+
+# Retrieve capacity
+sch_keys$capacity
+
+}
 \keyword{internal}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}

@@ -12,6 +12,14 @@ and provides active fields to get/set filter lists for each dimension/attribute.
 
 This class should not be used directly, but it can be accessed via \code{\link[=driver_schemas]{driver_schemas()}}.
 }
+\examples{
+# Instantiate SchemaData
+sch_data <- SchemaData$new()
+
+# Retrieve filter list for 'value' attribute
+sch_data$attr_value
+
+}
 \keyword{internal}
 \section{Super class}{
 \code{\link[storr.tiledb:SchemaBase]{SchemaBase}} -> \code{SchemaData}
