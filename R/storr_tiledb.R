@@ -10,7 +10,7 @@
 #'  The `storr_tiledb` generates a [TileDBStorr] object with identical
 #'  interface as `storr` that additionally supports
 #'  metadata next to key-values (notes and expiration timestamps) as well as asynchronous
-#'  writes using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
+#'  writes using the [mirai](https://cran.r-project.org/package=mirai)
 #'  framework.
 #'
 #'  `storr_tiledb()` and `storr(driver_tiledb())` can not be used interchangeably
@@ -27,7 +27,7 @@
 #'  `R` objects are saved to storage engine as string representation of the
 #'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
 #'  function. Optionally, to store large objects efficiently, the package supports
-#'   `"qs2"`and `"qdata"` formats powered by [‘qs2’](https://cran.r-project.org/web/packages/qs2/)
+#'   `"qs2"`and `"qdata"` formats powered by [‘qs2’](https://cran.r-project.org/package=qs2)
 #'  package (must be installed) using for string encoding/decoding the basE91 format.
 #'
 #'
