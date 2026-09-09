@@ -69,7 +69,7 @@ array.}
 \if{html}{\out{<a id="method-StorrFragments-consolidate"></a>}}
 \if{latex}{\out{\hypertarget{method-StorrFragments-consolidate}{}}}
 \subsection{\code{StorrFragments$consolidate()}}{
-  Consolidates the 'storr' fragments.
+  Consolidates 'storr' fragments.
 
 Consolidation in TileDB merges multiple array fragments into a single
 fragment to improve query performance by reducing the number of files that
@@ -109,7 +109,7 @@ resolved, it returns \code{TRUE} indicating consolidation success.
 \if{html}{\out{<a id="method-StorrFragments-vacuum"></a>}}
 \if{latex}{\out{\hypertarget{method-StorrFragments-vacuum}{}}}
 \subsection{\code{StorrFragments$vacuum()}}{
-  Vacuum Storr fragments
+  Vacuum 'storr' fragments
 
 This operation deletes the old fragments (consolidated).
   \subsection{Usage}{
@@ -171,7 +171,7 @@ resolved, it returns \code{TRUE} indicating vacuum success.
 \if{html}{\out{<a id="method-StorrFragments-reload_finfo"></a>}}
 \if{latex}{\out{\hypertarget{method-StorrFragments-reload_finfo}{}}}
 \subsection{\code{StorrFragments$reload_finfo()}}{
-  Refresh the Storr's Fragment Info objects.
+  Refresh fragment info objects.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{StorrFragments$reload_finfo()}

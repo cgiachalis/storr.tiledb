@@ -55,7 +55,7 @@ StorrFragments <- R6::R6Class(
 
     },
 
-    #' @description Consolidates the 'storr' fragments.
+    #' @description Consolidates 'storr' fragments.
     #'
     #' Consolidation in TileDB merges multiple array fragments into a single
     #' fragment to improve query performance by reducing the number of files that
@@ -198,7 +198,7 @@ StorrFragments <- R6::R6Class(
       }
     },
 
-    #' @description Vacuum Storr fragments
+    #' @description Vacuum 'storr' fragments
     #'
     #' This operation deletes the old fragments (consolidated).
     #'
@@ -334,7 +334,7 @@ StorrFragments <- R6::R6Class(
 
     },
 
-    #' @description Refresh the Storr's Fragment Info objects.
+    #' @description Refresh fragment info objects.
     #'
     #' @return The object, invisibly.
     #'
