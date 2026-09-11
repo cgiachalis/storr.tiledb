@@ -33,3 +33,23 @@ The new uri path, invisibly.
 Other storr-utilities:
 [`storr_move()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_move.md),
 [`storr_rename()`](https://cgiachalis.github.io/storr.tiledb/reference/storr_rename.md)
+
+## Examples
+
+``` r
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# set key-values
+sto$set("a", 1)
+sto$set("b", 2)
+
+# Copy storr to new URI
+to_uri <- tempfile()
+storr_copy(uri, to_uri)
+
+sto2 <- storr_tiledb(to_uri)
+
+sto2$list()
+#> [1] "a" "b"
+```

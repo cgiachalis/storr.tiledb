@@ -249,27 +249,22 @@ TileDB datatypes in parentheses.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# URI path
-uri <- tempfile()
-
 # create driver
+uri <- tempfile()
 dr <- driver_tiledb(uri, init = TRUE)
 
-dr$print()
-# R6Class: <TileDBDriver>
-#  → URI Basename: file6bb0182c1362
-#   • Arrays: "tbl_keys" and "tbl_data"
 
 # members
 dr$names()
-# "tbl_keys" "tbl_data"
+#> [1] "tbl_keys" "tbl_data"
 
+# metadata
 dr$get_metadata()
-# TileDB GROUP: <R6 Class: TileDBDriver>
-# Metadata: <key,value> • total 3
-# • hash_algo: ‘md5’
-# • serial_format: ‘rds’
-# • type: ‘storr’
-} # }
+#> TileDB GROUP: <R6 Class: TileDBDriver>
+#> Metadata: <key,value> • total 3
+#>  • hash_algo: ‘md5’
+#>  • serial_format: ‘rds’
+#>  • type: ‘storr’
+#> 
+
 ```

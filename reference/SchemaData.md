@@ -82,3 +82,14 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+# Instantiate SchemaData
+sch_data <- SchemaData$new()
+
+# Retrieve filter list for 'value' attribute
+sch_data$attr_value
+#> tiledb_filter_list(c(tiledb_filter_set_option(tiledb_filter("ZSTD"),"COMPRESSION_LEVEL",-7))) 
+```

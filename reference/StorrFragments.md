@@ -68,7 +68,7 @@ Create a new `StorrFragments` instance.
 
 ### `StorrFragments$consolidate()`
 
-Consolidates the 'storr' fragments.
+Consolidates 'storr' fragments.
 
 Consolidation in TileDB merges multiple array fragments into a single
 fragment to improve query performance by reducing the number of files
@@ -118,7 +118,7 @@ success.
 
 ### `StorrFragments$vacuum()`
 
-Vacuum Storr fragments
+Vacuum 'storr' fragments
 
 This operation deletes the old fragments (consolidated).
 
@@ -183,7 +183,7 @@ A numeric value.
 
 ### `StorrFragments$reload_finfo()`
 
-Refresh the Storr's Fragment Info objects.
+Refresh fragment info objects.
 
 #### Usage
 
@@ -202,3 +202,16 @@ Print Fragments class.
 #### Usage
 
     StorrFragments$print()
+
+## Examples
+
+``` r
+uri <- tempfile()
+
+driver_tiledb_create(uri)
+
+sto <- StorrFragments$new(uri)
+
+sto$frag_num()
+#> [1] 0
+```

@@ -1,13 +1,13 @@
 # storr.tiledb
 
 A [TileDB Embedded](https://github.com/TileDB-Inc/TileDB)-based driver
-for [storr](https://github.com/richfitz/storr), a key-value store with
-content-addressable storage for R objects.
+for [storr](https://github.com/richfitz/storr) interface, a key-value
+store with content-addressable storage for R objects.
 
 ## Overview
 
 `storr.tiledb` is an R package that extends the storr ecosystem with a
-TileDB-based driver and custom `storr`-like classes that leverage the
+TileDB-based driver and a compatible `storr` R6 class to leverage the
 advantages of the underlying backend.
 
 [![Ask
@@ -17,12 +17,11 @@ DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr
 
 - Fast key-value operations using TileDB methods
 - Additional faster serialization formats through
-  [qs2](https://cran.r-project.org/web/packages/qs2/index.html)
-  package[^1]
+  [qs2](https://cran.r-project.org/package=qs2) package[^1]
 - Per key metadata: notes and Time-To-Live (TTL) expiration timestamps
   next to key-value pairs
 - Asynchronous and parallel operations with
-  [mirai](https://cran.rstudio.com/web/packages/mirai/)
+  [mirai](https://cran.r-project.org/package=mirai)
 - In-memory caching layers with hash tables
 - Native cloud storage support (AWS S3, Azure Blob, Google Cloud
   Storage)
@@ -73,7 +72,7 @@ sto$get("mykey2")
 sto$list()
 [1] "mykey1" "mykey2"
 
-# Del
+# Delete
 sto$del("mykey1")
 ```
 
@@ -107,6 +106,6 @@ Pages.
   [LMDB](https://github.com/LMDB/lmdb) Lightning Memory-Mapped Database
   via [thor](https://github.com/richfitz/thor)
 
-[^1]: [qs2](https://cran.r-project.org/web/packages/qs2/index.html)
-    package is soft dependency, so it has to be installed to use the
-    ‘qs2’ or ‘qdata’ serialization formats.
+[^1]: [qs2](https://cran.r-project.org/package=qs2) package is soft
+    dependency, so it has to be installed to use the ‘qs2’ or ‘qdata’
+    serialization formats.

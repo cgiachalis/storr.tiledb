@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@ array.</p></dd>
 
 <p></p><hr><a id="method-StorrFragments-consolidate"></a><div class="section">
 <h3 id="storrfragments-consolidate-"><code>StorrFragments$consolidate()</code><a class="anchor" aria-label="anchor" href="#storrfragments-consolidate-"></a></h3>
-<p>Consolidates the 'storr' fragments.</p>
+<p>Consolidates 'storr' fragments.</p>
 <p>Consolidation in TileDB merges multiple array fragments into a single
 fragment to improve query performance by reducing the number of files that
 need to be read during queries.</p>
@@ -145,7 +145,7 @@ resolved, it returns <code>TRUE</code> indicating consolidation success.</p>
 
 <p></p><hr><a id="method-StorrFragments-vacuum"></a><div class="section">
 <h3 id="storrfragments-vacuum-"><code>StorrFragments$vacuum()</code><a class="anchor" aria-label="anchor" href="#storrfragments-vacuum-"></a></h3>
-<p>Vacuum Storr fragments</p>
+<p>Vacuum 'storr' fragments</p>
 <p>This operation deletes the old fragments (consolidated).</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">vacuum</span><span class="op">(</span>what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"keys"</span>, <span class="st">"data"</span><span class="op">)</span>, cfg <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -201,7 +201,7 @@ resolved, it returns <code>TRUE</code> indicating vacuum success.</p>
 
 <p></p><hr><a id="method-StorrFragments-reload_finfo"></a><div class="section">
 <h3 id="storrfragments-reload-finfo-"><code>StorrFragments$reload_finfo()</code><a class="anchor" aria-label="anchor" href="#storrfragments-reload-finfo-"></a></h3>
-<p>Refresh the Storr's Fragment Info objects.</p><div class="section">
+<p>Refresh fragment info objects.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StorrFragments</span><span class="op">$</span><span class="fu">reload_finfo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -223,6 +223,19 @@ resolved, it returns <code>TRUE</code> indicating vacuum success.</p>
 
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="driver_tiledb.html">driver_tiledb_create</a></span><span class="op">(</span><span class="va">uri</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sto</span> <span class="op">&lt;-</span> <span class="va">StorrFragments</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">uri</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sto</span><span class="op">$</span><span class="fu">frag_num</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

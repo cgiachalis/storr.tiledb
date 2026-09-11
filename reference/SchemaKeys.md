@@ -94,3 +94,14 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+# Instantiate SchemaKeys
+sch_keys <- SchemaKeys$new()
+
+# Retrieve filter list for 'namespace' dimension
+sch_keys$dim_namespace
+#> tiledb_filter_list(c(tiledb_filter_set_option(tiledb_filter("ZSTD"),"COMPRESSION_LEVEL",-7))) 
+```

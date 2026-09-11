@@ -106,3 +106,14 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+# Instantiate TileDBDriverSchemas
+sch <- TileDBDriverSchemas$new()
+
+# Retrieve SchemaKeys object
+sch$SchemaKeys
+#> R6Class: <SchemaKeys>
+```

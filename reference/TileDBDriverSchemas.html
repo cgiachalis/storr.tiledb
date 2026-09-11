@@ -47,7 +47,7 @@ TileDBDriverSchemas (factory/container)
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,7 +140,7 @@ can be passed to driver creation method.</p>
 </div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>uri</code></dt>
-<dd><p>Optional URI path to <code>TileDB</code> driver. If not given,  the default
+<dd><p>Optional URI path to <code>TileDB</code> driver. If not given, the default
 schemas array will be used.</p></dd>
 
       <dt><code>ctx</code></dt>
@@ -184,6 +184,17 @@ Applied on default schemas and not on schemas extracted from a URI path.</p></dd
 
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Instantiate TileDBDriverSchemas</span></span></span>
+<span class="r-in"><span><span class="va">sch</span> <span class="op">&lt;-</span> <span class="va">TileDBDriverSchemas</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Retrieve SchemaKeys object</span></span></span>
+<span class="r-in"><span><span class="va">sch</span><span class="op">$</span><span class="va">SchemaKeys</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R6Class: &lt;SchemaKeys&gt;</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

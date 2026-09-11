@@ -118,3 +118,14 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+# Example via SchemaKeys because SchemaBase is virtual class
+sch_keys <- SchemaKeys$new()
+
+# Retrieve capacity
+sch_keys$capacity
+#> [1] 10000
+```

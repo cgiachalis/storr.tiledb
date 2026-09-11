@@ -1,15 +1,15 @@
-# storr.tiledb: A TileDB Storage Driver for Storr
+# storr.tiledb: TileDB Storage Driver for Storr Interface
 
-Provides a TileDB driver for 'storr' interface. A 'storr' is a content
-addressed key value store with an optional caching layer; this package
+Provides a TileDB driver for 'storr' interface. 'storr' is a content
+addressable key value store with an optional caching layer; this package
 contributes a new driver using TileDB Embedded storage engine as a
-backend. In addition, storr.tiledb introduces a specialized TileDBStorr
-class that replicates 'storr' API in order to improve speed and
-efficiency while enhancing 'storr' with additional features, e.g.,
-per-key notes and Time-To-Live (TTL) expiration timestamps as well as
-support for asynchronous and in parallel writes. Optionally, it offers
+backend. In addition, 'storr.tiledb' introduces a specialized
+TileDBStorr class that replicates 'storr' API in order to improve speed
+and efficiency while enhancing 'storr' with additional features, e.g.,
+per-key notes and Time-To-Live expiration timestamps as well as support
+for asynchronous and in parallel writes. Optionally, it offers
 alternative and faster serialisation formats through \`qs2\` package,
-suitable for saving large R objects.
+suitable for saving large 'R' objects.
 
 ## See also
 

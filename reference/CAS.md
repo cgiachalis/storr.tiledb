@@ -250,3 +250,12 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+uri <- tempfile()
+
+dr <- CAS$new(uri)
+
+```

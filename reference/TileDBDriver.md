@@ -975,3 +975,11 @@ Export objects from storr to another TileDB storr.
 #### Returns
 
 A logical `TRUE` indicating successful export, invisibly.
+
+## Examples
+
+``` r
+uri <- tempfile()
+
+dr <- TileDBDriver$new(uri)
+```

@@ -47,10 +47,14 @@ and
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# URI path
 uri <- tempfile()
 driver_tiledb_create(uri)
+
+# Instantiate standard 'storr'
 sto <- storr_tdb0(uri)
-} # }
+
+sto$set("x", 1)
+
+sto$get("x")
+#> [1] 1
 ```

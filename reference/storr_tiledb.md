@@ -73,8 +73,7 @@ The `storr_tiledb` generates a
 object with identical interface as `storr` that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as
 asynchronous writes using the
-[mirai](https://cran.r-project.org/web/packages/mirai/index.html)
-framework.
+[mirai](https://cran.r-project.org/package=mirai) framework.
 
 `storr_tiledb()` and `storr(driver_tiledb())` can not be used
 interchangeably if you use the extra features (i.e., expiration
@@ -94,7 +93,7 @@ raw vector. The default serialization format (`"rds"`) uses the
 [`serialize()`](https://rdrr.io/r/base/serialize.html) function.
 Optionally, to store large objects efficiently, the package supports
 `"qs2"`and `"qdata"` formats powered by
-[‘qs2’](https://cran.r-project.org/web/packages/qs2/) package (must be
+[‘qs2’](https://cran.r-project.org/package=qs2) package (must be
 installed) using for string encoding/decoding the basE91 format.
 
 ### Cache option
@@ -368,7 +367,6 @@ for standard interface.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 # URI path
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
@@ -379,13 +377,24 @@ sto$set("b", 1, namespace = "ns1", notes = "note1")
 
 # listing methods
 sto$list("ns1") # b
+#> [1] "b"
 sto$list_namespaces() # "ns1"     "objects"
+#> [1] "ns1"     "objects"
 sto$list_hashes() # "632336c518ae1c89ecf26ae5fbec5860"
+#> [1] "38e42db36c4414f7bbc19d750f71a721"
 
 # get methods
 sto$get("a") # 1
+#> [1] 1
 sto$get("b", "ns1") # 1
+#> [1] 1
 sto$get_keymeta("b", "ns1") # list(exprires_at = NA, notes = "note1")
+#> $expires_at
+#> [1] NA
+#> 
+#> $notes
+#> [1] "note1"
+#> 
 
 #-----------------------------------------------------------------
 #   Storr with encryption
@@ -404,13 +413,16 @@ stoe <- storr_tiledb(uri_enc, init = TRUE, context = ctx)
 
 stoe$set("a", 1)
 stoe$get("a") # 1
+#> [1] 1
 
 # No access without the key
-# stoe_new <- storr_tiledb(uri_enc) # This will fail
+try(storr_tiledb(uri_enc)) # This fails
+#> Error : GenericTileIO: Error reading generic tile; tile is encrypted with AES_256_GCM but given key is for NO_ENCRYPTION
 
 # Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
 stoe_new$get("a") # 1
+#> [1] 1
 
 #-----------------------------------------------------------------
 #   Storr without compression
@@ -450,6 +462,5 @@ cds$SchemaData$attr_value <- fl_list
 uric <- tempfile()
 
 stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
-} # }
 
 ```

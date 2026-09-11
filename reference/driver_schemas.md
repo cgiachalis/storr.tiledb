@@ -53,13 +53,12 @@ ctx <- new_context()
 # Create schemas without compression filters
 sto_schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 
-
 # Set up a ZSTD filter with high compression
 flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 
-# Apply filter list to 'value' attribute (CAS storage data)
+## Set filter list to 'value' attribute (CAS storage data)
 sto_schemas$SchemaData$attr_value <- fl_list
 
 # Check 'data' schema; notice 'attr_value' has a new filter list

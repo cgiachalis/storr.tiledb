@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">storr.tiledb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -188,29 +188,24 @@ notes, optional)</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># URI path</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create driver</span></span></span>
 <span class="r-in"><span><span class="va">uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># create driver</span></span></span>
 <span class="r-in"><span><span class="va">dr</span> <span class="op">&lt;-</span> <span class="fu">driver_tiledb</span><span class="op">(</span><span class="va">uri</span>, init <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">dr</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># R6Class: &lt;TileDBDriver&gt;</span></span></span>
-<span class="r-in"><span><span class="co">#  → URI Basename: file6bb0182c1362</span></span></span>
-<span class="r-in"><span><span class="co">#   • Arrays: "tbl_keys" and "tbl_data"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># members</span></span></span>
 <span class="r-in"><span><span class="va">dr</span><span class="op">$</span><span class="fu">names</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># "tbl_keys" "tbl_data"</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tbl_keys" "tbl_data"</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># metadata</span></span></span>
 <span class="r-in"><span><span class="va">dr</span><span class="op">$</span><span class="fu">get_metadata</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># TileDB GROUP: &lt;R6 Class: TileDBDriver&gt;</span></span></span>
-<span class="r-in"><span><span class="co"># Metadata: &lt;key,value&gt; • total 3</span></span></span>
-<span class="r-in"><span><span class="co"># • hash_algo: ‘md5’</span></span></span>
-<span class="r-in"><span><span class="co"># • serial_format: ‘rds’</span></span></span>
-<span class="r-in"><span><span class="co"># • type: ‘storr’</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TileDB GROUP: <span style="color: #5555FF;">&lt;R6 Class: TileDBDriver&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Metadata: <span style="color: #555555;">&lt;key,value&gt; </span><span style="color: #FF5555;">•</span><span style="color: #555555;"> total 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #55FFFF;">•</span> hash_algo: ‘md5’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #55FFFF;">•</span> serial_format: ‘rds’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #55FFFF;">•</span> type: ‘storr’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

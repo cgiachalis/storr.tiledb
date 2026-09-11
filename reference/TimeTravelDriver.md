@@ -839,3 +839,12 @@ Export objects from storr to another TileDB storr.
 #### Returns
 
 A logical `TRUE` indicating successful export, invisibly.
+
+## Examples
+
+``` r
+uri <- tempfile()
+driver_tiledb_create(uri)
+
+dr <- TimeTravelDriver$new(uri)
+```

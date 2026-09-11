@@ -2365,3 +2365,13 @@ Note that this method skips missing keys without warning.
 #### Returns
 
 A logical `TRUE` indicating successful export, invisibly.
+
+## Examples
+
+``` r
+uri <- tempfile()
+
+dr <- driver_tiledb(uri, init = TRUE)
+
+sto <- TileDBStorr$new(dr, default_namespace = "ns1")
+```

@@ -179,7 +179,5 @@ stor$get("b") # key 'b' ('objects') not found
 # Read at t2
 stor$timestamp <- t2
 sto$get("b") # 2
-
 } # }
-
 ```
