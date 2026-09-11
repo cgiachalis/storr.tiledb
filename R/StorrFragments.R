@@ -9,6 +9,15 @@
 #'
 #' @keywords internal
 #'
+#' @examples
+#' uri <- tempfile()
+#'
+#' driver_tiledb_create(uri)
+#'
+#' sto <- StorrFragments$new(uri)
+#'
+#' sto$frag_num()
+#'
 StorrFragments <- R6::R6Class(
   classname = "StorrFragments",
   cloneable = FALSE,
@@ -46,7 +55,7 @@ StorrFragments <- R6::R6Class(
 
     },
 
-    #' @description Consolidates the 'storr' fragments.
+    #' @description Consolidates 'storr' fragments.
     #'
     #' Consolidation in TileDB merges multiple array fragments into a single
     #' fragment to improve query performance by reducing the number of files that
@@ -143,12 +152,12 @@ StorrFragments <- R6::R6Class(
                    uri_keys <- uris$uri_keys
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
                    }
 
                  },
@@ -156,20 +165,20 @@ StorrFragments <- R6::R6Class(
 
                    uri_keys <- uris$uri_keys
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                    storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                    storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
                    }
                  },
                  data = {
 
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_consolidate(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                    if (vacuum) {
-                     storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                     storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
                    }
                  })
 
@@ -189,7 +198,7 @@ StorrFragments <- R6::R6Class(
       }
     },
 
-    #' @description Vacuum Storr fragments
+    #' @description Vacuum 'storr' fragments
     #'
     #' This operation deletes the old fragments (consolidated).
     #'
@@ -266,22 +275,22 @@ StorrFragments <- R6::R6Class(
                    uri_keys <- uris$uri_keys
                    uri_data <- uris$uri_data
 
-                  storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
-                  storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                  storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                  storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                  },
                  keys = {
 
                    uri_keys <- uris$uri_keys
 
-                   storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_keys, cfgptr = cfg@ptr)
 
                  },
                  data = {
 
                    uri_data <- uris$uri_data
 
-                   storr.tiledb:::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
+                   storr.tiledb::.libtiledb_array_vacuum(ctx = ctxptr, uri = uri_data, cfgptr = cfg@ptr)
 
                 })
 
@@ -325,7 +334,7 @@ StorrFragments <- R6::R6Class(
 
     },
 
-    #' @description Refresh the Storr's Fragment Info objects.
+    #' @description Refresh fragment info objects.
     #'
     #' @return The object, invisibly.
     #'

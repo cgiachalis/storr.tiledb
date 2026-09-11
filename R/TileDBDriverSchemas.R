@@ -22,6 +22,13 @@
 #'
 #' @keywords internal
 #'
+#' @examples
+#' # Example via SchemaKeys because SchemaBase is virtual class
+#' sch_keys <- SchemaKeys$new()
+#'
+#' # Retrieve capacity
+#' sch_keys$capacity
+#'
 SchemaBase <- R6::R6Class(
   classname = "SchemaBase",
   active = list(
@@ -273,6 +280,13 @@ SchemaBase <- R6::R6Class(
 #'
 #' @keywords internal
 #'
+#' @examples
+#' # Instantiate SchemaKeys
+#' sch_keys <- SchemaKeys$new()
+#'
+#' # Retrieve filter list for 'namespace' dimension
+#' sch_keys$dim_namespace
+#'
 SchemaKeys <- R6::R6Class(
   classname = "SchemaKeys",
   inherit = SchemaBase,
@@ -382,6 +396,13 @@ SchemaKeys <- R6::R6Class(
 #'
 #' @keywords internal
 #'
+#' @examples
+#' # Instantiate SchemaData
+#' sch_data <- SchemaData$new()
+#'
+#' # Retrieve filter list for 'value' attribute
+#' sch_data$attr_value
+#'
 SchemaData <- R6::R6Class(
   classname = "SchemaData",
   inherit = SchemaBase,
@@ -469,6 +490,13 @@ SchemaData <- R6::R6Class(
 #'
 #' @keywords internal
 #'
+#' @examples
+#' # Instantiate TileDBDriverSchemas
+#' sch <- TileDBDriverSchemas$new()
+#'
+#' # Retrieve SchemaKeys object
+#' sch$SchemaKeys
+#'
 TileDBDriverSchemas <- R6::R6Class(
   classname = "TileDBDriverSchemas",
   active = list(
@@ -506,7 +534,7 @@ TileDBDriverSchemas <- R6::R6Class(
 
     #' @description Create a new `TileDBDriverSchemas` object.
     #'
-    #' @param uri Optional URI path to `TileDB` driver. If not given,  the default
+    #' @param uri Optional URI path to `TileDB` driver. If not given, the default
     #' schemas array will be used.
     #' @param ctx `r sch_ctx`
     #' @param none_filter `r sch_none_filter`
@@ -602,13 +630,12 @@ TileDBDriverSchemas <- R6::R6Class(
 #' # Create schemas without compression filters
 #' sto_schemas <- driver_schemas(ctx = ctx, none_filter = TRUE)
 #'
-#'
 #' # Set up a ZSTD filter with high compression
 #' flt <- tiledb::tiledb_filter("ZSTD", ctx = ctx)
 #' flt <- tiledb::tiledb_filter_set_option(flt,"COMPRESSION_LEVEL", 22)
 #' fl_list <- tiledb::tiledb_filter_list(flt, ctx = ctx)
 #'
-#' # Apply filter list to 'value' attribute (CAS storage data)
+#' ## Set filter list to 'value' attribute (CAS storage data)
 #' sto_schemas$SchemaData$attr_value <- fl_list
 #'
 #' # Check 'data' schema; notice 'attr_value' has a new filter list

@@ -45,7 +45,7 @@ with an optional caching layer.
 The \code{storr_tiledb} generates a \link{TileDBStorr} object with identical
 interface as \code{storr} that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as asynchronous
-writes using the \href{https://cran.r-project.org/web/packages/mirai/index.html}{mirai}
+writes using the \href{https://cran.r-project.org/package=mirai}{mirai}
 framework.
 
 \code{storr_tiledb()} and \code{storr(driver_tiledb())} can not be used interchangeably
@@ -61,7 +61,7 @@ environments.
 \code{R} objects are saved to storage engine as string representation of the
 raw vector. The default serialization format (\code{"rds"}) uses the \code{\link[=serialize]{serialize()}}
 function. Optionally, to store large objects efficiently, the package supports
-\code{"qs2"}and \code{"qdata"} formats powered by \href{https://cran.r-project.org/web/packages/qs2/}{‘qs2’}
+\code{"qs2"}and \code{"qdata"} formats powered by \href{https://cran.r-project.org/package=qs2}{‘qs2’}
 package (must be installed) using for string encoding/decoding the basE91 format.
 }
 
@@ -269,7 +269,6 @@ For complete definitions, see \strong{Methods} section in \link{TileDBStorr}.
 }
 
 \examples{
-\dontrun{
 # URI path
 uri <- tempfile()
 sto <- storr_tiledb(uri, init = TRUE)
@@ -307,7 +306,7 @@ stoe$set("a", 1)
 stoe$get("a") # 1
 
 # No access without the key
-# stoe_new <- storr_tiledb(uri_enc) # This will fail
+try(storr_tiledb(uri_enc)) # This fails
 
 # Pass the context with encryption parameters
 stoe_new <- storr_tiledb(uri_enc, context = ctx)
@@ -351,7 +350,6 @@ cds$SchemaData$attr_value <- fl_list
 uric <- tempfile()
 
 stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
-}
 
 
 }

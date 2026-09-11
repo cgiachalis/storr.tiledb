@@ -115,9 +115,7 @@
 #' # Read at t2
 #' stor$timestamp <- t2
 #' sto$get("b") # 2
-#'
 #'}
-#'
 #'
 storr_timetravel <- function(uri,
                              default_namespace = "objects",

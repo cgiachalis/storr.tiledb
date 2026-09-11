@@ -12,6 +12,14 @@ and provides active fields to get/set filter lists for each dimension/attribute.
 
 This class should not be used directly, but it can be accessed via \code{\link[=driver_schemas]{driver_schemas()}}.
 }
+\examples{
+# Instantiate SchemaKeys
+sch_keys <- SchemaKeys$new()
+
+# Retrieve filter list for 'namespace' dimension
+sch_keys$dim_namespace
+
+}
 \keyword{internal}
 \section{Super class}{
 \code{\link[storr.tiledb:SchemaBase]{SchemaBase}} -> \code{SchemaKeys}

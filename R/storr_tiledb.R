@@ -10,7 +10,7 @@
 #'  The `storr_tiledb` generates a [TileDBStorr] object with identical
 #'  interface as `storr` that additionally supports
 #'  metadata next to key-values (notes and expiration timestamps) as well as asynchronous
-#'  writes using the [mirai](https://cran.r-project.org/web/packages/mirai/index.html)
+#'  writes using the [mirai](https://cran.r-project.org/package=mirai)
 #'  framework.
 #'
 #'  `storr_tiledb()` and `storr(driver_tiledb())` can not be used interchangeably
@@ -27,7 +27,7 @@
 #'  `R` objects are saved to storage engine as string representation of the
 #'  raw vector. The default serialization format (`"rds"`) uses the [serialize()]
 #'  function. Optionally, to store large objects efficiently, the package supports
-#'   `"qs2"`and `"qdata"` formats powered by [‘qs2’](https://cran.r-project.org/web/packages/qs2/)
+#'   `"qs2"`and `"qdata"` formats powered by [‘qs2’](https://cran.r-project.org/package=qs2)
 #'  package (must be installed) using for string encoding/decoding the basE91 format.
 #'
 #'
@@ -237,7 +237,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # URI path
 #' uri <- tempfile()
 #' sto <- storr_tiledb(uri, init = TRUE)
@@ -275,7 +274,7 @@
 #' stoe$get("a") # 1
 #'
 #' # No access without the key
-#' # stoe_new <- storr_tiledb(uri_enc) # This will fail
+#' try(storr_tiledb(uri_enc)) # This fails
 #'
 #' # Pass the context with encryption parameters
 #' stoe_new <- storr_tiledb(uri_enc, context = ctx)
@@ -319,7 +318,6 @@
 #' uric <- tempfile()
 #'
 #' stoc <- storr_tiledb(uric, init = TRUE, driver_schemas = cds)
-#'}
 #'
 #'
 storr_tiledb <- function(uri,
@@ -352,6 +350,22 @@ storr_tiledb <- function(uri,
 #'
 #' @family storr-utilities
 #'
+#' @examples
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Copy storr to new URI
+#' to_uri <- tempfile()
+#' storr_copy(uri, to_uri)
+#'
+#' sto2 <- storr_tiledb(to_uri)
+#'
+#' sto2$list()
+#'
 #' @rdname storr_copy
 storr_copy <- function(uri, to_uri, context = NULL) {
 
@@ -382,6 +396,22 @@ storr_copy <- function(uri, to_uri, context = NULL) {
 #' @returns The new uri path, invisibly.
 #'
 #' @family storr-utilities
+#'
+#' @examples
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Move storr to new URI
+#' to_uri <- tempfile()
+#' storr_move(uri, newuri = to_uri)
+#'
+#' sto2 <- storr_tiledb(to_uri)
+#'
+#' sto2$list()
 #'
 #' @rdname storr_move
 storr_move <- function(uri, newuri, context = NULL) {
@@ -414,6 +444,21 @@ storr_move <- function(uri, newuri, context = NULL) {
 #' @returns The new uri path, invisibly.
 #'
 #' @family storr-utilities
+#'
+#'@examples
+#' uri <- tempfile()
+#' sto <- storr_tiledb(uri, init = TRUE)
+#'
+#' # set key-values
+#' sto$set("a", 1)
+#' sto$set("b", 2)
+#'
+#' # Rename storr
+#' newuri <- storr_rename(uri, newname = "new-storr")
+#'
+#' sto2 <- storr_tiledb(newuri)
+#'
+#' sto2$list()
 #'
 #' @rdname storr_rename
 storr_rename <- function(uri, newname, context = NULL) {

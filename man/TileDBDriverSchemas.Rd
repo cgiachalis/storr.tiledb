@@ -30,6 +30,14 @@ TileDBDriverSchemas (factory/container)
 }\if{html}{\out{</div>}}
 }
 }
+\examples{
+# Instantiate TileDBDriverSchemas
+sch <- TileDBDriverSchemas$new()
+
+# Retrieve SchemaKeys object
+sch$SchemaKeys
+
+}
 \keyword{internal}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
@@ -61,7 +69,7 @@ TileDBDriverSchemas (factory/container)
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{uri}}{Optional URI path to \code{TileDB} driver. If not given,  the default
+      \item{\code{uri}}{Optional URI path to \code{TileDB} driver. If not given, the default
 schemas array will be used.}
       \item{\code{ctx}}{Optional \link[tiledb:tiledb_ctx]{tiledb_ctx} object.}
       \item{\code{none_filter}}{\code{TRUE} for no filters, \code{FALSE} for default filters.

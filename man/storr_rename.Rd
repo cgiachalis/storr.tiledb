@@ -19,6 +19,22 @@ The new uri path, invisibly.
 \description{
 It renames the driver's basename, i.e., 'path/oldname' to 'path/newname'.
 }
+\examples{
+uri <- tempfile()
+sto <- storr_tiledb(uri, init = TRUE)
+
+# set key-values
+sto$set("a", 1)
+sto$set("b", 2)
+
+# Rename storr
+newuri <- storr_rename(uri, newname = "new-storr")
+
+sto2 <- storr_tiledb(newuri)
+
+sto2$list()
+
+}
 \seealso{
 Other storr-utilities:
 \code{\link[=storr_copy]{storr_copy()}},

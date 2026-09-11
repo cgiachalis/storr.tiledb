@@ -28,12 +28,15 @@ hand, when the driver is configured with \code{qs2} or \code{qdata} serializatio
 the \code{storr_tdb0()}  will be adjusted to use the correct serialization function.
 }
 \examples{
-\dontrun{
-# URI path
 uri <- tempfile()
 driver_tiledb_create(uri)
+
+# Instantiate standard 'storr'
 sto <- storr_tdb0(uri)
-}
+
+sto$set("x", 1)
+
+sto$get("x")
 
 }
 \seealso{

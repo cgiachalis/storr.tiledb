@@ -13,6 +13,12 @@ back-end.
 
 This class is intended for usage in \link[storr:storr]{storr} or \link{TileDBStorr}.
 }
+\examples{
+uri <- tempfile()
+
+dr <- TileDBDriver$new(uri)
+
+}
 \keyword{internal}
 \section{Super classes}{
 \code{\link[R6.tiledb:TileDBObject]{R6.tiledb::TileDBObject}} -> \code{\link[R6.tiledb:TileDBGroup]{R6.tiledb::TileDBGroup}} -> \code{\link[storr.tiledb:CAS]{CAS}} -> \code{TileDBDriver}

@@ -21,12 +21,15 @@
 #' @seealso [storr_tiledb()] and [driver_tiledb()]
 #'
 #' @examples
-#' \dontrun{
-#' # URI path
 #' uri <- tempfile()
 #' driver_tiledb_create(uri)
+#'
+#' # Instantiate standard 'storr'
 #' sto <- storr_tdb0(uri)
-#' }
+#'
+#' sto$set("x", 1)
+#'
+#' sto$get("x")
 #'
 storr_tdb0 <- function(uri,
                        default_namespace = "objects",
