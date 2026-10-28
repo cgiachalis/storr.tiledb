@@ -8,7 +8,7 @@ message: 'To cite package "storr.tiledb" in publications use:'
 type: software
 license: MIT
 title: 'storr.tiledb: TileDB Storage Driver for Storr Interface'
-version: 0.1.17
+version: 0.1.18
 abstract: Provides a TileDB driver for 'storr' interface. 'storr' is a content addressable
   key value store with an optional caching layer; this package contributes a new driver
   using TileDB Embedded storage engine as a backend. In addition, 'storr.tiledb' introduces
@@ -23,7 +23,7 @@ authors:
   email: 26255858+cgiachalis@users.noreply.github.com
 repository-code: https://github.com/cgiachalis/storr.tiledb
 url: https://cgiachalis.github.io/storr.tiledb/
-date-released: '2026-09-11'
+date-released: '2026-10-28'
 contact:
 - family-names: Giachalis
   given-names: Constantinos
@@ -189,7 +189,7 @@ references:
     given-names: Constantinos
     email: 26255858+cgiachalis@users.noreply.github.com
   year: '2026'
-  version: '>= 0.3.0'
+  version: '>= 0.3.5'
 - type: software
   title: storr
   abstract: 'storr: Simple Key Value Stores'

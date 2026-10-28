@@ -1,7 +1,7 @@
 Package: storr.tiledb
 Title: TileDB Storage Driver for Storr Interface
-Version: 0.1.17
-Date: 2026-09-11
+Version: 0.1.18
+Date: 2026-10-28
 Authors@R: 
     person("Constantinos", "Giachalis", , "26255858+cgiachalis@users.noreply.github.com", role = c("aut", "cre"))
 Maintainer: Constantinos Giachalis
@@ -29,7 +29,7 @@ Imports:
     digest,
     mirai (>= 2.7.0),
     R6 (>= 2.4.0),
-    R6.tiledb (>= 0.3.0),
+    R6.tiledb (>= 0.3.5),
     storr,
     tiledb (>= 0.33.0)
 Suggests: 
@@ -41,10 +41,10 @@ VignetteBuilder:
     litedown
 Remotes: 
     cgiachalis/R6.tiledb
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-Config/testthat/start-first: StorrFragments,auto*
+Config/testthat/start-first: storr_tiledb-async, StorrFragments,auto*
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE, old_usage = TRUE)
