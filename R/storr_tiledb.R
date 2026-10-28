@@ -4,10 +4,10 @@
 #'
 #' # Details
 #'
-#' \link[storr:storr]{‘storr’} is a content addressed key-value store
+#' \link[storr:storr]{‘storr’} is a content addressable key-value store
 #'  with an optional caching layer.
 #'
-#'  The `storr_tiledb` generates a [TileDBStorr] object with identical
+#'  `storr_tiledb()` generates a [TileDBStorr] object with identical
 #'  interface as `storr` that additionally supports
 #'  metadata next to key-values (notes and expiration timestamps) as well as asynchronous
 #'  writes using the [mirai](https://cran.r-project.org/package=mirai)
@@ -15,8 +15,8 @@
 #'
 #'  `storr_tiledb()` and `storr(driver_tiledb())` can not be used interchangeably
 #'  if you use the extra features (i.e., expiration timestamps). The latter
-#'  is the standard storr interface and the former produces a stand-alone R6 class
-#'  that replicates the storr interface with additional features.
+#'  is the standard 'storr' interface and the former produces a stand-alone R6 class
+#'  that replicates the 'storr' interface with additional features.
 #'
 #'   Another difference, but not visible to the user, is that the
 #'  `storr_tiledb`'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
@@ -69,7 +69,7 @@
 #'
 #' ## Async Evaluation
 #'
-#' `storr_tiledb` uses [mirai] package to set keys asynchronously. Async is
+#' `storr_tiledb()` uses [mirai] package to set keys asynchronously. Async is
 #' enabled either at initialisation or automatically when using one of the
 #' async methods.
 #'
@@ -101,7 +101,7 @@
 #'```
 #'
 #' The daemons associated with the specific compute profile are reset to zero
-#' when the 'storr' object is deleted/garbage collected.
+#' when the 'storr' object is deleted and garbage collected.
 #'
 #'
 #' ## Key Expiration
@@ -375,7 +375,7 @@ storr_copy <- function(uri, to_uri, context = NULL) {
 
   olduri <- dr$uri
 
-  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+  vfs <-  R6.tiledb::new_vfs(dr$ctx)
 
   if (tiledb::tiledb_vfs_is_dir(to_uri, vfs = vfs)) {
     cli::cli_abort("Directory is already present with uri: {.url {to_uri}}.", call = NULL)
@@ -421,7 +421,7 @@ storr_move <- function(uri, newuri, context = NULL) {
 
   check_uri(newuri)
 
-  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+  vfs <-  R6.tiledb::new_vfs(dr$ctx)
 
   if (tiledb::tiledb_vfs_is_dir(newuri, vfs = vfs)) {
     cli::cli_abort("Directory is already present with uri: {.url {newuri}}.", call = NULL)
@@ -472,7 +472,7 @@ storr_rename <- function(uri, newname, context = NULL) {
   }
 
   olduri <- dr$uri
-  vfs <- tiledb::tiledb_vfs(ctx = dr$ctx)
+  vfs <-  R6.tiledb::new_vfs(dr$ctx)
 
   newuri <- file_path(dirname(olduri), newname)
 
