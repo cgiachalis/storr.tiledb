@@ -77,7 +77,7 @@ TileDB datatypes shown in parentheses.
 
 ### Example
 
-Below is a short example that shows creating a TileDB-backed driver and inspecting its layout.
+Below is a short example that creates a TileDB-backed driver and inspects its layout.
 
 ```{r}
 # Create a temporary URI

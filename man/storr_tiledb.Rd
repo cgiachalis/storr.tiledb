@@ -39,10 +39,10 @@ An object of class \link{TileDBStorr}, R6.
 Create a 'storr' using TileDB driver for storage.
 }
 \section{Details}{
-\link[storr:storr]{‘storr’} is a content addressed key-value store
+\link[storr:storr]{‘storr’} is a content addressable key-value store
 with an optional caching layer.
 
-The \code{storr_tiledb} generates a \link{TileDBStorr} object with identical
+\code{storr_tiledb()} generates a \link{TileDBStorr} object with identical
 interface as \code{storr} that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as asynchronous
 writes using the \href{https://cran.r-project.org/package=mirai}{mirai}
@@ -50,8 +50,8 @@ framework.
 
 \code{storr_tiledb()} and \code{storr(driver_tiledb())} can not be used interchangeably
 if you use the extra features (i.e., expiration timestamps). The latter
-is the standard storr interface and the former produces a stand-alone R6 class
-that replicates the storr interface with additional features.
+is the standard 'storr' interface and the former produces a stand-alone R6 class
+that replicates the 'storr' interface with additional features.
 
 Another difference, but not visible to the user, is that the
 \code{storr_tiledb}'s cache layer uses hash tables via \link[utils:hashtab]{hashtab()} instead of
@@ -106,7 +106,7 @@ algorithms, compression levels, tile and cell order. For details, see
 
 \subsection{Async Evaluation}{
 
-\code{storr_tiledb} uses \link[mirai:mirai]{mirai} package to set keys asynchronously. Async is
+\code{storr_tiledb()} uses \link[mirai:mirai]{mirai} package to set keys asynchronously. Async is
 enabled either at initialisation or automatically when using one of the
 async methods.
 
@@ -135,7 +135,7 @@ dispatcher, use \code{storr.tiledb.mirai.memory} option:
 }\if{html}{\out{</div>}}
 
 The daemons associated with the specific compute profile are reset to zero
-when the 'storr' object is deleted/garbage collected.
+when the 'storr' object is deleted and garbage collected.
 }
 
 \subsection{Key Expiration}{
