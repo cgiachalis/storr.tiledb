@@ -11,7 +11,7 @@ TileDB-based driver and a compatible `storr` R6 class to leverage the
 advantages of the underlying backend.
 
 [![Ask
-DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cgiachalis/storr.tiledb)
+DeepWiki](https://img.shields.io/badge/Ask-Deepwiki-blue?logo=readthedocs)](https://deepwiki.com/cgiachalis/storr.tiledb)
 
 ## Key features
 

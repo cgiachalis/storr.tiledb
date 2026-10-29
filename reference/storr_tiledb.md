@@ -66,9 +66,9 @@ R6.
 ## Details
 
 [‘storr’](https://richfitz.github.io/storr/reference/storr.html) is a
-content addressed key-value store with an optional caching layer.
+content addressable key-value store with an optional caching layer.
 
-The `storr_tiledb` generates a
+`storr_tiledb()` generates a
 [TileDBStorr](https://cgiachalis.github.io/storr.tiledb/reference/TileDBStorr.md)
 object with identical interface as `storr` that additionally supports
 metadata next to key-values (notes and expiration timestamps) as well as
@@ -77,9 +77,9 @@ asynchronous writes using the
 
 `storr_tiledb()` and `storr(driver_tiledb())` can not be used
 interchangeably if you use the extra features (i.e., expiration
-timestamps). The latter is the standard storr interface and the former
-produces a stand-alone R6 class that replicates the storr interface with
-additional features.
+timestamps). The latter is the standard 'storr' interface and the former
+produces a stand-alone R6 class that replicates the 'storr' interface
+with additional features.
 
 Another difference, but not visible to the user, is that the
 `storr_tiledb`'s cache layer uses hash tables via
@@ -139,7 +139,7 @@ section.
 
 ### Async Evaluation
 
-`storr_tiledb` uses
+`storr_tiledb()` uses
 [mirai](https://mirai.r-lib.org/reference/mirai.html) package to set
 keys asynchronously. Async is enabled either at initialisation or
 automatically when using one of the async methods.
@@ -166,7 +166,7 @@ the dispatcher, use `storr.tiledb.mirai.memory` option:
      options(storr.tiledb.mirai.memory = 100) # 100MB
 
 The daemons associated with the specific compute profile are reset to
-zero when the 'storr' object is deleted/garbage collected.
+zero when the 'storr' object is deleted and garbage collected.
 
 ### Key Expiration
 
